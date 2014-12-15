@@ -1,0 +1,237 @@
+import datetime
+import unittest
+
+import Yusi
+from Yusi.YuFinder.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
+from Yusi.YuFinder.city_visit import DayVisitParameters
+from Yusi.YuFinder.city_visit_finder import FindCityVisit
+from Yusi.YuFinder.cost_accumulator import SimpleCostAccumulatorGenerator
+from Yusi.YuFinder.point_fit import SimplePointFit
+from Yusi.YuFinder import test_utils
+
+
+class CityVisitFinderTest(unittest.TestCase):
+
+  @staticmethod
+  def GetDayVisitCostCalculatorGenerator(start_datetime, end_datetime):
+    move_calculator = test_utils.MockMoveCalculator()
+    point_fit = SimplePointFit()
+    day_visit_parameters = DayVisitParameters(
+        start_datetime=start_datetime,
+        end_datetime=end_datetime,
+        lunch_start_datetime=datetime.datetime(
+            start_datetime.year, start_datetime.month, start_datetime.day,
+            13, 0, 0),
+        lunch_hours=1.,
+        start_coordinates=test_utils.MockCoordinates('Hotel'),
+        end_coordinates=test_utils.MockCoordinates('Restaurant'))
+    cost_accumulator_generator=SimpleCostAccumulatorGenerator()
+    return DayVisitCostCalculatorGenerator(
+        move_calculator=move_calculator,
+        point_fit=point_fit,
+        day_visit_parameters=day_visit_parameters,
+        cost_accumulator_generator=cost_accumulator_generator)
+
+  def setUp(self):
+    self.points = test_utils.MockPoints()
+    unittest.TestCase.setUp(self)
+
+  def testOneShortDay(self):
+    calculator_generators = [
+        CityVisitFinderTest.GetDayVisitCostCalculatorGenerator(
+            start_datetime=datetime.datetime(2014, 9, 1, 17, 0, 0),
+            end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0))]
+
+    city_visit_result = FindCityVisit(
+        [self.points['Twin Peaks'],
+         self.points['Ferry Biulding'],
+         self.points['Pier 39'],
+         self.points['Golden Gate Bridge'],
+         self.points['Union Square']], calculator_generators)
+    day_visits = city_visit_result.day_visits
+    self.assertEqual(1, len(day_visits))
+    self.assertEqual([], day_visits[0].GetPoints())
+    self.assertEqual("""Date: 2014-09-01
+Cost: 1.00
+Walking from Hotel to Restaurant from 17:00:00 to 18:00:00
+Total cost: 1.00""", str(city_visit_result))
+
+  def testOneDay(self):
+    calculator_generators = [
+        CityVisitFinderTest.GetDayVisitCostCalculatorGenerator(
+            start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
+            end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0))]
+
+    city_visit_result = FindCityVisit(
+        [self.points['Twin Peaks'],
+         self.points['Ferry Biulding'],
+         self.points['Pier 39'],
+         self.points['Golden Gate Bridge'],
+         self.points['Union Square']], calculator_generators)
+    day_visits = city_visit_result.day_visits
+    self.assertEqual(1, len(day_visits))
+    self.assertEqual(
+        [self.points['Ferry Biulding'],
+         self.points['Union Square'],
+         self.points['Twin Peaks']], day_visits[0].GetPoints())
+
+    self.assertEqual("""Date: 2014-09-01
+Cost: 11.50
+Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
+Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
+Walking from Ferry Biulding to Union Square from 11:00:00 to 13:00:00
+Having lunch from 13:00:00 to 14:00:00
+Visiting point "Union Square" from 14:00:00 to 15:00:00
+Walking from Union Square to Twin Peaks from 15:00:00 to 18:00:00
+Visiting point "Twin Peaks" from 18:00:00 to 18:30:00
+Walking from Twin Peaks to Restaurant from 18:30:00 to 20:30:00
+Total cost: 11.50""", str(city_visit_result))
+
+  def testTwoDays(self):
+    calculator_generators = [
+        CityVisitFinderTest.GetDayVisitCostCalculatorGenerator(
+            start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
+            end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0)),
+        CityVisitFinderTest.GetDayVisitCostCalculatorGenerator(
+            start_datetime=datetime.datetime(2014, 9, 2, 9, 0, 0),
+            end_datetime=datetime.datetime(2014, 9, 2, 21, 0, 0))]
+
+    city_visit_result = FindCityVisit(
+        [self.points['Ferry Biulding'],
+         self.points['Pier 39'],
+         self.points['Golden Gate Bridge'],
+         self.points['Union Square'],
+         self.points['Twin Peaks']], calculator_generators)
+    
+    day_visits = city_visit_result.day_visits
+    self.assertEqual(2, len(day_visits))
+    self.assertEqual(
+        [self.points['Twin Peaks']], day_visits[0].GetPoints())
+    self.assertEqual(
+        [self.points['Ferry Biulding'],
+         self.points['Pier 39'],
+         self.points['Union Square']], day_visits[1].GetPoints())
+    
+    self.assertEqual("""Date: 2014-09-01
+Cost: 5.50
+Walking from Hotel to Twin Peaks from 09:00:00 to 12:00:00
+Visiting point "Twin Peaks" from 12:00:00 to 12:30:00
+Walking from Twin Peaks to Restaurant from 12:30:00 to 14:30:00
+Date: 2014-09-02
+Cost: 11.00
+Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
+Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
+Walking from Ferry Biulding to Pier 39 from 11:00:00 to 12:00:00
+Visiting point "Pier 39" from 12:00:00 to 15:00:00
+Having lunch from 15:00:00 to 16:00:00
+Walking from Pier 39 to Union Square from 16:00:00 to 18:00:00
+Visiting point "Union Square" from 18:00:00 to 19:00:00
+Walking from Union Square to Restaurant from 19:00:00 to 20:00:00
+Total cost: 16.50""", str(city_visit_result))
+
+  def testTwoDaysOneShortDay(self):
+    calculator_generators = [
+      CityVisitFinderTest.GetDayVisitCostCalculatorGenerator(
+          start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
+          end_datetime=datetime.datetime(2014, 9, 1, 23, 0, 0)),
+      CityVisitFinderTest.GetDayVisitCostCalculatorGenerator(
+          start_datetime=datetime.datetime(2014, 9, 2, 9, 0, 0),
+          end_datetime=datetime.datetime(2014, 9, 2, 21, 0, 0)),
+      CityVisitFinderTest.GetDayVisitCostCalculatorGenerator(
+          start_datetime=datetime.datetime(2014, 9, 3, 17, 0, 0),
+          end_datetime=datetime.datetime(2014, 9, 3, 21, 0, 0))]                         
+
+    city_visit_result = FindCityVisit(
+        [self.points['Ferry Biulding'],
+         self.points['Pier 39'],
+         self.points['Golden Gate Bridge'],
+         self.points['Union Square'],
+         self.points['Twin Peaks']], calculator_generators)
+
+    day_visits = city_visit_result.day_visits
+    self.assertEqual(3, len(day_visits))
+    self.assertEqual(
+        [self.points['Golden Gate Bridge']], day_visits[0].GetPoints())
+    self.assertEqual(
+        [self.points['Ferry Biulding'],
+         self.points['Pier 39'],
+         self.points['Union Square']], day_visits[1].GetPoints())
+    self.assertEqual([], day_visits[2].GetPoints())
+
+    self.assertEqual("""Date: 2014-09-01
+Cost: 13.50
+Walking from Hotel to Golden Gate Bridge from 09:00:00 to 15:00:00
+Having lunch from 15:00:00 to 16:00:00
+Visiting point "Golden Gate Bridge" from 16:00:00 to 16:30:00
+Walking from Golden Gate Bridge to Restaurant from 16:30:00 to 22:30:00
+Date: 2014-09-02
+Cost: 11.00
+Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
+Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
+Walking from Ferry Biulding to Pier 39 from 11:00:00 to 12:00:00
+Visiting point "Pier 39" from 12:00:00 to 15:00:00
+Having lunch from 15:00:00 to 16:00:00
+Walking from Pier 39 to Union Square from 16:00:00 to 18:00:00
+Visiting point "Union Square" from 18:00:00 to 19:00:00
+Walking from Union Square to Restaurant from 19:00:00 to 20:00:00
+Date: 2014-09-03
+Cost: 1.00
+Walking from Hotel to Restaurant from 17:00:00 to 18:00:00
+Total cost: 25.50""", str(city_visit_result))
+
+  def testThreeDays(self):
+    calculator_generators = [
+      CityVisitFinderTest.GetDayVisitCostCalculatorGenerator(
+          start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
+          end_datetime=datetime.datetime(2014, 9, 1, 23, 0, 0)),
+      CityVisitFinderTest.GetDayVisitCostCalculatorGenerator(
+          start_datetime=datetime.datetime(2014, 9, 2, 9, 0, 0),
+          end_datetime=datetime.datetime(2014, 9, 2, 21, 0, 0)),
+      CityVisitFinderTest.GetDayVisitCostCalculatorGenerator(
+          start_datetime=datetime.datetime(2014, 9, 3, 9, 0, 0),
+          end_datetime=datetime.datetime(2014, 9, 3, 21, 0, 0))]                         
+
+    city_visit_result = FindCityVisit(
+        [self.points['Ferry Biulding'],
+         self.points['Pier 39'],
+         self.points['Golden Gate Bridge'],
+         self.points['Union Square'],
+         self.points['Twin Peaks']], calculator_generators)
+
+    day_visits = city_visit_result.day_visits
+    self.assertEqual(3, len(day_visits))
+    self.assertEqual(
+        [self.points['Golden Gate Bridge']], day_visits[0].GetPoints())
+    self.assertEqual(
+        [self.points['Twin Peaks']], day_visits[1].GetPoints())
+    self.assertEqual(
+        [self.points['Ferry Biulding'],
+         self.points['Pier 39'],
+         self.points['Union Square']], day_visits[2].GetPoints())
+
+    self.assertEqual("""Date: 2014-09-01
+Cost: 13.50
+Walking from Hotel to Golden Gate Bridge from 09:00:00 to 15:00:00
+Having lunch from 15:00:00 to 16:00:00
+Visiting point "Golden Gate Bridge" from 16:00:00 to 16:30:00
+Walking from Golden Gate Bridge to Restaurant from 16:30:00 to 22:30:00
+Date: 2014-09-02
+Cost: 5.50
+Walking from Hotel to Twin Peaks from 09:00:00 to 12:00:00
+Visiting point "Twin Peaks" from 12:00:00 to 12:30:00
+Walking from Twin Peaks to Restaurant from 12:30:00 to 14:30:00
+Date: 2014-09-03
+Cost: 11.00
+Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
+Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
+Walking from Ferry Biulding to Pier 39 from 11:00:00 to 12:00:00
+Visiting point "Pier 39" from 12:00:00 to 15:00:00
+Having lunch from 15:00:00 to 16:00:00
+Walking from Pier 39 to Union Square from 16:00:00 to 18:00:00
+Visiting point "Union Square" from 18:00:00 to 19:00:00
+Walking from Union Square to Restaurant from 19:00:00 to 20:00:00
+Total cost: 30.00""", str(city_visit_result))
+
+
+if __name__ == '__main__':
+    unittest.main()

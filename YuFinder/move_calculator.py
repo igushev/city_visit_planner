@@ -9,20 +9,21 @@ from Yusi.YuFinder.city_visit import MoveType, MoveDescription
 R = 3959  # Earth radius in miles.
 WALKING_SPEED = 2.  # Walking speed in mph.
 # Speed of car in traffic jams in mph.
-DRIVING_SPEED = 25.
+DRIVING_SPEED = 20.
 # 10 minutes to find and than park a car and 10 minutes to find a parking spot
 # when arrived. 
-PAUSE_BEFORE_DRIVING = 0.25
+PAUSE_BEFORE_DRIVING = 0.30
 # Speed of Public Transportation or Taxi in mph.
-PTT_SPEED = 25.
+PTT_SPEED = 15.
 # 15 minutes to buy a ticket and wait in case of public transportation or call
 # a taxi.
 PAUSE_BEFORE_PTT = 0.25
 
+
 # TODO(igushev): Form and encapsulate statements for Smart* classes as
 # separate class, change Smart to another name.
 # Multiplier which penalize PTT against walking.
-PTT_COST_MULT = 10.
+PTT_COST_MULT = 7.49
 assert PTT_COST_MULT < PTT_SPEED / WALKING_SPEED
 # Minimum distance which can be set as max_walking_distance, since using PTT
 # less would cause PTT taking more time than walking.
@@ -34,7 +35,6 @@ MIN_MAX_WALKING_DISTANCE_BEFORE_PTT = (
 MAX_MAX_WALKING_DISTANCE_BEFORE_PTT = (
     PTT_SPEED * PAUSE_BEFORE_PTT * WALKING_SPEED /
     ((PTT_SPEED / PTT_COST_MULT) - WALKING_SPEED))
-
 
 
 def CalculateDistance(coordinates_from, coordinates_to):

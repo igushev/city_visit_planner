@@ -31,9 +31,9 @@ fb_to_p39_pause_and_driving = fb_to_p39_driving + PAUSE_BEFORE_DRIVING
 fb_to_np39_pause_and_driving = fb_to_np39_driving + PAUSE_BEFORE_DRIVING
 p39_to_np39_pause_and_driving = p39_to_np39_driving + PAUSE_BEFORE_DRIVING
 
-fb_to_p39_pause_and_ptt = fb_to_p39_driving + PAUSE_BEFORE_PTT
-fb_to_np39_pause_and_ptt = fb_to_np39_driving + PAUSE_BEFORE_PTT
-p39_to_np39_pause_and_ptt = p39_to_np39_driving + PAUSE_BEFORE_PTT
+fb_to_p39_pause_and_ptt = fb_to_p39_ptt + PAUSE_BEFORE_PTT
+fb_to_np39_pause_and_ptt = fb_to_np39_ptt + PAUSE_BEFORE_PTT
+p39_to_np39_pause_and_ptt = p39_to_np39_ptt + PAUSE_BEFORE_PTT
 
               
 class WalkingMoveCalculatorTest(unittest.TestCase):

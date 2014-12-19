@@ -82,6 +82,7 @@ class PointVisit(object):
 class MoveType(object):
   walking = 1
   driving = 2
+  ptt = 3
   
 
 class MoveDescription(object):
@@ -119,6 +120,8 @@ class MoveBetween(object):
       move_type_str = "Walking"
     elif self.move_description.move_type == MoveType.driving:
       move_type_str = "Driving"
+    elif self.move_description.move_type == MoveType.ptt:
+      move_type_str = "Using PTT"
     else:
       raise NotImplemented('Unknown MoveType: %s' % self.move_description.move_type)
     return '%s from %s to %s %s' % (

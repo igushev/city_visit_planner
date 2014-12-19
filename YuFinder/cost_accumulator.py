@@ -1,11 +1,11 @@
 import copy
 from Yusi.YuFinder import city_visit
 from Yusi.YuFinder.point import Point
-from Yusi.YuFinder.move_calculator import DRIVING_COST_MULT
+from Yusi.YuFinder.move_calculator import PTT_COST_MULT
 
 
 # TODO(igushev): Do we need to add lunch time to cost?
-class CostAccumulator(object):
+class CostAccumulatorInterface(object):
   """Abstract class which accumulates cost for a day."""
 
   def __init__(self):
@@ -27,13 +27,13 @@ class CostAccumulator(object):
     raise NotImplemented()
 
 
-class CostAccumulatorGenerator(object):
+class CostAccumulatorGeneratorInterface(object):
   
   def Generate(self):
     raise NotImplemented()
 
 
-class SimpleCostAccumulator(CostAccumulator):
+class SimpleCostAccumulator(CostAccumulatorInterface):
   """Accumulates time spent for each action."""
   
   def AddPointVisit(self, point):
@@ -49,13 +49,13 @@ class SimpleCostAccumulator(CostAccumulator):
     self.cost += lunch_hour
 
 
-class SimpleCostAccumulatorGenerator(CostAccumulatorGenerator):
+class SimpleCostAccumulatorGenerator(CostAccumulatorGeneratorInterface):
   
   def Generate(self):
     return SimpleCostAccumulator()
 
 
-class SmartCostAccumulator(CostAccumulator):
+class MoreWalkingCostAccumulator(CostAccumulatorInterface):
   """Accumulates time but penalize driving."""
   
   def AddPointVisit(self, point):
@@ -66,7 +66,9 @@ class SmartCostAccumulator(CostAccumulator):
     if move_description.move_type == city_visit.MoveType.walking:
       mult = 1
     elif move_description.move_type == city_visit.MoveType.driving:
-      mult = DRIVING_COST_MULT
+      mult = PTT_COST_MULT
+    elif move_description.move_type == city_visit.MoveType.ptt:
+      mult = PTT_COST_MULT
     else:
       raise NotImplemented('Unknown MoveType: %s' % move_description.move_type)
     self.cost += move_description.move_hours * mult
@@ -75,7 +77,7 @@ class SmartCostAccumulator(CostAccumulator):
     pass
 
 
-class SmartCostAccumulatorGenerator(CostAccumulatorGenerator):
+class MoreWalkingCostAccumulatorGenerator(CostAccumulatorGeneratorInterface):
 
   def Generate(self):
-    return SmartCostAccumulator()
+    return MoreWalkingCostAccumulator()

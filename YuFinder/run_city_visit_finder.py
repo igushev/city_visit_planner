@@ -3,10 +3,10 @@ import os
 
 import Yusi
 from Yusi.YuFinder.city_visit import DayVisitParameters
-from Yusi.YuFinder.cost_accumulator import SmartCostAccumulatorGenerator
+from Yusi.YuFinder.cost_accumulator import MoreWalkingCostAccumulatorGenerator
 from Yusi.YuFinder.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
 from Yusi.YuFinder.day_visit_finder import FindDayVisit
-from Yusi.YuFinder.move_calculator import SmartMoveCalculator
+from Yusi.YuFinder.move_calculator import PauseAndPTTOrWalkingMoveCalculator
 from Yusi.YuFinder.point_fit import SimplePointFit
 from Yusi.YuFinder import point
 from Yusi.YuFinder import read_csv
@@ -16,9 +16,9 @@ from Yusi.YuFinder.city_visit_finder import FindCityVisit
 points = read_csv.ReadCSVToDict(
     os.path.join(Yusi.GetYusiDir(), 'YuFinder', 'test_sf_1.csv'))
 san_francisco_coordinates = point.Coordinates(37.7833, -122.4167)
-move_calculator = SmartMoveCalculator(1)
+move_calculator = PauseAndPTTOrWalkingMoveCalculator(1)
 point_fit = SimplePointFit()
-cost_accumulator_generator=SmartCostAccumulatorGenerator()
+cost_accumulator_generator=MoreWalkingCostAccumulatorGenerator()
 
 
 def GetDayVisitCostCalculatorGenerator(start_datetime, end_datetime):

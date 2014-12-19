@@ -3,9 +3,9 @@ import unittest
 
 import Yusi
 from Yusi.YuFinder import read_csv
-from Yusi.YuFinder.cost_accumulator import SimpleCostAccumulatorGenerator, SmartCostAccumulatorGenerator
+from Yusi.YuFinder.cost_accumulator import SimpleCostAccumulatorGenerator, MoreWalkingCostAccumulatorGenerator
 from Yusi.YuFinder import city_visit
-from Yusi.YuFinder.move_calculator import DRIVING_COST_MULT
+from Yusi.YuFinder.move_calculator import PTT_COST_MULT
 
 
 class SimpleCostAccumulatorTest(unittest.TestCase):
@@ -27,12 +27,12 @@ class SimpleCostAccumulatorTest(unittest.TestCase):
     self.assertEqual(2.80, cost_accumulator.Cost())
 
 
-class SmartCostAccumulatorTest(unittest.TestCase):
+class MoreWalkingCostAccumulatorTest(unittest.TestCase):
   
   def testGeneral(self):
     points = read_csv.ReadCSVToDict(
         os.path.join(Yusi.GetYusiDir(), 'YuFinder', 'test_sf_1.csv'))
-    cost_accumulator = SmartCostAccumulatorGenerator().Generate()
+    cost_accumulator = MoreWalkingCostAccumulatorGenerator().Generate()
     self.assertEqual(0., cost_accumulator.Cost())
     cost_accumulator.AddMoveBetween(
         city_visit.MoveDescription(1.25, city_visit.MoveType.walking))
@@ -43,7 +43,7 @@ class SmartCostAccumulatorTest(unittest.TestCase):
     self.assertEqual(1.25, cost_accumulator.Cost())
     cost_accumulator.AddMoveBetween(
         city_visit.MoveDescription(0.05, city_visit.MoveType.driving))
-    self.assertEqual(1.25 + 0.05 * DRIVING_COST_MULT, cost_accumulator.Cost())
+    self.assertEqual(1.25 + 0.05 * PTT_COST_MULT, cost_accumulator.Cost())
     
 
 if __name__ == '__main__':

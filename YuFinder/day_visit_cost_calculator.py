@@ -1,6 +1,8 @@
 import datetime
 
 from Yusi.YuFinder import city_visit
+from Yusi.YuFinder.day_visit_cost_calculator_interface import DayVisitCostCalculatorInterface,\
+  DayVisitCostCalculatorGeneratorInterface
 
 
 # TODO(igushev): If point cannot be added, internal state still changes
@@ -8,7 +10,8 @@ from Yusi.YuFinder import city_visit
 # none of methods can be called agains. Internal self._invariant responsible
 # for that. Good solution should be, if point cannot be added, internal state
 # should not be changed at all.
-class DayVisitCostCalculator(object):
+class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
+  """Calculates cost of DayVisit."""
 
   def __init__(self, move_calculator, point_fit, day_visit_parameters,
                cost_accumulator_generator):
@@ -97,7 +100,7 @@ class DayVisitCostCalculator(object):
     return True
   
   def FinalizedCost(self):
-    assert self._invariant
+    assert self.CanFinalize()
     move_description = self.move_calculator.CalculateMoveDescription(
         self.current_coordinates, self.end_coordinates)
     finalized_cost_accumulator = self.cost_accumulator.Copy()
@@ -105,7 +108,7 @@ class DayVisitCostCalculator(object):
     return finalized_cost_accumulator.Cost()
 
   def FinalizedDayVisit(self):
-    assert self._invariant
+    assert self.CanFinalize()
     finalized_cost = self.FinalizedCost()
     actions = self.actions[:]
     move_description = self.move_calculator.CalculateMoveDescription(
@@ -131,7 +134,7 @@ class DayVisitCostCalculator(object):
     return self.cost_accumulator.Cost()
 
 
-class DayVisitCostCalculatorGenerator(object):
+class DayVisitCostCalculatorGenerator(DayVisitCostCalculatorGeneratorInterface):
 
   def __init__(self, move_calculator, point_fit, day_visit_parameters,
                cost_accumulator_generator):

@@ -6,7 +6,7 @@ from Yusi.YuFinder import test_utils
 from Yusi.YuFinder import city_visit
 from Yusi.YuFinder.cost_accumulator import SimpleCostAccumulatorGenerator
 from Yusi.YuFinder.point_fit import SimplePointFit
-from Yusi.YuFinder.day_visit_cost_calculator import DayVisitCostCalculator, DayVisitCostCalculatorGenerator
+from Yusi.YuFinder.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
 
 
 class DayVisitCostCalculatorTest(unittest.TestCase):
@@ -21,11 +21,11 @@ class DayVisitCostCalculatorTest(unittest.TestCase):
         lunch_hours=1.,
         start_coordinates=test_utils.MockCoordinates('Hotel'),
         end_coordinates=test_utils.MockCoordinates('Restaurant'))
-    day_visit_cost_calculator = DayVisitCostCalculator(
+    day_visit_cost_calculator = DayVisitCostCalculatorGenerator(
         move_calculator=move_calculator,
         point_fit=point_fit,
         day_visit_parameters=day_visit_parameters,
-        cost_accumulator_generator=SimpleCostAccumulatorGenerator())
+        cost_accumulator_generator=SimpleCostAccumulatorGenerator()).Generate()
 
     points = test_utils.MockPoints()
 
@@ -85,11 +85,11 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
         lunch_hours=1.,
         start_coordinates=test_utils.MockCoordinates('Hotel'),
         end_coordinates=test_utils.MockCoordinates('Restaurant'))
-    day_visit_cost_calculator = DayVisitCostCalculator(
+    day_visit_cost_calculator = DayVisitCostCalculatorGenerator(
         move_calculator=move_calculator,
         point_fit=point_fit,
         day_visit_parameters=day_visit_parameters,
-        cost_accumulator_generator=SimpleCostAccumulatorGenerator())
+        cost_accumulator_generator=SimpleCostAccumulatorGenerator()).Generate()
 
     points = test_utils.MockPoints()
 
@@ -148,11 +148,11 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
         lunch_hours=1.,
         start_coordinates=test_utils.MockCoordinates('Hotel'),
         end_coordinates=test_utils.MockCoordinates('Restaurant'))
-    day_visit_cost_calculator = DayVisitCostCalculator(
+    day_visit_cost_calculator = DayVisitCostCalculatorGenerator(
         move_calculator=move_calculator,
         point_fit=point_fit,
         day_visit_parameters=day_visit_parameters,
-        cost_accumulator_generator=SimpleCostAccumulatorGenerator())
+        cost_accumulator_generator=SimpleCostAccumulatorGenerator()).Generate()
 
     points = test_utils.MockPoints()
 
@@ -196,11 +196,11 @@ Walking from Pier 39 to Restaurant from 16:30:00 to 20:30:00"""
         lunch_hours=1.,
         start_coordinates=test_utils.MockCoordinates('Hotel'),
         end_coordinates=test_utils.MockCoordinates('Restaurant'))
-    day_visit_cost_calculator = DayVisitCostCalculator(
+    day_visit_cost_calculator = DayVisitCostCalculatorGenerator(
         move_calculator=move_calculator,
         point_fit=point_fit,
         day_visit_parameters=day_visit_parameters,
-        cost_accumulator_generator=SimpleCostAccumulatorGenerator())
+        cost_accumulator_generator=SimpleCostAccumulatorGenerator()).Generate()
 
     points = test_utils.MockPoints()
 
@@ -227,39 +227,8 @@ Walking from Pier 39 to Restaurant from 16:30:00 to 20:30:00"""
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(7, day_visit_cost_calculator.CurrentCost())
     self.assertFalse(day_visit_cost_calculator.CanFinalize())
-    self.assertEqual(11, day_visit_cost_calculator.FinalizedCost())
+    self.assertRaises(AssertionError, day_visit_cost_calculator.FinalizedCost)
 
-
-class DayVisitCostCalculatorGeneratorTest(unittest.TestCase):
-
-  def testGenerate(self):
-    move_calculator = test_utils.MockMoveCalculator()
-    point_fit = SimplePointFit()
-    day_visit_parameters = city_visit.DayVisitParameters(
-        start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
-        end_datetime=datetime.datetime(2014, 9, 1, 18, 0, 0),
-        lunch_start_datetime=datetime.datetime(2014, 9, 1, 13, 0, 0),
-        lunch_hours=1.,
-        start_coordinates=test_utils.MockCoordinates('Hotel'),
-        end_coordinates=test_utils.MockCoordinates('Restaurant'))
-
-    day_visit_calculator_generator = DayVisitCostCalculatorGenerator(
-        move_calculator=move_calculator,
-        point_fit=point_fit,
-        day_visit_parameters=day_visit_parameters,
-        cost_accumulator_generator=SimpleCostAccumulatorGenerator())
-    
-    day_visit_cost_calculator = day_visit_calculator_generator.Generate()
-    
-    # Empty.
-    self.assertEqual(datetime.datetime(2014, 9, 1, 9, 0, 0),
-                     day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Hotel'),
-                     day_visit_cost_calculator.CurrentCoordinates())
-    self.assertEqual(0, day_visit_cost_calculator.CurrentCost())
-    self.assertTrue(day_visit_cost_calculator.CanFinalize())
-    self.assertEqual(1, day_visit_cost_calculator.FinalizedCost())
-    
 
 if __name__ == '__main__':
     unittest.main()

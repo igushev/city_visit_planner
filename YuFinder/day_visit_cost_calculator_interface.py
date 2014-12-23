@@ -16,5 +16,5 @@ class DayVisitCostCalculatorInterface(object):
 
 class DayVisitCostCalculatorGeneratorInterface(object):
 
-  def Generate(self):
+  def Generate(self, day_visit_parameters):
     raise NotImplemented()

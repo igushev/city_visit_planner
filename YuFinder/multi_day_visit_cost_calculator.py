@@ -9,9 +9,8 @@ class MultiDayVisitCostCalculator(DayVisitCostCalculatorInterface):
   Keeps track of several DayVisitCostCalculators and chooses the best.
   """
 
-  def __init__(self, calculator_generators):
-    self.calculators = [calculator_generator.Generate()
-                        for calculator_generator in calculator_generators]
+  def __init__(self, calculators):
+    self.calculators = calculators
 
   def PushPoint(self, point):
     assert self.calculators
@@ -52,5 +51,7 @@ class MultiDayVisitCostCalculatorGenerator(DayVisitCostCalculatorGeneratorInterf
   def __init__(self, calculator_generators):
     self.calculator_generators = calculator_generators
     
-  def Generate(self):
-    return MultiDayVisitCostCalculator(self.calculator_generators)
+  def Generate(self, day_visit_parameters):
+    return MultiDayVisitCostCalculator(
+        [calculator_generator.Generate(day_visit_parameters)
+         for calculator_generator in self.calculator_generators])

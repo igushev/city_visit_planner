@@ -6,10 +6,10 @@ PointsCalculator = namedtuple('PointsCalculator', 'Points Calculator')
 
 
 # TODO(igushev): Use set instead of list for Points.
-def FindDayVisit(calculator_generator, all_points):
+def FindDayVisit(all_points, day_visit_parameters, calculator_generator):
   """Find maximum number of point with minimum cost for a particular day."""
   points_calculator_queue = [
-      PointsCalculator(all_points, calculator_generator.Generate())]
+      PointsCalculator(all_points, calculator_generator.Generate(day_visit_parameters))]
   results = []
   while points_calculator_queue:
     next_points_calculator_queue = []

@@ -136,14 +136,12 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
 
 class DayVisitCostCalculatorGenerator(DayVisitCostCalculatorGeneratorInterface):
 
-  def __init__(self, move_calculator, point_fit, day_visit_parameters,
-               cost_accumulator_generator):
+  def __init__(self, move_calculator, point_fit, cost_accumulator_generator):
     self.move_calculator = move_calculator
     self.point_fit = point_fit
-    self.day_visit_parameters = day_visit_parameters
     self.cost_accumulator_generator = cost_accumulator_generator
   
-  def Generate(self):
+  def Generate(self, day_visit_parameters):
     return DayVisitCostCalculator(
-        self.move_calculator, self.point_fit, self.day_visit_parameters,
+        self.move_calculator, self.point_fit, day_visit_parameters,
         self.cost_accumulator_generator)

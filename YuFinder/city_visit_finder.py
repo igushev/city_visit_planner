@@ -12,15 +12,16 @@ MAX_NON_PUSHED_POINTS = 3
 
 
 def _PushToDayVisits(
-    point, day_visits_consider, day_visits, calculator_generators, depth,
+    point, day_visits_consider, day_visits, day_visit_parameterss, calculator_generator, depth,
     city_visit_heap):
+  assert len(day_visits) == len(day_visit_parameterss)
   for i, day_visit in enumerate(day_visits):
     if not day_visits_consider[i]:
       continue
     all_points = day_visit.GetPoints()
     all_points.append(point)
     points_left, day_visit_best = FindDayVisit(
-        calculator_generators[i], all_points)
+        all_points, day_visit_parameterss[i], calculator_generator)
     next_day_visits = day_visits[:i] + [day_visit_best] + day_visits[i+1:]
     if not points_left:
       city_visit_heap.PushCityVisit(city_visit.CityVisit(next_day_visits))
@@ -36,25 +37,22 @@ def _PushToDayVisits(
     next_day_visits_consider[i] = False
     _PushToDayVisits(
         point_left, next_day_visits_consider, next_day_visits,
-        calculator_generators, depth+1, city_visit_heap)
+        day_visit_parameterss, calculator_generator, depth+1, city_visit_heap)
 
 
-def FindCityVisit(points, calculator_generators):
+def FindCityVisit(points, day_visit_parameterss, calculator_generator):
   """Find best CityVisit."""
   city_visits = [city_visit.CityVisit(
-    [calculator_generator.Generate().FinalizedDayVisit()
-     for calculator_generator in calculator_generators])]
+    [calculator_generator.Generate(day_visit_parameters).FinalizedDayVisit()
+     for day_visit_parameters in day_visit_parameterss])]
   cannot_push = 0
-  day_visit_parameterss = [
-      calculator_generator.day_visit_parameters
-      for calculator_generator in calculator_generators]
   for point in points:
     city_visit_heap = CityVisitHeap(CITY_VISIT_HEAP_SIZE, day_visit_parameterss)
     for city_visit_add_to in city_visits:
       day_visits = city_visit_add_to.day_visits
       day_visits_consider = [True] * len(day_visits)
       _PushToDayVisits(
-          point, day_visits_consider, day_visits, calculator_generators, 0,
+          point, day_visits_consider, day_visits, day_visit_parameterss, calculator_generator, 0,
           city_visit_heap)
     if city_visit_heap.Size():
       city_visit_heap.Shrink()

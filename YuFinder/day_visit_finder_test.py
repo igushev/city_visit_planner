@@ -29,17 +29,17 @@ class DayVisitFinderTest(unittest.TestCase):
     day_visit_cost_calculator_generator = DayVisitCostCalculatorGenerator(
         move_calculator=move_calculator,
         point_fit=point_fit,
-        day_visit_parameters=day_visit_parameters,
         cost_accumulator_generator=SimpleCostAccumulatorGenerator())
 
     points = test_utils.MockPoints()
 
     points_left, day_visit_best = FindDayVisit(
-        day_visit_cost_calculator_generator,
         [points['Ferry Biulding'],
          points['Pier 39'],
          points['Golden Gate Bridge'],
-         points['Twin Peaks']])
+         points['Twin Peaks']],
+        day_visit_parameters,
+        day_visit_cost_calculator_generator)
 
     self.assertEqual([points['Pier 39'], points['Golden Gate Bridge']],
                      points_left)
@@ -66,15 +66,15 @@ Walking from Twin Peaks to Restaurant from 17:30:00 to 19:30:00"""
     day_visit_cost_calculator_generator = DayVisitCostCalculatorGenerator(
         move_calculator=move_calculator,
         point_fit=point_fit,
-        day_visit_parameters=day_visit_parameters,
         cost_accumulator_generator=SimpleCostAccumulatorGenerator())
 
     points = test_utils.MockPoints()
 
     points_left, day_visit_best = FindDayVisit(
-        day_visit_cost_calculator_generator,
         [points['Ferry Biulding'],
-         points['Pier 39']])
+         points['Pier 39']],
+        day_visit_parameters,
+        day_visit_cost_calculator_generator)
 
     self.assertEqual([], points_left)
     day_visit_best_str_expected = """Date: 2014-09-01
@@ -100,17 +100,17 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
     day_visit_cost_calculator_generator = DayVisitCostCalculatorGenerator(
         move_calculator=move_calculator,
         point_fit=point_fit,
-        day_visit_parameters=day_visit_parameters,
         cost_accumulator_generator=SimpleCostAccumulatorGenerator())
 
     points = test_utils.MockPoints()
 
     points_left, day_visit_best = FindDayVisit(
-        day_visit_cost_calculator_generator,
         [points['Ferry Biulding'],
          points['Pier 39'],
          points['Golden Gate Bridge'],
-         points['Twin Peaks']])
+         points['Twin Peaks']],
+        day_visit_parameters,
+        day_visit_cost_calculator_generator)
 
     self.assertEqual(
         [points['Ferry Biulding'],

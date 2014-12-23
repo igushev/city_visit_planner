@@ -21,11 +21,12 @@ class DayVisitCostCalculatorTest(unittest.TestCase):
         lunch_hours=1.,
         start_coordinates=test_utils.MockCoordinates('Hotel'),
         end_coordinates=test_utils.MockCoordinates('Restaurant'))
-    day_visit_cost_calculator = DayVisitCostCalculatorGenerator(
-        move_calculator=move_calculator,
-        point_fit=point_fit,
-        day_visit_parameters=day_visit_parameters,
-        cost_accumulator_generator=SimpleCostAccumulatorGenerator()).Generate()
+    day_visit_cost_calculator = (
+            DayVisitCostCalculatorGenerator(
+                move_calculator=move_calculator,
+                point_fit=point_fit,
+                cost_accumulator_generator=SimpleCostAccumulatorGenerator()).
+            Generate(day_visit_parameters))
 
     points = test_utils.MockPoints()
 
@@ -85,11 +86,12 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
         lunch_hours=1.,
         start_coordinates=test_utils.MockCoordinates('Hotel'),
         end_coordinates=test_utils.MockCoordinates('Restaurant'))
-    day_visit_cost_calculator = DayVisitCostCalculatorGenerator(
-        move_calculator=move_calculator,
-        point_fit=point_fit,
-        day_visit_parameters=day_visit_parameters,
-        cost_accumulator_generator=SimpleCostAccumulatorGenerator()).Generate()
+    day_visit_cost_calculator = (
+            DayVisitCostCalculatorGenerator(
+                move_calculator=move_calculator,
+                point_fit=point_fit,
+                cost_accumulator_generator=SimpleCostAccumulatorGenerator()).
+            Generate(day_visit_parameters))
 
     points = test_utils.MockPoints()
 
@@ -148,11 +150,12 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
         lunch_hours=1.,
         start_coordinates=test_utils.MockCoordinates('Hotel'),
         end_coordinates=test_utils.MockCoordinates('Restaurant'))
-    day_visit_cost_calculator = DayVisitCostCalculatorGenerator(
-        move_calculator=move_calculator,
-        point_fit=point_fit,
-        day_visit_parameters=day_visit_parameters,
-        cost_accumulator_generator=SimpleCostAccumulatorGenerator()).Generate()
+    day_visit_cost_calculator = (
+        DayVisitCostCalculatorGenerator(
+            move_calculator=move_calculator,
+            point_fit=point_fit,
+            cost_accumulator_generator=SimpleCostAccumulatorGenerator()).
+        Generate(day_visit_parameters))
 
     points = test_utils.MockPoints()
 
@@ -196,11 +199,12 @@ Walking from Pier 39 to Restaurant from 16:30:00 to 20:30:00"""
         lunch_hours=1.,
         start_coordinates=test_utils.MockCoordinates('Hotel'),
         end_coordinates=test_utils.MockCoordinates('Restaurant'))
-    day_visit_cost_calculator = DayVisitCostCalculatorGenerator(
-        move_calculator=move_calculator,
-        point_fit=point_fit,
-        day_visit_parameters=day_visit_parameters,
-        cost_accumulator_generator=SimpleCostAccumulatorGenerator()).Generate()
+    day_visit_cost_calculator = (
+        DayVisitCostCalculatorGenerator(
+            move_calculator=move_calculator,
+            point_fit=point_fit,
+            cost_accumulator_generator=SimpleCostAccumulatorGenerator()).
+        Generate(day_visit_parameters))
 
     points = test_utils.MockPoints()
 

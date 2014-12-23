@@ -6,7 +6,11 @@ from Yusi.YuFinder.day_visit_cost_calculator_interface import DayVisitCostCalcul
 from Yusi.YuFinder.multi_day_visit_cost_calculator import MultiDayVisitCostCalculatorGenerator
 
 
-class MockPoint():
+class MockPoint(object):
+  pass
+
+
+class MockDayVisitParameters(object):
   pass
 
 
@@ -59,7 +63,8 @@ class MockDayVisitCostCalculatorGenerator(DayVisitCostCalculatorGeneratorInterfa
     self.finalization_cost = finalization_cost
     self.max_cost = max_cost
 
-  def Generate(self):
+  def Generate(self, day_visit_parameters):
+    assert isinstance(day_visit_parameters, MockDayVisitParameters)
     return MockDayVisitCostCalculator(
         self.costs, self.finalization_cost, self.max_cost)
 
@@ -74,7 +79,7 @@ class MultiDayVisitCostCalculatorTest(unittest.TestCase):
     calculator = (
         MultiDayVisitCostCalculatorGenerator(
             [calculator_generator_1, calculator_generator_2]).
-        Generate())
+        Generate(MockDayVisitParameters()))
     calculator_1, calculator_2 = calculator.calculators
 
     # Empty calculator.
@@ -126,7 +131,7 @@ class MultiDayVisitCostCalculatorTest(unittest.TestCase):
     calculator = (
         MultiDayVisitCostCalculatorGenerator(
             [calculator_generator_1, calculator_generator_2]).
-        Generate())
+        Generate(MockDayVisitParameters()))
     calculator_1, calculator_2 = calculator.calculators
 
     # See testGeneral.
@@ -159,7 +164,7 @@ class MultiDayVisitCostCalculatorTest(unittest.TestCase):
     calculator = (
         MultiDayVisitCostCalculatorGenerator(
             [calculator_generator_1, calculator_generator_2]).
-        Generate())
+        Generate(MockDayVisitParameters()))
     calculator_1, calculator_2 = calculator.calculators
 
     # See testGeneral.
@@ -191,7 +196,7 @@ class MultiDayVisitCostCalculatorTest(unittest.TestCase):
     calculator = (
         MultiDayVisitCostCalculatorGenerator(
             [calculator_generator_1, calculator_generator_2]).
-        Generate())
+        Generate(MockDayVisitParameters()))
     calculator_1, calculator_2 = calculator.calculators
 
     # See testGeneral.
@@ -224,7 +229,7 @@ class MultiDayVisitCostCalculatorTest(unittest.TestCase):
     calculator = (
         MultiDayVisitCostCalculatorGenerator(
             [calculator_generator_1, calculator_generator_2]).
-        Generate())
+        Generate(MockDayVisitParameters()))
     calculator_1, calculator_2 = calculator.calculators
 
     # See testGeneral.
@@ -257,7 +262,7 @@ class MultiDayVisitCostCalculatorTest(unittest.TestCase):
     calculator = (
         MultiDayVisitCostCalculatorGenerator(
             [calculator_generator_1, calculator_generator_2]).
-        Generate())
+        Generate(MockDayVisitParameters()))
     calculator_1, calculator_2 = calculator.calculators
 
     # See testGeneral.

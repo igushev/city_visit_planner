@@ -6,6 +6,7 @@ PointsCalculator = namedtuple('PointsCalculator', 'Points Calculator')
 
 
 # TODO(igushev): Use set instead of list for Points.
+# TODO(igushev): deepcopy will copy Point, potentially expensive.
 def FindDayVisit(all_points, day_visit_parameters, calculator_generator):
   """Find maximum number of point with minimum cost for a particular day."""
   points_calculator_queue = [

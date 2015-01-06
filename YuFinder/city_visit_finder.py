@@ -12,11 +12,11 @@ MAX_NON_PUSHED_POINTS = 3
 
 
 def _PushToDayVisits(
-    point, day_visits_consider, day_visits, day_visit_parameterss, calculator_generator, depth,
+    point, days_consider, day_visits, day_visit_parameterss, calculator_generator, depth,
     city_visit_heap):
   assert len(day_visits) == len(day_visit_parameterss)
   for i, day_visit in enumerate(day_visits):
-    if not day_visits_consider[i]:
+    if not days_consider[i]:
       continue
     all_points = day_visit.GetPoints()
     all_points.append(point)
@@ -33,7 +33,7 @@ def _PushToDayVisits(
       continue
     if depth == MAX_DEPTH:
       continue
-    next_day_visits_consider = day_visits_consider[:]
+    next_day_visits_consider = days_consider[:]
     next_day_visits_consider[i] = False
     _PushToDayVisits(
         point_left, next_day_visits_consider, next_day_visits,
@@ -50,9 +50,9 @@ def FindCityVisit(points, day_visit_parameterss, calculator_generator):
     city_visit_heap = CityVisitHeap(CITY_VISIT_HEAP_SIZE, day_visit_parameterss)
     for city_visit_add_to in city_visits:
       day_visits = city_visit_add_to.day_visits
-      day_visits_consider = [True] * len(day_visits)
+      days_consider = [True] * len(day_visits)
       _PushToDayVisits(
-          point, day_visits_consider, day_visits, day_visit_parameterss, calculator_generator, 0,
+          point, days_consider, day_visits, day_visit_parameterss, calculator_generator, 0,
           city_visit_heap)
     if city_visit_heap.Size():
       city_visit_heap.Shrink()

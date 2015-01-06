@@ -27,6 +27,7 @@ class StartEndDatetime(object):
 
 
 # TODO(igushev): Create more complicated structure for lunch.
+# TODO(igushev): Rename to DayParameters and all its instances.
 class DayVisitParameters(object):
   """Set of users parameter for a particular day"""
 

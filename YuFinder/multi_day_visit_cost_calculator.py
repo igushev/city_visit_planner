@@ -13,37 +13,19 @@ class MultiDayVisitCostCalculator(DayVisitCostCalculatorInterface):
     self.calculators = calculators
 
   def PushPoint(self, point):
-    assert self.calculators
-    self.calculators = [calculator
-                        for calculator in self.calculators
-                        if calculator.PushPoint(point)]
-    return bool(self.calculators)
+    # Must create a list since any() would skip all calculator after first
+    # successful push.
+    return any([calculator.PushPoint(point) for calculator in self.calculators])
 
-  def CanFinalize(self):
-    assert self.calculators
-    return any(calculator.CanFinalize() for calculator in self.calculators)
-  
   def FinalizedCost(self):
-    assert self.CanFinalize()
-    return min(calculator.FinalizedCost()
-               for calculator in self.calculators
-               if calculator.CanFinalize())
+    return min(calculator.FinalizedCost() for calculator in self.calculators)
 
   def FinalizedDayVisit(self):
-    assert self.CanFinalize()
-    # Get calculators that can be finalized.
-    calculators = [calculator
-                   for calculator in self.calculators
-                   if calculator.CanFinalize()]
     # Get index of calculator with minimum FinalizedCost().
-    min_index, _ = min(enumerate(calculators),
+    min_index, _ = min(enumerate(self.calculators),
                        key=lambda (_, calculator): calculator.FinalizedCost())
     # Get finalized DayVisit.
-    return calculators[min_index].FinalizedDayVisit()
-  
-  def Count(self):
-    assert self.calculators
-    return len(self.calculators)
+    return self.calculators[min_index].FinalizedDayVisit()
 
 
 class MultiDayVisitCostCalculatorGenerator(DayVisitCostCalculatorGeneratorInterface):

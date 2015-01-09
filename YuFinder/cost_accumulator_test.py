@@ -25,6 +25,8 @@ class SimpleCostAccumulatorTest(unittest.TestCase):
     cost_accumulator.AddMoveBetween(
         city_visit.MoveDescription(0.05, city_visit.MoveType.driving))
     self.assertEqual(2.80, cost_accumulator.Cost())
+    cost_accumulator.AddPointNoVisit(points['Pier 39'])
+    self.assertEqual(5.80, cost_accumulator.Cost())
 
 
 class MoreWalkingCostAccumulatorTest(unittest.TestCase):
@@ -43,6 +45,8 @@ class MoreWalkingCostAccumulatorTest(unittest.TestCase):
     self.assertEqual(1.25, cost_accumulator.Cost())
     cost_accumulator.AddMoveBetween(
         city_visit.MoveDescription(0.05, city_visit.MoveType.driving))
+    self.assertEqual(1.25 + 0.05 * PTT_COST_MULT, cost_accumulator.Cost())
+    cost_accumulator.AddPointNoVisit(points['Pier 39'])
     self.assertEqual(1.25 + 0.05 * PTT_COST_MULT, cost_accumulator.Cost())
     
 

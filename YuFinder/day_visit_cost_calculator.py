@@ -1,3 +1,4 @@
+import copy
 import datetime
 
 from Yusi.YuFinder import city_visit
@@ -5,133 +6,172 @@ from Yusi.YuFinder.day_visit_cost_calculator_interface import DayVisitCostCalcul
   DayVisitCostCalculatorGeneratorInterface
 
 
-# TODO(igushev): If point cannot be added, internal state still changes
-# depending what couldn't be added (move, lunch or point). When it happens
-# none of methods can be called agains. Internal self._invariant responsible
-# for that. Good solution should be, if point cannot be added, internal state
-# should not be changed at all.
+class DayVisitCostCalculatorState(object):
+  def __init__(self, current_datetime, current_coordinates, cost_accumulator, actions):
+    self.current_datetime = current_datetime
+    self.current_coordinates = current_coordinates
+    self.cost_accumulator = cost_accumulator
+    self.actions = actions
+  
+  @classmethod
+  def Init(cls, day_visit_parameters, cost_accumulator_generator):
+    return cls(
+        day_visit_parameters.start_datetime,
+        day_visit_parameters.start_coordinates,
+        cost_accumulator_generator.Generate(),
+        [])
+    
+  def Copy(self):
+    return self.__class__(
+        copy.deepcopy(self.current_datetime),
+        self.current_coordinates.Copy(),
+        self.cost_accumulator.Copy(),
+        self.actions[:])
+
+
+# NOTE(igushev): PushPoint responsible for checking point itself, move to this
+# point and if day visit can be finalized. After first such point can't be
+# pushed, none of following will be pushed, since higher level modules should
+# be responsible for permutation.
 class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
   """Calculates cost of DayVisit."""
 
   def __init__(self, move_calculator, point_fit, day_visit_parameters,
-               cost_accumulator_generator):
+               current_state, can_push):
     self.move_calculator = move_calculator
     self.point_fit = point_fit
-    self.start_datetime = day_visit_parameters.start_datetime
-    self.current_datetime = day_visit_parameters.start_datetime
-    self.end_datetime = day_visit_parameters.end_datetime
-    self.lunch_start_datetime = day_visit_parameters.lunch_start_datetime
-    self.lunch_hours = day_visit_parameters.lunch_hours
-    self.start_coordinates = day_visit_parameters.start_coordinates
-    self.current_coordinates = day_visit_parameters.start_coordinates
-    self.end_coordinates = (
-      day_visit_parameters.end_coordinates or
-      day_visit_parameters.start_coordinates)
-    self.cost_accumulator = cost_accumulator_generator.Generate()
-    self.actions = []
-    self._invariant = True
+    self.day_visit_parameters = day_visit_parameters
+    self.current_state = current_state
+    self.can_push = can_push
 
-  def _AddPointVisit(self, point):
+  @classmethod
+  def Init(cls, move_calculator, point_fit, day_visit_parameters,
+               cost_accumulator_generator):
+    return cls(
+       move_calculator,
+       point_fit,
+       day_visit_parameters,
+       DayVisitCostCalculatorState.Init(
+           day_visit_parameters, cost_accumulator_generator),
+       True)
+
+  def Copy(self):
+    return self.__class__(
+        self.move_calculator,
+        self.point_fit,
+        self.day_visit_parameters,
+        self.current_state.Copy(),
+        self.can_push)
+
+  def _AddPointVisit(self, point, current_state):
     visit_timedelta = datetime.timedelta(hours=point.duration)
     visit_start_end_datetime = city_visit.StartEndDatetime(
-        self.current_datetime, self.current_datetime + visit_timedelta)
+        current_state.current_datetime, current_state.current_datetime + visit_timedelta)
     if not self.point_fit.IfPointFit(
         visit_start_end_datetime, point.operating_hours):
       return False
-    if visit_start_end_datetime.end > self.end_datetime:
+    if visit_start_end_datetime.end > self.day_visit_parameters.end_datetime:
       return False
-    self.current_datetime = visit_start_end_datetime.end
-    self.current_coordinates = point.coordinates_ends
-    self.cost_accumulator.AddPointVisit(point)
-    self.actions.append(city_visit.PointVisit(point, visit_start_end_datetime))
-    if visit_start_end_datetime.Fit(self.lunch_start_datetime):
-      if not self._AddLunch():
+    current_state.current_datetime = visit_start_end_datetime.end
+    current_state.current_coordinates = point.coordinates_ends
+    current_state.cost_accumulator.AddPointVisit(point)
+    current_state.actions.append(city_visit.PointVisit(point, visit_start_end_datetime))
+    if visit_start_end_datetime.Fit(self.day_visit_parameters.lunch_start_datetime):
+      if not self._AddLunch(current_state):
         return False
     return True
 
-  def _AddMoveBetween(self, to_coordinates):
+  def _AddMoveBetween(self, to_coordinates, current_state):
     move_description = self.move_calculator.CalculateMoveDescription(
-        self.current_coordinates, to_coordinates)
+        current_state.current_coordinates, to_coordinates)
     move_timedelta = datetime.timedelta(hours=move_description.move_hours)
     move_start_end_datetime = city_visit.StartEndDatetime(
-        self.current_datetime, self.current_datetime + move_timedelta)
-    if move_start_end_datetime.end > self.end_datetime:
+        current_state.current_datetime, current_state.current_datetime + move_timedelta)
+    if move_start_end_datetime.end > self.day_visit_parameters.end_datetime:
       return False
-    from_coordinates = self.current_coordinates
-    self.current_datetime = move_start_end_datetime.end
-    self.current_coordinates = to_coordinates
-    self.cost_accumulator.AddMoveBetween(move_description)
-    self.actions.append(city_visit.MoveBetween(
+    from_coordinates = current_state.current_coordinates
+    current_state.current_datetime = move_start_end_datetime.end
+    current_state.current_coordinates = to_coordinates
+    current_state.cost_accumulator.AddMoveBetween(move_description)
+    current_state.actions.append(city_visit.MoveBetween(
       from_coordinates, to_coordinates,
       move_start_end_datetime, move_description))
-    if move_start_end_datetime.Fit(self.lunch_start_datetime):
-      if not self._AddLunch():
+    if move_start_end_datetime.Fit(self.day_visit_parameters.lunch_start_datetime):
+      if not self._AddLunch(current_state):
         return False
     return True
 
-  def _AddLunch(self):
+  def _AddLunch(self, current_state):
     lunch_start_end_datetime = city_visit.StartEndDatetime(
-        self.current_datetime,
-        self.current_datetime + datetime.timedelta(hours=self.lunch_hours))
-    if lunch_start_end_datetime.end > self.end_datetime:
+        current_state.current_datetime,
+        current_state.current_datetime + datetime.timedelta(hours=self.day_visit_parameters.lunch_hours))
+    if lunch_start_end_datetime.end > self.day_visit_parameters.end_datetime:
       return False
-    self.current_datetime = lunch_start_end_datetime.end
-    self.cost_accumulator.AddLunch(self.lunch_hours)
-    self.actions.append(city_visit.Lunch(lunch_start_end_datetime))
+    current_state.current_datetime = lunch_start_end_datetime.end
+    current_state.cost_accumulator.AddLunch(self.day_visit_parameters.lunch_hours)
+    current_state.actions.append(city_visit.Lunch(lunch_start_end_datetime))
     return True
 
-  def PushPoint(self, point):
-    assert self._invariant
-    if not self._AddMoveBetween(point.coordinates_starts):
-      self._invariant = False
-      return False
-    if not self._AddPointVisit(point):
-      self._invariant = False
-      return False
-    return True
-
-  def CanFinalize(self):
-    assert self._invariant
+  def _CanFinalize(self, current_state):
     move_description = self.move_calculator.CalculateMoveDescription(
-        self.current_coordinates, self.end_coordinates)
+        current_state.current_coordinates, self.day_visit_parameters.end_coordinates)
     move_timedelta = datetime.timedelta(hours=move_description.move_hours)
-    if self.current_datetime + move_timedelta > self.end_datetime:
+    if current_state.current_datetime + move_timedelta > self.day_visit_parameters.end_datetime:
       return False
     return True
   
+  def _CanPushPoint(self, point, current_state):
+    if not self._AddMoveBetween(point.coordinates_starts, current_state):
+      return False
+    if not self._AddPointVisit(point, current_state):
+      return False
+    if not self._CanFinalize(current_state):
+      return False
+    return True
+  
+  def PushPoint(self, point):
+    if self.can_push:
+      current_state = self.current_state.Copy()
+      self.can_push = self._CanPushPoint(point, current_state)
+    
+    # self.can_push could have changed.
+    if self.can_push:
+      self.current_state = current_state
+      return True
+    else:
+      self.current_state.cost_accumulator.AddPointNoVisit(point)
+      return False
+
   def FinalizedCost(self):
-    assert self.CanFinalize()
+    current_state = self.current_state.Copy()
     move_description = self.move_calculator.CalculateMoveDescription(
-        self.current_coordinates, self.end_coordinates)
-    finalized_cost_accumulator = self.cost_accumulator.Copy()
-    finalized_cost_accumulator.AddMoveBetween(move_description)
-    return finalized_cost_accumulator.Cost()
+        current_state.current_coordinates, self.day_visit_parameters.end_coordinates)
+    current_state.cost_accumulator.AddMoveBetween(move_description)
+    return current_state.cost_accumulator.Cost()
 
   def FinalizedDayVisit(self):
-    assert self.CanFinalize()
-    finalized_cost = self.FinalizedCost()
-    actions = self.actions[:]
+    current_state = self.current_state.Copy()
     move_description = self.move_calculator.CalculateMoveDescription(
-        self.current_coordinates, self.end_coordinates)
+        current_state.current_coordinates, self.day_visit_parameters.end_coordinates)
     move_timedelta = datetime.timedelta(hours=move_description.move_hours)
     move_start_end_datetime = city_visit.StartEndDatetime(
-        self.current_datetime, self.current_datetime + move_timedelta)
-    actions.append(city_visit.MoveBetween(
-      self.current_coordinates, self.end_coordinates,
+        current_state.current_datetime, current_state.current_datetime + move_timedelta)
+    current_state.cost_accumulator.AddMoveBetween(move_description)
+    current_state.actions.append(city_visit.MoveBetween(
+      current_state.current_coordinates, self.day_visit_parameters.end_coordinates,
       move_start_end_datetime, move_description))
-    return city_visit.DayVisit(self.start_datetime, actions, finalized_cost)
+    return city_visit.DayVisit(
+        self.day_visit_parameters.start_datetime, current_state.actions,
+        current_state.cost_accumulator.Cost())
   
   def CurrentTime(self):
-    assert self._invariant
-    return self.current_datetime
+    return self.current_state.current_datetime
 
   def CurrentCoordinates(self):
-    assert self._invariant
-    return self.current_coordinates
+    return self.current_state.current_coordinates
 
   def CurrentCost(self):
-    assert self._invariant
-    return self.cost_accumulator.Cost()
+    return self.current_state.cost_accumulator.Cost()
 
 
 class DayVisitCostCalculatorGenerator(DayVisitCostCalculatorGeneratorInterface):
@@ -142,6 +182,6 @@ class DayVisitCostCalculatorGenerator(DayVisitCostCalculatorGeneratorInterface):
     self.cost_accumulator_generator = cost_accumulator_generator
   
   def Generate(self, day_visit_parameters):
-    return DayVisitCostCalculator(
+    return DayVisitCostCalculator.Init(
         self.move_calculator, self.point_fit, day_visit_parameters,
         self.cost_accumulator_generator)

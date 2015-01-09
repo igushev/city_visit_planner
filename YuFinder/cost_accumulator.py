@@ -26,6 +26,9 @@ class CostAccumulatorInterface(object):
   def AddLunch(self, lunch_hour):
     raise NotImplemented()
 
+  def AddPointNoVisit(self, point):
+    raise NotImplemented()
+
 
 class CostAccumulatorGeneratorInterface(object):
   
@@ -47,6 +50,10 @@ class SimpleCostAccumulator(CostAccumulatorInterface):
   def AddLunch(self, lunch_hour):
     assert isinstance(lunch_hour, float)
     self.cost += lunch_hour
+
+  def AddPointNoVisit(self, point):
+    assert isinstance(point, Point)
+    self.cost += point.duration
 
 
 class SimpleCostAccumulatorGenerator(CostAccumulatorGeneratorInterface):
@@ -74,6 +81,9 @@ class MoreWalkingCostAccumulator(CostAccumulatorInterface):
     self.cost += move_description.move_hours * mult
 
   def AddLunch(self, lunch_hour):
+    pass
+
+  def AddPointNoVisit(self, point):
     pass
 
 

@@ -4,9 +4,6 @@ class DayVisitCostCalculatorInterface(object):
   def PushPoint(self, point):
     raise NotImplemented()
 
-  def CanFinalize(self):
-    raise NotImplemented()
-  
   def FinalizedCost(self):
     raise NotImplemented()
 

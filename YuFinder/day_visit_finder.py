@@ -15,8 +15,8 @@ def FindDayVisit(all_points, day_visit_parameters, calculator_generator):
     next_points_calculator_queue = []
     for points, calculator in points_calculator_queue:
       for i, point in enumerate(points):
-        next_calculator = copy.deepcopy(calculator)
-        if (next_calculator.PushPoint(point) and next_calculator.CanFinalize()):
+        next_calculator = calculator.Copy()
+        if next_calculator.PushPoint(point):
           next_points = points[:i] + points[i+1:]  # -= point
           if next_points:
             next_points_calculator_queue.append(

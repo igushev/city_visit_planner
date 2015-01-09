@@ -1,8 +1,11 @@
+import copy
 import datetime
 
 
 class CoordinatesInterface(object):
-  pass
+
+  def Copy(self):
+    return copy.deepcopy(self)
 
 
 class Coordinates(CoordinatesInterface):

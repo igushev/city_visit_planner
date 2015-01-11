@@ -8,6 +8,7 @@ from Yusi.YuFinder.point_fit import SimplePointFit
 from Yusi.YuFinder.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
 from Yusi.YuFinder import test_utils
 from Yusi.YuFinder import city_visit
+from Yusi.YuFinder.day_visit_finder_heap import EverythingDayVisitFinderHeapGenerator
 
 
 def ExtractPointsNames(points):
@@ -30,6 +31,7 @@ class DayVisitFinderTest(unittest.TestCase):
         move_calculator=move_calculator,
         point_fit=point_fit,
         cost_accumulator_generator=SimpleCostAccumulatorGenerator())
+    day_visit_finder_heap_generator = EverythingDayVisitFinderHeapGenerator()
 
     points = test_utils.MockPoints()
 
@@ -39,7 +41,8 @@ class DayVisitFinderTest(unittest.TestCase):
          points['Golden Gate Bridge'],
          points['Twin Peaks']],
         day_visit_parameters,
-        day_visit_cost_calculator_generator)
+        day_visit_cost_calculator_generator,
+        day_visit_finder_heap_generator)
 
     self.assertEqual([points['Pier 39'], points['Golden Gate Bridge']],
                      points_left)
@@ -67,6 +70,7 @@ Walking from Twin Peaks to Restaurant from 17:30:00 to 19:30:00"""
         move_calculator=move_calculator,
         point_fit=point_fit,
         cost_accumulator_generator=SimpleCostAccumulatorGenerator())
+    day_visit_finder_heap_generator = EverythingDayVisitFinderHeapGenerator()
 
     points = test_utils.MockPoints()
 
@@ -74,7 +78,8 @@ Walking from Twin Peaks to Restaurant from 17:30:00 to 19:30:00"""
         [points['Ferry Biulding'],
          points['Pier 39']],
         day_visit_parameters,
-        day_visit_cost_calculator_generator)
+        day_visit_cost_calculator_generator,
+        day_visit_finder_heap_generator)
 
     self.assertEqual([], points_left)
     day_visit_best_str_expected = """Date: 2014-09-01
@@ -101,6 +106,7 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
         move_calculator=move_calculator,
         point_fit=point_fit,
         cost_accumulator_generator=SimpleCostAccumulatorGenerator())
+    day_visit_finder_heap_generator = EverythingDayVisitFinderHeapGenerator()
 
     points = test_utils.MockPoints()
 
@@ -110,7 +116,8 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
          points['Golden Gate Bridge'],
          points['Twin Peaks']],
         day_visit_parameters,
-        day_visit_cost_calculator_generator)
+        day_visit_cost_calculator_generator,
+        day_visit_finder_heap_generator)
 
     self.assertEqual(
         [points['Ferry Biulding'],

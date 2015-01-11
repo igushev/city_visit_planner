@@ -164,6 +164,7 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
         self.day_visit_parameters.start_datetime, current_state.actions,
         current_state.cost_accumulator.Cost())
   
+  # NOTE(igushev): Methods below are not part of Interface API. 
   def CurrentTime(self):
     return self.current_state.current_datetime
 

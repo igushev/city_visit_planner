@@ -8,6 +8,7 @@ from Yusi.YuFinder.city_visit_finder import FindCityVisit
 from Yusi.YuFinder.cost_accumulator import SimpleCostAccumulatorGenerator
 from Yusi.YuFinder.point_fit import SimplePointFit
 from Yusi.YuFinder import test_utils
+from Yusi.YuFinder.day_visit_finder_heap import EverythingDayVisitFinderHeapGenerator
 
 
 class CityVisitFinderTest(unittest.TestCase):
@@ -33,6 +34,7 @@ class CityVisitFinderTest(unittest.TestCase):
         move_calculator=move_calculator,
         point_fit=point_fit,
         cost_accumulator_generator=cost_accumulator_generator)
+    self.day_visit_finder_heap_generator = EverythingDayVisitFinderHeapGenerator()
     unittest.TestCase.setUp(self)
 
   def testOneShortDay(self):
@@ -48,7 +50,8 @@ class CityVisitFinderTest(unittest.TestCase):
          self.points['Golden Gate Bridge'],
          self.points['Union Square']],
         day_visit_parameterss,
-        self.calculator_generator)
+        self.calculator_generator,
+        self.day_visit_finder_heap_generator)
     day_visits = city_visit_result.day_visits
     self.assertEqual(1, len(day_visits))
     self.assertEqual([], day_visits[0].GetPoints())
@@ -70,7 +73,8 @@ Total cost: 1.00""", str(city_visit_result))
          self.points['Golden Gate Bridge'],
          self.points['Union Square']],
         day_visit_parameterss,
-        self.calculator_generator)
+        self.calculator_generator,
+        self.day_visit_finder_heap_generator)
     day_visits = city_visit_result.day_visits
     self.assertEqual(1, len(day_visits))
     self.assertEqual(
@@ -106,7 +110,8 @@ Total cost: 11.50""", str(city_visit_result))
          self.points['Union Square'],
          self.points['Twin Peaks']],
         day_visit_parameterss,
-        self.calculator_generator)
+        self.calculator_generator,
+        self.day_visit_finder_heap_generator)
     
     day_visits = city_visit_result.day_visits
     self.assertEqual(2, len(day_visits))
@@ -153,7 +158,8 @@ Total cost: 16.50""", str(city_visit_result))
          self.points['Union Square'],
          self.points['Twin Peaks']],
         day_visit_parameterss,
-        self.calculator_generator)
+        self.calculator_generator,
+        self.day_visit_finder_heap_generator)
 
     day_visits = city_visit_result.day_visits
     self.assertEqual(3, len(day_visits))
@@ -205,7 +211,8 @@ Total cost: 25.50""", str(city_visit_result))
          self.points['Union Square'],
          self.points['Twin Peaks']],
         day_visit_parameterss,
-        self.calculator_generator)
+        self.calculator_generator,
+        self.day_visit_finder_heap_generator)
 
     day_visits = city_visit_result.day_visits
     self.assertEqual(3, len(day_visits))

@@ -4,6 +4,9 @@ from Yusi.YuFinder.point import Point
 from Yusi.YuFinder.move_calculator import PTT_COST_MULT
 
 
+SIMPLE_POINT_NO_VISIT_COST = 1000
+
+
 # TODO(igushev): Do we need to add lunch time to cost?
 class CostAccumulatorInterface(object):
   """Abstract class which accumulates cost for a day."""
@@ -53,7 +56,7 @@ class SimpleCostAccumulator(CostAccumulatorInterface):
 
   def AddPointNoVisit(self, point):
     assert isinstance(point, Point)
-    self.cost += point.duration
+    self.cost += SIMPLE_POINT_NO_VISIT_COST
 
 
 class SimpleCostAccumulatorGenerator(CostAccumulatorGeneratorInterface):
@@ -84,7 +87,7 @@ class MoreWalkingCostAccumulator(CostAccumulatorInterface):
     pass
 
   def AddPointNoVisit(self, point):
-    pass
+    self.cost += SIMPLE_POINT_NO_VISIT_COST
 
 
 class MoreWalkingCostAccumulatorGenerator(CostAccumulatorGeneratorInterface):

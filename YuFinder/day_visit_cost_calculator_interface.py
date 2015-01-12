@@ -10,6 +10,9 @@ class DayVisitCostCalculatorInterface(object):
   def FinalizedDayVisit(self):
     raise NotImplemented()
 
+  def GetPointsLeft(self):
+    raise NotImplemented()
+
 
 class DayVisitCostCalculatorGeneratorInterface(object):
 

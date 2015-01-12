@@ -11,40 +11,31 @@ def FindDayVisit(
      all_points, day_visit_parameters, calculator_generator,
      day_visit_finder_heap_generator):
   """Find maximum number of point with minimum cost for a particular day."""
-  points_calculator_queue = day_visit_finder_heap_generator.Generate()
-  points_calculator_queue.Append(
+  points_calculator_heap = day_visit_finder_heap_generator.Generate()
+  points_calculator_heap.Append(
       PointsCalculator(
           all_points, calculator_generator.Generate(day_visit_parameters)))
-  results = []
-  while points_calculator_queue.Size():
-    next_points_calculator_queue = day_visit_finder_heap_generator.Generate()
-    for points, calculator in points_calculator_queue.GetPointsCalculatorList():
+  points_calculator_heap.Shrink()
+  while True:
+    next_points_calculator_heap = day_visit_finder_heap_generator.Generate()
+    pushed_to_next = []
+    for points, calculator in points_calculator_heap.GetPointsCalculatorList():
       for i, point in enumerate(points):
         next_calculator = calculator.Copy()
-        if next_calculator.PushPoint(point):
-          next_points = points[:i] + points[i+1:]  # -= point
-          if next_points:
-            next_points_calculator_queue.Append(
-              PointsCalculator(next_points, next_calculator))
-          else:
-            results.append(next_calculator)
-    # Keep record of previous step.
-    next_points_calculator_queue.Shrink()
-    prev_points_calculator_queue = points_calculator_queue
-    points_calculator_queue = next_points_calculator_queue
+        pushed_to_next.append(next_calculator.PushPoint(point))
+        next_points = points[:i] + points[i+1:]  # -= point
+        next_points_calculator_heap.Append(
+          PointsCalculator(next_points, next_calculator))
+    next_points_calculator_heap.Shrink()
+    prev_points_calculator_heap = points_calculator_heap
+    points_calculator_heap = next_points_calculator_heap
+    if not any(pushed_to_next):
+      break
 
-  if results:
-    # We can fit all points to the day at least with one combination.
-    # Return the best.
-    calculator_best = sorted(
-        results, key=lambda calculator: calculator.FinalizedCost())[0]
-    return [], calculator_best.FinalizedDayVisit()
-  else:
-    # We cannot fit all points to the day.
-    # Return the best with the rest of points.
-    assert prev_points_calculator_queue.Size() >= 1
-    points_left, calculator_best = (
-        sorted(prev_points_calculator_queue.GetPointsCalculatorList(),
-               key=lambda points_calculator: (
-                   points_calculator.Calculator.FinalizedCost()))[0])
-    return points_left, calculator_best.FinalizedDayVisit()
+  # Return the best.
+  assert prev_points_calculator_heap.Size() >= 1
+  points_left, calculator_best = (
+      sorted(prev_points_calculator_heap.GetPointsCalculatorList(),
+             key=lambda points_calculator: (
+                 points_calculator.Calculator.FinalizedCost()))[0])
+  return calculator_best.GetPointsLeft() + points_left, calculator_best.FinalizedDayVisit()

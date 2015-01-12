@@ -37,12 +37,12 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
   """Calculates cost of DayVisit."""
 
   def __init__(self, move_calculator, point_fit, day_visit_parameters,
-               current_state, can_push):
+               current_state, points_left):
     self.move_calculator = move_calculator
     self.point_fit = point_fit
     self.day_visit_parameters = day_visit_parameters
     self.current_state = current_state
-    self.can_push = can_push
+    self.points_left = points_left
 
   @classmethod
   def Init(cls, move_calculator, point_fit, day_visit_parameters,
@@ -53,7 +53,7 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
        day_visit_parameters,
        DayVisitCostCalculatorState.Init(
            day_visit_parameters, cost_accumulator_generator),
-       True)
+       [])
 
   def Copy(self):
     return self.__class__(
@@ -61,7 +61,7 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
         self.point_fit,
         self.day_visit_parameters,
         self.current_state.Copy(),
-        self.can_push)
+        self.points_left[:])
 
   def _AddPointVisit(self, point, current_state):
     visit_timedelta = datetime.timedelta(hours=point.duration)
@@ -130,16 +130,20 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
     return True
   
   def PushPoint(self, point):
-    if self.can_push:
+    # If self.points_left is empty, it means no point has not been pushed, so
+    # we can proceed.
+    if not self.points_left:
       current_state = self.current_state.Copy()
-      self.can_push = self._CanPushPoint(point, current_state)
+      can_push = self._CanPushPoint(point, current_state)
+    else:
+      can_push = False
     
-    # self.can_push could have changed.
-    if self.can_push:
+    if can_push:
       self.current_state = current_state
       return True
     else:
       self.current_state.cost_accumulator.AddPointNoVisit(point)
+      self.points_left.append(point)
       return False
 
   def FinalizedCost(self):
@@ -163,6 +167,9 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
     return city_visit.DayVisit(
         self.day_visit_parameters.start_datetime, current_state.actions,
         current_state.cost_accumulator.Cost())
+    
+  def GetPointsLeft(self):
+    return self.points_left
   
   # NOTE(igushev): Methods below are not part of Interface API. 
   def CurrentTime(self):

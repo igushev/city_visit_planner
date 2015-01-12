@@ -3,7 +3,8 @@ import unittest
 
 import Yusi
 from Yusi.YuFinder import read_csv
-from Yusi.YuFinder.cost_accumulator import SimpleCostAccumulatorGenerator, MoreWalkingCostAccumulatorGenerator
+from Yusi.YuFinder.cost_accumulator import SimpleCostAccumulatorGenerator, MoreWalkingCostAccumulatorGenerator,\
+  SIMPLE_POINT_NO_VISIT_COST
 from Yusi.YuFinder import city_visit
 from Yusi.YuFinder.move_calculator import PTT_COST_MULT
 
@@ -26,7 +27,7 @@ class SimpleCostAccumulatorTest(unittest.TestCase):
         city_visit.MoveDescription(0.05, city_visit.MoveType.driving))
     self.assertEqual(2.80, cost_accumulator.Cost())
     cost_accumulator.AddPointNoVisit(points['Pier 39'])
-    self.assertEqual(5.80, cost_accumulator.Cost())
+    self.assertEqual(2.80 + SIMPLE_POINT_NO_VISIT_COST, cost_accumulator.Cost())
 
 
 class MoreWalkingCostAccumulatorTest(unittest.TestCase):
@@ -47,7 +48,8 @@ class MoreWalkingCostAccumulatorTest(unittest.TestCase):
         city_visit.MoveDescription(0.05, city_visit.MoveType.driving))
     self.assertEqual(1.25 + 0.05 * PTT_COST_MULT, cost_accumulator.Cost())
     cost_accumulator.AddPointNoVisit(points['Pier 39'])
-    self.assertEqual(1.25 + 0.05 * PTT_COST_MULT, cost_accumulator.Cost())
+    self.assertEqual(1.25 + 0.05 * PTT_COST_MULT + SIMPLE_POINT_NO_VISIT_COST,
+                     cost_accumulator.Cost())
     
 
 if __name__ == '__main__':

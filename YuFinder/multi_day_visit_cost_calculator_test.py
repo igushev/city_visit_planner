@@ -24,16 +24,16 @@ class MockDayVisitCostCalculator(DayVisitCostCalculatorInterface):
     self.max_cost = max_cost
     self.cost = 0
     self.pos = 0
-    self.can_push = True
+    self.points_left = []
     
   def PushPoint(self, point):
     assert isinstance(point, MockPoint)
     assert self.pos <= len(self.costs)
-    if (not self.can_push or
+    if (self.points_left or
         self.cost + self.costs[self.pos] + self.finalization_cost >
         self.max_cost):
       self.cost += self.no_push_cost
-      self.can_push = False
+      self.points_left.append(point)
       return False
     self.cost += self.costs[self.pos]
     self.pos += 1
@@ -45,12 +45,12 @@ class MockDayVisitCostCalculator(DayVisitCostCalculatorInterface):
   def FinalizedDayVisit(self):
     return self
 
+  def GetPointsLeft(self):
+    return self.points_left
+
   def Pos(self):
     assert self.pos <= len(self.costs)
     return self.pos
-
-  def CanPush(self):
-    return self.can_push
 
 
 class MockDayVisitCostCalculatorGenerator(DayVisitCostCalculatorGeneratorInterface):
@@ -84,36 +84,39 @@ class MultiDayVisitCostCalculatorTest(unittest.TestCase):
     # First one is better.
     self.assertEqual(0, calculator_1.Pos())
     self.assertEqual(0, calculator_2.Pos())
-    self.assertTrue(calculator_1.CanPush())
-    self.assertTrue(calculator_2.CanPush())
+    self.assertEqual([], calculator_1.GetPointsLeft())
+    self.assertEqual([], calculator_2.GetPointsLeft())
     self.assertEqual(1, calculator_1.FinalizedCost())
     self.assertEqual(2, calculator_2.FinalizedCost())
     self.assertEqual(1, calculator.FinalizedCost())
     self.assertIs(calculator_1, calculator.FinalizedDayVisit())
+    self.assertEqual([], calculator.GetPointsLeft())
 
     # Pushing first point.
     # Second one is better.
     self.assertTrue(calculator.PushPoint(MockPoint()))
     self.assertEqual(1, calculator_1.Pos())
     self.assertEqual(1, calculator_2.Pos())
-    self.assertTrue(calculator_1.CanPush())
-    self.assertTrue(calculator_2.CanPush())
+    self.assertEqual([], calculator_1.GetPointsLeft())
+    self.assertEqual([], calculator_2.GetPointsLeft())
     self.assertEqual(4, calculator_1.FinalizedCost())
     self.assertEqual(3, calculator_2.FinalizedCost())
     self.assertEqual(3, calculator.FinalizedCost())
     self.assertIs(calculator_2, calculator.FinalizedDayVisit())
+    self.assertEqual([], calculator.GetPointsLeft())
 
     # Pushing second point.
     # First one again better.
     self.assertTrue(calculator.PushPoint(MockPoint()))
     self.assertEqual(2, calculator_1.Pos())
     self.assertEqual(2, calculator_2.Pos())
-    self.assertTrue(calculator_1.CanPush())
-    self.assertTrue(calculator_2.CanPush())
+    self.assertEqual([], calculator_1.GetPointsLeft())
+    self.assertEqual([], calculator_2.GetPointsLeft())
     self.assertEqual(8, calculator_1.FinalizedCost())
     self.assertEqual(9, calculator_2.FinalizedCost())
     self.assertEqual(8, calculator.FinalizedCost())
     self.assertIs(calculator_1, calculator.FinalizedDayVisit())
+    self.assertEqual([], calculator.GetPointsLeft())
 
   def testOnePushed(self):
     calculator_generator_1 = (
@@ -136,15 +139,17 @@ class MultiDayVisitCostCalculatorTest(unittest.TestCase):
     # Pushing second point.
     # First one can't be finalized.
     # Second one is better.
-    self.assertTrue(calculator.PushPoint(MockPoint()))
+    second_point = MockPoint()
+    self.assertTrue(calculator.PushPoint(second_point))
     self.assertEqual(1, calculator_1.Pos())
     self.assertEqual(2, calculator_2.Pos())
-    self.assertFalse(calculator_1.CanPush())
-    self.assertTrue(calculator_2.CanPush())
+    self.assertEqual([second_point], calculator_1.GetPointsLeft())
+    self.assertEqual([], calculator_2.GetPointsLeft())
     self.assertEqual(104, calculator_1.FinalizedCost())
     self.assertEqual(9, calculator_2.FinalizedCost())
     self.assertEqual(9, calculator.FinalizedCost())
     self.assertIs(calculator_2, calculator.FinalizedDayVisit())
+    self.assertEqual([], calculator.GetPointsLeft())
 
   def testNonePushed(self):
     calculator_generator_1 = (
@@ -166,15 +171,17 @@ class MultiDayVisitCostCalculatorTest(unittest.TestCase):
 
     # Pushing second point.
     # None can be finalized.
-    self.assertFalse(calculator.PushPoint(MockPoint()))
+    second_point = MockPoint()
+    self.assertFalse(calculator.PushPoint(second_point))
     self.assertEqual(1, calculator_1.Pos())
     self.assertEqual(1, calculator_2.Pos())
-    self.assertFalse(calculator_1.CanPush())
-    self.assertFalse(calculator_2.CanPush())
+    self.assertEqual([second_point], calculator_1.GetPointsLeft())
+    self.assertEqual([second_point], calculator_2.GetPointsLeft())
     self.assertEqual(104, calculator_1.FinalizedCost())
     self.assertEqual(103, calculator_2.FinalizedCost())
     self.assertEqual(103, calculator.FinalizedCost())
     self.assertEqual(calculator_2, calculator.FinalizedDayVisit())
+    self.assertEqual([second_point], calculator.GetPointsLeft())
 
 
 if __name__ == '__main__':

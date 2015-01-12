@@ -35,6 +35,10 @@ class EverythingDayVisitFinderHeap(DayVisitFinderHeapInterface):
     
   def Append(self, points_calculator):
     assert isinstance(points_calculator, PointsCalculator)
+    if self._points_calculator_list:
+      assert (len(self._points_calculator_list[0].Points) ==
+              len(points_calculator.Points)), (
+                  'Points count must be the same in the all heap')
     self._points_calculator_list.append(points_calculator)
     self._invariant = False
   
@@ -43,6 +47,8 @@ class EverythingDayVisitFinderHeap(DayVisitFinderHeapInterface):
     self._invariant = True
     
   def GetPointsCalculatorList(self):
+    assert self._invariant, (
+        'PointsCalculator list cannot be returned. Please call Shrink first.')
     return self._points_calculator_list
 
   def Size(self):

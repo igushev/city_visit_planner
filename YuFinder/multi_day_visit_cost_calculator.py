@@ -12,6 +12,10 @@ class MultiDayVisitCostCalculator(DayVisitCostCalculatorInterface):
   def __init__(self, calculators):
     self.calculators = calculators
 
+  def Copy(self):
+    return self.__class__(
+        [calculator.Copy() for calculator in self.calculators])
+
   def PushPoint(self, point):
     # Must create a list since any() would skip all calculator after first
     # successful push.

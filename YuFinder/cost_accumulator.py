@@ -14,12 +14,12 @@ class CostAccumulatorInterface(object):
   def __init__(self):
     self.cost = 0
 
-  def Cost(self):
-    return self.cost
-  
   def Copy(self):
     return copy.deepcopy(self)
 
+  def Cost(self):
+    return self.cost
+  
   def AddPointVisit(self, point):
     raise NotImplemented()
 

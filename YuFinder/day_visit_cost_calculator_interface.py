@@ -1,6 +1,9 @@
 class DayVisitCostCalculatorInterface(object):
   """Abstract class which calculates cost of DayVisit."""
 
+  def Copy(self):
+    raise NotImplemented()
+
   def PushPoint(self, point):
     raise NotImplemented()
 

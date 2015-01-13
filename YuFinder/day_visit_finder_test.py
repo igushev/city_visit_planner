@@ -8,7 +8,6 @@ from Yusi.YuFinder.point_fit import SimplePointFit
 from Yusi.YuFinder.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
 from Yusi.YuFinder import test_utils
 from Yusi.YuFinder import city_visit
-from Yusi.YuFinder.day_visit_finder_heap import EverythingDayVisitFinderHeapGenerator
 
 
 class DayVisitFinderTest(unittest.TestCase):
@@ -33,10 +32,8 @@ class DayVisitFinderTest(unittest.TestCase):
         move_calculator=move_calculator,
         point_fit=point_fit,
         cost_accumulator_generator=SimpleCostAccumulatorGenerator())
-    day_visit_finder_heap_generator = EverythingDayVisitFinderHeapGenerator()
     self.day_visit_finder = DayVisitFinder(
-        day_visit_cost_calculator_generator,
-        day_visit_finder_heap_generator)
+        day_visit_cost_calculator_generator)
     unittest.TestCase.setUp(self)
     
     

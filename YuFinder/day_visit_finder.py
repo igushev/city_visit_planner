@@ -3,26 +3,28 @@ import copy
 
 
 import Yusi
-from Yusi.YuFinder.day_visit_finder_heap import PointsCalculator
+from Yusi.YuFinder.day_visit_finder_heap import PointsCalculator,\
+  DayVisitFinderHeap
+
+
+DAY_VISIT_HEAP_SIZE = 1000
 
 
 class DayVisitFinder(object):
-  def __init__(self, calculator_generator, day_visit_finder_heap_generator):
+  def __init__(self, calculator_generator):
     self.calculator_generator = calculator_generator
-    self.day_visit_finder_heap_generator = day_visit_finder_heap_generator
     
   # TODO(igushev): Use set instead of list for Points.
   def FindDayVisit(self, all_points, day_visit_parameters):
     """Find maximum number of point with minimum cost for a particular day."""
-    points_calculator_heap = self.day_visit_finder_heap_generator.Generate()
+    points_calculator_heap = DayVisitFinderHeap(DAY_VISIT_HEAP_SIZE)
     points_calculator_heap.Append(
         PointsCalculator(
             all_points,
             self.calculator_generator.Generate(day_visit_parameters)))
     points_calculator_heap.Shrink()
     while True:
-      next_points_calculator_heap = (
-          self.day_visit_finder_heap_generator.Generate())
+      next_points_calculator_heap = DayVisitFinderHeap(DAY_VISIT_HEAP_SIZE)
       pushed_to_next = []
       for points, calculator in (
           points_calculator_heap.GetPointsCalculatorList()):

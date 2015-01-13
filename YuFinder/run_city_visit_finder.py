@@ -13,7 +13,6 @@ from Yusi.YuFinder import point
 from Yusi.YuFinder import read_csv
 from Yusi.YuFinder.city_visit_finder import CityVisitFinder
 from Yusi.YuFinder.multi_day_visit_cost_calculator import MultiDayVisitCostCalculatorGenerator
-from Yusi.YuFinder.day_visit_finder_heap import EverythingDayVisitFinderHeapGenerator
 
 
 points = read_csv.ReadCSVToDict(
@@ -34,10 +33,7 @@ ptt_day_visit_const_calculator_generator = DayVisitCostCalculatorGenerator(
 day_visit_const_calculator_generator = MultiDayVisitCostCalculatorGenerator(
     [driving_day_visit_const_calculator_generator,
      ptt_day_visit_const_calculator_generator])
-day_visit_finder_heap_generator = EverythingDayVisitFinderHeapGenerator()
-day_visit_finder = DayVisitFinder(
-    day_visit_const_calculator_generator,
-    day_visit_finder_heap_generator)
+day_visit_finder = DayVisitFinder(day_visit_const_calculator_generator)
 city_visit_finder = CityVisitFinder(day_visit_finder)
 
 

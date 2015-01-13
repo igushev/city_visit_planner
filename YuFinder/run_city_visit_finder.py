@@ -5,13 +5,13 @@ import Yusi
 from Yusi.YuFinder.city_visit import DayVisitParameters
 from Yusi.YuFinder.cost_accumulator import MoreWalkingCostAccumulatorGenerator
 from Yusi.YuFinder.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
-from Yusi.YuFinder.day_visit_finder import FindDayVisit
+from Yusi.YuFinder.day_visit_finder import DayVisitFinder
 from Yusi.YuFinder.move_calculator import PauseAndPTTOrWalkingMoveCalculator,\
   WalkingMoveCalculator, PauseAndDrivingMoveCalculator
 from Yusi.YuFinder.point_fit import SimplePointFit
 from Yusi.YuFinder import point
 from Yusi.YuFinder import read_csv
-from Yusi.YuFinder.city_visit_finder import FindCityVisit
+from Yusi.YuFinder.city_visit_finder import CityVisitFinder
 from Yusi.YuFinder.multi_day_visit_cost_calculator import MultiDayVisitCostCalculatorGenerator
 from Yusi.YuFinder.day_visit_finder_heap import EverythingDayVisitFinderHeapGenerator
 
@@ -35,6 +35,10 @@ day_visit_const_calculator_generator = MultiDayVisitCostCalculatorGenerator(
     [driving_day_visit_const_calculator_generator,
      ptt_day_visit_const_calculator_generator])
 day_visit_finder_heap_generator = EverythingDayVisitFinderHeapGenerator()
+day_visit_finder = DayVisitFinder(
+    day_visit_const_calculator_generator,
+    day_visit_finder_heap_generator)
+city_visit_finder = CityVisitFinder(day_visit_finder)
 
 
 def GetDayVisitParameters(start_datetime, end_datetime):
@@ -70,9 +74,8 @@ day_visit_parameterss = [
     day_visit_parameters_dec6_13to18, day_visit_parameters_dec7_13to18]
 
 
-city_visit = FindCityVisit(
-    points_to_visit, day_visit_parameterss,
-    day_visit_const_calculator_generator, day_visit_finder_heap_generator)
+city_visit = city_visit_finder.FindCityVisit(
+    points_to_visit, day_visit_parameterss)
 
 
 print('Points to visit in priority: %s' %

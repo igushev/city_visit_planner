@@ -4,11 +4,12 @@ import unittest
 import Yusi
 from Yusi.YuFinder.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
 from Yusi.YuFinder.city_visit import DayVisitParameters
-from Yusi.YuFinder.city_visit_finder import FindCityVisit
+from Yusi.YuFinder.city_visit_finder import CityVisitFinder
 from Yusi.YuFinder.cost_accumulator import SimpleCostAccumulatorGenerator
 from Yusi.YuFinder.point_fit import SimplePointFit
 from Yusi.YuFinder import test_utils
 from Yusi.YuFinder.day_visit_finder_heap import EverythingDayVisitFinderHeapGenerator
+from Yusi.YuFinder.day_visit_finder import DayVisitFinder
 
 
 class CityVisitFinderTest(unittest.TestCase):
@@ -30,11 +31,13 @@ class CityVisitFinderTest(unittest.TestCase):
     move_calculator = test_utils.MockMoveCalculator()
     point_fit = SimplePointFit()
     cost_accumulator_generator=SimpleCostAccumulatorGenerator()
-    self.calculator_generator = DayVisitCostCalculatorGenerator(
+    calculator_generator = DayVisitCostCalculatorGenerator(
         move_calculator=move_calculator,
         point_fit=point_fit,
         cost_accumulator_generator=cost_accumulator_generator)
-    self.day_visit_finder_heap_generator = EverythingDayVisitFinderHeapGenerator()
+    day_visit_finder_heap_generator = EverythingDayVisitFinderHeapGenerator()
+    day_visit_finder = DayVisitFinder(calculator_generator, day_visit_finder_heap_generator)
+    self.city_visit_finder = CityVisitFinder(day_visit_finder)
     unittest.TestCase.setUp(self)
 
   def testOneShortDay(self):
@@ -43,15 +46,13 @@ class CityVisitFinderTest(unittest.TestCase):
             start_datetime=datetime.datetime(2014, 9, 1, 17, 0, 0),
             end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0))]
 
-    city_visit_result = FindCityVisit(
+    city_visit_result = self.city_visit_finder.FindCityVisit(
         [self.points['Twin Peaks'],
          self.points['Ferry Biulding'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Union Square']],
-        day_visit_parameterss,
-        self.calculator_generator,
-        self.day_visit_finder_heap_generator)
+        day_visit_parameterss)
     day_visits = city_visit_result.day_visits
     self.assertEqual(1, len(day_visits))
     self.assertEqual([], day_visits[0].GetPoints())
@@ -66,15 +67,13 @@ Total cost: 1.00""", str(city_visit_result))
             start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
             end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0))]
 
-    city_visit_result = FindCityVisit(
+    city_visit_result = self.city_visit_finder.FindCityVisit(
         [self.points['Twin Peaks'],
          self.points['Ferry Biulding'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Union Square']],
-        day_visit_parameterss,
-        self.calculator_generator,
-        self.day_visit_finder_heap_generator)
+        day_visit_parameterss)
     day_visits = city_visit_result.day_visits
     self.assertEqual(1, len(day_visits))
     self.assertEqual(
@@ -103,15 +102,13 @@ Total cost: 11.50""", str(city_visit_result))
             start_datetime=datetime.datetime(2014, 9, 2, 9, 0, 0),
             end_datetime=datetime.datetime(2014, 9, 2, 21, 0, 0))]
 
-    city_visit_result = FindCityVisit(
+    city_visit_result = self.city_visit_finder.FindCityVisit(
         [self.points['Ferry Biulding'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Union Square'],
          self.points['Twin Peaks']],
-        day_visit_parameterss,
-        self.calculator_generator,
-        self.day_visit_finder_heap_generator)
+        day_visit_parameterss)
     
     day_visits = city_visit_result.day_visits
     self.assertEqual(2, len(day_visits))
@@ -151,15 +148,13 @@ Total cost: 16.50""", str(city_visit_result))
           start_datetime=datetime.datetime(2014, 9, 3, 17, 0, 0),
           end_datetime=datetime.datetime(2014, 9, 3, 21, 0, 0))]                         
 
-    city_visit_result = FindCityVisit(
+    city_visit_result = self.city_visit_finder.FindCityVisit(
         [self.points['Ferry Biulding'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Union Square'],
          self.points['Twin Peaks']],
-        day_visit_parameterss,
-        self.calculator_generator,
-        self.day_visit_finder_heap_generator)
+        day_visit_parameterss)
 
     day_visits = city_visit_result.day_visits
     self.assertEqual(3, len(day_visits))
@@ -204,15 +199,13 @@ Total cost: 25.50""", str(city_visit_result))
           start_datetime=datetime.datetime(2014, 9, 3, 9, 0, 0),
           end_datetime=datetime.datetime(2014, 9, 3, 21, 0, 0))]                         
 
-    city_visit_result = FindCityVisit(
+    city_visit_result = self.city_visit_finder.FindCityVisit(
         [self.points['Ferry Biulding'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Union Square'],
          self.points['Twin Peaks']],
-        day_visit_parameterss,
-        self.calculator_generator,
-        self.day_visit_finder_heap_generator)
+        day_visit_parameterss)
 
     day_visits = city_visit_result.day_visits
     self.assertEqual(3, len(day_visits))

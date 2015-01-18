@@ -89,9 +89,14 @@ class MoveType(object):
 class MoveDescription(object):
   """Moving description."""
   
-  def __init__(self, move_hours, move_type):
+  def __init__(self, from_coordinates, to_coordinates, move_hours, move_type):
+    assert isinstance(from_coordinates, CoordinatesInterface)
+    assert isinstance(to_coordinates, CoordinatesInterface)
     assert isinstance(move_hours, float)
     assert isinstance(move_type, int)
+
+    self.from_coordinates = from_coordinates
+    self.to_coordinates = to_coordinates
     self.move_hours = move_hours
     self.move_type = move_type
 
@@ -99,17 +104,12 @@ class MoveDescription(object):
 class MoveBetween(object):
   """Moving between points by a user."""
 
-  def __init__(self, from_coordinates, to_coordinates,
-               start_end_datetime, move_description):
-    assert isinstance(from_coordinates, CoordinatesInterface)
-    assert isinstance(to_coordinates, CoordinatesInterface)
+  def __init__(self, start_end_datetime, move_description):
     assert isinstance(start_end_datetime, StartEndDatetime)
     assert isinstance(move_description, MoveDescription)
     assert ((start_end_datetime.end - start_end_datetime.start) ==
             datetime.timedelta(hours=move_description.move_hours))
 
-    self.from_coordinates = from_coordinates
-    self.to_coordinates = to_coordinates
     self.start_end_datetime = start_end_datetime
     self.move_description = move_description
 
@@ -126,8 +126,8 @@ class MoveBetween(object):
     else:
       raise NotImplemented('Unknown MoveType: %s' % self.move_description.move_type)
     return '%s from %s to %s %s' % (
-        move_type_str, self.from_coordinates, self.to_coordinates,
-        self.start_end_datetime)
+        move_type_str, self.move_description.from_coordinates,
+        self.move_description.to_coordinates, self.start_end_datetime)
 
 
 class Lunch(object):

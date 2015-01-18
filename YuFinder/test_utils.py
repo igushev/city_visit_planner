@@ -53,7 +53,8 @@ class MockMoveCalculator(object):
       raise AssertionError(
           'MOVE_HOURS is not defined between coordinates: %s and %s' % (
               coordinates_from, coordinates_to))
-    return MoveDescription(MOVE_HOURS[coordinates_between], MoveType.walking)
+    return MoveDescription(coordinates_from, coordinates_to,
+                           MOVE_HOURS[coordinates_between], MoveType.walking)
 
 
 # TODO(igushev): Change points to points_dict everywhere in code and

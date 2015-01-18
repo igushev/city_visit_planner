@@ -2,9 +2,12 @@ import os
 import unittest
 
 import Yusi
-from Yusi.YuFinder import read_csv
+from Yusi.YuFinder import read_csv, point
 from Yusi.YuFinder.cost_accumulator import FactorCostAccumulatorGenerator
 from Yusi.YuFinder import city_visit
+
+
+san_francisco_coordinates = point.Coordinates(37.7833, -122.4167)
 
 
 class FactorCostAccumulatorTest(unittest.TestCase):
@@ -15,19 +18,28 @@ class FactorCostAccumulatorTest(unittest.TestCase):
     cost_accumulator = FactorCostAccumulatorGenerator().Generate()
     self.assertEqual(0., cost_accumulator.Cost())
     cost_accumulator.AddMoveBetween(
-        city_visit.MoveDescription(1.25, city_visit.MoveType.walking))
+        city_visit.MoveDescription(
+            san_francisco_coordinates,
+            points['Ferry Biulding'].coordinates_starts,
+            1.25, city_visit.MoveType.walking))
     self.assertEqual(1.25, cost_accumulator.Cost())
     cost_accumulator.AddPointVisit(points['Ferry Biulding'])
     self.assertEqual(2.25, cost_accumulator.Cost())
     cost_accumulator.AddLunch(1.0)
     self.assertEqual(3.25, cost_accumulator.Cost())
     cost_accumulator.AddMoveBetween(
-        city_visit.MoveDescription(0.05, city_visit.MoveType.driving))
+        city_visit.MoveDescription(
+            points['Ferry Biulding'].coordinates_ends,
+            points['Pier 39'].coordinates_starts,
+            0.05, city_visit.MoveType.driving))
     self.assertEqual(3.30, cost_accumulator.Cost())
     cost_accumulator.AddPointVisit(points['Pier 39'])
     self.assertEqual(6.30, cost_accumulator.Cost())
     cost_accumulator.AddMoveBetween(
-        city_visit.MoveDescription(0.50, city_visit.MoveType.ptt))
+        city_visit.MoveDescription(
+            points['Pier 39'].coordinates_ends,
+            san_francisco_coordinates,
+            0.50, city_visit.MoveType.ptt))
     self.assertEqual(6.80, cost_accumulator.Cost())
     cost_accumulator.AddPointNoVisit(points['Golden Gate Bridge'])
     self.assertEqual(7.30, cost_accumulator.Cost())
@@ -45,19 +57,28 @@ class FactorCostAccumulatorTest(unittest.TestCase):
         no_point_visit_const=100).Generate()
     self.assertEqual(0., cost_accumulator.Cost())
     cost_accumulator.AddMoveBetween(
-        city_visit.MoveDescription(1.25, city_visit.MoveType.walking))
+        city_visit.MoveDescription(
+            san_francisco_coordinates,
+            points['Ferry Biulding'].coordinates_starts,
+            1.25, city_visit.MoveType.walking))
     self.assertEqual(1.25, cost_accumulator.Cost())
     cost_accumulator.AddPointVisit(points['Ferry Biulding'])
     self.assertEqual(1.75, cost_accumulator.Cost())
     cost_accumulator.AddLunch(1.0)
     self.assertEqual(2.00, cost_accumulator.Cost())
     cost_accumulator.AddMoveBetween(
-        city_visit.MoveDescription(0.05, city_visit.MoveType.driving))
+        city_visit.MoveDescription(
+            points['Ferry Biulding'].coordinates_ends,
+            points['Pier 39'].coordinates_starts,
+            0.05, city_visit.MoveType.driving))
     self.assertEqual(2.10, cost_accumulator.Cost())
     cost_accumulator.AddPointVisit(points['Pier 39'])
     self.assertEqual(3.60, cost_accumulator.Cost())
     cost_accumulator.AddMoveBetween(
-        city_visit.MoveDescription(0.50, city_visit.MoveType.ptt))
+        city_visit.MoveDescription(
+            points['Pier 39'].coordinates_ends,
+            san_francisco_coordinates,
+            0.50, city_visit.MoveType.ptt))
     self.assertEqual(5.10, cost_accumulator.Cost())
     cost_accumulator.AddPointNoVisit(points['Golden Gate Bridge'])
     self.assertEqual(110.10, cost_accumulator.Cost())

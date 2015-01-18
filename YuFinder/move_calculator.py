@@ -49,7 +49,8 @@ class SimpleMoveCalculator(MoveCalculatorInterface):
 
   def CalculateMoveDescription(self, coordinates_from, coordinates_to):
     d = CalculateCityDistance(coordinates_from, coordinates_to)
-    return MoveDescription((d / self._speed) + self._pause, self._move_type)
+    return MoveDescription(coordinates_from, coordinates_to,
+                           (d / self._speed) + self._pause, self._move_type)
 
 
 class MultiMoveCalculator(MoveCalculatorInterface):

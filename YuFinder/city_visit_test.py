@@ -14,29 +14,32 @@ points = read_csv.ReadCSVToDict(
 san_francisco_coordinates = point.Coordinates(37.7833, -122.4167)
 
 from_hotel_to_ferry_biulding_move = city_visit.MoveBetween(
-    san_francisco_coordinates, points['Ferry Biulding'].coordinates_starts,
     city_visit.StartEndDatetime(datetime.datetime(2014, 9, 1, 9, 0, 0),
                                 datetime.datetime(2014, 9, 1, 10, 15, 0)),
-    city_visit.MoveDescription(1.25, city_visit.MoveType.walking))
+    city_visit.MoveDescription(
+        san_francisco_coordinates, points['Ferry Biulding'].coordinates_starts,
+        1.25, city_visit.MoveType.walking))
 ferry_biulding_point_visit = city_visit.PointVisit(
     points['Ferry Biulding'],
     city_visit.StartEndDatetime(datetime.datetime(2014, 9, 1, 10, 15, 0),
                                 datetime.datetime(2014, 9, 1, 11, 15, 0)))
 from_ferry_biulding_to_pier_39_move = city_visit.MoveBetween(
-    points['Ferry Biulding'].coordinates_ends,
-    points['Pier 39'].coordinates_starts,
     city_visit.StartEndDatetime(datetime.datetime(2014, 9, 1, 11, 15, 0),
                                 datetime.datetime(2014, 9, 1, 11, 45, 0)),
-    city_visit.MoveDescription(0.5, city_visit.MoveType.walking))
+    city_visit.MoveDescription(
+        points['Ferry Biulding'].coordinates_ends,
+        points['Pier 39'].coordinates_starts,
+        0.5, city_visit.MoveType.walking))
 pier_39_point_visit = city_visit.PointVisit(
     points['Pier 39'],
     city_visit.StartEndDatetime(datetime.datetime(2014, 9, 1, 11, 45, 0),
                                 datetime.datetime(2014, 9, 1, 14, 45, 0)))
 from_pier_39_to_hotel = city_visit.MoveBetween(
-    points['Pier 39'].coordinates_ends, san_francisco_coordinates,
     city_visit.StartEndDatetime(datetime.datetime(2014, 9, 1, 14, 45, 0),
                                 datetime.datetime(2014, 9, 1, 16, 15, 0)),
-    city_visit.MoveDescription(1.5, city_visit.MoveType.walking))
+    city_visit.MoveDescription(
+        points['Pier 39'].coordinates_ends, san_francisco_coordinates,
+        1.5, city_visit.MoveType.walking))
 
 day_visit_1 = city_visit.DayVisit(datetime.datetime(2014, 9, 1, 9, 0, 0), [
     from_hotel_to_ferry_biulding_move,
@@ -46,20 +49,22 @@ day_visit_1 = city_visit.DayVisit(datetime.datetime(2014, 9, 1, 9, 0, 0), [
     from_pier_39_to_hotel], 12.)
 
 from_hotel_to_golden_gate_bridge_move = city_visit.MoveBetween(
-    san_francisco_coordinates,
-    points['Golden Gate Bridge'].coordinates_starts,
     city_visit.StartEndDatetime(datetime.datetime(2014, 9, 2, 9, 0, 0),
                                 datetime.datetime(2014, 9, 2, 9, 15, 0)),
-    city_visit.MoveDescription(0.25, city_visit.MoveType.driving))
+    city_visit.MoveDescription(
+        san_francisco_coordinates,
+        points['Golden Gate Bridge'].coordinates_starts,
+        0.25, city_visit.MoveType.driving))
 golden_gate_bridge_point_visit = city_visit.PointVisit(
     points['Golden Gate Bridge'],
     city_visit.StartEndDatetime(datetime.datetime(2014, 9, 2, 9, 15, 0),
                                 datetime.datetime(2014, 9, 2, 9, 45, 0)))
 from_golden_gate_bridge_to_hotel_move = city_visit.MoveBetween(
-    points['Golden Gate Bridge'].coordinates_ends, san_francisco_coordinates,
     city_visit.StartEndDatetime(datetime.datetime(2014, 9, 2, 9, 45, 0),
                                 datetime.datetime(2014, 9, 2, 10, 0, 0)),
-    city_visit.MoveDescription(0.25, city_visit.MoveType.driving))
+    city_visit.MoveDescription(
+        points['Golden Gate Bridge'].coordinates_ends, san_francisco_coordinates,
+        0.25, city_visit.MoveType.driving))
 
 day_visit_2 = city_visit.DayVisit(datetime.datetime(2014, 9, 2, 9, 0, 0), [
     from_hotel_to_golden_gate_bridge_move,
@@ -100,11 +105,12 @@ class MoveBetweenTest(unittest.TestCase):
     # start_end_datetime.
     self.assertRaises(
         AssertionError, city_visit.MoveBetween,
-        points['Ferry Biulding'].coordinates_ends,
-        points['Pier 39'].coordinates_starts,
         city_visit.StartEndDatetime(datetime.datetime(2014, 9, 1, 11, 15, 0),
                                     datetime.datetime(2014, 9, 1, 11, 45, 0)),
-        city_visit.MoveDescription(1.0, city_visit.MoveType.walking))
+        city_visit.MoveDescription(
+            points['Ferry Biulding'].coordinates_ends,
+            points['Pier 39'].coordinates_starts,
+            1.0, city_visit.MoveType.walking))
 
 
 class DayVisitTest(unittest.TestCase):

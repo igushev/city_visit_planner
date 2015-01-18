@@ -51,59 +51,91 @@ class SimpleMoveCalculatorTest(unittest.TestCase):
 
   def testCalculateMoveDescriptionWalking(self):
     move_calculator = SimpleMoveCalculator(walking_speed, MoveType.walking)
+
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, pier_39_coordinates)
     self.assertAlmostEqual(
         fb_to_p39_walking, move_description.move_hours, places=3)
     self.assertEqual(MoveType.walking, move_description.move_type)
+    self.assertEqual(ferry_biulding_coordinates,
+                     move_description.from_coordinates)
+    self.assertEqual(pier_39_coordinates, move_description.to_coordinates)
+
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, near_pier_39_coordinates)
     self.assertAlmostEqual(
         fb_to_np39_walking, move_description.move_hours, places=3)
     self.assertEqual(MoveType.walking, move_description.move_type)
+    self.assertEqual(ferry_biulding_coordinates,
+                     move_description.from_coordinates)
+    self.assertEqual(near_pier_39_coordinates, move_description.to_coordinates)
+
     move_description = move_calculator.CalculateMoveDescription(
         pier_39_coordinates, near_pier_39_coordinates)
     self.assertAlmostEqual(
         p39_to_np39_walking, move_description.move_hours, places=3)
     self.assertEqual(MoveType.walking, move_description.move_type)
+    self.assertEqual(pier_39_coordinates, move_description.from_coordinates)
+    self.assertEqual(near_pier_39_coordinates, move_description.to_coordinates)
 
   def testCalculateMoveDescriptionDriving(self):
     move_calculator = SimpleMoveCalculator(driving_speed, MoveType.driving)
+
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, pier_39_coordinates)
     self.assertAlmostEqual(
         fb_to_p39_driving, move_description.move_hours, places=3)
     self.assertEqual(MoveType.driving, move_description.move_type)
+    self.assertEqual(ferry_biulding_coordinates,
+                     move_description.from_coordinates)
+    self.assertEqual(pier_39_coordinates, move_description.to_coordinates)
+
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, near_pier_39_coordinates)
     self.assertAlmostEqual(
         fb_to_np39_driving, move_description.move_hours, places=3)
     self.assertEqual(MoveType.driving, move_description.move_type)
+    self.assertEqual(ferry_biulding_coordinates,
+                     move_description.from_coordinates)
+    self.assertEqual(near_pier_39_coordinates, move_description.to_coordinates)
+
     move_description = move_calculator.CalculateMoveDescription(
         pier_39_coordinates, near_pier_39_coordinates)
     self.assertAlmostEqual(
         p39_to_np39_driving, move_description.move_hours, places=3)
     self.assertEqual(MoveType.driving, move_description.move_type)
-
+    self.assertEqual(pier_39_coordinates, move_description.from_coordinates)
+    self.assertEqual(near_pier_39_coordinates, move_description.to_coordinates)
 
   def testCalculateMoveDescriptionPauseBeforeDriving(self):
     move_calculator = SimpleMoveCalculator(
         driving_speed, MoveType.driving, pause=pause_before_driving)
+
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, pier_39_coordinates)
     self.assertAlmostEqual(
         fb_to_p39_pause_and_driving, move_description.move_hours, places=3)
     self.assertEqual(MoveType.driving, move_description.move_type)
+    self.assertEqual(ferry_biulding_coordinates,
+                     move_description.from_coordinates)
+    self.assertEqual(pier_39_coordinates, move_description.to_coordinates)
+
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, near_pier_39_coordinates)
     self.assertAlmostEqual(
         fb_to_np39_pause_and_driving, move_description.move_hours, places=3)
     self.assertEqual(MoveType.driving, move_description.move_type)
+    self.assertEqual(ferry_biulding_coordinates,
+                     move_description.from_coordinates)
+    self.assertEqual(near_pier_39_coordinates, move_description.to_coordinates)
+
     move_description = move_calculator.CalculateMoveDescription(
         pier_39_coordinates, near_pier_39_coordinates)
     self.assertAlmostEqual(
         p39_to_np39_pause_and_driving, move_description.move_hours, places=3)
     self.assertEqual(MoveType.driving, move_description.move_type)
+    self.assertEqual(pier_39_coordinates, move_description.from_coordinates)
+    self.assertEqual(near_pier_39_coordinates, move_description.to_coordinates)
 
 
 class MultiMoveCalculatorCalculatorTest(unittest.TestCase):
@@ -114,67 +146,100 @@ class MultiMoveCalculatorCalculatorTest(unittest.TestCase):
         [SimpleMoveCalculator(walking_speed, MoveType.walking),
          SimpleMoveCalculator(
              ptt_speed, MoveType.ptt, pause=pause_before_ptt)])
+
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, pier_39_coordinates)
     self.assertAlmostEqual(
         fb_to_p39_pause_and_ptt, move_description.move_hours, places=3)
     self.assertEqual(MoveType.ptt, move_description.move_type)
+    self.assertEqual(ferry_biulding_coordinates,
+                     move_description.from_coordinates)
+    self.assertEqual(pier_39_coordinates, move_description.to_coordinates)
+
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, near_pier_39_coordinates)
     self.assertAlmostEqual(
         fb_to_np39_pause_and_ptt, move_description.move_hours, places=3)
     self.assertEqual(MoveType.ptt, move_description.move_type)
+    self.assertEqual(ferry_biulding_coordinates,
+                     move_description.from_coordinates)
+    self.assertEqual(near_pier_39_coordinates, move_description.to_coordinates)
+
     move_description = move_calculator.CalculateMoveDescription(
         pier_39_coordinates, near_pier_39_coordinates)
     self.assertAlmostEqual(
         p39_to_np39_walking, move_description.move_hours, places=3)
     self.assertEqual(MoveType.walking, move_description.move_type)
-  
+    self.assertEqual(pier_39_coordinates, move_description.from_coordinates)
+    self.assertEqual(near_pier_39_coordinates, move_description.to_coordinates)
+
   def testCalculateMoveDescriptionWalkingOnly(self):
     move_calculator = MultiMoveCalculator(
         [2.0],
         [SimpleMoveCalculator(walking_speed, MoveType.walking),
          SimpleMoveCalculator(
              ptt_speed, MoveType.ptt, pause=pause_before_ptt)])
+
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, pier_39_coordinates)
     self.assertAlmostEqual(
         fb_to_p39_walking, move_description.move_hours, places=3)
     self.assertEqual(MoveType.walking, move_description.move_type)
+    self.assertEqual(ferry_biulding_coordinates,
+                     move_description.from_coordinates)
+    self.assertEqual(pier_39_coordinates, move_description.to_coordinates)
+
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, near_pier_39_coordinates)
     self.assertAlmostEqual(
         fb_to_np39_walking, move_description.move_hours, places=3)
     self.assertEqual(MoveType.walking, move_description.move_type)
+    self.assertEqual(ferry_biulding_coordinates,
+                     move_description.from_coordinates)
+    self.assertEqual(near_pier_39_coordinates, move_description.to_coordinates)
+
     move_description = move_calculator.CalculateMoveDescription(
         pier_39_coordinates, near_pier_39_coordinates)
     self.assertAlmostEqual(
         p39_to_np39_walking, move_description.move_hours, places=3)
     self.assertEqual(MoveType.walking, move_description.move_type)
-  
+    self.assertEqual(pier_39_coordinates, move_description.from_coordinates)
+    self.assertEqual(near_pier_39_coordinates, move_description.to_coordinates)
+
   def testCalculateMoveDescriptionPTTOnly(self):
     move_calculator = MultiMoveCalculator(
         [0.02],
         [SimpleMoveCalculator(walking_speed, MoveType.walking),
          SimpleMoveCalculator(
              ptt_speed, MoveType.ptt, pause=pause_before_ptt)])
+
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, pier_39_coordinates)
     self.assertAlmostEqual(
         fb_to_p39_pause_and_ptt,
         move_description.move_hours, places=3)
     self.assertEqual(MoveType.ptt, move_description.move_type)
+    self.assertEqual(ferry_biulding_coordinates,
+                     move_description.from_coordinates)
+    self.assertEqual(pier_39_coordinates, move_description.to_coordinates)
+
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, near_pier_39_coordinates)
     self.assertAlmostEqual(
         fb_to_np39_pause_and_ptt,
         move_description.move_hours, places=3)
     self.assertEqual(MoveType.ptt, move_description.move_type)
+    self.assertEqual(ferry_biulding_coordinates,
+                     move_description.from_coordinates)
+    self.assertEqual(near_pier_39_coordinates, move_description.to_coordinates)
+
     move_description = move_calculator.CalculateMoveDescription(
         pier_39_coordinates, near_pier_39_coordinates)
     self.assertAlmostEqual(
         p39_to_np39_pause_and_ptt, move_description.move_hours, places=3)
     self.assertEqual(MoveType.ptt, move_description.move_type)
+    self.assertEqual(pier_39_coordinates, move_description.from_coordinates)
+    self.assertEqual(near_pier_39_coordinates, move_description.to_coordinates)
 
   def testCalculateMoveDescriptionWalkingPTTDriving(self):
     move_calculator = MultiMoveCalculator(
@@ -182,22 +247,32 @@ class MultiMoveCalculatorCalculatorTest(unittest.TestCase):
         [SimpleMoveCalculator(walking_speed, MoveType.walking),
          SimpleMoveCalculator(ptt_speed, MoveType.ptt),
          SimpleMoveCalculator(driving_speed, MoveType.driving)])
+
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, pier_39_coordinates)
     self.assertAlmostEqual(
         fb_to_p39_driving, move_description.move_hours, places=3)
     self.assertEqual(MoveType.driving, move_description.move_type)
+    self.assertEqual(ferry_biulding_coordinates,
+                     move_description.from_coordinates)
+    self.assertEqual(pier_39_coordinates, move_description.to_coordinates)
+
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, near_pier_39_coordinates)
     self.assertAlmostEqual(
         fb_to_np39_ptt, move_description.move_hours, places=3)
     self.assertEqual(MoveType.ptt, move_description.move_type)
+    self.assertEqual(ferry_biulding_coordinates,
+                     move_description.from_coordinates)
+    self.assertEqual(near_pier_39_coordinates, move_description.to_coordinates)
+
     move_description = move_calculator.CalculateMoveDescription(
         pier_39_coordinates, near_pier_39_coordinates)
     self.assertAlmostEqual(
         p39_to_np39_walking, move_description.move_hours, places=3)
     self.assertEqual(MoveType.walking, move_description.move_type)
-    
+    self.assertEqual(pier_39_coordinates, move_description.from_coordinates)
+    self.assertEqual(near_pier_39_coordinates, move_description.to_coordinates)
 
   def testInconsistentArguments(self):
     MultiMoveCalculator(

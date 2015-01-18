@@ -91,10 +91,9 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
       return False
     from_coordinates = current_state.current_coordinates
     current_state.current_datetime = move_start_end_datetime.end
-    current_state.current_coordinates = to_coordinates
+    current_state.current_coordinates = move_description.to_coordinates
     current_state.cost_accumulator.AddMoveBetween(move_description)
     current_state.actions.append(city_visit.MoveBetween(
-      from_coordinates, to_coordinates,
       move_start_end_datetime, move_description))
     if move_start_end_datetime.Fit(self.day_visit_parameters.lunch_start_datetime):
       if not self._AddLunch(current_state):
@@ -162,7 +161,6 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
         current_state.current_datetime, current_state.current_datetime + move_timedelta)
     current_state.cost_accumulator.AddMoveBetween(move_description)
     current_state.actions.append(city_visit.MoveBetween(
-      current_state.current_coordinates, self.day_visit_parameters.end_coordinates,
       move_start_end_datetime, move_description))
     return city_visit.DayVisit(
         self.day_visit_parameters.start_datetime, current_state.actions,

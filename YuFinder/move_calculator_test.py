@@ -1,9 +1,8 @@
 import unittest
 
 import Yusi
-from Yusi.YuFinder.move_calculator import WalkingMoveCalculator, DrivingMoveCalculator, PauseAndDrivingMoveCalculator, PauseAndPTTOrWalkingMoveCalculator,\
-  WALKING_SPEED, DRIVING_SPEED, PAUSE_BEFORE_DRIVING, MIN_MAX_WALKING_DISTANCE_BEFORE_PTT,\
-  PTT_SPEED, PAUSE_BEFORE_PTT
+from Yusi.YuFinder.move_calculator import SimpleMoveCalculator,\
+  MultiMoveCalculator
 from Yusi.YuFinder.point import Coordinates
 from Yusi.YuFinder.city_visit import MoveType
 
@@ -15,31 +14,43 @@ pier_39_coordinates = Coordinates(37.8100, -122.4104)
 # Place near Pier 39, San Francisco.
 near_pier_39_coordinates = Coordinates(37.8097, -122.4104)
 
-fb_to_p39_walking = 1.916 / WALKING_SPEED
-fb_to_np39_walking = 1.894 / WALKING_SPEED
-p39_to_np39_walking = 0.029 / WALKING_SPEED
+walking_speed = 2.  # Walking speed in mph.
 
-fb_to_p39_driving = 1.916 / DRIVING_SPEED
-fb_to_np39_driving = 1.894 / DRIVING_SPEED
-p39_to_np39_driving = 0.029 / DRIVING_SPEED
+driving_speed = 20.  # Speed of car in traffic jams in mph.
+# 10 minutes to find and than park a car and 10 minutes to find a parking spot
+# when arrived. 
+pause_before_driving = 0.30
 
-fb_to_p39_ptt = 1.916 / PTT_SPEED
-fb_to_np39_ptt = 1.894 / PTT_SPEED
-p39_to_np39_ptt = 0.029 / PTT_SPEED
+ptt_speed = 15.  # Speed of Public Transportation or Taxi in mph.
+# 15 minutes to buy a ticket and wait in case of public transportation or call
+# a taxi.
+pause_before_ptt = 0.25
 
-fb_to_p39_pause_and_driving = fb_to_p39_driving + PAUSE_BEFORE_DRIVING
-fb_to_np39_pause_and_driving = fb_to_np39_driving + PAUSE_BEFORE_DRIVING
-p39_to_np39_pause_and_driving = p39_to_np39_driving + PAUSE_BEFORE_DRIVING
+fb_to_p39_walking = 1.916 / walking_speed
+fb_to_np39_walking = 1.894 / walking_speed
+p39_to_np39_walking = 0.029 / walking_speed
 
-fb_to_p39_pause_and_ptt = fb_to_p39_ptt + PAUSE_BEFORE_PTT
-fb_to_np39_pause_and_ptt = fb_to_np39_ptt + PAUSE_BEFORE_PTT
-p39_to_np39_pause_and_ptt = p39_to_np39_ptt + PAUSE_BEFORE_PTT
+fb_to_p39_driving = 1.916 / driving_speed
+fb_to_np39_driving = 1.894 / driving_speed
+p39_to_np39_driving = 0.029 / driving_speed
+
+fb_to_p39_ptt = 1.916 / ptt_speed
+fb_to_np39_ptt = 1.894 / ptt_speed
+p39_to_np39_ptt = 0.029 / ptt_speed
+
+fb_to_p39_pause_and_driving = fb_to_p39_driving + pause_before_driving
+fb_to_np39_pause_and_driving = fb_to_np39_driving + pause_before_driving
+p39_to_np39_pause_and_driving = p39_to_np39_driving + pause_before_driving
+
+fb_to_p39_pause_and_ptt = fb_to_p39_ptt + pause_before_ptt
+fb_to_np39_pause_and_ptt = fb_to_np39_ptt + pause_before_ptt
+p39_to_np39_pause_and_ptt = p39_to_np39_ptt + pause_before_ptt
 
               
-class WalkingMoveCalculatorTest(unittest.TestCase):
+class SimpleMoveCalculatorTest(unittest.TestCase):
 
-  def testCalculateMoveDescriptionGeneral(self):
-    move_calculator = WalkingMoveCalculator()
+  def testCalculateMoveDescriptionWalking(self):
+    move_calculator = SimpleMoveCalculator(walking_speed, MoveType.walking)
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, pier_39_coordinates)
     self.assertAlmostEqual(
@@ -56,11 +67,8 @@ class WalkingMoveCalculatorTest(unittest.TestCase):
         p39_to_np39_walking, move_description.move_hours, places=3)
     self.assertEqual(MoveType.walking, move_description.move_type)
 
-
-class DrivingMoveCalculatorTest(unittest.TestCase):
-
-  def testCalculateMoveDescriptionGeneral(self):
-    move_calculator = DrivingMoveCalculator()
+  def testCalculateMoveDescriptionDriving(self):
+    move_calculator = SimpleMoveCalculator(driving_speed, MoveType.driving)
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, pier_39_coordinates)
     self.assertAlmostEqual(
@@ -78,10 +86,9 @@ class DrivingMoveCalculatorTest(unittest.TestCase):
     self.assertEqual(MoveType.driving, move_description.move_type)
 
 
-class PauseAndDrivingMoveCalculatorTest(unittest.TestCase):
-
-  def testCalculateMoveDescriptionGeneral(self):
-    move_calculator = PauseAndDrivingMoveCalculator()
+  def testCalculateMoveDescriptionPauseBeforeDriving(self):
+    move_calculator = SimpleMoveCalculator(
+        driving_speed, MoveType.driving, pause=pause_before_driving)
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, pier_39_coordinates)
     self.assertAlmostEqual(
@@ -99,13 +106,14 @@ class PauseAndDrivingMoveCalculatorTest(unittest.TestCase):
     self.assertEqual(MoveType.driving, move_description.move_type)
 
 
-class PauseAndPTTOrWalkingMoveCalculatorTest(unittest.TestCase):
+class MultiMoveCalculatorCalculatorTest(unittest.TestCase):
   
   def testCalculateMoveDescriptionGeneral(self):
-    move_calculator = PauseAndPTTOrWalkingMoveCalculator()
-    self.assertAlmostEqual(
-        MIN_MAX_WALKING_DISTANCE_BEFORE_PTT,
-        move_calculator.max_walking_distance, places=3)
+    move_calculator = MultiMoveCalculator(
+        [0.5],
+        [SimpleMoveCalculator(walking_speed, MoveType.walking),
+         SimpleMoveCalculator(
+             ptt_speed, MoveType.ptt, pause=pause_before_ptt)])
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, pier_39_coordinates)
     self.assertAlmostEqual(
@@ -123,10 +131,11 @@ class PauseAndPTTOrWalkingMoveCalculatorTest(unittest.TestCase):
     self.assertEqual(MoveType.walking, move_description.move_type)
   
   def testCalculateMoveDescriptionWalkingOnly(self):
-    move_calculator = PauseAndPTTOrWalkingMoveCalculator(
-        max_walking_distance=2.0, validate_max_walking_distance=False)
-    self.assertAlmostEqual(
-        2.0, move_calculator.max_walking_distance, places=3)
+    move_calculator = MultiMoveCalculator(
+        [2.0],
+        [SimpleMoveCalculator(walking_speed, MoveType.walking),
+         SimpleMoveCalculator(
+             ptt_speed, MoveType.ptt, pause=pause_before_ptt)])
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, pier_39_coordinates)
     self.assertAlmostEqual(
@@ -144,10 +153,11 @@ class PauseAndPTTOrWalkingMoveCalculatorTest(unittest.TestCase):
     self.assertEqual(MoveType.walking, move_description.move_type)
   
   def testCalculateMoveDescriptionPTTOnly(self):
-    move_calculator = PauseAndPTTOrWalkingMoveCalculator(
-        max_walking_distance=0.02, validate_max_walking_distance=False)
-    self.assertAlmostEqual(
-        0.02, move_calculator.max_walking_distance, places=3)
+    move_calculator = MultiMoveCalculator(
+        [0.02],
+        [SimpleMoveCalculator(walking_speed, MoveType.walking),
+         SimpleMoveCalculator(
+             ptt_speed, MoveType.ptt, pause=pause_before_ptt)])
     move_description = move_calculator.CalculateMoveDescription(
         ferry_biulding_coordinates, pier_39_coordinates)
     self.assertAlmostEqual(
@@ -165,6 +175,64 @@ class PauseAndPTTOrWalkingMoveCalculatorTest(unittest.TestCase):
     self.assertAlmostEqual(
         p39_to_np39_pause_and_ptt, move_description.move_hours, places=3)
     self.assertEqual(MoveType.ptt, move_description.move_type)
+
+  def testCalculateMoveDescriptionWalkingPTTDriving(self):
+    move_calculator = MultiMoveCalculator(
+        [1.0, 1.9],
+        [SimpleMoveCalculator(walking_speed, MoveType.walking),
+         SimpleMoveCalculator(ptt_speed, MoveType.ptt),
+         SimpleMoveCalculator(driving_speed, MoveType.driving)])
+    move_description = move_calculator.CalculateMoveDescription(
+        ferry_biulding_coordinates, pier_39_coordinates)
+    self.assertAlmostEqual(
+        fb_to_p39_driving, move_description.move_hours, places=3)
+    self.assertEqual(MoveType.driving, move_description.move_type)
+    move_description = move_calculator.CalculateMoveDescription(
+        ferry_biulding_coordinates, near_pier_39_coordinates)
+    self.assertAlmostEqual(
+        fb_to_np39_ptt, move_description.move_hours, places=3)
+    self.assertEqual(MoveType.ptt, move_description.move_type)
+    move_description = move_calculator.CalculateMoveDescription(
+        pier_39_coordinates, near_pier_39_coordinates)
+    self.assertAlmostEqual(
+        p39_to_np39_walking, move_description.move_hours, places=3)
+    self.assertEqual(MoveType.walking, move_description.move_type)
+    
+
+  def testInconsistentArguments(self):
+    MultiMoveCalculator(
+        [2.0, 4.0],
+        [SimpleMoveCalculator(walking_speed, MoveType.walking),
+         SimpleMoveCalculator(ptt_speed, MoveType.ptt),
+         SimpleMoveCalculator(driving_speed, MoveType.driving)])
+    self.assertRaises(
+        AssertionError,
+        MultiMoveCalculator,
+        [2.0, 'four'],
+        [SimpleMoveCalculator(walking_speed, MoveType.walking),
+         SimpleMoveCalculator(ptt_speed, MoveType.ptt),
+         SimpleMoveCalculator(driving_speed, MoveType.driving)])
+    self.assertRaises(
+        AssertionError,
+        MultiMoveCalculator,
+        [2.0, 4.0],
+        [SimpleMoveCalculator(walking_speed, MoveType.walking),
+         SimpleMoveCalculator(ptt_speed, MoveType.ptt),
+         driving_speed])
+    self.assertRaises(
+        AssertionError,
+        MultiMoveCalculator,
+        [4.0, 2.0],
+        [SimpleMoveCalculator(walking_speed, MoveType.walking),
+         SimpleMoveCalculator(ptt_speed, MoveType.ptt),
+         SimpleMoveCalculator(driving_speed, MoveType.driving)])
+    self.assertRaises(
+        AssertionError,
+        MultiMoveCalculator,
+        [2.0, 4.0, 6.0],
+        [SimpleMoveCalculator(walking_speed, MoveType.walking),
+         SimpleMoveCalculator(ptt_speed, MoveType.ptt),
+         SimpleMoveCalculator(driving_speed, MoveType.driving)])
 
 
 if __name__ == '__main__':

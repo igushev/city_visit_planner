@@ -1,10 +1,6 @@
 import copy
 from Yusi.YuFinder import city_visit
 from Yusi.YuFinder.point import Point
-from Yusi.YuFinder.move_calculator import PTT_COST_MULT
-
-
-SIMPLE_POINT_NO_VISIT_COST = 1000
 
 
 # TODO(igushev): Do we need to add lunch time to cost?
@@ -39,58 +35,76 @@ class CostAccumulatorGeneratorInterface(object):
     raise NotImplemented()
 
 
-class SimpleCostAccumulator(CostAccumulatorInterface):
-  """Accumulates time spent for each action."""
+class FactorCostAccumulator(CostAccumulatorInterface):
+  """Accumulates time spent for each action multiplied by a factor."""
   
+  def __init__(self,
+               point_visit_factor=1,
+               move_walking_factor=1,
+               move_driving_factor=1,
+               move_ptt_factor=1,
+               lunch_factor=1,
+               no_point_visit_factor=1,
+               no_point_visit_const=0):
+    self._point_visit_factor = point_visit_factor
+    self._move_walking_factor = move_walking_factor
+    self._move_driving_factor = move_driving_factor
+    self._move_ptt_factor = move_ptt_factor
+    self._lunch_factor = lunch_factor
+    self._no_point_visit_factor = no_point_visit_factor
+    self._no_point_visit_const = no_point_visit_const
+    super(FactorCostAccumulator, self).__init__()
+
   def AddPointVisit(self, point):
     assert isinstance(point, Point)
-    self.cost += point.duration
-
-  def AddMoveBetween(self, move_description):
-    assert isinstance(move_description, city_visit.MoveDescription)
-    self.cost += move_description.move_hours
-
-  def AddLunch(self, lunch_hour):
-    assert isinstance(lunch_hour, float)
-    self.cost += lunch_hour
-
-  def AddPointNoVisit(self, point):
-    assert isinstance(point, Point)
-    self.cost += SIMPLE_POINT_NO_VISIT_COST
-
-
-class SimpleCostAccumulatorGenerator(CostAccumulatorGeneratorInterface):
-  
-  def Generate(self):
-    return SimpleCostAccumulator()
-
-
-class MoreWalkingCostAccumulator(CostAccumulatorInterface):
-  """Accumulates time but penalize driving."""
-  
-  def AddPointVisit(self, point):
-    pass
+    self.cost += point.duration * self._point_visit_factor
 
   def AddMoveBetween(self, move_description):
     assert isinstance(move_description, city_visit.MoveDescription)
     if move_description.move_type == city_visit.MoveType.walking:
-      mult = 1
+      factor = self._move_walking_factor
     elif move_description.move_type == city_visit.MoveType.driving:
-      mult = PTT_COST_MULT
+      factor = self._move_driving_factor
     elif move_description.move_type == city_visit.MoveType.ptt:
-      mult = PTT_COST_MULT
+      factor = self._move_ptt_factor
     else:
       raise NotImplemented('Unknown MoveType: %s' % move_description.move_type)
-    self.cost += move_description.move_hours * mult
+    self.cost += move_description.move_hours * factor
 
   def AddLunch(self, lunch_hour):
-    pass
+    assert isinstance(lunch_hour, float)
+    self.cost += lunch_hour * self._lunch_factor
 
   def AddPointNoVisit(self, point):
-    self.cost += SIMPLE_POINT_NO_VISIT_COST
+    assert isinstance(point, Point)
+    self.cost += (point.duration * self._no_point_visit_factor +
+                  self._no_point_visit_const)
 
 
-class MoreWalkingCostAccumulatorGenerator(CostAccumulatorGeneratorInterface):
+class FactorCostAccumulatorGenerator(CostAccumulatorGeneratorInterface):
+  
+  def __init__(self,
+               point_visit_factor=1,
+               move_walking_factor=1,
+               move_driving_factor=1,
+               move_ptt_factor=1,
+               lunch_factor=1,
+               no_point_visit_factor=1,
+               no_point_visit_const=0):
+    self._point_visit_factor = point_visit_factor
+    self._move_walking_factor = move_walking_factor
+    self._move_driving_factor = move_driving_factor
+    self._move_ptt_factor = move_ptt_factor
+    self._lunch_factor = lunch_factor
+    self._no_point_visit_factor = no_point_visit_factor
+    self._no_point_visit_const = no_point_visit_const
 
   def Generate(self):
-    return MoreWalkingCostAccumulator()
+    return FactorCostAccumulator(
+        point_visit_factor=self._point_visit_factor,
+        move_walking_factor=self._move_walking_factor,
+        move_driving_factor=self._move_driving_factor,
+        move_ptt_factor=self._move_ptt_factor,
+        lunch_factor=self._lunch_factor,
+        no_point_visit_factor=self._no_point_visit_factor,
+        no_point_visit_const=self._no_point_visit_const)

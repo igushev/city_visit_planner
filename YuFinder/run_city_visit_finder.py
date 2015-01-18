@@ -3,38 +3,14 @@ import os
 
 import Yusi
 from Yusi.YuFinder.city_visit import DayVisitParameters
-from Yusi.YuFinder.cost_accumulator import MoreWalkingCostAccumulatorGenerator
-from Yusi.YuFinder.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
-from Yusi.YuFinder.day_visit_finder import DayVisitFinder
-from Yusi.YuFinder.move_calculator import PauseAndPTTOrWalkingMoveCalculator,\
-  WalkingMoveCalculator, PauseAndDrivingMoveCalculator
-from Yusi.YuFinder.point_fit import SimplePointFit
 from Yusi.YuFinder import point
 from Yusi.YuFinder import read_csv
-from Yusi.YuFinder.city_visit_finder import CityVisitFinder
-from Yusi.YuFinder.multi_day_visit_cost_calculator import MultiDayVisitCostCalculatorGenerator
+from Yusi.YuFinder.prototype_parameters import PrototypeParameters
 
 
 points = read_csv.ReadCSVToDict(
     os.path.join(Yusi.GetYusiDir(), 'YuFinder', 'test_sf_1.csv'))
 san_francisco_coordinates = point.Coordinates(37.7833, -122.4167)
-driving_move_calculator = PauseAndDrivingMoveCalculator()
-ptt_move_calculator = PauseAndPTTOrWalkingMoveCalculator(1)
-point_fit = SimplePointFit()
-cost_accumulator_generator=MoreWalkingCostAccumulatorGenerator()
-driving_day_visit_const_calculator_generator = DayVisitCostCalculatorGenerator(
-    move_calculator=driving_move_calculator,
-    point_fit=point_fit,
-    cost_accumulator_generator=cost_accumulator_generator)
-ptt_day_visit_const_calculator_generator = DayVisitCostCalculatorGenerator(
-    move_calculator=ptt_move_calculator,
-    point_fit=point_fit,
-    cost_accumulator_generator=cost_accumulator_generator)
-day_visit_const_calculator_generator = MultiDayVisitCostCalculatorGenerator(
-    [driving_day_visit_const_calculator_generator,
-     ptt_day_visit_const_calculator_generator])
-day_visit_finder = DayVisitFinder(day_visit_const_calculator_generator)
-city_visit_finder = CityVisitFinder(day_visit_finder)
 
 
 def GetDayVisitParameters(start_datetime, end_datetime):
@@ -69,6 +45,9 @@ points_to_visit = [points['Legion of Honor'],
 day_visit_parameterss = [
     day_visit_parameters_dec6_13to18, day_visit_parameters_dec7_13to18]
 
+max_walking_distance=1.0
+
+city_visit_finder = PrototypeParameters(max_walking_distance=max_walking_distance).CityVisitFinder()
 
 city_visit = city_visit_finder.FindCityVisit(
     points_to_visit, day_visit_parameterss)
@@ -76,6 +55,6 @@ city_visit = city_visit_finder.FindCityVisit(
 
 print('Points to visit in priority: %s' %
       ', '.join(point.name for point in points_to_visit))
-print('Maximum walking distance: %d mile(s)' % ptt_move_calculator.max_walking_distance)
+print('Maximum walking distance: %d mile(s)' % max_walking_distance)
 print('Your schedule:')
 print(city_visit)

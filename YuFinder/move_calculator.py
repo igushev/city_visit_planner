@@ -3,38 +3,10 @@
 import math
 
 import Yusi
-from Yusi.YuFinder.city_visit import MoveType, MoveDescription
+from Yusi.YuFinder.city_visit import MoveDescription
 
 
 R = 3959  # Earth radius in miles.
-WALKING_SPEED = 2.  # Walking speed in mph.
-# Speed of car in traffic jams in mph.
-DRIVING_SPEED = 20.
-# 10 minutes to find and than park a car and 10 minutes to find a parking spot
-# when arrived. 
-PAUSE_BEFORE_DRIVING = 0.30
-# Speed of Public Transportation or Taxi in mph.
-PTT_SPEED = 15.
-# 15 minutes to buy a ticket and wait in case of public transportation or call
-# a taxi.
-PAUSE_BEFORE_PTT = 0.25
-
-
-# TODO(igushev): Form and encapsulate statements for Smart* classes as
-# separate class, change Smart to another name.
-# Multiplier which penalize PTT against walking.
-PTT_COST_MULT = 7.49
-assert PTT_COST_MULT < PTT_SPEED / WALKING_SPEED
-# Minimum distance which can be set as max_walking_distance, since using PTT
-# less would cause PTT taking more time than walking.
-MIN_MAX_WALKING_DISTANCE_BEFORE_PTT = (
-    PTT_SPEED * PAUSE_BEFORE_PTT * WALKING_SPEED /
-    (PTT_SPEED - WALKING_SPEED))
-# Maximum distance which can set as max_walking_distance, since walking more
-# would cause not increasingly monotonic function of cost.
-MAX_MAX_WALKING_DISTANCE_BEFORE_PTT = (
-    PTT_SPEED * PAUSE_BEFORE_PTT * WALKING_SPEED /
-    ((PTT_SPEED / PTT_COST_MULT) - WALKING_SPEED))
 
 
 def CalculateDistance(coordinates_from, coordinates_to):
@@ -55,6 +27,11 @@ def CalculateDistance(coordinates_from, coordinates_to):
   return d
 
 
+def CalculateCityDistance(coordinates_from, coordinates_to):
+    d = CalculateDistance(coordinates_from, coordinates_to)
+    return d * math.sqrt(2)  # Because most cities have grid streets.
+
+
 class MoveCalculatorInterface(object):
   """Abstract class which calculates move_description."""
   
@@ -62,52 +39,44 @@ class MoveCalculatorInterface(object):
     raise NotImplemented()
 
 
-class WalkingMoveCalculator(MoveCalculatorInterface):
-  """Calculates move_description to walk."""
+class SimpleMoveCalculator(MoveCalculatorInterface):
+  """Calculates move_description considering pause before moving."""
+  
+  def __init__(self, speed, move_type, pause=0):
+    self._speed = speed
+    self._move_type = move_type
+    self._pause = pause
 
   def CalculateMoveDescription(self, coordinates_from, coordinates_to):
-    d = CalculateDistance(coordinates_from, coordinates_to)
-    d = d * math.sqrt(2)  # Because most cities have grid streets.
-    return MoveDescription(d / WALKING_SPEED, MoveType.walking)
+    d = CalculateCityDistance(coordinates_from, coordinates_to)
+    return MoveDescription((d / self._speed) + self._pause, self._move_type)
 
 
-class DrivingMoveCalculator(MoveCalculatorInterface):
-  """Calculates move_description to drive."""
+class MultiMoveCalculator(MoveCalculatorInterface):
+  """Calculates move_description differently depending on distance."""
+
+  def __init__(self, distances_splits, move_calculators):
+    for move_calculator in move_calculators:
+      assert isinstance(move_calculator, MoveCalculatorInterface)
+    for distances_split in distances_splits:
+      assert isinstance(distances_split, float)
+    assert sorted(distances_splits) == distances_splits, (
+        'Distances splits must be in sorted order.')
+    assert len(move_calculators) == len(distances_splits) + 1, (
+        'Number of MoveCalculatorInterface should exactly one more than'
+        ' distances splits.')
+    
+    self._distances_splits = distances_splits
+    self._move_calculators = move_calculators
 
   def CalculateMoveDescription(self, coordinates_from, coordinates_to):
-    d = CalculateDistance(coordinates_from, coordinates_to)
-    d = d * math.sqrt(2)  # Because most cities have grid streets.
-    return MoveDescription(d / DRIVING_SPEED, MoveType.driving)
-
-
-class PauseAndDrivingMoveCalculator(MoveCalculatorInterface):
-  """Calculates move_description to drive considering pause before driving."""
-
-  def CalculateMoveDescription(self, coordinates_from, coordinates_to):
-    d = CalculateDistance(coordinates_from, coordinates_to)
-    d = d * math.sqrt(2)  # Because most cities have grid streets.
-    return MoveDescription(
-        (d / DRIVING_SPEED) + PAUSE_BEFORE_DRIVING, MoveType.driving)
-
-
-class PauseAndPTTOrWalkingMoveCalculator(MoveCalculatorInterface):
-  """Calculates move_description to either work or use PTT."""
-
-  def __init__(self, max_walking_distance=None,
-               validate_max_walking_distance=True):
-    if max_walking_distance is not None:
-      self.max_walking_distance = max_walking_distance
+    d = CalculateCityDistance(coordinates_from, coordinates_to)
+    
+    for i, distances_split in enumerate(self._distances_splits):
+      if d < distances_split:
+        move_calculator = self._move_calculators[i]
+        break
     else:
-      self.max_walking_distance = MIN_MAX_WALKING_DISTANCE_BEFORE_PTT
-    if validate_max_walking_distance:
-      assert self.max_walking_distance >= MIN_MAX_WALKING_DISTANCE_BEFORE_PTT
-      assert self.max_walking_distance <= MAX_MAX_WALKING_DISTANCE_BEFORE_PTT
-
-  def CalculateMoveDescription(self, coordinates_from, coordinates_to):
-    d = CalculateDistance(coordinates_from, coordinates_to)
-    d = d * math.sqrt(2)  # Because most cities have grid streets.
-    if d < self.max_walking_distance:
-      return MoveDescription(d / WALKING_SPEED, MoveType.walking)
-    else:
-      return MoveDescription(
-          (d / PTT_SPEED) + PAUSE_BEFORE_PTT, MoveType.ptt)
+      move_calculator = self._move_calculators[-1]
+  
+    return move_calculator.CalculateMoveDescription(coordinates_from, coordinates_to)

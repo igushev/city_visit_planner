@@ -89,7 +89,6 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
         current_state.current_datetime, current_state.current_datetime + move_timedelta)
     if move_start_end_datetime.end > self.day_visit_parameters.end_datetime:
       return False
-    from_coordinates = current_state.current_coordinates
     current_state.current_datetime = move_start_end_datetime.end
     current_state.current_coordinates = move_description.to_coordinates
     current_state.cost_accumulator.AddMoveBetween(move_description)
@@ -111,20 +110,14 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
     current_state.actions.append(city_visit.Lunch(lunch_start_end_datetime))
     return True
 
-  def _CanFinalize(self, current_state):
-    move_description = self.move_calculator.CalculateMoveDescription(
-        current_state.current_coordinates, self.day_visit_parameters.end_coordinates)
-    move_timedelta = datetime.timedelta(hours=move_description.move_hours)
-    if current_state.current_datetime + move_timedelta > self.day_visit_parameters.end_datetime:
-      return False
-    return True
-  
   def _CanPushPoint(self, point, current_state):
     if not self._AddMoveBetween(point.coordinates_starts, current_state):
       return False
     if not self._AddPointVisit(point, current_state):
       return False
-    if not self._CanFinalize(current_state):
+    finalized_current_state = current_state.Copy()
+    if not self._AddMoveBetween(
+        self.day_visit_parameters.end_coordinates, finalized_current_state):
       return False
     return True
   
@@ -146,25 +139,21 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
       return False
 
   def FinalizedCost(self):
-    current_state = self.current_state.Copy()
-    move_description = self.move_calculator.CalculateMoveDescription(
-        current_state.current_coordinates, self.day_visit_parameters.end_coordinates)
-    current_state.cost_accumulator.AddMoveBetween(move_description)
-    return current_state.cost_accumulator.Cost()
+    finalized_current_state = self.current_state.Copy()
+    assert self._AddMoveBetween(
+        self.day_visit_parameters.end_coordinates, finalized_current_state), (
+            'Finalizing Move must be able to be added.')
+    return finalized_current_state.cost_accumulator.Cost()
 
   def FinalizedDayVisit(self):
-    current_state = self.current_state.Copy()
-    move_description = self.move_calculator.CalculateMoveDescription(
-        current_state.current_coordinates, self.day_visit_parameters.end_coordinates)
-    move_timedelta = datetime.timedelta(hours=move_description.move_hours)
-    move_start_end_datetime = city_visit.StartEndDatetime(
-        current_state.current_datetime, current_state.current_datetime + move_timedelta)
-    current_state.cost_accumulator.AddMoveBetween(move_description)
-    current_state.actions.append(city_visit.MoveBetween(
-      move_start_end_datetime, move_description))
+    finalized_current_state = self.current_state.Copy()
+    assert self._AddMoveBetween(
+        self.day_visit_parameters.end_coordinates, finalized_current_state), (
+            'Finalizing Move must be able to be added.')
     return city_visit.DayVisit(
-        self.day_visit_parameters.start_datetime, current_state.actions,
-        current_state.cost_accumulator.Cost())
+        self.day_visit_parameters.start_datetime,
+        finalized_current_state.actions,
+        finalized_current_state.cost_accumulator.Cost())
     
   def GetPointsLeft(self):
     return self.points_left

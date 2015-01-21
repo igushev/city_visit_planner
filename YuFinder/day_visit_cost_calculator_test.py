@@ -40,7 +40,7 @@ class DayVisitCostCalculatorTest(unittest.TestCase):
     day_visit_parameters = DayVisitCostCalculatorTest.GetDayVisitParameters(
         start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
         end_datetime=datetime.datetime(2014, 9, 1, 21, 15, 0),
-        lunch_start_datetime=datetime.datetime(2014, 9, 1, 13, 0, 0))
+        lunch_start_datetime=datetime.datetime(2014, 9, 1, 12, 30, 0))
     day_visit_cost_calculator = (
         self.day_visit_cost_calculator_generator.Generate(
             day_visit_parameters))
@@ -54,7 +54,7 @@ class DayVisitCostCalculatorTest(unittest.TestCase):
     self.assertEqual(test_utils.MockCoordinates('Ferry Biulding'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(2, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(4, day_visit_cost_calculator.FinalizedCost())
+    self.assertEqual(5, day_visit_cost_calculator.FinalizedCost())  # Lunch.
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     # Pier 39.
@@ -115,7 +115,7 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
     self.assertEqual(test_utils.MockCoordinates('Ferry Biulding'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(2, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(4, day_visit_cost_calculator.FinalizedCost())
+    self.assertEqual(5, day_visit_cost_calculator.FinalizedCost())    # Lunch.
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     # Pier 39.
@@ -202,11 +202,11 @@ Walking from Pier 39 to Restaurant from 16:30:00 to 20:30:00"""
     self.assertEqual([self.points['Ferry Biulding']],
                      day_visit_cost_calculator.GetPointsLeft())
 
-  def testCannotFinalize(self):
+  def testLunchDuringFinalizationCannotFinalize(self):
     day_visit_parameters = DayVisitCostCalculatorTest.GetDayVisitParameters(
         start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
         end_datetime=datetime.datetime(2014, 9, 1, 18, 0, 0),
-        lunch_start_datetime=datetime.datetime(2014, 9, 1, 13, 0, 0))
+        lunch_start_datetime=datetime.datetime(2014, 9, 1, 12, 30, 0))
     day_visit_cost_calculator = (
         self.day_visit_cost_calculator_generator.Generate(
             day_visit_parameters))
@@ -220,14 +220,15 @@ Walking from Pier 39 to Restaurant from 16:30:00 to 20:30:00"""
     self.assertEqual(test_utils.MockCoordinates('Ferry Biulding'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(2, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(4, day_visit_cost_calculator.FinalizedCost())
+    self.assertEqual(5, day_visit_cost_calculator.FinalizedCost())  # Lunch.
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
-Cost: 4.00
+Cost: 5.00
 Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
 Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
-Walking from Ferry Biulding to Restaurant from 11:00:00 to 13:00:00"""
+Walking from Ferry Biulding to Restaurant from 11:00:00 to 13:00:00
+Having lunch from 13:00:00 to 14:00:00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
 
@@ -244,7 +245,7 @@ Walking from Ferry Biulding to Restaurant from 11:00:00 to 13:00:00"""
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(2 + self.no_point_visit_const,
                      day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(4 + self.no_point_visit_const,
+    self.assertEqual(5 + self.no_point_visit_const,
                      day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([self.points['Pier 39']],
                      day_visit_cost_calculator.GetPointsLeft())

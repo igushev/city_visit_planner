@@ -75,7 +75,7 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
     current_state.current_datetime = visit_start_end_datetime.end
     current_state.current_coordinates = point.coordinates_ends
     current_state.cost_accumulator.AddPointVisit(point)
-    current_state.actions.append(city_visit.PointVisit(point, visit_start_end_datetime))
+    current_state.actions.append(city_visit.PointVisit(visit_start_end_datetime, point))
     if visit_start_end_datetime.Fit(self.day_visit_parameters.lunch_start_datetime):
       if not self._AddLunch(current_state):
         return False

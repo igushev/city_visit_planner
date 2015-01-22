@@ -59,21 +59,31 @@ class DayVisitParameters(object):
     m.update(str(self.end_coordinates).encode('utf-8'))
     return m.hexdigest()    
 
+
+class ActionInterface(object):
+  """Abstract interface for an action (visit a point, etc.) of a user."""
   
-class PointVisit(object):
-  """Visiting a point by a user."""
-
-  def __init__(self, point, start_end_datetime):
-    assert isinstance(point, Point)
+  def __init__(self, start_end_datetime):
     assert isinstance(start_end_datetime, StartEndDatetime)
-    assert ((start_end_datetime.end - start_end_datetime.start) ==
-            datetime.timedelta(hours=point.duration))
-
-    self.point = point
     self.start_end_datetime = start_end_datetime
 
   def __eq__(self, other):
     return self.__dict__ == other.__dict__
+
+  def __str__(self):
+    raise NotImplemented
+
+
+class PointVisit(ActionInterface):
+  """Visiting a point by a user."""
+
+  def __init__(self, start_end_datetime, point):
+    assert isinstance(point, Point)
+    assert ((start_end_datetime.end - start_end_datetime.start) ==
+            datetime.timedelta(hours=point.duration))
+
+    self.point = point
+    super(PointVisit, self).__init__(start_end_datetime)
 
   def __str__(self):
     return 'Visiting point "%s" %s' % (self.point.name, self.start_end_datetime)
@@ -101,20 +111,16 @@ class MoveDescription(object):
     self.move_type = move_type
 
 
-class MoveBetween(object):
+class MoveBetween(ActionInterface):
   """Moving between points by a user."""
 
   def __init__(self, start_end_datetime, move_description):
-    assert isinstance(start_end_datetime, StartEndDatetime)
     assert isinstance(move_description, MoveDescription)
     assert ((start_end_datetime.end - start_end_datetime.start) ==
             datetime.timedelta(hours=move_description.move_hours))
 
-    self.start_end_datetime = start_end_datetime
     self.move_description = move_description
-
-  def __eq__(self, other):
-    return self.__dict__ == other.__dict__
+    super(MoveBetween, self).__init__(start_end_datetime)
 
   def __str__(self):
     if self.move_description.move_type == MoveType.walking:
@@ -130,15 +136,11 @@ class MoveBetween(object):
         self.move_description.to_coordinates, self.start_end_datetime)
 
 
-class Lunch(object):
+class Lunch(ActionInterface):
   """Having lunch during the day."""
 
   def __init__(self, start_end_datetime):
-    assert start_end_datetime
-    self.start_end_datetime = start_end_datetime
-
-  def __eq__(self, other):
-    return self.__dict__ == other.__dict__
+    super(Lunch, self).__init__(start_end_datetime)
 
   def __str__(self):
     return 'Having lunch %s' % self.start_end_datetime
@@ -151,7 +153,7 @@ class DayVisit(object):
     assert isinstance(start_datetime, datetime.datetime)
     have_lunch = False
     must_move = True
-    for i, action in enumerate(actions):
+    for action in actions:
       if isinstance(action, Lunch):
         have_lunch = True
         continue

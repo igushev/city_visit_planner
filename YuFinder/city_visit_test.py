@@ -20,9 +20,9 @@ from_hotel_to_ferry_biulding_move = city_visit.MoveBetween(
         san_francisco_coordinates, points['Ferry Biulding'].coordinates_starts,
         1.25, city_visit.MoveType.walking))
 ferry_biulding_point_visit = city_visit.PointVisit(
-    points['Ferry Biulding'],
     city_visit.StartEndDatetime(datetime.datetime(2014, 9, 1, 10, 15, 0),
-                                datetime.datetime(2014, 9, 1, 11, 15, 0)))
+                                datetime.datetime(2014, 9, 1, 11, 15, 0)),
+    points['Ferry Biulding'])
 from_ferry_biulding_to_pier_39_move = city_visit.MoveBetween(
     city_visit.StartEndDatetime(datetime.datetime(2014, 9, 1, 11, 15, 0),
                                 datetime.datetime(2014, 9, 1, 11, 45, 0)),
@@ -31,9 +31,9 @@ from_ferry_biulding_to_pier_39_move = city_visit.MoveBetween(
         points['Pier 39'].coordinates_starts,
         0.5, city_visit.MoveType.walking))
 pier_39_point_visit = city_visit.PointVisit(
-    points['Pier 39'],
     city_visit.StartEndDatetime(datetime.datetime(2014, 9, 1, 11, 45, 0),
-                                datetime.datetime(2014, 9, 1, 14, 45, 0)))
+                                datetime.datetime(2014, 9, 1, 14, 45, 0)),
+    points['Pier 39'])
 from_pier_39_to_hotel = city_visit.MoveBetween(
     city_visit.StartEndDatetime(datetime.datetime(2014, 9, 1, 14, 45, 0),
                                 datetime.datetime(2014, 9, 1, 16, 15, 0)),
@@ -56,9 +56,9 @@ from_hotel_to_golden_gate_bridge_move = city_visit.MoveBetween(
         points['Golden Gate Bridge'].coordinates_starts,
         0.25, city_visit.MoveType.driving))
 golden_gate_bridge_point_visit = city_visit.PointVisit(
-    points['Golden Gate Bridge'],
     city_visit.StartEndDatetime(datetime.datetime(2014, 9, 2, 9, 15, 0),
-                                datetime.datetime(2014, 9, 2, 9, 45, 0)))
+                                datetime.datetime(2014, 9, 2, 9, 45, 0)),
+    points['Golden Gate Bridge'])
 from_golden_gate_bridge_to_hotel_move = city_visit.MoveBetween(
     city_visit.StartEndDatetime(datetime.datetime(2014, 9, 2, 9, 45, 0),
                                 datetime.datetime(2014, 9, 2, 10, 0, 0)),

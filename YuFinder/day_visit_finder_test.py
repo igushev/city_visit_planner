@@ -60,8 +60,8 @@ class DayVisitFinderTest(unittest.TestCase):
 Cost: 10.50
 Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
 Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
-Walking from Ferry Biulding to Twin Peaks from 11:00:00 to 16:00:00
-Having lunch from 16:00:00 to 17:00:00
+Having lunch from 11:00:00 to 12:00:00
+Walking from Ferry Biulding to Twin Peaks from 12:00:00 to 17:00:00
 Visiting point "Twin Peaks" from 17:00:00 to 17:30:00
 Walking from Twin Peaks to Restaurant from 17:30:00 to 19:30:00"""
     self.assertEqual(day_visit_best_str_expected, str(day_visit_best))
@@ -82,8 +82,8 @@ Cost: 11.00
 Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
 Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
 Walking from Ferry Biulding to Pier 39 from 11:00:00 to 12:00:00
-Visiting point "Pier 39" from 12:00:00 to 15:00:00
-Having lunch from 15:00:00 to 16:00:00
+Having lunch from 12:00:00 to 13:00:00
+Visiting point "Pier 39" from 13:00:00 to 16:00:00
 Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
     self.assertEqual(day_visit_best_str_expected, str(day_visit_best))
 

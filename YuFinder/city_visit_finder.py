@@ -76,5 +76,7 @@ class CityVisitFinder(object):
       else:
         cannot_push += 1
         if cannot_push >= self.max_non_pushed_points:
+          assert len(city_visits) >= 1
           return city_visits[0]
+    assert len(city_visits) >= 1
     return city_visits[0]

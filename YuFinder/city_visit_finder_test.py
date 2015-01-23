@@ -28,6 +28,10 @@ class CityVisitFinderTest(unittest.TestCase):
   def setUp(self):
     no_point_visit_factor = 0
     no_point_visit_const = 1000
+    day_visit_heap_size = 1000
+    max_depth = 1
+    city_visit_heap_size = 10
+    max_non_pushed_points = 3
     self.points = test_utils.MockPoints()
     move_calculator = test_utils.MockMoveCalculator()
     point_fit = SimplePointFit()
@@ -38,8 +42,14 @@ class CityVisitFinderTest(unittest.TestCase):
         move_calculator=move_calculator,
         point_fit=point_fit,
         cost_accumulator_generator=cost_accumulator_generator)
-    day_visit_finder = DayVisitFinder(day_visit_cost_calculator_generator)
-    self.city_visit_finder = CityVisitFinder(day_visit_finder)
+    day_visit_finder = DayVisitFinder(
+        calculator_generator=day_visit_cost_calculator_generator,
+        day_visit_heap_size=day_visit_heap_size)
+    self.city_visit_finder = CityVisitFinder(
+        day_visit_finder=day_visit_finder,
+        max_depth=max_depth,
+        city_visit_heap_size=city_visit_heap_size,
+        max_non_pushed_points=max_non_pushed_points)
     unittest.TestCase.setUp(self)
 
   def testOneShortDay(self):

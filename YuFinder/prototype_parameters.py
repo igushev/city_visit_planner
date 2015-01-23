@@ -89,9 +89,21 @@ class PrototypeParameters(object):
         [driving_day_visit_const_calculator_generator,
          ptt_day_visit_const_calculator_generator])
 
-    day_visit_finder = DayVisitFinder(day_visit_const_calculator_generator)
+    day_visit_heap_size = 1000
 
-    self.city_visit_finder = CityVisitFinder(day_visit_finder)
+    day_visit_finder = DayVisitFinder(
+        calculator_generator=day_visit_const_calculator_generator,
+        day_visit_heap_size=day_visit_heap_size)
+
+    max_depth = 1
+    city_visit_heap_size = 10
+    max_non_pushed_points = 3
+
+    self.city_visit_finder = CityVisitFinder(
+        day_visit_finder=day_visit_finder,
+        max_depth=max_depth,
+        city_visit_heap_size=city_visit_heap_size,
+        max_non_pushed_points=max_non_pushed_points)
 
   def CityVisitFinder(self):
     return self.city_visit_finder

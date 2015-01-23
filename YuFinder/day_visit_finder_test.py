@@ -27,6 +27,7 @@ class DayVisitFinderTest(unittest.TestCase):
   def setUp(self):
     no_point_visit_factor = 0
     no_point_visit_const = 1000
+    day_visit_heap_size = 1000
     self.points = test_utils.MockPoints()
     move_calculator = test_utils.MockMoveCalculator()
     point_fit = SimplePointFit()
@@ -38,7 +39,8 @@ class DayVisitFinderTest(unittest.TestCase):
         point_fit=point_fit,
         cost_accumulator_generator=cost_accumulator_generator)
     self.day_visit_finder = DayVisitFinder(
-        day_visit_cost_calculator_generator)
+        calculator_generator=day_visit_cost_calculator_generator,
+        day_visit_heap_size=day_visit_heap_size)
     unittest.TestCase.setUp(self)
     
     

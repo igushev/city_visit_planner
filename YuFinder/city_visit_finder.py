@@ -4,13 +4,13 @@ from Yusi.YuFinder.city_visit_heap import CityVisitHeap
 from Yusi.YuFinder.days_permutations import DaysPermutations
 
 
-MAX_DEPTH = 1
-CITY_VISIT_HEAP_SIZE = 10
-MAX_NON_PUSHED_POINTS = 3
-
 class CityVisitFinder(object):
-  def __init__(self, day_visit_finder):
+  def __init__(self, day_visit_finder, max_depth, city_visit_heap_size,
+               max_non_pushed_points):
     self.day_visit_finder = day_visit_finder
+    self.max_depth = max_depth
+    self.city_visit_heap_size = city_visit_heap_size
+    self.max_non_pushed_points = max_non_pushed_points
     
   def _PushPointsToDayVisits(
       self, points, days_consider, day_visits, day_visit_parameterss,
@@ -45,7 +45,7 @@ class CityVisitFinder(object):
       # is completely invalid.
       if set(points_left) == set(points):
         continue
-      if depth == MAX_DEPTH:
+      if depth == self.max_depth:
         continue
       self._PushPointsToDayVisits(
           points_left, next_day_visits_consider, next_day_visits,
@@ -62,7 +62,8 @@ class CityVisitFinder(object):
            for day_visit_parameters in day_visit_parameterss]])]
     cannot_push = 0
     for point in points:
-      city_visit_heap = CityVisitHeap(CITY_VISIT_HEAP_SIZE, day_visit_parameterss)
+      city_visit_heap = CityVisitHeap(
+          self.city_visit_heap_size, day_visit_parameterss)
       for city_visit_add_to in city_visits:
         day_visits = city_visit_add_to.day_visits
         days_consider = [True] * len(day_visits)
@@ -74,6 +75,6 @@ class CityVisitFinder(object):
         city_visits = city_visit_heap.GetCityVisits()
       else:
         cannot_push += 1
-        if cannot_push >= MAX_NON_PUSHED_POINTS:
+        if cannot_push >= self.max_non_pushed_points:
           return city_visits[0]
     return city_visits[0]

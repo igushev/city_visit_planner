@@ -4,7 +4,7 @@ from collections import namedtuple
 PointsCalculator = namedtuple('PointsCalculator', 'Points Calculator')
 
 
-class DayVisitFinderHeap(object):
+class DayVisitHeap(object):
   
   def __init__(self, max_count):
     self.max_count = max_count

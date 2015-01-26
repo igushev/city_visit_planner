@@ -41,7 +41,7 @@ class DayVisitFinderTest(unittest.TestCase):
     self.day_visit_finder = DayVisitFinder(
         calculator_generator=day_visit_cost_calculator_generator,
         day_visit_heap_size=day_visit_heap_size)
-    unittest.TestCase.setUp(self)
+    super(DayVisitFinderTest, self).setUp()
     
     
   def testTwoFitTwoLeft(self):

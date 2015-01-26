@@ -34,7 +34,7 @@ class DayVisitCostCalculatorTest(unittest.TestCase):
         move_calculator=move_calculator,
         point_fit=point_fit,
         cost_accumulator_generator=cost_accumulator_generator)
-    unittest.TestCase.setUp(self)
+    super(DayVisitCostCalculatorTest, self).setUp()
 
   def testCannotAddPoint(self):
     day_visit_parameters = DayVisitCostCalculatorTest.GetDayVisitParameters(

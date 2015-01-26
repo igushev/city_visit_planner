@@ -7,6 +7,7 @@ from Yusi.YuFinder.move_calculator import SimpleMoveCalculator, MultiMoveCalcula
 from Yusi.YuFinder.point_fit import SimplePointFit
 from Yusi.YuFinder.city_visit_finder import CityVisitFinder
 from Yusi.YuFinder.multi_day_visit_cost_calculator import MultiDayVisitCostCalculatorGenerator
+from Yusi.YuFinder.city_visit_cost_calculator import CityVisitCostCalculator
 
 
 class PrototypeParameters(object):
@@ -95,12 +96,16 @@ class PrototypeParameters(object):
         calculator_generator=day_visit_const_calculator_generator,
         day_visit_heap_size=day_visit_heap_size)
 
+    city_visit_cost_calculator = CityVisitCostCalculator(
+        cost_accumulator_generator=cost_accumulator_generator)
+
     max_depth = 1
     city_visit_heap_size = 10
     max_non_pushed_points = 3
 
     self.city_visit_finder = CityVisitFinder(
         day_visit_finder=day_visit_finder,
+        city_visit_cost_calculator=city_visit_cost_calculator,
         max_depth=max_depth,
         city_visit_heap_size=city_visit_heap_size,
         max_non_pushed_points=max_non_pushed_points)

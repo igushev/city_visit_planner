@@ -124,7 +124,10 @@ class LunchAdder(ActionAdderInterface):
     current_state.current_datetime = lunch_start_end_datetime.end
     current_state.cost_accumulator.AddLunch(
         self.calculator.day_visit_parameters.lunch_hours)
-    current_state.actions.append(city_visit.Lunch(lunch_start_end_datetime))
+    current_state.actions.append(
+        city_visit.Lunch(
+            lunch_start_end_datetime,
+            self.calculator.day_visit_parameters.lunch_hours))
     return True
 
 

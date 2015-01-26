@@ -3,7 +3,6 @@ import hashlib
 from collections import namedtuple
 
 
-# TODO(igushev): Rename to CityVisitFinderHeap
 class CityVisitHeap(object):
 
   def __init__(self, max_count, day_visit_parameterss):

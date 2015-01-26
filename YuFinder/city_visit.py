@@ -26,7 +26,6 @@ class StartEndDatetime(object):
     return 'from %s to %s' % (self.start.time(), self.end.time())  # FIXME
 
 
-# TODO(igushev): Create more complicated structure for lunch.
 # TODO(igushev): Rename to DayParameters and all its instances.
 class DayVisitParameters(object):
   """Set of users parameter for a particular day"""
@@ -139,7 +138,12 @@ class MoveBetween(ActionInterface):
 class Lunch(ActionInterface):
   """Having lunch during the day."""
 
-  def __init__(self, start_end_datetime):
+  def __init__(self, start_end_datetime, lunch_hours):
+    assert isinstance(lunch_hours, float)
+    assert ((start_end_datetime.end - start_end_datetime.start) ==
+            datetime.timedelta(hours=lunch_hours))
+
+    self.lunch_hours = lunch_hours
     super(Lunch, self).__init__(start_end_datetime)
 
   def __str__(self):
@@ -198,12 +202,13 @@ class DayVisit(object):
 class CityVisit(object):
   """Set of day visiting by a user ."""
 
-  def __init__(self, day_visits):
-    self.cost = 0
+  def __init__(self, day_visits, cost):
     for day_visit in day_visits:
       isinstance(day_visit, DayVisit)
-      self.cost += day_visit.cost
+    assert isinstance(cost, float)
+
     self.day_visits = day_visits
+    self.cost = cost
 
   def __eq__(self, other):
     return self.__dict__ == other.__dict__

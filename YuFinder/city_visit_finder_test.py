@@ -9,6 +9,7 @@ from Yusi.YuFinder.cost_accumulator import FactorCostAccumulatorGenerator
 from Yusi.YuFinder.point_fit import SimplePointFit
 from Yusi.YuFinder import test_utils
 from Yusi.YuFinder.day_visit_finder import DayVisitFinder
+from Yusi.YuFinder.city_visit_cost_calculator import CityVisitCostCalculator
 
 
 class CityVisitFinderTest(unittest.TestCase):
@@ -45,12 +46,15 @@ class CityVisitFinderTest(unittest.TestCase):
     day_visit_finder = DayVisitFinder(
         calculator_generator=day_visit_cost_calculator_generator,
         day_visit_heap_size=day_visit_heap_size)
+    city_visit_cost_calculator = CityVisitCostCalculator(
+        cost_accumulator_generator=cost_accumulator_generator)
     self.city_visit_finder = CityVisitFinder(
         day_visit_finder=day_visit_finder,
+        city_visit_cost_calculator=city_visit_cost_calculator,
         max_depth=max_depth,
         city_visit_heap_size=city_visit_heap_size,
         max_non_pushed_points=max_non_pushed_points)
-    unittest.TestCase.setUp(self)
+    super(CityVisitFinderTest, self).setUp()
 
   def testOneShortDay(self):
     day_visit_parameterss = [

@@ -5,9 +5,10 @@ from Yusi.YuFinder.days_permutations import DaysPermutations
 
 
 class CityVisitFinder(object):
-  def __init__(self, day_visit_finder, max_depth, city_visit_heap_size,
-               max_non_pushed_points):
+  def __init__(self, day_visit_finder, city_visit_cost_calculator,
+               max_depth, city_visit_heap_size, max_non_pushed_points):
     self.day_visit_finder = day_visit_finder
+    self.city_visit_cost_calculator = city_visit_cost_calculator
     self.max_depth = max_depth
     self.city_visit_heap_size = city_visit_heap_size
     self.max_non_pushed_points = max_non_pushed_points
@@ -36,7 +37,10 @@ class CityVisitFinder(object):
   
       # If no points_left, add a potential result.
       if not points_left:
-        city_visit_heap.PushCityVisit(city_visit.CityVisit(next_day_visits))
+        cost = self.city_visit_cost_calculator.CalculateCityVisitCost(
+            next_day_visits, points_left)
+        city_visit_heap.PushCityVisit(
+            city_visit.CityVisit(next_day_visits, cost))
         continue
       if len(points_left) > 1:
         print('More than one point left after adding to existing DayVisits!')
@@ -51,15 +55,15 @@ class CityVisitFinder(object):
           points_left, next_day_visits_consider, next_day_visits,
           day_visit_parameterss, depth+1, city_visit_heap)
   
-  # TODO(igushev): Distinguish Cost of DayVisit when compare DayVisit and when
-  # compare CityVisit, since when comparing CityVisit we don't need to consider
-  # PointNoVisit, because such points are going to be in other DayVisits.
   def FindCityVisit(self, points, day_visit_parameterss):
     """Find best CityVisit."""
-    city_visits = [city_visit.CityVisit(
-       [day_visit for _, day_visit in [
+    initial_day_visits = [
+        day_visit for _, day_visit in [
            self.day_visit_finder.FindDayVisit([], day_visit_parameters)
-           for day_visit_parameters in day_visit_parameterss]])]
+           for day_visit_parameters in day_visit_parameterss]]
+    initial_cost = self.city_visit_cost_calculator.CalculateCityVisitCost(
+        initial_day_visits, [])
+    city_visits = [city_visit.CityVisit(initial_day_visits, initial_cost)]
     cannot_push = 0
     for point in points:
       city_visit_heap = CityVisitHeap(

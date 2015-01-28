@@ -30,7 +30,7 @@ class DayVisitFinder(object):
           pushed_to_next.append(next_calculator.PushPoint(point))
           next_points = points[:i] + points[i+1:]  # -= point
           next_points_calculator_heap.Append(
-            PointsCalculator(next_points, next_calculator))
+              PointsCalculator(next_points, next_calculator))
       next_points_calculator_heap.Shrink()
       prev_points_calculator_heap = points_calculator_heap
       points_calculator_heap = next_points_calculator_heap

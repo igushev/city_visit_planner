@@ -176,33 +176,32 @@ Total cost: 17.50""", str(city_visit_result))
     day_visits = city_visit_result.day_visits
     self.assertEqual(3, len(day_visits))
     self.assertEqual(
-        [self.points['Golden Gate Bridge']], day_visits[0].GetPoints())
+        [self.points['Pier 39']], day_visits[0].GetPoints())
     self.assertEqual(
         [self.points['Ferry Biulding'],
-         self.points['Pier 39'],
-         self.points['Union Square']], day_visits[1].GetPoints())
-    self.assertEqual([], day_visits[2].GetPoints())
+         self.points['Twin Peaks']], day_visits[1].GetPoints())
+    self.assertEqual([self.points['Union Square']], day_visits[2].GetPoints())
 
     self.assertEqual("""Date: 2014-09-01
-Cost: 13.50
-Walking from Hotel to Golden Gate Bridge from 09:00:00 to 15:00:00
-Having lunch from 15:00:00 to 16:00:00
-Visiting point "Golden Gate Bridge" from 16:00:00 to 16:30:00
-Walking from Golden Gate Bridge to Restaurant from 16:30:00 to 22:30:00
-Date: 2014-09-02
 Cost: 11.00
-Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
-Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
-Walking from Ferry Biulding to Pier 39 from 11:00:00 to 12:00:00
+Walking from Hotel to Pier 39 from 09:00:00 to 12:00:00
 Having lunch from 12:00:00 to 13:00:00
 Visiting point "Pier 39" from 13:00:00 to 16:00:00
-Walking from Pier 39 to Union Square from 16:00:00 to 18:00:00
+Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
+Date: 2014-09-02
+Cost: 10.50
+Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
+Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
+Having lunch from 11:00:00 to 12:00:00
+Walking from Ferry Biulding to Twin Peaks from 12:00:00 to 17:00:00
+Visiting point "Twin Peaks" from 17:00:00 to 17:30:00
+Walking from Twin Peaks to Restaurant from 17:30:00 to 19:30:00
+Date: 2014-09-03
+Cost: 3.00
+Walking from Hotel to Union Square from 17:00:00 to 18:00:00
 Visiting point "Union Square" from 18:00:00 to 19:00:00
 Walking from Union Square to Restaurant from 19:00:00 to 20:00:00
-Date: 2014-09-03
-Cost: 1.00
-Walking from Hotel to Restaurant from 17:00:00 to 18:00:00
-Total cost: 25.50""", str(city_visit_result))
+Total cost: 1024.50""", str(city_visit_result))
 
   def testThreeDays(self):
     day_visit_parameterss = [

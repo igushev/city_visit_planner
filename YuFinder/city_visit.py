@@ -58,6 +58,16 @@ class DayVisitParameters(object):
     m.update(str(self.end_coordinates).encode('utf-8'))
     return m.hexdigest()    
 
+  def DatelessHashKey(self):
+    m = hashlib.md5()
+    m.update(str(self.start_datetime.time()).encode('utf-8'))
+    m.update(str(self.end_datetime.time()).encode('utf-8'))
+    m.update(str(self.lunch_start_datetime.time()).encode('utf-8'))
+    m.update(str(self.lunch_hours).encode('utf-8'))
+    m.update(str(self.start_coordinates).encode('utf-8'))
+    m.update(str(self.end_coordinates).encode('utf-8'))
+    return m.hexdigest()    
+
 
 class ActionInterface(object):
   """Abstract interface for an action (visit a point, etc.) of a user."""

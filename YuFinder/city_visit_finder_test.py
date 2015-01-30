@@ -129,19 +129,13 @@ Total cost: 11.50""", str(city_visit_result))
     day_visits = city_visit_result.day_visits
     self.assertEqual(2, len(day_visits))
     self.assertEqual(
-        [self.points['Twin Peaks']], day_visits[0].GetPoints())
-    self.assertEqual(
         [self.points['Ferry Biulding'],
          self.points['Pier 39'],
-         self.points['Union Square']], day_visits[1].GetPoints())
+         self.points['Union Square']], day_visits[0].GetPoints())
+    self.assertEqual(
+        [self.points['Twin Peaks']], day_visits[1].GetPoints())
     
     self.assertEqual("""Date: 2014-09-01
-Cost: 6.50
-Walking from Hotel to Twin Peaks from 09:00:00 to 12:00:00
-Visiting point "Twin Peaks" from 12:00:00 to 12:30:00
-Having lunch from 12:30:00 to 13:30:00
-Walking from Twin Peaks to Restaurant from 13:30:00 to 15:30:00
-Date: 2014-09-02
 Cost: 11.00
 Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
 Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
@@ -151,6 +145,12 @@ Visiting point "Pier 39" from 13:00:00 to 16:00:00
 Walking from Pier 39 to Union Square from 16:00:00 to 18:00:00
 Visiting point "Union Square" from 18:00:00 to 19:00:00
 Walking from Union Square to Restaurant from 19:00:00 to 20:00:00
+Date: 2014-09-02
+Cost: 6.50
+Walking from Hotel to Twin Peaks from 09:00:00 to 12:00:00
+Visiting point "Twin Peaks" from 12:00:00 to 12:30:00
+Having lunch from 12:30:00 to 13:30:00
+Walking from Twin Peaks to Restaurant from 13:30:00 to 15:30:00
 Total cost: 17.50""", str(city_visit_result))
 
   def testTwoDaysOneShortDay(self):
@@ -228,11 +228,11 @@ Total cost: 1024.50""", str(city_visit_result))
     self.assertEqual(
         [self.points['Golden Gate Bridge']], day_visits[0].GetPoints())
     self.assertEqual(
-        [self.points['Twin Peaks']], day_visits[1].GetPoints())
-    self.assertEqual(
         [self.points['Ferry Biulding'],
          self.points['Pier 39'],
-         self.points['Union Square']], day_visits[2].GetPoints())
+         self.points['Union Square']], day_visits[1].GetPoints())
+    self.assertEqual(
+        [self.points['Twin Peaks']], day_visits[2].GetPoints())
 
     self.assertEqual("""Date: 2014-09-01
 Cost: 13.50
@@ -241,12 +241,6 @@ Having lunch from 15:00:00 to 16:00:00
 Visiting point "Golden Gate Bridge" from 16:00:00 to 16:30:00
 Walking from Golden Gate Bridge to Restaurant from 16:30:00 to 22:30:00
 Date: 2014-09-02
-Cost: 6.50
-Walking from Hotel to Twin Peaks from 09:00:00 to 12:00:00
-Visiting point "Twin Peaks" from 12:00:00 to 12:30:00
-Having lunch from 12:30:00 to 13:30:00
-Walking from Twin Peaks to Restaurant from 13:30:00 to 15:30:00
-Date: 2014-09-03
 Cost: 11.00
 Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
 Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
@@ -256,6 +250,12 @@ Visiting point "Pier 39" from 13:00:00 to 16:00:00
 Walking from Pier 39 to Union Square from 16:00:00 to 18:00:00
 Visiting point "Union Square" from 18:00:00 to 19:00:00
 Walking from Union Square to Restaurant from 19:00:00 to 20:00:00
+Date: 2014-09-03
+Cost: 6.50
+Walking from Hotel to Twin Peaks from 09:00:00 to 12:00:00
+Visiting point "Twin Peaks" from 12:00:00 to 12:30:00
+Having lunch from 12:30:00 to 13:30:00
+Walking from Twin Peaks to Restaurant from 13:30:00 to 15:30:00
 Total cost: 31.00""", str(city_visit_result))
 
 

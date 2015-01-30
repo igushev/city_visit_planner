@@ -3,7 +3,17 @@ import unittest
 from Yusi.YuFinder.city_visit_heap import CityVisitHeap
 
 
-class MockObjectWithHashKey(object):
+class MockDayVisitParameters(object):
+  
+  def __init__(self, hash_key):
+    assert isinstance(hash_key, str)
+    self.hash_key = hash_key
+
+  def DatelessHashKey(self):
+    return self.hash_key
+
+
+class MockDayVisit(object):
   
   def __init__(self, hash_key):
     assert isinstance(hash_key, str)
@@ -11,6 +21,7 @@ class MockObjectWithHashKey(object):
 
   def HashKey(self):
     return self.hash_key
+
 
 class MockCityVisit(object):
 
@@ -20,7 +31,7 @@ class MockCityVisit(object):
     assert isinstance(cost, float)
     
     self.name = name
-    self.day_visits = [MockObjectWithHashKey(day_visit_hash_key)
+    self.day_visits = [MockDayVisit(day_visit_hash_key)
                        for day_visit_hash_key in day_visit_hash_keys]
     self.cost = cost
   
@@ -31,7 +42,7 @@ class MockCityVisit(object):
 class CityVisitHeapTest(unittest.TestCase):
 
   def testGeneral(self):
-    city_visit_heap = CityVisitHeap(3, [MockObjectWithHashKey('par')])
+    city_visit_heap = CityVisitHeap(3, [MockDayVisitParameters('par')])
     self.assertEqual(0, city_visit_heap.Size())
     self.assertEqual([], city_visit_heap.GetCityVisits())
 
@@ -73,7 +84,7 @@ class CityVisitHeapTest(unittest.TestCase):
     self.assertEqual([], city_visit_heap.GetCityVisits())
 
   def testAddingSameOrderlessHashKeyShrink(self):
-    city_visit_heap = CityVisitHeap(3, [MockObjectWithHashKey('par')])
+    city_visit_heap = CityVisitHeap(3, [MockDayVisitParameters('par')])
     self.assertEqual(0, city_visit_heap.Size())
     self.assertEqual([], city_visit_heap.GetCityVisits())
 
@@ -133,7 +144,7 @@ class CityVisitHeapTest(unittest.TestCase):
     self.assertEqual([], city_visit_heap.GetCityVisits())
 
   def testAddingSameOrderlessHashKeyNoShrink(self):
-    city_visit_heap = CityVisitHeap(3, [MockObjectWithHashKey('par')])
+    city_visit_heap = CityVisitHeap(3, [MockDayVisitParameters('par')])
     self.assertEqual(0, city_visit_heap.Size())
     self.assertEqual([], city_visit_heap.GetCityVisits())
 
@@ -183,23 +194,23 @@ class CityVisitHeapTest(unittest.TestCase):
 
   def testCityVisitOrderlessHashKey(self):
     city_visit_heap_a = CityVisitHeap(3, [
-        MockObjectWithHashKey('parX'), MockObjectWithHashKey('parY')])
+        MockDayVisitParameters('parX'), MockDayVisitParameters('parY')])
     city_visit_heap_b = CityVisitHeap(3, [
-        MockObjectWithHashKey('parY'), MockObjectWithHashKey('parX')])
+        MockDayVisitParameters('parY'), MockDayVisitParameters('parX')])
     visit_a = MockCityVisit('a', ['dayX', 'dayY'], 10.)
     visit_b = MockCityVisit('a', ['dayY', 'dayX'], 10.)
     # Same pairs of day_visit_parameters and day_visit, but different order.
-    self.assertEqual(city_visit_heap_a._CityVisitOrderlessHashKey(visit_a),
-                     city_visit_heap_b._CityVisitOrderlessHashKey(visit_b))
+    self.assertEqual(city_visit_heap_a._CityVisitDatelessHashKey(visit_a),
+                     city_visit_heap_b._CityVisitDatelessHashKey(visit_b))
     # Same here.
-    self.assertEqual(city_visit_heap_a._CityVisitOrderlessHashKey(visit_b),
-                     city_visit_heap_b._CityVisitOrderlessHashKey(visit_a))
+    self.assertEqual(city_visit_heap_a._CityVisitDatelessHashKey(visit_b),
+                     city_visit_heap_b._CityVisitDatelessHashKey(visit_a))
     # Parameterss are different for the same day_visits.
-    self.assertNotEqual(city_visit_heap_a._CityVisitOrderlessHashKey(visit_a),
-                        city_visit_heap_b._CityVisitOrderlessHashKey(visit_a))
+    self.assertNotEqual(city_visit_heap_a._CityVisitDatelessHashKey(visit_a),
+                        city_visit_heap_b._CityVisitDatelessHashKey(visit_a))
     # Day_visits are different for the same parameterss.
-    self.assertNotEqual(city_visit_heap_a._CityVisitOrderlessHashKey(visit_a),
-                        city_visit_heap_a._CityVisitOrderlessHashKey(visit_b))
+    self.assertNotEqual(city_visit_heap_a._CityVisitDatelessHashKey(visit_a),
+                        city_visit_heap_a._CityVisitDatelessHashKey(visit_b))
     
 
 

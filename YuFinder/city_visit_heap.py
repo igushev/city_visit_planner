@@ -13,7 +13,7 @@ class CityVisitHeap(object):
     self.city_visits_sorted = []
   
   def PushCityVisit(self, add_city_visit):
-    add_hash_key = self._CityVisitOrderlessHashKey(add_city_visit)
+    add_hash_key = self._CityVisitDatelessHashKey(add_city_visit)
     # If we already has this city_visit in our list.
     if add_hash_key in self.city_visits:
       # If new one is more expensive than existing,
@@ -36,7 +36,7 @@ class CityVisitHeap(object):
         [:self.max_count])
     # Recompute hashes and indices.
     self.city_visits = {
-        self._CityVisitOrderlessHashKey(city_visit) : city_visit
+        self._CityVisitDatelessHashKey(city_visit) : city_visit
         for city_visit in self.city_visits_sorted}
     # Set invariant. 
     self.invariant = True
@@ -54,12 +54,12 @@ class CityVisitHeap(object):
     self.invariant = True
     self.city_visits_sorted = []
     
-  def _CityVisitOrderlessHashKey(self, city_visit):
+  def _CityVisitDatelessHashKey(self, city_visit):
     hash_keys = []
     for day_visit_parameters, day_visit in (
         zip(self.day_visit_parameterss, city_visit.day_visits)):
       m_day = hashlib.md5()
-      m_day.update(day_visit_parameters.HashKey().encode('utf-8'))
+      m_day.update(day_visit_parameters.DatelessHashKey().encode('utf-8'))
       m_day.update(day_visit.HashKey().encode('utf-8'))
       hash_keys.append(m_day.hexdigest())
 

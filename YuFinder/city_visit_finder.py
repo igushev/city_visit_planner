@@ -21,8 +21,9 @@ class CityVisitFinder(object):
     self.max_non_pushed_points = max_non_pushed_points
     
   def _PushPointsToDayVisits(
-      self, points, days_consider, day_visits, points_left,
-      day_visit_parameterss, depth, could_push, city_visit_heap):
+      self, depth, points, days_consider, day_visits, points_left,
+      could_push, city_visit_heap, day_visit_parameterss):
+    assert len(days_consider) == len(day_visits)
     assert len(day_visits) == len(day_visit_parameterss)
     for days_permutation in DaysPermutations(points, days_consider):
       # Initialize structure for next iteration.
@@ -66,9 +67,8 @@ class CityVisitFinder(object):
       
       # NOTE(igushev): Recursion call.
       self._PushPointsToDayVisits(
-          next_points_left, next_day_visits_consider, next_day_visits,
-          points_left, day_visit_parameterss, depth+1, could_push,
-          city_visit_heap)
+          depth+1, next_points_left, next_day_visits_consider, next_day_visits,
+          points_left, could_push, city_visit_heap, day_visit_parameterss)
   
   def FindCityVisit(self, points, day_visit_parameterss):
     """Find best CityVisit."""
@@ -88,8 +88,8 @@ class CityVisitFinder(object):
         days_consider = [True] * len(day_visits)
         points_left = city_visit_cost_calculator_add_to.GetPointsLeft()
         self._PushPointsToDayVisits(
-            [point], days_consider, day_visits, points_left,
-            day_visit_parameterss, 0, could_push, city_visit_heap)
+            0, [point], days_consider, day_visits, points_left,
+            could_push, city_visit_heap, day_visit_parameterss)
       if not could_push.value:
         could_not_push += 1
         if could_not_push >= self.max_non_pushed_points:

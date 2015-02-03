@@ -24,7 +24,7 @@ class CityVisitCostCalculator(object):
         
   def AddPointsLeft(self, points_left):
     for point_left in points_left:
-      self.cost_accumulator.AddPointNoVisit(point_left)
+      self.cost_accumulator.AddPointLeft(point_left)
     self.points_left.extend(points_left)
   
   def Cost(self):

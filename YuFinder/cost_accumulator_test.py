@@ -43,7 +43,7 @@ class FactorCostAccumulatorTest(unittest.TestCase):
             self.san_francisco_coordinates,
             0.50, city_visit.MoveType.ptt))
     self.assertEqual(6.80, cost_accumulator.Cost())
-    cost_accumulator.AddPointNoVisit(self.points['Golden Gate Bridge'])
+    cost_accumulator.AddPointLeft(self.points['Golden Gate Bridge'])
     self.assertEqual(7.30, cost_accumulator.Cost())
   
   def testGeneral(self):
@@ -80,7 +80,7 @@ class FactorCostAccumulatorTest(unittest.TestCase):
             self.san_francisco_coordinates,
             0.50, city_visit.MoveType.ptt))
     self.assertEqual(5.10, cost_accumulator.Cost())
-    cost_accumulator.AddPointNoVisit(self.points['Golden Gate Bridge'])
+    cost_accumulator.AddPointLeft(self.points['Golden Gate Bridge'])
     self.assertEqual(110.10, cost_accumulator.Cost())
     
 

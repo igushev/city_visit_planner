@@ -222,7 +222,7 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
       self.current_state = current_state
       return True
     else:
-      self.current_state.cost_accumulator.AddPointNoVisit(point)
+      self.current_state.cost_accumulator.AddPointLeft(point)
       self.points_left.append(point)
       return False
 

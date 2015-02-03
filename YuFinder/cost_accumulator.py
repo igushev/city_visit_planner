@@ -25,7 +25,7 @@ class CostAccumulatorInterface(object):
   def AddLunch(self, lunch_hour):
     raise NotImplemented()
 
-  def AddPointNoVisit(self, point):
+  def AddPointLeft(self, point):
     raise NotImplemented()
 
 
@@ -75,7 +75,7 @@ class FactorCostAccumulator(CostAccumulatorInterface):
     assert isinstance(lunch_hour, float)
     self.cost += lunch_hour * self._lunch_factor
 
-  def AddPointNoVisit(self, point):
+  def AddPointLeft(self, point):
     assert isinstance(point, Point)
     self.cost += (point.duration * self._no_point_visit_factor +
                   self._no_point_visit_const)

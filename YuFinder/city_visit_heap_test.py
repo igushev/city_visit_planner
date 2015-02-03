@@ -23,7 +23,7 @@ class MockDayVisit(object):
     return self.hash_key
 
 
-class MockCityVisit(object):
+class MockCityVisitCostCalculator(object):
 
   def __init__(self, name, day_visit_hash_keys, cost):
     assert isinstance(name, str)
@@ -35,161 +35,166 @@ class MockCityVisit(object):
                        for day_visit_hash_key in day_visit_hash_keys]
     self.cost = cost
   
-  def __eq__(self, other):
-    return self.__dict__ == other.__dict__
-
+  def Cost(self):
+    return self.cost
+  
 
 class CityVisitHeapTest(unittest.TestCase):
 
   def testGeneral(self):
     city_visit_heap = CityVisitHeap(3, [MockDayVisitParameters('par')])
     self.assertEqual(0, city_visit_heap.Size())
-    self.assertEqual([], city_visit_heap.GetCityVisits())
+    self.assertEqual([], city_visit_heap.GetCalculators())
 
-    visit_a = MockCityVisit('a', ['a'], 10.)
-    city_visit_heap.PushCityVisit(visit_a)
+    visit_a = MockCityVisitCostCalculator('a', ['a'], 10.)
+    city_visit_heap.PushCalculator(visit_a)
     self.assertEqual(1, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
 
-    visit_b = MockCityVisit('b', ['b'], 5.)
-    city_visit_heap.PushCityVisit(visit_b)
+    visit_b = MockCityVisitCostCalculator('b', ['b'], 5.)
+    city_visit_heap.PushCalculator(visit_b)
     self.assertEqual(2, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
 
-    visit_c = MockCityVisit('c', ['c'], 7.)
-    city_visit_heap.PushCityVisit(visit_c)
+    visit_c = MockCityVisitCostCalculator('c', ['c'], 7.)
+    city_visit_heap.PushCalculator(visit_c)
     self.assertEqual(3, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
     
     city_visit_heap.Shrink()
     self.assertEqual(3, city_visit_heap.Size())
-    self.assertEqual([visit_b, visit_c, visit_a], city_visit_heap.GetCityVisits())
+    self.assertEqual([visit_b, visit_c, visit_a],
+                     city_visit_heap.GetCalculators())
 
-    visit_d = MockCityVisit('d', ['d'], 3.)
-    city_visit_heap.PushCityVisit(visit_d)
+    visit_d = MockCityVisitCostCalculator('d', ['d'], 3.)
+    city_visit_heap.PushCalculator(visit_d)
     self.assertEqual(4, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
     
-    visit_e = MockCityVisit('e', ['e'], 15.)
-    city_visit_heap.PushCityVisit(visit_e)
+    visit_e = MockCityVisitCostCalculator('e', ['e'], 15.)
+    city_visit_heap.PushCalculator(visit_e)
     self.assertEqual(5, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
     
     city_visit_heap.Shrink()
     self.assertEqual(3, city_visit_heap.Size())
-    self.assertEqual([visit_d, visit_b, visit_c], city_visit_heap.GetCityVisits())
+    self.assertEqual([visit_d, visit_b, visit_c],
+                     city_visit_heap.GetCalculators())
 
     city_visit_heap.Clear()
     self.assertEqual(0, city_visit_heap.Size())
-    self.assertEqual([], city_visit_heap.GetCityVisits())
+    self.assertEqual([], city_visit_heap.GetCalculators())
 
   def testAddingSameOrderlessHashKeyShrink(self):
     city_visit_heap = CityVisitHeap(3, [MockDayVisitParameters('par')])
     self.assertEqual(0, city_visit_heap.Size())
-    self.assertEqual([], city_visit_heap.GetCityVisits())
+    self.assertEqual([], city_visit_heap.GetCalculators())
 
-    visit_a = MockCityVisit('a', ['adf'], 10.)
-    city_visit_heap.PushCityVisit(visit_a)
+    visit_a = MockCityVisitCostCalculator('a', ['adf'], 10.)
+    city_visit_heap.PushCalculator(visit_a)
     self.assertEqual(1, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
 
-    visit_b = MockCityVisit('b', ['bc'], 5.)
-    city_visit_heap.PushCityVisit(visit_b)
+    visit_b = MockCityVisitCostCalculator('b', ['bc'], 5.)
+    city_visit_heap.PushCalculator(visit_b)
     self.assertEqual(2, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
 
-    visit_c = MockCityVisit('c', ['bc'], 7.)  # Same day_visit_hash_keys.
-    city_visit_heap.PushCityVisit(visit_c)  # cost higher.
+    visit_c = MockCityVisitCostCalculator('c', ['bc'], 7.)  # Same day_visit_hash_keys.
+    city_visit_heap.PushCalculator(visit_c)  # cost higher.
     self.assertEqual(2, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
     
     city_visit_heap.Shrink()
     self.assertEqual(2, city_visit_heap.Size())
-    self.assertEqual([visit_b, visit_a], city_visit_heap.GetCityVisits())
+    self.assertEqual([visit_b, visit_a], city_visit_heap.GetCalculators())
 
-    visit_d = MockCityVisit('d', ['adf'], 3.)  # Same day_visit_hash_keys.
-    city_visit_heap.PushCityVisit(visit_d)  # const lower.
+    visit_d = MockCityVisitCostCalculator('d', ['adf'], 3.)  # Same day_visit_hash_keys.
+    city_visit_heap.PushCalculator(visit_d)  # const lower.
     self.assertEqual(2, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
     
     city_visit_heap.Shrink()
     self.assertEqual(2, city_visit_heap.Size())
-    self.assertEqual([visit_d, visit_b], city_visit_heap.GetCityVisits())
+    self.assertEqual([visit_d, visit_b], city_visit_heap.GetCalculators())
 
-    visit_e = MockCityVisit('e', ['eg'], 15.)
-    city_visit_heap.PushCityVisit(visit_e)
+    visit_e = MockCityVisitCostCalculator('e', ['eg'], 15.)
+    city_visit_heap.PushCalculator(visit_e)
     self.assertEqual(3, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
     
     city_visit_heap.Shrink()
     self.assertEqual(3, city_visit_heap.Size())
-    self.assertEqual([visit_d, visit_b, visit_e], city_visit_heap.GetCityVisits())
+    self.assertEqual([visit_d, visit_b, visit_e],
+                     city_visit_heap.GetCalculators())
 
-    visit_f = MockCityVisit('f', ['adf'], 1.)  # Same day_visit_hash_keys.
-    city_visit_heap.PushCityVisit(visit_f)  # const lower.
+    visit_f = MockCityVisitCostCalculator('f', ['adf'], 1.)  # Same day_visit_hash_keys.
+    city_visit_heap.PushCalculator(visit_f)  # const lower.
     self.assertEqual(3, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
 
-    visit_g = MockCityVisit('g', ['eg'], 12.)  # Same day_visit_hash_keys.
-    city_visit_heap.PushCityVisit(visit_g)  # const lower.
+    visit_g = MockCityVisitCostCalculator('g', ['eg'], 12.)  # Same day_visit_hash_keys.
+    city_visit_heap.PushCalculator(visit_g)  # const lower.
     self.assertEqual(3, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)    
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)    
 
     city_visit_heap.Shrink()
     self.assertEqual(3, city_visit_heap.Size())
-    self.assertEqual([visit_f, visit_b, visit_g], city_visit_heap.GetCityVisits())    
+    self.assertEqual([visit_f, visit_b, visit_g],
+                     city_visit_heap.GetCalculators())    
 
     city_visit_heap.Clear()
     self.assertEqual(0, city_visit_heap.Size())
-    self.assertEqual([], city_visit_heap.GetCityVisits())
+    self.assertEqual([], city_visit_heap.GetCalculators())
 
   def testAddingSameOrderlessHashKeyNoShrink(self):
     city_visit_heap = CityVisitHeap(3, [MockDayVisitParameters('par')])
     self.assertEqual(0, city_visit_heap.Size())
-    self.assertEqual([], city_visit_heap.GetCityVisits())
+    self.assertEqual([], city_visit_heap.GetCalculators())
 
-    visit_a = MockCityVisit('a', ['adf'], 10.)
-    city_visit_heap.PushCityVisit(visit_a)
+    visit_a = MockCityVisitCostCalculator('a', ['adf'], 10.)
+    city_visit_heap.PushCalculator(visit_a)
     self.assertEqual(1, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
 
-    visit_b = MockCityVisit('b', ['bc'], 5.)
-    city_visit_heap.PushCityVisit(visit_b)
+    visit_b = MockCityVisitCostCalculator('b', ['bc'], 5.)
+    city_visit_heap.PushCalculator(visit_b)
     self.assertEqual(2, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
 
-    visit_c = MockCityVisit('c', ['bc'], 7.)  # Same day_visit_hash_keys.
-    city_visit_heap.PushCityVisit(visit_c)  # cost higher.
+    visit_c = MockCityVisitCostCalculator('c', ['bc'], 7.)  # Same day_visit_hash_keys.
+    city_visit_heap.PushCalculator(visit_c)  # cost higher.
     self.assertEqual(2, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
     
-    visit_d = MockCityVisit('d', ['adf'], 3.)  # Same day_visit_hash_keys.
-    city_visit_heap.PushCityVisit(visit_d)  # const lower.
+    visit_d = MockCityVisitCostCalculator('d', ['adf'], 3.)  # Same day_visit_hash_keys.
+    city_visit_heap.PushCalculator(visit_d)  # const lower.
     self.assertEqual(2, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
     
-    visit_e = MockCityVisit('e', ['eg'], 15.)
-    city_visit_heap.PushCityVisit(visit_e)
+    visit_e = MockCityVisitCostCalculator('e', ['eg'], 15.)
+    city_visit_heap.PushCalculator(visit_e)
     self.assertEqual(3, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
     
-    visit_f = MockCityVisit('f', ['adf'], 1.)  # Same day_visit_hash_keys.
-    city_visit_heap.PushCityVisit(visit_f)  # const lower.
+    visit_f = MockCityVisitCostCalculator('f', ['adf'], 1.)  # Same day_visit_hash_keys.
+    city_visit_heap.PushCalculator(visit_f)  # const lower.
     self.assertEqual(3, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)
 
-    visit_g = MockCityVisit('g', ['eg'], 12.)  # Same day_visit_hash_keys.
-    city_visit_heap.PushCityVisit(visit_g)  # const lower.
+    visit_g = MockCityVisitCostCalculator('g', ['eg'], 12.)  # Same day_visit_hash_keys.
+    city_visit_heap.PushCalculator(visit_g)  # const lower.
     self.assertEqual(3, city_visit_heap.Size())
-    self.assertRaises(AssertionError, city_visit_heap.GetCityVisits)    
+    self.assertRaises(AssertionError, city_visit_heap.GetCalculators)    
 
     city_visit_heap.Shrink()
     self.assertEqual(3, city_visit_heap.Size())
-    self.assertEqual([visit_f, visit_b, visit_g], city_visit_heap.GetCityVisits())
+    self.assertEqual([visit_f, visit_b, visit_g],
+                     city_visit_heap.GetCalculators())
 
     city_visit_heap.Clear()
     self.assertEqual(0, city_visit_heap.Size())
-    self.assertEqual([], city_visit_heap.GetCityVisits())
+    self.assertEqual([], city_visit_heap.GetCalculators())
 
 
   def testCityVisitOrderlessHashKey(self):
@@ -197,8 +202,8 @@ class CityVisitHeapTest(unittest.TestCase):
         MockDayVisitParameters('parX'), MockDayVisitParameters('parY')])
     city_visit_heap_b = CityVisitHeap(3, [
         MockDayVisitParameters('parY'), MockDayVisitParameters('parX')])
-    visit_a = MockCityVisit('a', ['dayX', 'dayY'], 10.)
-    visit_b = MockCityVisit('a', ['dayY', 'dayX'], 10.)
+    visit_a = MockCityVisitCostCalculator('a', ['dayX', 'dayY'], 10.)
+    visit_b = MockCityVisitCostCalculator('a', ['dayY', 'dayX'], 10.)
     # Same pairs of day_visit_parameters and day_visit, but different order.
     self.assertEqual(city_visit_heap_a._CityVisitDatelessHashKey(visit_a),
                      city_visit_heap_b._CityVisitDatelessHashKey(visit_b))

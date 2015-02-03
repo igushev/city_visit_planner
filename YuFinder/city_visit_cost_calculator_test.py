@@ -1,7 +1,7 @@
 import unittest
 
 from Yusi.YuFinder.city_visit_test_utils import CityVisitTestExample
-from Yusi.YuFinder.city_visit_cost_calculator import CityVisitCostCalculator
+from Yusi.YuFinder.city_visit_cost_calculator import CityVisitCostCalculatorGenerator
 from Yusi.YuFinder.cost_accumulator import FactorCostAccumulatorGenerator
 
 
@@ -13,41 +13,76 @@ class CityVisitCostCalculatorTest(CityVisitTestExample):
     cost_accumulator_generator=FactorCostAccumulatorGenerator(
         no_point_visit_factor=self.no_point_visit_factor,
         no_point_visit_const=self.no_point_visit_const)
-    self.city_visit_cost_calculator = CityVisitCostCalculator(
-        cost_accumulator_generator=cost_accumulator_generator)
+    self.city_visit_cost_calculator_generator = (
+        CityVisitCostCalculatorGenerator(
+            cost_accumulator_generator=cost_accumulator_generator))
     super(CityVisitCostCalculatorTest, self).setUp()
 
-  def testCalculateCityVisitCostGeneral(self):
-    # No points left.
-    cost = self.city_visit_cost_calculator.CalculateCityVisitCost(
-       [self.day_visit_1, self.day_visit_2], [])
-    self.assertEqual(8.25, cost)
+  def testDayVisitsNoPointsLeft(self):
+    city_visit_cost_calculator = (
+        self.city_visit_cost_calculator_generator.Generate(
+            [self.day_visit_1, self.day_visit_2]))
+    self.assertEqual(8.25, city_visit_cost_calculator.Cost())
 
-    # One points left.
-    cost = self.city_visit_cost_calculator.CalculateCityVisitCost(
-       [self.day_visit_1, self.day_visit_2],
-       [self.points['Union Square']])
-    self.assertEqual(8.25 + self.no_point_visit_const, cost)
+  def testDayVisitsOnePointsLeft(self):
+    city_visit_cost_calculator = (
+        self.city_visit_cost_calculator_generator.Generate(
+            [self.day_visit_1, self.day_visit_2]))
+    city_visit_cost_calculator.AddPointsLeft(
+        [self.points['Union Square']])
+    self.assertEqual(8.25 + self.no_point_visit_const,
+                     city_visit_cost_calculator.Cost())
 
-    # Two points left.
-    cost = self.city_visit_cost_calculator.CalculateCityVisitCost(
-       [self.day_visit_1, self.day_visit_2],
-       [self.points['Union Square'], self.points['Lombard Street']])
-    self.assertEqual(8.25 + 2 * self.no_point_visit_const, cost)
+  def testDayVisitsTwoPointsLeft(self):
+    city_visit_cost_calculator = (
+        self.city_visit_cost_calculator_generator.Generate(
+            [self.day_visit_1, self.day_visit_2]))
+    city_visit_cost_calculator.AddPointsLeft(
+        [self.points['Union Square'], self.points['Lombard Street']])
+    self.assertEqual(8.25 + 2 * self.no_point_visit_const,
+                     city_visit_cost_calculator.Cost())
 
-    # No day Visits and no points left.
-    cost = self.city_visit_cost_calculator.CalculateCityVisitCost([], [])
-    self.assertEqual(0., cost)
+  def testDayVisitsFourPointsLeft(self):
+    city_visit_cost_calculator = (
+        self.city_visit_cost_calculator_generator.Generate(
+            [self.day_visit_1, self.day_visit_2]))
+    city_visit_cost_calculator.AddPointsLeft(
+        [self.points['Union Square'], self.points['Lombard Street']])
+    city_visit_cost_calculator.AddPointsLeft(
+        [self.points['Coit Tower'], self.points['Att Park']])
+    self.assertEqual(8.25 + 4 * self.no_point_visit_const,
+                     city_visit_cost_calculator.Cost())
 
-    # No day visits and one point left.
-    cost = self.city_visit_cost_calculator.CalculateCityVisitCost(
-       [], [self.points['Union Square']])
-    self.assertEqual(self.no_point_visit_const, cost)
+  def testNoDayVisitsNoPointsLeft(self):
+    city_visit_cost_calculator = (
+        self.city_visit_cost_calculator_generator.Generate([]))
+    self.assertEqual(0., city_visit_cost_calculator.Cost())
 
-    # No day visits and two points left.
-    cost = self.city_visit_cost_calculator.CalculateCityVisitCost(
-       [], [self.points['Union Square'], self.points['Lombard Street']])
-    self.assertEqual(2 * self.no_point_visit_const, cost)
+  def testNoDayVisitsOnePointsLeft(self):
+    city_visit_cost_calculator = (
+        self.city_visit_cost_calculator_generator.Generate([]))
+    city_visit_cost_calculator.AddPointsLeft(
+        [self.points['Union Square']])
+    self.assertEqual(self.no_point_visit_const,
+                     city_visit_cost_calculator.Cost())
+
+  def testNoDayVisitsTwoPointsLeft(self):
+    city_visit_cost_calculator = (
+        self.city_visit_cost_calculator_generator.Generate([]))
+    city_visit_cost_calculator.AddPointsLeft(
+        [self.points['Union Square'], self.points['Lombard Street']])
+    self.assertEqual(2 * self.no_point_visit_const,
+                     city_visit_cost_calculator.Cost())
+
+  def testNoDayVisitsFourPointsLeft(self):
+    city_visit_cost_calculator = (
+        self.city_visit_cost_calculator_generator.Generate([]))
+    city_visit_cost_calculator.AddPointsLeft(
+        [self.points['Union Square'], self.points['Lombard Street']])
+    city_visit_cost_calculator.AddPointsLeft(
+        [self.points['Coit Tower'], self.points['Att Park']])
+    self.assertEqual(4 * self.no_point_visit_const,
+                     city_visit_cost_calculator.Cost())
     
 
 if __name__ == '__main__':

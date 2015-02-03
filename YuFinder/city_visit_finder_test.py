@@ -9,7 +9,7 @@ from Yusi.YuFinder.cost_accumulator import FactorCostAccumulatorGenerator
 from Yusi.YuFinder.point_fit import SimplePointFit
 from Yusi.YuFinder import test_utils
 from Yusi.YuFinder.day_visit_finder import DayVisitFinder
-from Yusi.YuFinder.city_visit_cost_calculator import CityVisitCostCalculator
+from Yusi.YuFinder.city_visit_cost_calculator import CityVisitCostCalculatorGenerator
 
 
 class CityVisitFinderTest(unittest.TestCase):
@@ -46,11 +46,12 @@ class CityVisitFinderTest(unittest.TestCase):
     day_visit_finder = DayVisitFinder(
         calculator_generator=day_visit_cost_calculator_generator,
         day_visit_heap_size=day_visit_heap_size)
-    city_visit_cost_calculator = CityVisitCostCalculator(
+    city_visit_cost_calculator_generator = CityVisitCostCalculatorGenerator(
         cost_accumulator_generator=cost_accumulator_generator)
     self.city_visit_finder = CityVisitFinder(
         day_visit_finder=day_visit_finder,
-        city_visit_cost_calculator=city_visit_cost_calculator,
+        city_visit_cost_calculator_generator=(
+            city_visit_cost_calculator_generator),
         max_depth=max_depth,
         city_visit_heap_size=city_visit_heap_size,
         max_non_pushed_points=max_non_pushed_points)
@@ -62,6 +63,7 @@ class CityVisitFinderTest(unittest.TestCase):
             start_datetime=datetime.datetime(2014, 9, 1, 17, 0, 0),
             end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0))]
 
+    # Union Square would fit but it's after 3 failed points.
     city_visit_result = self.city_visit_finder.FindCityVisit(
         [self.points['Twin Peaks'],
          self.points['Ferry Biulding'],
@@ -75,7 +77,7 @@ class CityVisitFinderTest(unittest.TestCase):
     self.assertEqual("""Date: 2014-09-01
 Cost: 1.00
 Walking from Hotel to Restaurant from 17:00:00 to 18:00:00
-Total cost: 1.00""", str(city_visit_result))
+Total cost: 5001.00""", str(city_visit_result))
 
   def testOneDay(self):
     day_visit_parameterss = [
@@ -107,7 +109,7 @@ Visiting point "Union Square" from 14:00:00 to 15:00:00
 Walking from Union Square to Twin Peaks from 15:00:00 to 18:00:00
 Visiting point "Twin Peaks" from 18:00:00 to 18:30:00
 Walking from Twin Peaks to Restaurant from 18:30:00 to 20:30:00
-Total cost: 11.50""", str(city_visit_result))
+Total cost: 2011.50""", str(city_visit_result))
 
   def testTwoDays(self):
     day_visit_parameterss = [
@@ -151,7 +153,7 @@ Walking from Hotel to Twin Peaks from 09:00:00 to 12:00:00
 Visiting point "Twin Peaks" from 12:00:00 to 12:30:00
 Having lunch from 12:30:00 to 13:30:00
 Walking from Twin Peaks to Restaurant from 13:30:00 to 15:30:00
-Total cost: 17.50""", str(city_visit_result))
+Total cost: 1017.50""", str(city_visit_result))
 
   def testTwoDaysOneShortDay(self):
     day_visit_parameterss = [

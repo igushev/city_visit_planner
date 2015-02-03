@@ -23,7 +23,7 @@ class StartEndDatetime(object):
     return self.__dict__ == other.__dict__
 
   def __str__(self):
-    return 'from %s to %s' % (self.start.time(), self.end.time())  # FIXME
+    return 'from %s to %s' % (self.start.time(), self.end.time())
 
 
 # TODO(igushev): Rename to DayParameters and all its instances.
@@ -203,7 +203,7 @@ class DayVisit(object):
     return self.__dict__ == other.__dict__
 
   def __str__(self):
-    s = 'Date: %s\n' % self.start_datetime.date()  # FIXME
+    s = 'Date: %s\n' % self.start_datetime.date()
     s += 'Cost: %.2f\n' % self.cost
     s += '\n'.join(['%s' % action for action in self.actions])
     return s

@@ -60,17 +60,21 @@ class CityVisitFinderRunner(object):
         PrototypeParameters(max_walking_distance=self.max_walking_distance).
         CityVisitFinder())
     
-    self.city_visit = city_visit_finder.FindCityVisit(
+    self.city_visit_best, self.points_left = city_visit_finder.FindCityVisit(
         self.points_to_visit, day_visit_parameterss)
 
 
 def main():
+  start = datetime.datetime.now()
   runner = CityVisitFinderRunner()
   print('Points to visit in priority: %s' %
         ', '.join(point.name for point in runner.points_to_visit))
   print('Maximum walking distance: %d mile(s)' % runner.max_walking_distance)
   print('Your schedule:')
-  print(runner.city_visit)
+  print(runner.city_visit_best)
+  print('Points left: %s' %
+        ', '.join(point_left.name for point_left in runner.points_left))
+  print('Elapsed time %s' % (datetime.datetime.now() - start))
 
 
 if __name__ == '__main__':

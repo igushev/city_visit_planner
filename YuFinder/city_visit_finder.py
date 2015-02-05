@@ -35,7 +35,7 @@ class CityVisitFinder(object):
       for i, day_points_add in days_permutation.iteritems():
         day_points_all = day_visits[i].GetPoints()
         day_points_all.extend(day_points_add)
-        day_points_left, day_visit_best = (
+        day_visit_best, day_points_left = (
             self.day_visit_finder.FindDayVisit(
                 day_points_all, day_visit_parameterss[i]))
         next_points_left.extend(day_points_left)
@@ -73,7 +73,7 @@ class CityVisitFinder(object):
   def FindCityVisit(self, points, day_visit_parameterss):
     """Find best CityVisit."""
     initial_day_visits = [
-        day_visit for _, day_visit in [
+        day_visit for day_visit, _ in [
            self.day_visit_finder.FindDayVisit([], day_visit_parameters)
            for day_visit_parameters in day_visit_parameterss]]
     city_visit_cost_calculators = [
@@ -103,4 +103,6 @@ class CityVisitFinder(object):
         for city_visit_cost_calculator in city_visit_cost_calculators:
           city_visit_cost_calculator.AddPointsLeft([point])
     assert len(city_visit_cost_calculators) >= 1
-    return city_visit_cost_calculators[0].CityVisit()
+    city_visit_cost_calculators_best = city_visit_cost_calculators[0]
+    return (city_visit_cost_calculators_best.CityVisit(),
+            city_visit_cost_calculators_best.GetPointsLeft())

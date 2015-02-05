@@ -41,5 +41,5 @@ class DayVisitFinder(object):
     assert prev_points_calculator_heap.Size() >= 1
     points_left, calculator_best = (
         prev_points_calculator_heap.GetPointsCalculatorList()[0])
-    return (calculator_best.GetPointsLeft() + points_left,
-            calculator_best.FinalizedDayVisit())
+    return (calculator_best.FinalizedDayVisit(),
+            calculator_best.GetPointsLeft() + points_left)

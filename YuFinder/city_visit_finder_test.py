@@ -64,20 +64,27 @@ class CityVisitFinderTest(unittest.TestCase):
             end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0))]
 
     # Union Square would fit but it's after 3 failed points.
-    city_visit_result = self.city_visit_finder.FindCityVisit(
+    city_visit_best, point_left = self.city_visit_finder.FindCityVisit(
         [self.points['Twin Peaks'],
          self.points['Ferry Biulding'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Union Square']],
         day_visit_parameterss)
-    day_visits = city_visit_result.day_visits
+    day_visits = city_visit_best.day_visits
     self.assertEqual(1, len(day_visits))
     self.assertEqual([], day_visits[0].GetPoints())
     self.assertEqual("""Date: 2014-09-01
 Cost: 1.00
 Walking from Hotel to Restaurant from 17:00:00 to 18:00:00
-Total cost: 5001.00""", str(city_visit_result))
+Total cost: 5001.00""", str(city_visit_best))
+    self.assertEqual(
+        [self.points['Twin Peaks'],
+         self.points['Ferry Biulding'],
+         self.points['Pier 39'],
+         self.points['Golden Gate Bridge'],
+         self.points['Union Square']],
+        point_left)
 
   def testOneDay(self):
     day_visit_parameterss = [
@@ -85,14 +92,14 @@ Total cost: 5001.00""", str(city_visit_result))
             start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
             end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0))]
 
-    city_visit_result = self.city_visit_finder.FindCityVisit(
+    city_visit_best, point_left = self.city_visit_finder.FindCityVisit(
         [self.points['Twin Peaks'],
          self.points['Ferry Biulding'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Union Square']],
         day_visit_parameterss)
-    day_visits = city_visit_result.day_visits
+    day_visits = city_visit_best.day_visits
     self.assertEqual(1, len(day_visits))
     self.assertEqual(
         [self.points['Ferry Biulding'],
@@ -109,7 +116,11 @@ Visiting point "Union Square" from 14:00:00 to 15:00:00
 Walking from Union Square to Twin Peaks from 15:00:00 to 18:00:00
 Visiting point "Twin Peaks" from 18:00:00 to 18:30:00
 Walking from Twin Peaks to Restaurant from 18:30:00 to 20:30:00
-Total cost: 2011.50""", str(city_visit_result))
+Total cost: 2011.50""", str(city_visit_best))
+    self.assertEqual(
+        [self.points['Pier 39'],
+         self.points['Golden Gate Bridge']],
+        point_left)
 
   def testTwoDays(self):
     day_visit_parameterss = [
@@ -120,7 +131,7 @@ Total cost: 2011.50""", str(city_visit_result))
             start_datetime=datetime.datetime(2014, 9, 2, 9, 0, 0),
             end_datetime=datetime.datetime(2014, 9, 2, 21, 0, 0))]
 
-    city_visit_result = self.city_visit_finder.FindCityVisit(
+    city_visit_best, point_left = self.city_visit_finder.FindCityVisit(
         [self.points['Ferry Biulding'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
@@ -128,7 +139,7 @@ Total cost: 2011.50""", str(city_visit_result))
          self.points['Twin Peaks']],
         day_visit_parameterss)
     
-    day_visits = city_visit_result.day_visits
+    day_visits = city_visit_best.day_visits
     self.assertEqual(2, len(day_visits))
     self.assertEqual(
         [self.points['Ferry Biulding'],
@@ -153,7 +164,10 @@ Walking from Hotel to Twin Peaks from 09:00:00 to 12:00:00
 Visiting point "Twin Peaks" from 12:00:00 to 12:30:00
 Having lunch from 12:30:00 to 13:30:00
 Walking from Twin Peaks to Restaurant from 13:30:00 to 15:30:00
-Total cost: 1017.50""", str(city_visit_result))
+Total cost: 1017.50""", str(city_visit_best))
+    self.assertEqual(
+        [self.points['Golden Gate Bridge']],
+        point_left)
 
   def testTwoDaysOneShortDay(self):
     day_visit_parameterss = [
@@ -167,7 +181,7 @@ Total cost: 1017.50""", str(city_visit_result))
           start_datetime=datetime.datetime(2014, 9, 3, 17, 0, 0),
           end_datetime=datetime.datetime(2014, 9, 3, 21, 0, 0))]                         
 
-    city_visit_result = self.city_visit_finder.FindCityVisit(
+    city_visit_best, point_left = self.city_visit_finder.FindCityVisit(
         [self.points['Ferry Biulding'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
@@ -175,7 +189,7 @@ Total cost: 1017.50""", str(city_visit_result))
          self.points['Twin Peaks']],
         day_visit_parameterss)
 
-    day_visits = city_visit_result.day_visits
+    day_visits = city_visit_best.day_visits
     self.assertEqual(3, len(day_visits))
     self.assertEqual(
         [self.points['Pier 39']], day_visits[0].GetPoints())
@@ -203,7 +217,10 @@ Cost: 3.00
 Walking from Hotel to Union Square from 17:00:00 to 18:00:00
 Visiting point "Union Square" from 18:00:00 to 19:00:00
 Walking from Union Square to Restaurant from 19:00:00 to 20:00:00
-Total cost: 1024.50""", str(city_visit_result))
+Total cost: 1024.50""", str(city_visit_best))
+    self.assertEqual(
+        [self.points['Golden Gate Bridge']],
+        point_left)
 
   def testThreeDays(self):
     day_visit_parameterss = [
@@ -217,7 +234,7 @@ Total cost: 1024.50""", str(city_visit_result))
           start_datetime=datetime.datetime(2014, 9, 3, 9, 0, 0),
           end_datetime=datetime.datetime(2014, 9, 3, 21, 0, 0))]                         
 
-    city_visit_result = self.city_visit_finder.FindCityVisit(
+    city_visit_best, point_left = self.city_visit_finder.FindCityVisit(
         [self.points['Ferry Biulding'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
@@ -225,7 +242,7 @@ Total cost: 1024.50""", str(city_visit_result))
          self.points['Twin Peaks']],
         day_visit_parameterss)
 
-    day_visits = city_visit_result.day_visits
+    day_visits = city_visit_best.day_visits
     self.assertEqual(3, len(day_visits))
     self.assertEqual(
         [self.points['Golden Gate Bridge']], day_visits[0].GetPoints())
@@ -258,7 +275,8 @@ Walking from Hotel to Twin Peaks from 09:00:00 to 12:00:00
 Visiting point "Twin Peaks" from 12:00:00 to 12:30:00
 Having lunch from 12:30:00 to 13:30:00
 Walking from Twin Peaks to Restaurant from 13:30:00 to 15:30:00
-Total cost: 31.00""", str(city_visit_result))
+Total cost: 31.00""", str(city_visit_best))
+    self.assertEqual([], point_left)
 
 
 if __name__ == '__main__':

@@ -26,18 +26,6 @@ class CityVisitFinderRunner(object):
           start_coordinates=points['Union Square'].coordinates_starts,
           end_coordinates=points['Union Square'].coordinates_ends)
     
-    day_visit_parameters_feb01_13to18 = GetDayVisitParameters(
-        start_datetime=datetime.datetime(2015, 2, 1, 13, 0, 0),
-        end_datetime=datetime.datetime(2015, 2, 1, 18, 0, 0))
-    
-    day_visit_parameters_feb02_13to18 = GetDayVisitParameters(
-        start_datetime=datetime.datetime(2015, 2, 2, 13, 0, 0),
-        end_datetime=datetime.datetime(2015, 2, 2, 18, 0, 0))
-    
-    day_visit_parameters_feb03_13to18 = GetDayVisitParameters(
-        start_datetime=datetime.datetime(2015, 2, 3, 13, 0, 0),
-        end_datetime=datetime.datetime(2015, 2, 3, 18, 0, 0))
-    
     self.points_to_visit = [
               points['De Young Museum'],
               points['Cable Car Museum'],
@@ -50,9 +38,11 @@ class CityVisitFinderRunner(object):
               points['Golden Gate Bridge']]
     
     day_visit_parameterss = [
-        day_visit_parameters_feb01_13to18,
-        day_visit_parameters_feb02_13to18,
-        day_visit_parameters_feb03_13to18]
+        GetDayVisitParameters(
+            start_datetime=datetime.datetime(2015, 2, day, 13, 0, 0),
+            end_datetime=datetime.datetime(2015, 2, day, 18, 0, 0))
+        for day in range(1, 4)]
+
     
     self.max_walking_distance=1.0
     

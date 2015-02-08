@@ -54,7 +54,8 @@ class CityVisitFinderTest(unittest.TestCase):
             city_visit_cost_calculator_generator),
         max_depth=max_depth,
         city_visit_heap_size=city_visit_heap_size,
-        max_non_pushed_points=max_non_pushed_points)
+        max_non_pushed_points=max_non_pushed_points,
+        num_processes=None)
     super(CityVisitFinderTest, self).setUp()
 
   def testOneShortDay(self):

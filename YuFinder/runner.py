@@ -8,7 +8,7 @@ from Yusi.YuFinder import read_csv
 from Yusi.YuFinder.prototype_parameters import PrototypeParameters
 
 
-class CityVisitFinderRunner(object):
+class Runner(object):
   
   def __init__(self):
     points = read_csv.ReadCSVToDict(
@@ -56,7 +56,7 @@ class CityVisitFinderRunner(object):
 
 def main():
   start = datetime.datetime.now()
-  runner = CityVisitFinderRunner()
+  runner = Runner()
   print('Points to visit in priority: %s' %
         ', '.join(point.name for point in runner.points_to_visit))
   print('Maximum walking distance: %d mile(s)' % runner.max_walking_distance)

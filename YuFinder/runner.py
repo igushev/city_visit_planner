@@ -34,7 +34,7 @@ class Runner(object):
               points['Presidio'],
               points['Ferry Building'],
               points['Lombard Street'],
-              points['Almo Square'],
+              points['Alamo Square'],
               points['Twin Peaks'],
               points['Golden Gate Bridge'],
               points['Golden Gate Park']]

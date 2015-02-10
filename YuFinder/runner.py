@@ -32,15 +32,17 @@ class Runner(object):
               points['Baker Beach'],
               points['Sutro Baths'],
               points['Presidio'],
+              points['Ferry Biulding'],
               points['Lombard Street'],
               points['Almo Square'],
-              points['Ferry Biulding'],
-              points['Golden Gate Bridge']]
+              points['Twin Peaks'],
+              points['Golden Gate Bridge'],
+              points['Golden Gate Park']]
     
     day_visit_parameterss = [
         GetDayVisitParameters(
             start_datetime=datetime.datetime(2015, 2, day, 13, 0, 0),
-            end_datetime=datetime.datetime(2015, 2, day, 18, 0, 0))
+            end_datetime=datetime.datetime(2015, 2, day, 19, 0, 0))
         for day in range(1, 4)]
 
     

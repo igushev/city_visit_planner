@@ -22,17 +22,17 @@ class MockCoordinates(CoordinatesInterface):
 # dictionary just define move_description between two given points.
 # MockMoveCalculator relies instead of some sort of calculation of this
 # dictionary.
-MOVE_HOURS = {frozenset({'Hotel', 'Ferry Biulding'}): 1.,
+MOVE_HOURS = {frozenset({'Hotel', 'Ferry Building'}): 1.,
               frozenset({'Hotel', 'Pier 39'}): 3.,
               frozenset({'Hotel', 'Golden Gate Bridge'}): 6.,
               frozenset({'Hotel', 'Union Square'}): 1.,
               frozenset({'Hotel', 'Twin Peaks'}): 3.,
               frozenset({'Hotel', 'Restaurant'}): 1.,
-              frozenset({'Ferry Biulding', 'Pier 39'}): 1.,
-              frozenset({'Ferry Biulding', 'Golden Gate Bridge'}): 8.,
-              frozenset({'Ferry Biulding', 'Union Square'}): 2.,
-              frozenset({'Ferry Biulding', 'Twin Peaks'}): 5.,
-              frozenset({'Ferry Biulding', 'Restaurant'}): 2.,
+              frozenset({'Ferry Building', 'Pier 39'}): 1.,
+              frozenset({'Ferry Building', 'Golden Gate Bridge'}): 8.,
+              frozenset({'Ferry Building', 'Union Square'}): 2.,
+              frozenset({'Ferry Building', 'Twin Peaks'}): 5.,
+              frozenset({'Ferry Building', 'Restaurant'}): 2.,
               frozenset({'Pier 39', 'Golden Gate Bridge'}): 5.,
               frozenset({'Pier 39', 'Union Square'}): 2.,
               frozenset({'Pier 39', 'Twin Peaks'}): 5.,

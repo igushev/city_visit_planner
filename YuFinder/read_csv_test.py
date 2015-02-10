@@ -10,13 +10,13 @@ from Yusi.YuFinder.point import OperatingHours, Coordinates, Point
 class ReadCSVTest(unittest.TestCase):
 
   def testExtractCoordinatesGeneral(self):
-    ferry_biulding_coordinates = ExtractCoordinates('37.7955N, 122.3937W')
+    ferry_building_coordinates = ExtractCoordinates('37.7955N, 122.3937W')
     self.assertEqual(Coordinates(37.7955, -122.3937),
-                     ferry_biulding_coordinates)
+                     ferry_building_coordinates)
 
-    ferry_biulding_coordinates = ExtractCoordinates('37.7955, -122.3937')
+    ferry_building_coordinates = ExtractCoordinates('37.7955, -122.3937')
     self.assertEqual(Coordinates(37.7955, -122.3937),
-                     ferry_biulding_coordinates)
+                     ferry_building_coordinates)
 
     kremlin_coordinates = ExtractCoordinates('55.7517N, 37.6178E')
     self.assertEqual(Coordinates(55.7517, 37.6178), kremlin_coordinates)
@@ -43,7 +43,7 @@ class ReadCSVTest(unittest.TestCase):
   def testReadCSVGeneral(self):
     s = str()
     s += 'ID,Name,CoordinatesStarts,CoordinatesEnds,OperatingHoursOpens,OperatingHoursCloses,Duration,Rank\n'
-    s += '1,Ferry Biulding,"37.7955N, 122.3937W",,09:00:00,18:00:00,1,1\n'
+    s += '1,Ferry Building,"37.7955N, 122.3937W",,09:00:00,18:00:00,1,1\n'
     s += '2,Pier 39,"37.8100N, 122.4104W",,10:00:00,22:00:00,3,2\n'
     csv_filepath = tempfile.mktemp()
     with open(csv_filepath, 'w') as csv_file:
@@ -61,7 +61,7 @@ class ReadCSVTest(unittest.TestCase):
     self.assertEqual(pier_39, points[1])
     points = ReadCSVToDict(csv_filepath)
     self.assertEqual(2, len(points))
-    self.assertEqual(set(['Ferry Biulding', 'Pier 39']), set(points.keys()))
+    self.assertEqual(set(['Ferry Building', 'Pier 39']), set(points.keys()))
     self.assertEqual(pier_39, points['Pier 39'])
                      
 

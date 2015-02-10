@@ -1,5 +1,5 @@
 ID,Name,CoordinatesStarts,CoordinatesEnds,OperatingHoursOpens,OperatingHoursCloses,Duration,Rank
-1,Ferry Biulding,"37.7955N, 122.3937W",,09:00:00,18:00:00,1,1
+1,Ferry Building,"37.7955N, 122.3937W",,09:00:00,18:00:00,1,1
 2,Pier 39,"37.8100N, 122.4104W",,10:00:00,22:00:00,3,2
 3,Golden Gate Bridge,"37.8197N, 122.4786W",,,,0.5,3
 4,Union Square,"37.7881N, 122.4075W",,,,1,4

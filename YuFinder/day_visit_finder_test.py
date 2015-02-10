@@ -51,7 +51,7 @@ class DayVisitFinderTest(unittest.TestCase):
         end_datetime=datetime.datetime(2014, 9, 1, 22, 0, 0))
 
     day_visit_best, points_left = self.day_visit_finder.FindDayVisit(
-        [self.points['Ferry Biulding'],
+        [self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Twin Peaks']],
@@ -59,10 +59,10 @@ class DayVisitFinderTest(unittest.TestCase):
 
     day_visit_best_str_expected = """Date: 2014-09-01
 Cost: 10.50
-Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
-Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
+Walking from Hotel to Ferry Building from 09:00:00 to 10:00:00
+Visiting point "Ferry Building" from 10:00:00 to 11:00:00
 Having lunch from 11:00:00 to 12:00:00
-Walking from Ferry Biulding to Twin Peaks from 12:00:00 to 17:00:00
+Walking from Ferry Building to Twin Peaks from 12:00:00 to 17:00:00
 Visiting point "Twin Peaks" from 17:00:00 to 17:30:00
 Walking from Twin Peaks to Restaurant from 17:30:00 to 19:30:00"""
     self.assertEqual(day_visit_best_str_expected, str(day_visit_best))
@@ -77,15 +77,15 @@ Walking from Twin Peaks to Restaurant from 17:30:00 to 19:30:00"""
         end_datetime=datetime.datetime(2014, 9, 1, 22, 0, 0))
 
     day_visit_best, points_left = self.day_visit_finder.FindDayVisit(
-        [self.points['Ferry Biulding'],
+        [self.points['Ferry Building'],
          self.points['Pier 39']],
         day_visit_parameters)
 
     day_visit_best_str_expected = """Date: 2014-09-01
 Cost: 11.00
-Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
-Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
-Walking from Ferry Biulding to Pier 39 from 11:00:00 to 12:00:00
+Walking from Hotel to Ferry Building from 09:00:00 to 10:00:00
+Visiting point "Ferry Building" from 10:00:00 to 11:00:00
+Walking from Ferry Building to Pier 39 from 11:00:00 to 12:00:00
 Having lunch from 12:00:00 to 13:00:00
 Visiting point "Pier 39" from 13:00:00 to 16:00:00
 Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
@@ -98,7 +98,7 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
         end_datetime=datetime.datetime(2014, 9, 1, 10, 30, 0))
 
     day_visit_best, points_left = self.day_visit_finder.FindDayVisit(
-      [self.points['Ferry Biulding'],
+      [self.points['Ferry Building'],
        self.points['Pier 39'],
        self.points['Golden Gate Bridge'],
        self.points['Twin Peaks']],
@@ -109,7 +109,7 @@ Cost: 1.00
 Walking from Hotel to Restaurant from 09:00:00 to 10:00:00"""
     self.assertEqual(day_visit_best_str_expected, str(day_visit_best))
     self.assertEqual(
-        [self.points['Ferry Biulding'],
+        [self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Twin Peaks']],

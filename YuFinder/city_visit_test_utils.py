@@ -18,20 +18,20 @@ class CityVisitTestExample(unittest.TestCase):
     
     self.san_francisco_coordinates = Coordinates(37.7833, -122.4167)
     
-    self.from_hotel_to_ferry_biulding_move = MoveBetween(
+    self.from_hotel_to_ferry_building_move = MoveBetween(
         StartEndDatetime(datetime.datetime(2014, 9, 1, 9, 0, 0),
                          datetime.datetime(2014, 9, 1, 10, 15, 0)),
         MoveDescription(self.san_francisco_coordinates,
-                        self.points['Ferry Biulding'].coordinates_starts,
+                        self.points['Ferry Building'].coordinates_starts,
                         1.25, MoveType.walking))
-    self.ferry_biulding_point_visit = PointVisit(
+    self.ferry_building_point_visit = PointVisit(
         StartEndDatetime(datetime.datetime(2014, 9, 1, 10, 15, 0),
                          datetime.datetime(2014, 9, 1, 11, 15, 0)),
-        self.points['Ferry Biulding'])
-    self.from_ferry_biulding_to_pier_39_move = MoveBetween(
+        self.points['Ferry Building'])
+    self.from_ferry_building_to_pier_39_move = MoveBetween(
         StartEndDatetime(datetime.datetime(2014, 9, 1, 11, 15, 0),
                          datetime.datetime(2014, 9, 1, 11, 45, 0)),
-        MoveDescription(self.points['Ferry Biulding'].coordinates_ends,
+        MoveDescription(self.points['Ferry Building'].coordinates_ends,
                         self.points['Pier 39'].coordinates_starts,
                         0.5, MoveType.walking))
     self.pier_39_point_visit = PointVisit(
@@ -46,9 +46,9 @@ class CityVisitTestExample(unittest.TestCase):
                         1.5, MoveType.walking))
     
     self.day_visit_1 = DayVisit(datetime.datetime(2014, 9, 1, 9, 0, 0), [
-        self.from_hotel_to_ferry_biulding_move,
-        self.ferry_biulding_point_visit,
-        self.from_ferry_biulding_to_pier_39_move,
+        self.from_hotel_to_ferry_building_move,
+        self.ferry_building_point_visit,
+        self.from_ferry_building_to_pier_39_move,
         self.pier_39_point_visit,
         self.from_pier_39_to_hotel], 12.)
     

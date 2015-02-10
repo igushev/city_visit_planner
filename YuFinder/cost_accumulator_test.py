@@ -23,16 +23,16 @@ class FactorCostAccumulatorTest(unittest.TestCase):
     cost_accumulator.AddMoveBetween(
         MoveDescription(
             self.san_francisco_coordinates,
-            self.points['Ferry Biulding'].coordinates_starts,
+            self.points['Ferry Building'].coordinates_starts,
             1.25, MoveType.walking))
     self.assertEqual(1.25, cost_accumulator.Cost())
-    cost_accumulator.AddPointVisit(self.points['Ferry Biulding'])
+    cost_accumulator.AddPointVisit(self.points['Ferry Building'])
     self.assertEqual(2.25, cost_accumulator.Cost())
     cost_accumulator.AddLunch(1.0)
     self.assertEqual(3.25, cost_accumulator.Cost())
     cost_accumulator.AddMoveBetween(
         MoveDescription(
-            self.points['Ferry Biulding'].coordinates_ends,
+            self.points['Ferry Building'].coordinates_ends,
             self.points['Pier 39'].coordinates_starts,
             0.05, MoveType.driving))
     self.assertEqual(3.30, cost_accumulator.Cost())
@@ -60,16 +60,16 @@ class FactorCostAccumulatorTest(unittest.TestCase):
     cost_accumulator.AddMoveBetween(
         MoveDescription(
             self.san_francisco_coordinates,
-            self.points['Ferry Biulding'].coordinates_starts,
+            self.points['Ferry Building'].coordinates_starts,
             1.25, MoveType.walking))
     self.assertEqual(1.25, cost_accumulator.Cost())
-    cost_accumulator.AddPointVisit(self.points['Ferry Biulding'])
+    cost_accumulator.AddPointVisit(self.points['Ferry Building'])
     self.assertEqual(1.75, cost_accumulator.Cost())
     cost_accumulator.AddLunch(1.0)
     self.assertEqual(2.00, cost_accumulator.Cost())
     cost_accumulator.AddMoveBetween(
         MoveDescription(
-            self.points['Ferry Biulding'].coordinates_ends,
+            self.points['Ferry Building'].coordinates_ends,
             self.points['Pier 39'].coordinates_starts,
             0.05, MoveType.driving))
     self.assertEqual(2.10, cost_accumulator.Cost())

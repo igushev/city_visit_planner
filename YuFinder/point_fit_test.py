@@ -9,8 +9,8 @@ from Yusi.YuFinder.city_visit import StartEndDatetime
 class PointFitTest(unittest.TestCase):
 
   def setUp(self):
-    # Ferry Biulding, San Francisco.
-    self.ferry_biulding_operating_hours = OperatingHours(
+    # Ferry Building, San Francisco.
+    self.ferry_building_operating_hours = OperatingHours(
         datetime.time(9, 0, 0), datetime.time(18, 0, 0))
     # Pier 39, San Francisco.
     self.pier_39_operating_hours = OperatingHours(
@@ -35,13 +35,13 @@ class PointFitTest(unittest.TestCase):
     point_fit = SimplePointFit()
     self.assertEqual(True, point_fit.IfPointFit(
         self.early_morning_start_end_datetime,
-        self.ferry_biulding_operating_hours))  # Left border.
+        self.ferry_building_operating_hours))  # Left border.
     self.assertEqual(False, point_fit.IfPointFit(
         self.late_everning_start_end_datetime,
-        self.ferry_biulding_operating_hours))  # Right border.
+        self.ferry_building_operating_hours))  # Right border.
     self.assertEqual(False, point_fit.IfPointFit(
         self.after_midnight_start_end_datetime,
-        self.ferry_biulding_operating_hours))  # No overlap.
+        self.ferry_building_operating_hours))  # No overlap.
     self.assertEqual(False, point_fit.IfPointFit(
         self.early_morning_start_end_datetime,
         self.pier_39_operating_hours))  # Partial overlap.

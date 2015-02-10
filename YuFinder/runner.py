@@ -32,7 +32,7 @@ class Runner(object):
               points['Baker Beach'],
               points['Sutro Baths'],
               points['Presidio'],
-              points['Ferry Biulding'],
+              points['Ferry Building'],
               points['Lombard Street'],
               points['Almo Square'],
               points['Twin Peaks'],

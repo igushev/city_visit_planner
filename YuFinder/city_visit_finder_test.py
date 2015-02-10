@@ -68,7 +68,7 @@ class CityVisitFinderTest(unittest.TestCase):
     # Union Square would fit but it's after 3 failed points.
     city_visit_best, point_left = self.city_visit_finder.FindCityVisit(
         [self.points['Twin Peaks'],
-         self.points['Ferry Biulding'],
+         self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Union Square']],
@@ -82,7 +82,7 @@ Walking from Hotel to Restaurant from 17:00:00 to 18:00:00
 Total cost: 5001.00""", str(city_visit_best))
     self.assertEqual(
         [self.points['Twin Peaks'],
-         self.points['Ferry Biulding'],
+         self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Union Square']],
@@ -96,7 +96,7 @@ Total cost: 5001.00""", str(city_visit_best))
 
     city_visit_best, point_left = self.city_visit_finder.FindCityVisit(
         [self.points['Twin Peaks'],
-         self.points['Ferry Biulding'],
+         self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Union Square']],
@@ -104,15 +104,15 @@ Total cost: 5001.00""", str(city_visit_best))
     day_visits = city_visit_best.day_visits
     self.assertEqual(1, len(day_visits))
     self.assertEqual(
-        [self.points['Ferry Biulding'],
+        [self.points['Ferry Building'],
          self.points['Union Square'],
          self.points['Twin Peaks']], day_visits[0].GetPoints())
 
     self.assertEqual("""Date: 2014-09-01
 Cost: 11.50
-Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
-Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
-Walking from Ferry Biulding to Union Square from 11:00:00 to 13:00:00
+Walking from Hotel to Ferry Building from 09:00:00 to 10:00:00
+Visiting point "Ferry Building" from 10:00:00 to 11:00:00
+Walking from Ferry Building to Union Square from 11:00:00 to 13:00:00
 Having lunch from 13:00:00 to 14:00:00
 Visiting point "Union Square" from 14:00:00 to 15:00:00
 Walking from Union Square to Twin Peaks from 15:00:00 to 18:00:00
@@ -134,7 +134,7 @@ Total cost: 2011.50""", str(city_visit_best))
             end_datetime=datetime.datetime(2014, 9, 2, 21, 0, 0))]
 
     city_visit_best, point_left = self.city_visit_finder.FindCityVisit(
-        [self.points['Ferry Biulding'],
+        [self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Union Square'],
@@ -144,7 +144,7 @@ Total cost: 2011.50""", str(city_visit_best))
     day_visits = city_visit_best.day_visits
     self.assertEqual(2, len(day_visits))
     self.assertEqual(
-        [self.points['Ferry Biulding'],
+        [self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Union Square']], day_visits[0].GetPoints())
     self.assertEqual(
@@ -152,9 +152,9 @@ Total cost: 2011.50""", str(city_visit_best))
     
     self.assertEqual("""Date: 2014-09-01
 Cost: 11.00
-Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
-Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
-Walking from Ferry Biulding to Pier 39 from 11:00:00 to 12:00:00
+Walking from Hotel to Ferry Building from 09:00:00 to 10:00:00
+Visiting point "Ferry Building" from 10:00:00 to 11:00:00
+Walking from Ferry Building to Pier 39 from 11:00:00 to 12:00:00
 Having lunch from 12:00:00 to 13:00:00
 Visiting point "Pier 39" from 13:00:00 to 16:00:00
 Walking from Pier 39 to Union Square from 16:00:00 to 18:00:00
@@ -184,7 +184,7 @@ Total cost: 1017.50""", str(city_visit_best))
           end_datetime=datetime.datetime(2014, 9, 3, 21, 0, 0))]                         
 
     city_visit_best, point_left = self.city_visit_finder.FindCityVisit(
-        [self.points['Ferry Biulding'],
+        [self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Union Square'],
@@ -196,7 +196,7 @@ Total cost: 1017.50""", str(city_visit_best))
     self.assertEqual(
         [self.points['Pier 39']], day_visits[0].GetPoints())
     self.assertEqual(
-        [self.points['Ferry Biulding'],
+        [self.points['Ferry Building'],
          self.points['Twin Peaks']], day_visits[1].GetPoints())
     self.assertEqual([self.points['Union Square']], day_visits[2].GetPoints())
 
@@ -208,10 +208,10 @@ Visiting point "Pier 39" from 13:00:00 to 16:00:00
 Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
 Date: 2014-09-02
 Cost: 10.50
-Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
-Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
+Walking from Hotel to Ferry Building from 09:00:00 to 10:00:00
+Visiting point "Ferry Building" from 10:00:00 to 11:00:00
 Having lunch from 11:00:00 to 12:00:00
-Walking from Ferry Biulding to Twin Peaks from 12:00:00 to 17:00:00
+Walking from Ferry Building to Twin Peaks from 12:00:00 to 17:00:00
 Visiting point "Twin Peaks" from 17:00:00 to 17:30:00
 Walking from Twin Peaks to Restaurant from 17:30:00 to 19:30:00
 Date: 2014-09-03
@@ -237,7 +237,7 @@ Total cost: 1024.50""", str(city_visit_best))
           end_datetime=datetime.datetime(2014, 9, 3, 21, 0, 0))]                         
 
     city_visit_best, point_left = self.city_visit_finder.FindCityVisit(
-        [self.points['Ferry Biulding'],
+        [self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Union Square'],
@@ -249,7 +249,7 @@ Total cost: 1024.50""", str(city_visit_best))
     self.assertEqual(
         [self.points['Golden Gate Bridge']], day_visits[0].GetPoints())
     self.assertEqual(
-        [self.points['Ferry Biulding'],
+        [self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Union Square']], day_visits[1].GetPoints())
     self.assertEqual(
@@ -263,9 +263,9 @@ Visiting point "Golden Gate Bridge" from 16:00:00 to 16:30:00
 Walking from Golden Gate Bridge to Restaurant from 16:30:00 to 22:30:00
 Date: 2014-09-02
 Cost: 11.00
-Walking from Hotel to Ferry Biulding from 09:00:00 to 10:00:00
-Visiting point "Ferry Biulding" from 10:00:00 to 11:00:00
-Walking from Ferry Biulding to Pier 39 from 11:00:00 to 12:00:00
+Walking from Hotel to Ferry Building from 09:00:00 to 10:00:00
+Visiting point "Ferry Building" from 10:00:00 to 11:00:00
+Walking from Ferry Building to Pier 39 from 11:00:00 to 12:00:00
 Having lunch from 12:00:00 to 13:00:00
 Visiting point "Pier 39" from 13:00:00 to 16:00:00
 Walking from Pier 39 to Union Square from 16:00:00 to 18:00:00

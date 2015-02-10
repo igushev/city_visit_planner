@@ -40,7 +40,7 @@ class MoveBetweenTest(CityVisitTestExample):
         AssertionError, MoveBetween,
         StartEndDatetime(datetime.datetime(2014, 9, 1, 11, 15, 0),
                          datetime.datetime(2014, 9, 1, 11, 45, 0)),
-        MoveDescription(self.points['Ferry Biulding'].coordinates_ends,
+        MoveDescription(self.points['Ferry Building'].coordinates_ends,
                         self.points['Pier 39'].coordinates_starts,
                         1.0, MoveType.walking))
 
@@ -52,7 +52,7 @@ class DayVisitTest(CityVisitTestExample):
     self.assertNotEqual(self.day_visit_1.HashKey(), self.day_visit_2.HashKey())
 
   def testGetPoints(self):
-    self.assertEqual([self.points['Ferry Biulding'], self.points['Pier 39']],
+    self.assertEqual([self.points['Ferry Building'], self.points['Pier 39']],
                       self.day_visit_1.GetPoints())
     self.assertEqual([self.points['Golden Gate Bridge']],
                       self.day_visit_2.GetPoints())
@@ -62,41 +62,41 @@ class DayVisitTest(CityVisitTestExample):
     self.assertRaisesRegexp(
         AssertionError, 'Wrong number of actions.',
         DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
-            self.from_hotel_to_ferry_biulding_move,
-            self.ferry_biulding_point_visit,
-            self.from_ferry_biulding_to_pier_39_move,
+            self.from_hotel_to_ferry_building_move,
+            self.ferry_building_point_visit,
+            self.from_ferry_building_to_pier_39_move,
             self.pier_39_point_visit], 10.)
     # No start move.
     self.assertRaisesRegexp(
         AssertionError, 'Wrong order of actions: no MoveBetween.',
         DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
-            self.ferry_biulding_point_visit,
-            self.from_ferry_biulding_to_pier_39_move,
+            self.ferry_building_point_visit,
+            self.from_ferry_building_to_pier_39_move,
             self.pier_39_point_visit,
             self.from_pier_39_to_hotel], 10.)
     # No middle moves.
     self.assertRaisesRegexp(
         AssertionError, 'Wrong order of actions: no MoveBetween.',
         DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
-            self.from_hotel_to_ferry_biulding_move,
-            self.ferry_biulding_point_visit,
+            self.from_hotel_to_ferry_building_move,
+            self.ferry_building_point_visit,
             self.pier_39_point_visit,
             self.from_pier_39_to_hotel], 10.)
     # No first point.
     self.assertRaisesRegexp(
         AssertionError, 'Wrong order of actions: no PointVisit.',
         DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
-            self.from_hotel_to_ferry_biulding_move,
-            self.from_ferry_biulding_to_pier_39_move,
+            self.from_hotel_to_ferry_building_move,
+            self.from_ferry_building_to_pier_39_move,
             self.pier_39_point_visit,
             self.from_pier_39_to_hotel], 10.)
     # No second point.
     self.assertRaisesRegexp(
         AssertionError, 'Wrong order of actions: no PointVisit.',
         DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
-            self.from_hotel_to_ferry_biulding_move,
-            self.ferry_biulding_point_visit,
-            self.from_ferry_biulding_to_pier_39_move,
+            self.from_hotel_to_ferry_building_move,
+            self.ferry_building_point_visit,
+            self.from_ferry_building_to_pier_39_move,
             self.from_pier_39_to_hotel], 10.)
 
 
@@ -107,7 +107,7 @@ class CityVisitTest(CityVisitTestExample):
     city_visit_str_expected = """Date: 2014-09-01
 Cost: 12.00
 Walking from 37.7833:-122.4167 to 37.7955:-122.3937 from 09:00:00 to 10:15:00
-Visiting point "Ferry Biulding" from 10:15:00 to 11:15:00
+Visiting point "Ferry Building" from 10:15:00 to 11:15:00
 Walking from 37.7955:-122.3937 to 37.8100:-122.4104 from 11:15:00 to 11:45:00
 Visiting point "Pier 39" from 11:45:00 to 14:45:00
 Walking from 37.8100:-122.4104 to 37.7833:-122.4167 from 14:45:00 to 16:15:00

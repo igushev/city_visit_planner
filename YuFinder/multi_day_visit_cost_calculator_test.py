@@ -53,7 +53,8 @@ class MockDayVisitCostCalculator(DayVisitCostCalculatorInterface):
     return self.pos
 
 
-class MockDayVisitCostCalculatorGenerator(DayVisitCostCalculatorGeneratorInterface):
+class MockDayVisitCostCalculatorGenerator(
+    DayVisitCostCalculatorGeneratorInterface):
   
   def __init__(self, costs, finalization_cost, no_push_cost, max_cost):
     self.costs = costs

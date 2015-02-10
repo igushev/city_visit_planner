@@ -60,7 +60,9 @@ def ExtractCoordinates(coordinates_str):
 
 def __HoursStrToTime(input_str):
   input_time_struct = time.strptime(input_str, '%H:%M:%S')
-  return datetime.time(input_time_struct.tm_hour, input_time_struct.tm_min, input_time_struct.tm_sec)
+  return datetime.time(
+      input_time_struct.tm_hour, input_time_struct.tm_min,
+      input_time_struct.tm_sec)
 
 
 def ExtractOperatingHours(opens_str, closes_str):
@@ -81,7 +83,9 @@ def ReadCSV(csv_filepath):
       ExtractString(point_series['Name']),
       ExtractCoordinates(point_series['CoordinatesStarts']),
       ExtractCoordinates(point_series['CoordinatesEnds']),
-      ExtractOperatingHours(point_series['OperatingHoursOpens'], point_series['OperatingHoursCloses']),
+      ExtractOperatingHours(
+          point_series['OperatingHoursOpens'],
+          point_series['OperatingHoursCloses']),
       float(point_series['Duration'])))
   return points
 

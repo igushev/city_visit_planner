@@ -139,7 +139,8 @@ class MoveBetween(ActionInterface):
     elif self.move_description.move_type == MoveType.ptt:
       move_type_str = "Using PTT"
     else:
-      raise NotImplemented('Unknown MoveType: %s' % self.move_description.move_type)
+      raise NotImplemented(
+          'Unknown MoveType: %s' % self.move_description.move_type)
     return '%s from %s to %s %s' % (
         move_type_str, self.move_description.from_coordinates,
         self.move_description.to_coordinates, self.start_end_datetime)

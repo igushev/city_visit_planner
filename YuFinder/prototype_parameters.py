@@ -76,10 +76,11 @@ class PrototypeParameters(object):
         no_point_visit_factor=no_point_visit_factor,
         no_point_visit_const=no_point_visit_const)
 
-    driving_day_visit_const_calculator_generator = DayVisitCostCalculatorGenerator(
-        move_calculator=driving_move_calculator,
-        point_fit=point_fit,
-        cost_accumulator_generator=cost_accumulator_generator)
+    driving_day_visit_const_calculator_generator = (
+        DayVisitCostCalculatorGenerator(
+            move_calculator=driving_move_calculator,
+            point_fit=point_fit,
+            cost_accumulator_generator=cost_accumulator_generator))
 
     ptt_day_visit_const_calculator_generator = DayVisitCostCalculatorGenerator(
         move_calculator=ptt_move_calculator,

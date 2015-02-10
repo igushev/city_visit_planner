@@ -35,7 +35,8 @@ class ReadCSVTest(unittest.TestCase):
     self.assertEqual(None, ExtractCoordinates(''))
 
   def testExtractOperatingHoursGeneral(self):
-    de_young_museum_operating_hours = ExtractOperatingHours('9:30:00', '17:15:00')
+    de_young_museum_operating_hours = (
+        ExtractOperatingHours('9:30:00', '17:15:00'))
     self.assertEqual(OperatingHours(datetime.time(9, 30, 0),
                                     datetime.time(17, 15, 0)),
                      de_young_museum_operating_hours)

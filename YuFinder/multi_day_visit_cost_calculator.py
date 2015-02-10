@@ -39,7 +39,8 @@ class MultiDayVisitCostCalculator(DayVisitCostCalculatorInterface):
     return self.calculators[min_index].GetPointsLeft()
 
 
-class MultiDayVisitCostCalculatorGenerator(DayVisitCostCalculatorGeneratorInterface):
+class MultiDayVisitCostCalculatorGenerator(
+    DayVisitCostCalculatorGeneratorInterface):
   
   def __init__(self, calculator_generators):
     self.calculator_generators = calculator_generators

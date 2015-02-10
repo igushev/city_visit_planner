@@ -80,4 +80,5 @@ class MultiMoveCalculator(MoveCalculatorInterface):
     else:
       move_calculator = self._move_calculators[-1]
   
-    return move_calculator.CalculateMoveDescription(coordinates_from, coordinates_to)
+    return move_calculator.CalculateMoveDescription(
+        coordinates_from, coordinates_to)

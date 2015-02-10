@@ -49,7 +49,8 @@ class DayVisitCostCalculatorTest(unittest.TestCase):
     # Ferry Building.
     # Move: 9:00 - 10:00.
     # Point: 10:00 - 11:00.
-    self.assertTrue(day_visit_cost_calculator.PushPoint(self.points['Ferry Building']))
+    self.assertTrue(
+        day_visit_cost_calculator.PushPoint(self.points['Ferry Building']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 11, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
     self.assertEqual(MockCoordinates('Ferry Building'),
@@ -86,7 +87,8 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
     # Move: 16:00 - 21:00.
     # Cannot push point.
     # State should not have been changed, but cost should have been increased.
-    self.assertFalse(day_visit_cost_calculator.PushPoint(self.points['Twin Peaks']))
+    self.assertFalse(
+        day_visit_cost_calculator.PushPoint(self.points['Twin Peaks']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
     self.assertEqual(MockCoordinates('Pier 39'),
@@ -110,7 +112,8 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
     # Ferry Building.
     # Move: 9:00 - 10:00.
     # Point: 10:00 - 11:00.
-    self.assertTrue(day_visit_cost_calculator.PushPoint(self.points['Ferry Building']))
+    self.assertTrue(
+        day_visit_cost_calculator.PushPoint(self.points['Ferry Building']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 11, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
     self.assertEqual(MockCoordinates('Ferry Building'),
@@ -146,7 +149,8 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
     # Twin Peaks.
     # Cannot push move.
     # State should not have been changed, but cost should have been increased.
-    self.assertFalse(day_visit_cost_calculator.PushPoint(self.points['Twin Peaks']))
+    self.assertFalse(
+        day_visit_cost_calculator.PushPoint(self.points['Twin Peaks']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
     self.assertEqual(MockCoordinates('Pier 39'),
@@ -191,7 +195,8 @@ Walking from Pier 39 to Restaurant from 16:30:00 to 20:30:00"""
     # Move: 16:30 - 17:30.
     # Point does not fit.
     # State should not have been changed, but cost should have been increased.
-    self.assertFalse(day_visit_cost_calculator.PushPoint(self.points['Ferry Building']))
+    self.assertFalse(
+        day_visit_cost_calculator.PushPoint(self.points['Ferry Building']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 30, 0),
                      day_visit_cost_calculator.CurrentTime())
     self.assertEqual(MockCoordinates('Pier 39'),
@@ -215,7 +220,8 @@ Walking from Pier 39 to Restaurant from 16:30:00 to 20:30:00"""
     # Ferry Building.
     # Move: 9:00 - 10:00.
     # Point: 10:00 - 11:00.
-    self.assertTrue(day_visit_cost_calculator.PushPoint(self.points['Ferry Building']))
+    self.assertTrue(
+        day_visit_cost_calculator.PushPoint(self.points['Ferry Building']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 11, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
     self.assertEqual(MockCoordinates('Ferry Building'),
@@ -239,7 +245,8 @@ Having lunch from 13:00:00 to 14:00:00"""
     # Lunch: 15:00 - 16:00.
     # Cannot finalize.
     # State should not have been changed, but cost should have been increased.
-    self.assertFalse(day_visit_cost_calculator.PushPoint(self.points['Pier 39']))
+    self.assertFalse(
+        day_visit_cost_calculator.PushPoint(self.points['Pier 39']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 11, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
     self.assertEqual(MockCoordinates('Ferry Building'),
@@ -462,7 +469,8 @@ Having lunch from 19:00:00 to 20:00:00"""
     # Union Square.
     # Move: 16:30 - 18:30
     # Point: 18:30 - 19:30
-    self.assertTrue(day_visit_cost_calculator.PushPoint(self.points['Union Square']))
+    self.assertTrue(
+        day_visit_cost_calculator.PushPoint(self.points['Union Square']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 19, 30, 0),
                      day_visit_cost_calculator.CurrentTime())
     self.assertEqual(MockCoordinates('Union Square'),
@@ -493,7 +501,8 @@ Having lunch from 19:00:00 to 20:00:00"""
     # Move: 16:30 - 17:30.
     # Point does not fit.
     # State should not have been changed, but cost should have been increased.
-    self.assertFalse(day_visit_cost_calculator.PushPoint(self.points['Ferry Building']))
+    self.assertFalse(
+        day_visit_cost_calculator.PushPoint(self.points['Ferry Building']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 30, 0),
                      day_visit_cost_calculator.CurrentTime())
     self.assertEqual(MockCoordinates('Pier 39'),
@@ -509,7 +518,8 @@ Having lunch from 19:00:00 to 20:00:00"""
     # Point can be pushed by time, but should not be since previous step
     # failed.
     # State should not have been changed, but cost should have been increased.
-    self.assertFalse(day_visit_cost_calculator.PushPoint(self.points['Union Square']))
+    self.assertFalse(
+        day_visit_cost_calculator.PushPoint(self.points['Union Square']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 30, 0),
                      day_visit_cost_calculator.CurrentTime())
     self.assertEqual(MockCoordinates('Pier 39'),

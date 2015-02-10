@@ -1,5 +1,5 @@
 class SimplePointFit(object):
-  """Defines if a point can be visited by given visit time and given operating hours."""
+  """Defines if a point can be visited during given time and operating hours."""
 
   def IfPointFit(self, start_end_datetime, operating_hours):
     # If it's 24/7, point can be visited regardless of start_end_datetime.

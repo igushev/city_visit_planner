@@ -45,7 +45,8 @@ class OperatingHours(object):
 class Point(object):
   """Sightseeing, Attraction or Point Of Interest."""
 
-  def __init__(self, name, coordinates_starts, coordinates_ends, operating_hours, duration):
+  def __init__(self, name, coordinates_starts, coordinates_ends,
+               operating_hours, duration):
     assert isinstance(name, str)
     assert isinstance(coordinates_starts, CoordinatesInterface)
     if coordinates_ends:

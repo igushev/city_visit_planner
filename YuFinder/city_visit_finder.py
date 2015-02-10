@@ -1,7 +1,6 @@
 import multiprocessing
 
 import Yusi
-from Yusi.YuFinder import city_visit
 from Yusi.YuFinder.city_visit_heap import CityVisitHeap
 from Yusi.YuFinder.days_permutations import DaysPermutations
 

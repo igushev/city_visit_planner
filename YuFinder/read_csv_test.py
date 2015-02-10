@@ -2,36 +2,43 @@ import datetime
 import tempfile
 import unittest
 
-from Yusi.YuFinder import read_csv
-from Yusi.YuFinder import point
+from Yusi.YuFinder.read_csv import ReadCSV, ReadCSVToDict, ExtractOperatingHours,\
+  ExtractCoordinates
+from Yusi.YuFinder.point import OperatingHours, Coordinates, Point
 
 
 class ReadCSVTest(unittest.TestCase):
 
   def testExtractCoordinatesGeneral(self):
-    ferry_biulding_coordinates = read_csv.ExtractCoordinates('37.7955N, 122.3937W')
-    self.assertEqual(point.Coordinates(37.7955, -122.3937), ferry_biulding_coordinates)
+    ferry_biulding_coordinates = ExtractCoordinates('37.7955N, 122.3937W')
+    self.assertEqual(Coordinates(37.7955, -122.3937),
+                     ferry_biulding_coordinates)
 
-    ferry_biulding_coordinates = read_csv.ExtractCoordinates('37.7955, -122.3937')
-    self.assertEqual(point.Coordinates(37.7955, -122.3937), ferry_biulding_coordinates)
+    ferry_biulding_coordinates = ExtractCoordinates('37.7955, -122.3937')
+    self.assertEqual(Coordinates(37.7955, -122.3937),
+                     ferry_biulding_coordinates)
 
-    kremlin_coordinates = read_csv.ExtractCoordinates('55.7517N, 37.6178E')
-    self.assertEqual(point.Coordinates(55.7517, 37.6178), kremlin_coordinates)
+    kremlin_coordinates = ExtractCoordinates('55.7517N, 37.6178E')
+    self.assertEqual(Coordinates(55.7517, 37.6178), kremlin_coordinates)
 
-    kremlin_coordinates = read_csv.ExtractCoordinates('55.7517, 37.6178')
-    self.assertEqual(point.Coordinates(55.7517, 37.6178), kremlin_coordinates)
+    kremlin_coordinates = ExtractCoordinates('55.7517, 37.6178')
+    self.assertEqual(Coordinates(55.7517, 37.6178), kremlin_coordinates)
 
-    christ_the_redeemer_coordinates = read_csv.ExtractCoordinates('22.9519S, 43.2106W')
-    self.assertEqual(point.Coordinates(-22.9519, -43.2106), christ_the_redeemer_coordinates)
+    christ_the_redeemer_coordinates = ExtractCoordinates('22.9519S, 43.2106W')
+    self.assertEqual(Coordinates(-22.9519, -43.2106),
+                     christ_the_redeemer_coordinates)
 
-    christ_the_redeemer_coordinates = read_csv.ExtractCoordinates('-22.9519, -43.2106')
-    self.assertEqual(point.Coordinates(-22.9519, -43.2106), christ_the_redeemer_coordinates)
+    christ_the_redeemer_coordinates = ExtractCoordinates('-22.9519, -43.2106')
+    self.assertEqual(Coordinates(-22.9519, -43.2106),
+                     christ_the_redeemer_coordinates)
 
-    self.assertEqual(None, read_csv.ExtractCoordinates(''))
+    self.assertEqual(None, ExtractCoordinates(''))
 
   def testExtractOperatingHoursGeneral(self):
-    de_young_museum_operating_hours = read_csv.ExtractOperatingHours('9:30:00', '17:15:00')
-    self.assertEqual(point.OperatingHours(datetime.time(9, 30, 0), datetime.time(17, 15, 0)), de_young_museum_operating_hours)
+    de_young_museum_operating_hours = ExtractOperatingHours('9:30:00', '17:15:00')
+    self.assertEqual(OperatingHours(datetime.time(9, 30, 0),
+                                    datetime.time(17, 15, 0)),
+                     de_young_museum_operating_hours)
 
   def testReadCSVGeneral(self):
     s = str()
@@ -42,17 +49,17 @@ class ReadCSVTest(unittest.TestCase):
     with open(csv_filepath, 'w') as csv_file:
       csv_file.write(s)
 
-    pier_39 = point.Point(
+    pier_39 = Point(
         'Pier 39',
-        point.Coordinates(37.8100, -122.4104),
+        Coordinates(37.8100, -122.4104),
         None,
-        point.OperatingHours(datetime.time(10, 0, 0), datetime.time(22, 0, 0)),
+        OperatingHours(datetime.time(10, 0, 0), datetime.time(22, 0, 0)),
         3.)
 
-    points = read_csv.ReadCSV(csv_filepath)
+    points = ReadCSV(csv_filepath)
     self.assertEqual(2, len(points))
     self.assertEqual(pier_39, points[1])
-    points = read_csv.ReadCSVToDict(csv_filepath)
+    points = ReadCSVToDict(csv_filepath)
     self.assertEqual(2, len(points))
     self.assertEqual(set(['Ferry Biulding', 'Pier 39']), set(points.keys()))
     self.assertEqual(pier_39, points['Pier 39'])

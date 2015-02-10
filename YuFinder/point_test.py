@@ -2,14 +2,13 @@ import os
 import unittest
 
 import Yusi
-from Yusi.YuFinder import read_csv
-from Yusi.YuFinder import point
+from Yusi.YuFinder.read_csv import ReadCSV
 
 
 class PointTest(unittest.TestCase):
 
   def testStr(self):
-    points = read_csv.ReadCSV(os.path.join(Yusi.GetYusiDir(), 'YuFinder', 'test_sf_1.csv'))
+    points = ReadCSV(os.path.join(Yusi.GetYusiDir(), 'YuFinder', 'test_sf_1.csv'))
     point_0_str_actual = '%s' % points[0]
     point_0_str_expected = """Name "Ferry Biulding"
 Coordinates Starts 37.7955:-122.3937

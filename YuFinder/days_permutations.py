@@ -1,5 +1,6 @@
 import collections
 
+
 class DaysToPoints(collections.defaultdict):
 
   def __init__(self, *args, **kwargs):

@@ -1,9 +1,9 @@
 import os
 
 import Yusi
-from Yusi.YuFinder import read_csv
 from Yusi.YuFinder.city_visit import MoveType, MoveDescription
 from Yusi.YuFinder.point import CoordinatesInterface
+from Yusi.YuFinder.read_csv import ReadCSVToDict
 
 
 class MockCoordinates(CoordinatesInterface):
@@ -60,7 +60,7 @@ class MockMoveCalculator(object):
 # TODO(igushev): Change points to points_dict everywhere in code and
 # for other dicts (?).
 def MockPoints():
-  points = read_csv.ReadCSVToDict(
+  points = ReadCSVToDict(
       os.path.join(Yusi.GetYusiDir(), 'YuFinder', 'test_sf_1.csv'))
   for point in points.values():
     point.coordinates_starts = MockCoordinates(point.name)

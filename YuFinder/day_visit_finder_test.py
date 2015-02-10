@@ -6,30 +6,31 @@ from Yusi.YuFinder.cost_accumulator import FactorCostAccumulatorGenerator
 from Yusi.YuFinder.day_visit_finder import DayVisitFinder
 from Yusi.YuFinder.point_fit import SimplePointFit
 from Yusi.YuFinder.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
-from Yusi.YuFinder import test_utils
-from Yusi.YuFinder import city_visit
+from Yusi.YuFinder.city_visit import DayVisitParameters
+from Yusi.YuFinder.test_utils import MockCoordinates, MockPoints,\
+  MockMoveCalculator
 
 
 class DayVisitFinderTest(unittest.TestCase):
 
   @staticmethod
   def GetDayVisitParameters(start_datetime, end_datetime):
-    return city_visit.DayVisitParameters(
+    return DayVisitParameters(
         start_datetime=start_datetime,
         end_datetime=end_datetime,
         lunch_start_datetime=datetime.datetime(
             start_datetime.year, start_datetime.month, start_datetime.day,
             13, 0, 0),
         lunch_hours=1.,
-        start_coordinates=test_utils.MockCoordinates('Hotel'),
-        end_coordinates=test_utils.MockCoordinates('Restaurant'))
+        start_coordinates=MockCoordinates('Hotel'),
+        end_coordinates=MockCoordinates('Restaurant'))
 
   def setUp(self):
     no_point_visit_factor = 0
     no_point_visit_const = 1000
     day_visit_heap_size = 1000
-    self.points = test_utils.MockPoints()
-    move_calculator = test_utils.MockMoveCalculator()
+    self.points = MockPoints()
+    move_calculator = MockMoveCalculator()
     point_fit = SimplePointFit()
     cost_accumulator_generator=FactorCostAccumulatorGenerator(
         no_point_visit_factor=no_point_visit_factor,

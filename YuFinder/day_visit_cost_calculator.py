@@ -1,9 +1,10 @@
 import copy
 import datetime
 
-from Yusi.YuFinder import city_visit
 from Yusi.YuFinder.day_visit_cost_calculator_interface import DayVisitCostCalculatorInterface,\
   DayVisitCostCalculatorGeneratorInterface
+from Yusi.YuFinder.city_visit import DayVisit, Lunch, StartEndDatetime,\
+  MoveBetween, PointVisit
 
 
 class DayVisitCostCalculatorState(object):
@@ -47,7 +48,7 @@ class PointVisitAdder(ActionAdderInterface):
   
   def StartEndDatetime(self, current_state):
     visit_timedelta = datetime.timedelta(hours=self.point.duration)
-    visit_start_end_datetime = city_visit.StartEndDatetime(
+    visit_start_end_datetime = StartEndDatetime(
         current_state.current_datetime,
         current_state.current_datetime + visit_timedelta)
     return visit_start_end_datetime
@@ -64,7 +65,7 @@ class PointVisitAdder(ActionAdderInterface):
     current_state.current_coordinates = self.point.coordinates_ends
     current_state.cost_accumulator.AddPointVisit(self.point)
     current_state.actions.append(
-        city_visit.PointVisit(visit_start_end_datetime, self.point))
+        PointVisit(visit_start_end_datetime, self.point))
     return True
 
 
@@ -79,7 +80,7 @@ class MoveBetweenAdder(ActionAdderInterface):
         self.calculator.move_calculator.CalculateMoveDescription(
             current_state.current_coordinates, self.to_coordinates))
     move_timedelta = datetime.timedelta(hours=move_description.move_hours)
-    move_start_end_datetime = city_visit.StartEndDatetime(
+    move_start_end_datetime = StartEndDatetime(
         current_state.current_datetime,
         current_state.current_datetime + move_timedelta)
     return move_start_end_datetime
@@ -89,7 +90,7 @@ class MoveBetweenAdder(ActionAdderInterface):
         self.calculator.move_calculator.CalculateMoveDescription(
             current_state.current_coordinates, self.to_coordinates))
     move_timedelta = datetime.timedelta(hours=move_description.move_hours)
-    move_start_end_datetime = city_visit.StartEndDatetime(
+    move_start_end_datetime = StartEndDatetime(
         current_state.current_datetime,
         current_state.current_datetime + move_timedelta)
     if (move_start_end_datetime.end >
@@ -99,7 +100,7 @@ class MoveBetweenAdder(ActionAdderInterface):
     current_state.current_coordinates = move_description.to_coordinates
     current_state.cost_accumulator.AddMoveBetween(move_description)
     current_state.actions.append(
-      city_visit.MoveBetween(move_start_end_datetime, move_description))
+      MoveBetween(move_start_end_datetime, move_description))
     return True
 
 
@@ -111,7 +112,7 @@ class LunchAdder(ActionAdderInterface):
   def StartEndDatetime(self, current_state):
     lunch_timedelta = datetime.timedelta(
         hours=self.calculator.day_visit_parameters.lunch_hours)
-    lunch_start_end_datetime = city_visit.StartEndDatetime(
+    lunch_start_end_datetime = StartEndDatetime(
         current_state.current_datetime,
         current_state.current_datetime + lunch_timedelta)
     return lunch_start_end_datetime
@@ -125,7 +126,7 @@ class LunchAdder(ActionAdderInterface):
     current_state.cost_accumulator.AddLunch(
         self.calculator.day_visit_parameters.lunch_hours)
     current_state.actions.append(
-        city_visit.Lunch(
+        Lunch(
             lunch_start_end_datetime,
             self.calculator.day_visit_parameters.lunch_hours))
     return True
@@ -242,7 +243,7 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
     assert self._AddActionAndLunch(
         finalize_action_adder, finalized_current_state), (
             'Finalizing Move must be able to be added.')
-    return city_visit.DayVisit(
+    return DayVisit(
         self.day_visit_parameters.start_datetime,
         finalized_current_state.actions,
         finalized_current_state.cost_accumulator.Cost())

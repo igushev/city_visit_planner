@@ -1,7 +1,5 @@
 import hashlib
 
-from collections import namedtuple
-
 
 class CityVisitHeap(object):
 

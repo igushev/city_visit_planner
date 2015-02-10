@@ -5,7 +5,7 @@ import time
 import numpy as np
 import pandas as pd
 
-from Yusi.YuFinder import point
+from Yusi.YuFinder.point import Coordinates, OperatingHours, Point
 
 
 lat_long_delimeter = ','
@@ -55,7 +55,7 @@ def ExtractCoordinates(coordinates_str):
     return None
   latitude = __CoordinateStrToFloat(latitude_str, 'N', 'S')
   longitude = __CoordinateStrToFloat(longitude_str, 'E', 'W')
-  return point.Coordinates(latitude, longitude)
+  return Coordinates(latitude, longitude)
   
 
 def __HoursStrToTime(input_str):
@@ -70,14 +70,14 @@ def ExtractOperatingHours(opens_str, closes_str):
     return None
   opens = __HoursStrToTime(opens_str)
   closes = __HoursStrToTime(closes_str)
-  return point.OperatingHours(opens, closes)
+  return OperatingHours(opens, closes)
 
 
 def ReadCSV(csv_filepath):
   points_df = pd.DataFrame.from_csv(csv_filepath)
   points = []
   for index, point_series in points_df.iterrows():
-    points.append(point.Point(
+    points.append(Point(
       ExtractString(point_series['Name']),
       ExtractCoordinates(point_series['CoordinatesStarts']),
       ExtractCoordinates(point_series['CoordinatesEnds']),

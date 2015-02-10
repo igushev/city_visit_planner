@@ -1,6 +1,7 @@
 import copy
-from Yusi.YuFinder import city_visit
+
 from Yusi.YuFinder.point import Point
+from Yusi.YuFinder.city_visit import MoveDescription, MoveType
 
 
 # TODO(igushev): Do we need to add lunch time to cost?
@@ -60,12 +61,12 @@ class FactorCostAccumulator(CostAccumulatorInterface):
     self.cost += point.duration * self._point_visit_factor
 
   def AddMoveBetween(self, move_description):
-    assert isinstance(move_description, city_visit.MoveDescription)
-    if move_description.move_type == city_visit.MoveType.walking:
+    assert isinstance(move_description, MoveDescription)
+    if move_description.move_type == MoveType.walking:
       factor = self._move_walking_factor
-    elif move_description.move_type == city_visit.MoveType.driving:
+    elif move_description.move_type == MoveType.driving:
       factor = self._move_driving_factor
-    elif move_description.move_type == city_visit.MoveType.ptt:
+    elif move_description.move_type == MoveType.ptt:
       factor = self._move_ptt_factor
     else:
       raise NotImplemented('Unknown MoveType: %s' % move_description.move_type)

@@ -3,9 +3,9 @@ import unittest
 
 import Yusi
 from Yusi.YuFinder.cost_accumulator import FactorCostAccumulatorGenerator
-from Yusi.YuFinder.read_csv import ReadCSVToDict
-from Yusi.YuFinder.point import Coordinates
-from Yusi.YuFinder.city_visit import MoveType, MoveDescription
+from Yusi.YuPoint.read_csv import ReadCSVToDict
+from Yusi.YuPoint.point import Coordinates
+from Yusi.YuPoint.city_visit import MoveType, MoveDescription
 
 
 class FactorCostAccumulatorTest(unittest.TestCase):
@@ -13,7 +13,7 @@ class FactorCostAccumulatorTest(unittest.TestCase):
   def setUp(self):
     self.san_francisco_coordinates = Coordinates(37.7833, -122.4167)
     self.points = ReadCSVToDict(
-        os.path.join(Yusi.GetYusiDir(), 'YuFinder', 'test_sf_1.csv'))
+        os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
     super(FactorCostAccumulatorTest, self).setUp()
     
   

@@ -3,7 +3,7 @@ import datetime
 
 from Yusi.YuFinder.day_visit_cost_calculator_interface import DayVisitCostCalculatorInterface,\
   DayVisitCostCalculatorGeneratorInterface
-from Yusi.YuFinder.city_visit import DayVisit, Lunch, StartEndDatetime,\
+from Yusi.YuPoint.city_visit import DayVisit, Lunch, StartEndDatetime,\
   MoveBetween, PointVisit
 
 

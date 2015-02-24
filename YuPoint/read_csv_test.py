@@ -2,9 +2,9 @@ import datetime
 import tempfile
 import unittest
 
-from Yusi.YuFinder.read_csv import ReadCSV, ReadCSVToDict, ExtractOperatingHours,\
+from Yusi.YuPoint.read_csv import ReadCSV, ReadCSVToDict, ExtractOperatingHours,\
   ExtractCoordinates
-from Yusi.YuFinder.point import OperatingHours, Coordinates, Point
+from Yusi.YuPoint.point import OperatingHours, Coordinates, Point
 
 
 class ReadCSVTest(unittest.TestCase):

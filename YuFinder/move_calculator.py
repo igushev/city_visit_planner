@@ -3,7 +3,7 @@
 import math
 
 import Yusi
-from Yusi.YuFinder.city_visit import MoveDescription
+from Yusi.YuPoint.city_visit import MoveDescription
 
 
 R = 3959  # Earth radius in miles.

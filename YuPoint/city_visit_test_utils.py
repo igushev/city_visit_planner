@@ -3,10 +3,10 @@ import datetime
 import unittest
 
 import Yusi
-from Yusi.YuFinder.city_visit import MoveBetween, StartEndDatetime, PointVisit,\
+from Yusi.YuPoint.city_visit import MoveBetween, StartEndDatetime, PointVisit,\
   MoveDescription, MoveType, DayVisit, CityVisit
-from Yusi.YuFinder.read_csv import ReadCSVToDict
-from Yusi.YuFinder.point import Coordinates
+from Yusi.YuPoint.read_csv import ReadCSVToDict
+from Yusi.YuPoint.point import Coordinates
 
 
 class CityVisitTestExample(unittest.TestCase):
@@ -14,7 +14,7 @@ class CityVisitTestExample(unittest.TestCase):
   def setUp(self):
 
     self.points = ReadCSVToDict(
-        os.path.join(Yusi.GetYusiDir(), 'YuFinder', 'test_sf_1.csv'))
+        os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
     
     self.san_francisco_coordinates = Coordinates(37.7833, -122.4167)
     

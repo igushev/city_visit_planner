@@ -1,5 +1,4 @@
 import Yusi
-from Yusi.YuFinder.city_visit import MoveType
 from Yusi.YuFinder.cost_accumulator import FactorCostAccumulatorGenerator
 from Yusi.YuFinder.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
 from Yusi.YuFinder.day_visit_finder import DayVisitFinder
@@ -8,6 +7,7 @@ from Yusi.YuFinder.point_fit import SimplePointFit
 from Yusi.YuFinder.city_visit_finder import CityVisitFinder
 from Yusi.YuFinder.multi_day_visit_cost_calculator import MultiDayVisitCostCalculatorGenerator
 from Yusi.YuFinder.city_visit_cost_calculator import CityVisitCostCalculatorGenerator
+from Yusi.YuPoint.city_visit import MoveType
 
 
 class PrototypeParameters(object):

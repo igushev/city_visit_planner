@@ -1,8 +1,8 @@
 import unittest
 
-from Yusi.YuFinder.city_visit_test_utils import CityVisitTestExample
 from Yusi.YuFinder.city_visit_cost_calculator import CityVisitCostCalculatorGenerator
 from Yusi.YuFinder.cost_accumulator import FactorCostAccumulatorGenerator
+from Yusi.YuPoint.city_visit_test_utils import CityVisitTestExample
 
 
 class CityVisitCostCalculatorTest(CityVisitTestExample):

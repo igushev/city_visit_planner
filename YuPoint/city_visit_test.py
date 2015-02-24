@@ -2,9 +2,9 @@ import datetime
 import unittest
 
 import Yusi
-from Yusi.YuFinder.city_visit import DayVisitParameters, MoveBetween,\
+from Yusi.YuPoint.city_visit import DayVisitParameters, MoveBetween,\
   StartEndDatetime, MoveDescription, DayVisit, MoveType
-from Yusi.YuFinder.city_visit_test_utils import CityVisitTestExample
+from Yusi.YuPoint.city_visit_test_utils import CityVisitTestExample
 
 
 class DayVisitParametersTest(CityVisitTestExample):

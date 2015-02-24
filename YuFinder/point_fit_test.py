@@ -1,9 +1,9 @@
 import datetime
 import unittest
 
-from Yusi.YuFinder.point import OperatingHours
 from Yusi.YuFinder.point_fit import SimplePointFit
-from Yusi.YuFinder.city_visit import StartEndDatetime
+from Yusi.YuPoint.point import OperatingHours
+from Yusi.YuPoint.city_visit import StartEndDatetime
 
 
 class PointFitTest(unittest.TestCase):

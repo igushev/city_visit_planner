@@ -1,7 +1,7 @@
 import copy
 
-from Yusi.YuFinder.point import Point
-from Yusi.YuFinder.city_visit import MoveDescription, MoveType
+from Yusi.YuPoint.point import Point
+from Yusi.YuPoint.city_visit import MoveDescription, MoveType
 
 
 # TODO(igushev): Do we need to add lunch time to cost?

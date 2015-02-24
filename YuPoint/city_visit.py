@@ -2,7 +2,7 @@ import datetime
 import hashlib
 
 import Yusi
-from Yusi.YuFinder.point import Point, CoordinatesInterface
+from Yusi.YuPoint.point import Point, CoordinatesInterface
 
 
 class StartEndDatetime(object):

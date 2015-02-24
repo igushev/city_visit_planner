@@ -3,7 +3,6 @@ import unittest
 
 import Yusi
 from Yusi.YuFinder.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
-from Yusi.YuFinder.city_visit import DayVisitParameters
 from Yusi.YuFinder.city_visit_finder import CityVisitFinder
 from Yusi.YuFinder.cost_accumulator import FactorCostAccumulatorGenerator
 from Yusi.YuFinder.point_fit import SimplePointFit
@@ -11,6 +10,7 @@ from Yusi.YuFinder.day_visit_finder import DayVisitFinder
 from Yusi.YuFinder.city_visit_cost_calculator import CityVisitCostCalculatorGenerator
 from Yusi.YuFinder.test_utils import MockCoordinates, MockPoints,\
   MockMoveCalculator
+from Yusi.YuPoint.city_visit import DayVisitParameters
 
 
 class CityVisitFinderTest(unittest.TestCase):

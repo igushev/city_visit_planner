@@ -1,4 +1,4 @@
-from Yusi.YuFinder.city_visit import PointVisit, MoveBetween, Lunch, CityVisit
+from Yusi.YuPoint.city_visit import PointVisit, MoveBetween, Lunch, CityVisit
 
 
 class CityVisitCostCalculator(object):

@@ -2,17 +2,17 @@ import datetime
 import os
 
 import Yusi
-from Yusi.YuFinder.city_visit import DayVisitParameters
 from Yusi.YuFinder.prototype_parameters import PrototypeParameters
-from Yusi.YuFinder.point import Coordinates
-from Yusi.YuFinder.read_csv import ReadCSVToDict
+from Yusi.YuPoint.city_visit import DayVisitParameters
+from Yusi.YuPoint.point import Coordinates
+from Yusi.YuPoint.read_csv import ReadCSVToDict
 
 
 class Runner(object):
   
   def __init__(self):
     points = ReadCSVToDict(
-        os.path.join(Yusi.GetYusiDir(), 'YuFinder', 'test_sf_1.csv'))
+        os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
     san_francisco_coordinates = Coordinates(37.7833, -122.4167)
     
     def GetDayVisitParameters(start_datetime, end_datetime):

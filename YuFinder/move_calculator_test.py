@@ -3,8 +3,8 @@ import unittest
 import Yusi
 from Yusi.YuFinder.move_calculator import SimpleMoveCalculator,\
   MultiMoveCalculator
-from Yusi.YuFinder.point import Coordinates
-from Yusi.YuFinder.city_visit import MoveType
+from Yusi.YuPoint.point import Coordinates
+from Yusi.YuPoint.city_visit import MoveType
 
 
 class MoveCalculatorTest(unittest.TestCase):

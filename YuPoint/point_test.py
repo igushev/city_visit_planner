@@ -56,30 +56,30 @@ class PointTest(unittest.TestCase):
         os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
 
     ferry_building_str_actual = '%s' % points['Ferry Building']
-    ferry_building_str_expected = """Name "Ferry Building"
-Coordinates Starts 37.7955:-122.3937
-Coordinates Ends 37.7955:-122.3937
-Operating Hours 09:00:00 - 18:00:00
-Duration 1.00
-Type Landmarks (100)
-Age group Adult (90), Senior (90), Child (70), Junior (40)
-Price 0.00
-Parking 0
-Eating 100
+    ferry_building_str_expected = """Name: "Ferry Building"
+Coordinates Starts: 37.7955:-122.3937
+Coordinates Ends: 37.7955:-122.3937
+Operating Hours: 09:00:00 - 18:00:00
+Duration: 1.00
+Type: Landmarks (100)
+Age group: Adult (90), Senior (90), Child (70), Junior (40)
+Price: 0.00
+Parking: 0
+Eating: 100
 """
     self.assertEqual(ferry_building_str_expected, ferry_building_str_actual)
     
     golden_gate_bridge_str_actual = '%s' % points['Golden Gate Bridge']
-    ferry_building_str_expected = """Name "Golden Gate Bridge"
-Coordinates Starts 37.8197:-122.4786
-Coordinates Ends 37.8197:-122.4786
-Operating Hours 24/7
-Duration 0.50
-Type Landmarks (100), City Tours (50)
-Age group Adult (90), Child (70), Junior (70), Senior (70)
-Price 0.00
-Parking 50
-Eating 0
+    ferry_building_str_expected = """Name: "Golden Gate Bridge"
+Coordinates Starts: 37.8197:-122.4786
+Coordinates Ends: 37.8197:-122.4786
+Operating Hours: 24/7
+Duration: 0.50
+Type: Landmarks (100), City Tours (50)
+Age group: Adult (90), Child (70), Junior (70), Senior (70)
+Price: 0.00
+Parking: 50
+Eating: 0
 """
     self.assertEqual(ferry_building_str_expected, golden_gate_bridge_str_actual)
 

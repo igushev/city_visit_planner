@@ -182,15 +182,15 @@ class Point(object):
 
   def __str__(self):
     s = str()
-    s += 'Name "%s"\n' % self.name
-    s += 'Coordinates Starts %s\n' % self.coordinates_starts
-    s += 'Coordinates Ends %s\n' % self.coordinates_ends
-    s += 'Operating Hours %s\n' % (
+    s += 'Name: "%s"\n' % self.name
+    s += 'Coordinates Starts: %s\n' % self.coordinates_starts
+    s += 'Coordinates Ends: %s\n' % self.coordinates_ends
+    s += 'Operating Hours: %s\n' % (
         self.operating_hours if self.operating_hours is not None else '24/7') 
-    s += 'Duration %.2f\n' % self.duration
-    s += 'Type %s\n' % self.point_type
-    s += 'Age group %s\n' % self.point_age_group
-    s += 'Price %.2f\n' % self.price
-    s += 'Parking %d\n' % self.parking
-    s += 'Eating %d\n' % self.eating
+    s += 'Duration: %.2f\n' % self.duration
+    s += 'Type: %s\n' % self.point_type
+    s += 'Age group: %s\n' % self.point_age_group
+    s += 'Price: %.2f\n' % self.price
+    s += 'Parking: %d\n' % self.parking
+    s += 'Eating: %d\n' % self.eating
     return s

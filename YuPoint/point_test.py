@@ -61,6 +61,7 @@ Coordinates Starts: 37.7955:-122.3937
 Coordinates Ends: 37.7955:-122.3937
 Operating Hours: 09:00:00 - 18:00:00
 Duration: 1.00
+Popularity: 80
 Type: Landmarks (100)
 Age group: Adult (90), Senior (90), Child (70), Junior (40)
 Price: 0.00
@@ -75,6 +76,7 @@ Coordinates Starts: 37.8197:-122.4786
 Coordinates Ends: 37.8197:-122.4786
 Operating Hours: 24/7
 Duration: 0.50
+Popularity: 100
 Type: Landmarks (100), City Tours (50)
 Age group: Adult (90), Child (70), Junior (70), Senior (70)
 Price: 0.00

@@ -44,9 +44,9 @@ class ReadCSVTest(unittest.TestCase):
 
   def testReadCSVGeneral(self):
     s = str()
-    s += 'ID,Name,CoordinatesStarts,CoordinatesEnds,OperatingHoursOpens,OperatingHoursCloses,Duration,City Tours,Landmarks,Nature,Museums,Shopping,Dining,Senior,Adult,Junior,Child,Toddlers,Price,Parking,Eating\n'
-    s += '1,Ferry Building,"37.7955N, 122.3937W",,09:00:00,18:00:00,1,,100,,,,,90,90,40,70,,,,100\n'
-    s += '2,Pier 39,"37.8100N, 122.4104W",,10:00:00,22:00:00,3,,100,,,30,60,70,70,70,90,,,,100\n'
+    s += 'ID,Name,CoordinatesStarts,CoordinatesEnds,OperatingHoursOpens,OperatingHoursCloses,Duration,Popularity,City Tours,Landmarks,Nature,Museums,Shopping,Dining,Senior,Adult,Junior,Child,Toddlers,Price,Parking,Eating\n'
+    s += '1,Ferry Building,"37.7955N, 122.3937W",,09:00:00,18:00:00,1,80,,100,,,,,90,90,40,70,,,,100\n'
+    s += '2,Pier 39,"37.8100N, 122.4104W",,10:00:00,22:00:00,3,80,,100,,,30,60,70,70,70,90,,,,100\n'
     csv_filepath = tempfile.mktemp()
     with open(csv_filepath, 'w') as csv_file:
       csv_file.write(s)
@@ -58,6 +58,7 @@ class ReadCSVTest(unittest.TestCase):
         operating_hours=OperatingHours(
             datetime.time(10, 0, 0), datetime.time(22, 0, 0)),
         duration=3.,
+        popularity=80,
         point_type=PointType(
             city_tours=None,
             landmarks=100,

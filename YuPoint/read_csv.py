@@ -94,6 +94,7 @@ def ReadCSV(csv_filepath):
           point_series['OperatingHoursOpens'],
           point_series['OperatingHoursCloses']),
       duration=ExtractFloat(point_series['Duration']),
+      popularity=ExtractInt(point_series['Popularity']),
       point_type=PointType(
           city_tours=ExtractInt(point_series['City Tours']),          
           landmarks=ExtractInt(point_series['Landmarks']),

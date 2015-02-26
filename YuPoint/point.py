@@ -146,8 +146,8 @@ class Point(object):
   """Sightseeing, Attraction or Point Of Interest."""
 
   def __init__(self, name, coordinates_starts, coordinates_ends,
-               operating_hours, duration, point_type, point_age_group, price,
-               parking, eating):
+               operating_hours, duration, popularity, point_type,
+               point_age_group, price, parking, eating):
     assert isinstance(name, str)  # Must not be None
     # Must not be None
     assert isinstance(coordinates_starts, CoordinatesInterface)
@@ -156,6 +156,7 @@ class Point(object):
     if operating_hours is not None:
       assert isinstance(operating_hours, OperatingHours)
     assert isinstance(duration, float)   # Must not be None
+    assert isinstance(popularity, int)   # Must not be None
     assert isinstance(point_type, PointType)  # Must not be None
     assert isinstance(point_age_group, PointAgeGroup)  # Must not be None
     if price is not None:
@@ -171,6 +172,7 @@ class Point(object):
       coordinates_ends if coordinates_ends is not None else coordinates_starts)
     self.operating_hours = operating_hours  # None means 24/7.
     self.duration = duration
+    self.popularity = popularity
     self.point_type = point_type
     self.point_age_group = point_age_group
     self.price = price or 0.
@@ -188,6 +190,7 @@ class Point(object):
     s += 'Operating Hours: %s\n' % (
         self.operating_hours if self.operating_hours is not None else '24/7') 
     s += 'Duration: %.2f\n' % self.duration
+    s += 'Popularity: %d\n' % self.popularity
     s += 'Type: %s\n' % self.point_type
     s += 'Age group: %s\n' % self.point_age_group
     s += 'Price: %.2f\n' % self.price

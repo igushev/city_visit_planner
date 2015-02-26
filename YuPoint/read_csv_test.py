@@ -5,7 +5,7 @@ import unittest
 from Yusi.YuPoint.read_csv import ReadCSV, ReadCSVToDict, ExtractOperatingHours,\
   ExtractCoordinates
 from Yusi.YuPoint.point import OperatingHours, Coordinates, Point, PointType,\
-  PointAgeGroup
+  AgeGroup
 
 
 class ReadCSVTest(unittest.TestCase):
@@ -66,7 +66,7 @@ class ReadCSVTest(unittest.TestCase):
             museums=None,
             shopping=30,
             dining=60),
-        point_age_group=PointAgeGroup(
+        age_group=AgeGroup(
             senior=70,
             adult=70,
             junior=70,

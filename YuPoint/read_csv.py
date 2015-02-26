@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from Yusi.YuPoint.point import Coordinates, OperatingHours, Point, PointType,\
-  PointAgeGroup
+  AgeGroup
 
 
 lat_long_delimeter = ','
@@ -102,7 +102,7 @@ def ReadCSV(csv_filepath):
           museums=ExtractInt(point_series['Museums']),
           shopping=ExtractInt(point_series['Shopping']),
           dining=ExtractInt(point_series['Dining'])),
-      point_age_group=PointAgeGroup(
+      age_group=AgeGroup(
           senior=ExtractInt(point_series['Senior']),
           adult=ExtractInt(point_series['Adult']),
           junior=ExtractInt(point_series['Junior']),

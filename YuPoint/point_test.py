@@ -3,7 +3,7 @@ import unittest
 
 import Yusi
 from Yusi.YuPoint.read_csv import ReadCSVToDict
-from Yusi.YuPoint.point import PointType, PointAgeGroup
+from Yusi.YuPoint.point import PointType, AgeGroup
 
 
 class PointTypeTest(unittest.TestCase):
@@ -16,7 +16,7 @@ class PointTypeTest(unittest.TestCase):
         museums=None,
         shopping=None,
         dining=None)
-    self.assertEqual('No type', '%s' % point_type)
+    self.assertEqual('No point type', '%s' % point_type)
 
     point_type = PointType(
         city_tours=None,
@@ -28,25 +28,25 @@ class PointTypeTest(unittest.TestCase):
     self.assertEqual('Dining (50), Shopping (50), Landmarks (30)',
                      '%s' % point_type)
 
-class PointAgeGroupTest(unittest.TestCase):
+class AgeGroupTest(unittest.TestCase):
 
   def testStr(self):
-    point_age_group = PointAgeGroup(
+    age_group = AgeGroup(
         senior=None,
         adult=None,
         junior=None,
         child=None,
         toddlers=None)
-    self.assertEqual('No age group', '%s' % point_age_group)
+    self.assertEqual('No age group', '%s' % age_group)
 
-    point_age_group = PointAgeGroup(
+    age_group = AgeGroup(
         senior=50,
         adult=50,
         junior=30,
         child=None,
         toddlers=None)
     self.assertEqual('Adult (50), Senior (50), Junior (30)',
-                     '%s' % point_age_group)
+                     '%s' % age_group)
 
 
 class PointTest(unittest.TestCase):
@@ -62,7 +62,7 @@ Coordinates Ends: 37.7955:-122.3937
 Operating Hours: 09:00:00 - 18:00:00
 Duration: 1.00
 Popularity: 80
-Type: Landmarks (100)
+Point type: Landmarks (100)
 Age group: Adult (90), Senior (90), Child (70), Junior (40)
 Price: 0.00
 Parking: 0
@@ -77,7 +77,7 @@ Coordinates Ends: 37.8197:-122.4786
 Operating Hours: 24/7
 Duration: 0.50
 Popularity: 100
-Type: Landmarks (100), City Tours (50)
+Point type: Landmarks (100), City Tours (50)
 Age group: Adult (90), Child (70), Junior (70), Senior (70)
 Price: 0.00
 Parking: 50

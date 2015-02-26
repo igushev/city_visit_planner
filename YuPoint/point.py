@@ -80,20 +80,22 @@ class PointType(object):
     return self.__dict__ == other.__dict__
 
   def __str__(self):
-    names_types = [
-        (name, type_)
-        for name, type_ in sorted(self._GetNamesTypes().iteritems())
-        if type_ > 0]
-    names_types = sorted(
-        names_types, key = lambda (name, type_): type_, reverse=True)
-    if names_types:
+    names_point_types = [
+        (name, point_type)
+        for name, point_type in sorted(self._GetNamesTypes().iteritems())
+        if point_type > 0]
+    names_point_types = sorted(
+        names_point_types, key = lambda (name, point_type): point_type,
+        reverse=True)
+    if names_point_types:
       return ', '.join(
-          ['%s (%d)' % (name, type_) for name, type_ in names_types])
+          ['%s (%d)' % (name, point_type)
+           for name, point_type in names_point_types])
     else:
-      return 'No type'
+      return 'No point type'
 
 
-class PointAgeGroup(object):
+class AgeGroup(object):
   """Age groups most suitable for a point."""
 
   def __init__(self, senior, adult, junior, child, toddlers):
@@ -147,7 +149,7 @@ class Point(object):
 
   def __init__(self, name, coordinates_starts, coordinates_ends,
                operating_hours, duration, popularity, point_type,
-               point_age_group, price, parking, eating):
+               age_group, price, parking, eating):
     assert isinstance(name, str)  # Must not be None
     # Must not be None
     assert isinstance(coordinates_starts, CoordinatesInterface)
@@ -158,7 +160,7 @@ class Point(object):
     assert isinstance(duration, float)   # Must not be None
     assert isinstance(popularity, int)   # Must not be None
     assert isinstance(point_type, PointType)  # Must not be None
-    assert isinstance(point_age_group, PointAgeGroup)  # Must not be None
+    assert isinstance(age_group, AgeGroup)  # Must not be None
     if price is not None:
       assert isinstance(price, float)
     if parking is not None:
@@ -174,7 +176,7 @@ class Point(object):
     self.duration = duration
     self.popularity = popularity
     self.point_type = point_type
-    self.point_age_group = point_age_group
+    self.age_group = age_group
     self.price = price or 0.
     self.parking = parking or 0
     self.eating = eating or 0
@@ -191,8 +193,8 @@ class Point(object):
         self.operating_hours if self.operating_hours is not None else '24/7') 
     s += 'Duration: %.2f\n' % self.duration
     s += 'Popularity: %d\n' % self.popularity
-    s += 'Type: %s\n' % self.point_type
-    s += 'Age group: %s\n' % self.point_age_group
+    s += 'Point type: %s\n' % self.point_type
+    s += 'Age group: %s\n' % self.age_group
     s += 'Price: %.2f\n' % self.price
     s += 'Parking: %d\n' % self.parking
     s += 'Eating: %d\n' % self.eating

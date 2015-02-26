@@ -4,7 +4,8 @@ import unittest
 
 from Yusi.YuPoint.read_csv import ReadCSV, ReadCSVToDict, ExtractOperatingHours,\
   ExtractCoordinates
-from Yusi.YuPoint.point import OperatingHours, Coordinates, Point
+from Yusi.YuPoint.point import OperatingHours, Coordinates, Point, PointType,\
+  PointAgeGroup
 
 
 class ReadCSVTest(unittest.TestCase):
@@ -43,19 +44,36 @@ class ReadCSVTest(unittest.TestCase):
 
   def testReadCSVGeneral(self):
     s = str()
-    s += 'ID,Name,CoordinatesStarts,CoordinatesEnds,OperatingHoursOpens,OperatingHoursCloses,Duration,Rank\n'
-    s += '1,Ferry Building,"37.7955N, 122.3937W",,09:00:00,18:00:00,1,1\n'
-    s += '2,Pier 39,"37.8100N, 122.4104W",,10:00:00,22:00:00,3,2\n'
+    s += 'ID,Name,CoordinatesStarts,CoordinatesEnds,OperatingHoursOpens,OperatingHoursCloses,Duration,City Tours,Landmarks,Nature,Museums,Shopping,Dining,Senior,Adult,Junior,Child,Toddlers,Price,Parking,Eating\n'
+    s += '1,Ferry Building,"37.7955N, 122.3937W",,09:00:00,18:00:00,1,,100,,,,,90,90,40,70,,,,100\n'
+    s += '2,Pier 39,"37.8100N, 122.4104W",,10:00:00,22:00:00,3,,100,,,30,60,70,70,70,90,,,,100\n'
     csv_filepath = tempfile.mktemp()
     with open(csv_filepath, 'w') as csv_file:
       csv_file.write(s)
 
     pier_39 = Point(
-        'Pier 39',
-        Coordinates(37.8100, -122.4104),
-        None,
-        OperatingHours(datetime.time(10, 0, 0), datetime.time(22, 0, 0)),
-        3.)
+        name='Pier 39',
+        coordinates_starts=Coordinates(37.8100, -122.4104),
+        coordinates_ends=None,
+        operating_hours=OperatingHours(
+            datetime.time(10, 0, 0), datetime.time(22, 0, 0)),
+        duration=3.,
+        point_type=PointType(
+            city_tours=None,
+            landmarks=100,
+            nature=None,
+            museums=None,
+            shopping=30,
+            dining=60),
+        point_age_group=PointAgeGroup(
+            senior=70,
+            adult=70,
+            junior=70,
+            child=90,
+            toddlers=None),
+        price=None,
+        parking=None,
+        eating=100)
 
     points = ReadCSV(csv_filepath)
     self.assertEqual(2, len(points))

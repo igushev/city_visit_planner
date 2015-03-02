@@ -2,7 +2,8 @@ import datetime
 import hashlib
 
 import Yusi
-from Yusi.YuPoint.point import Point, CoordinatesInterface
+from Yusi.YuPoint.point import Point, CoordinatesInterface, PointTypeInterface,\
+  AgeGroupInterface
 
 
 class StartEndDatetime(object):
@@ -67,6 +68,23 @@ class DayVisitParameters(object):
     m.update(str(self.start_coordinates).encode('utf-8'))
     m.update(str(self.end_coordinates).encode('utf-8'))
     return m.hexdigest()    
+
+  def __eq__(self, other):
+    return self.__dict__ == other.__dict__
+
+
+class CityVisitParameters(object):
+  """Set of users parameter for whole city visit."""
+
+  def __init__(self, point_type, age_group):
+    assert isinstance(point_type, PointTypeInterface)  # Must not be None
+    assert isinstance(age_group, AgeGroupInterface)  # Must not be None
+
+    self.point_type = point_type
+    self.age_group = age_group
+
+  def __eq__(self, other):
+    return self.__dict__ == other.__dict__
 
 
 class ActionInterface(object):

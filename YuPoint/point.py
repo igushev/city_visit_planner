@@ -42,7 +42,11 @@ class OperatingHours(object):
     return '%s - %s' % (self.opens, self.closes)
 
 
-class PointType(object):
+class PointTypeInterface(object):
+  pass
+
+
+class PointType(PointTypeInterface):
   """Type of a point."""
 
   def __init__(self, city_tours, landmarks, nature, museums, shopping, dining):
@@ -66,7 +70,7 @@ class PointType(object):
     self.shopping = shopping or 0
     self.dining = dining or 0
 
-  def _GetNamesTypes(self):
+  def GetNamesPointTypes(self):
     return {'City Tours': self.city_tours,
             'Landmarks': self.landmarks,
             'Nature': self.nature,
@@ -82,7 +86,7 @@ class PointType(object):
   def __str__(self):
     names_point_types = [
         (name, point_type)
-        for name, point_type in sorted(self._GetNamesTypes().iteritems())
+        for name, point_type in sorted(self.GetNamesPointTypes().iteritems())
         if point_type > 0]
     names_point_types = sorted(
         names_point_types, key = lambda (name, point_type): point_type,
@@ -95,7 +99,11 @@ class PointType(object):
       return 'No point type'
 
 
-class AgeGroup(object):
+class AgeGroupInterface(object):
+  pass
+
+
+class AgeGroup(AgeGroupInterface):
   """Age groups most suitable for a point."""
 
   def __init__(self, senior, adult, junior, child, toddlers):
@@ -116,7 +124,7 @@ class AgeGroup(object):
     self.child = child or 0
     self.toddlers = toddlers or 0
 
-  def _GetNamesAgeGroups(self):
+  def GetNamesAgeGroups(self):
     return {'Senior': self.senior,
             'Adult': self.adult,
             'Junior': self.junior,
@@ -131,7 +139,7 @@ class AgeGroup(object):
   def __str__(self):
     names_age_groups = [
         (name, age_group)
-        for name, age_group in sorted(self._GetNamesAgeGroups().iteritems())
+        for name, age_group in sorted(self.GetNamesAgeGroups().iteritems())
         if age_group > 0]
     names_age_groups = sorted(
         names_age_groups, key = lambda (name, age_group): age_group,
@@ -159,8 +167,8 @@ class Point(object):
       assert isinstance(operating_hours, OperatingHours)
     assert isinstance(duration, float)   # Must not be None
     assert isinstance(popularity, int)   # Must not be None
-    assert isinstance(point_type, PointType)  # Must not be None
-    assert isinstance(age_group, AgeGroup)  # Must not be None
+    assert isinstance(point_type, PointTypeInterface)  # Must not be None
+    assert isinstance(age_group, AgeGroupInterface)  # Must not be None
     if price is not None:
       assert isinstance(price, float)
     if parking is not None:

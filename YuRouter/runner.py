@@ -2,7 +2,7 @@ import datetime
 import os
 
 import Yusi
-from Yusi.YuFinder.prototype_parameters import PrototypeParameters
+from Yusi.YuRouter.prototype_parameters import PrototypeParameters
 from Yusi.YuPoint.city_visit import DayVisitParameters
 from Yusi.YuPoint.point import Coordinates
 from Yusi.YuPoint.read_csv import ReadCSVToDict
@@ -48,11 +48,11 @@ class Runner(object):
     
     self.max_walking_distance=1.0
     
-    city_visit_finder = (
+    city_visit_router = (
         PrototypeParameters(max_walking_distance=self.max_walking_distance).
-        CityVisitFinder())
+        CityVisitRouter())
     
-    self.city_visit_best, self.points_left = city_visit_finder.FindCityVisit(
+    self.city_visit_best, self.points_left = city_visit_router.FindCityVisit(
         self.points_to_visit, day_visit_parameterss)
 
 

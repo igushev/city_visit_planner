@@ -2,7 +2,7 @@ import os
 import unittest
 
 import Yusi
-from Yusi.YuFinder.cost_accumulator import FactorCostAccumulatorGenerator
+from Yusi.YuRouter.cost_accumulator import FactorCostAccumulatorGenerator
 from Yusi.YuPoint.read_csv import ReadCSVToDict
 from Yusi.YuPoint.point import Coordinates
 from Yusi.YuPoint.city_visit import MoveType, MoveDescription

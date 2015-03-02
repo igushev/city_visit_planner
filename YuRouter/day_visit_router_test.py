@@ -2,16 +2,16 @@ import datetime
 import unittest
 
 import Yusi
-from Yusi.YuFinder.cost_accumulator import FactorCostAccumulatorGenerator
-from Yusi.YuFinder.day_visit_finder import DayVisitFinder
-from Yusi.YuFinder.point_fit import SimplePointFit
-from Yusi.YuFinder.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
-from Yusi.YuFinder.test_utils import MockCoordinates, MockPoints,\
+from Yusi.YuRouter.cost_accumulator import FactorCostAccumulatorGenerator
+from Yusi.YuRouter.day_visit_router import DayVisitRouter
+from Yusi.YuRouter.point_fit import SimplePointFit
+from Yusi.YuRouter.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
+from Yusi.YuRouter.test_utils import MockCoordinates, MockPoints,\
   MockMoveCalculator
 from Yusi.YuPoint.city_visit import DayVisitParameters
 
 
-class DayVisitFinderTest(unittest.TestCase):
+class DayVisitRouterTest(unittest.TestCase):
 
   @staticmethod
   def GetDayVisitParameters(start_datetime, end_datetime):
@@ -39,18 +39,18 @@ class DayVisitFinderTest(unittest.TestCase):
         move_calculator=move_calculator,
         point_fit=point_fit,
         cost_accumulator_generator=cost_accumulator_generator)
-    self.day_visit_finder = DayVisitFinder(
+    self.day_visit_router = DayVisitRouter(
         calculator_generator=day_visit_cost_calculator_generator,
         day_visit_heap_size=day_visit_heap_size)
-    super(DayVisitFinderTest, self).setUp()
+    super(DayVisitRouterTest, self).setUp()
     
     
   def testTwoFitTwoLeft(self):
-    day_visit_parameters = DayVisitFinderTest.GetDayVisitParameters(
+    day_visit_parameters = DayVisitRouterTest.GetDayVisitParameters(
         start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
         end_datetime=datetime.datetime(2014, 9, 1, 22, 0, 0))
 
-    day_visit_best, points_left = self.day_visit_finder.FindDayVisit(
+    day_visit_best, points_left = self.day_visit_router.FindDayVisit(
         [self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
@@ -72,11 +72,11 @@ Walking from Twin Peaks to Restaurant from 17:30:00 to 19:30:00"""
         points_left)
 
   def testEverythingFit(self):
-    day_visit_parameters = DayVisitFinderTest.GetDayVisitParameters(
+    day_visit_parameters = DayVisitRouterTest.GetDayVisitParameters(
         start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
         end_datetime=datetime.datetime(2014, 9, 1, 22, 0, 0))
 
-    day_visit_best, points_left = self.day_visit_finder.FindDayVisit(
+    day_visit_best, points_left = self.day_visit_router.FindDayVisit(
         [self.points['Ferry Building'],
          self.points['Pier 39']],
         day_visit_parameters)
@@ -93,11 +93,11 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
     self.assertEqual([], points_left)
 
   def testNothingFit(self):
-    day_visit_parameters = DayVisitFinderTest.GetDayVisitParameters(
+    day_visit_parameters = DayVisitRouterTest.GetDayVisitParameters(
         start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
         end_datetime=datetime.datetime(2014, 9, 1, 10, 30, 0))
 
-    day_visit_best, points_left = self.day_visit_finder.FindDayVisit(
+    day_visit_best, points_left = self.day_visit_router.FindDayVisit(
       [self.points['Ferry Building'],
        self.points['Pier 39'],
        self.points['Golden Gate Bridge'],
@@ -116,11 +116,11 @@ Walking from Hotel to Restaurant from 09:00:00 to 10:00:00"""
         points_left)
     
   def testNoPoints(self):
-    day_visit_parameters = DayVisitFinderTest.GetDayVisitParameters(
+    day_visit_parameters = DayVisitRouterTest.GetDayVisitParameters(
         start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
         end_datetime=datetime.datetime(2014, 9, 1, 22, 0, 0))
 
-    day_visit_best, points_left = self.day_visit_finder.FindDayVisit(
+    day_visit_best, points_left = self.day_visit_router.FindDayVisit(
         [],
         day_visit_parameters)
 

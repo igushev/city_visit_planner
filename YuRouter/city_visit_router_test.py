@@ -2,18 +2,18 @@ import datetime
 import unittest
 
 import Yusi
-from Yusi.YuFinder.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
-from Yusi.YuFinder.city_visit_finder import CityVisitFinder
-from Yusi.YuFinder.cost_accumulator import FactorCostAccumulatorGenerator
-from Yusi.YuFinder.point_fit import SimplePointFit
-from Yusi.YuFinder.day_visit_finder import DayVisitFinder
-from Yusi.YuFinder.city_visit_cost_calculator import CityVisitCostCalculatorGenerator
-from Yusi.YuFinder.test_utils import MockCoordinates, MockPoints,\
+from Yusi.YuRouter.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
+from Yusi.YuRouter.city_visit_router import CityVisitRouter
+from Yusi.YuRouter.cost_accumulator import FactorCostAccumulatorGenerator
+from Yusi.YuRouter.point_fit import SimplePointFit
+from Yusi.YuRouter.day_visit_router import DayVisitRouter
+from Yusi.YuRouter.city_visit_cost_calculator import CityVisitCostCalculatorGenerator
+from Yusi.YuRouter.test_utils import MockCoordinates, MockPoints,\
   MockMoveCalculator
 from Yusi.YuPoint.city_visit import DayVisitParameters
 
 
-class CityVisitFinderTest(unittest.TestCase):
+class CityVisitRouterTest(unittest.TestCase):
 
   @staticmethod
   def GetDayVisitParameters(start_datetime, end_datetime):
@@ -44,29 +44,29 @@ class CityVisitFinderTest(unittest.TestCase):
         move_calculator=move_calculator,
         point_fit=point_fit,
         cost_accumulator_generator=cost_accumulator_generator)
-    day_visit_finder = DayVisitFinder(
+    day_visit_router = DayVisitRouter(
         calculator_generator=day_visit_cost_calculator_generator,
         day_visit_heap_size=day_visit_heap_size)
     city_visit_cost_calculator_generator = CityVisitCostCalculatorGenerator(
         cost_accumulator_generator=cost_accumulator_generator)
-    self.city_visit_finder = CityVisitFinder(
-        day_visit_finder=day_visit_finder,
+    self.city_visit_router = CityVisitRouter(
+        day_visit_router=day_visit_router,
         city_visit_cost_calculator_generator=(
             city_visit_cost_calculator_generator),
         max_depth=max_depth,
         city_visit_heap_size=city_visit_heap_size,
         max_non_pushed_points=max_non_pushed_points,
         num_processes=None)
-    super(CityVisitFinderTest, self).setUp()
+    super(CityVisitRouterTest, self).setUp()
 
   def testOneShortDay(self):
     day_visit_parameterss = [
-        CityVisitFinderTest.GetDayVisitParameters(
+        CityVisitRouterTest.GetDayVisitParameters(
             start_datetime=datetime.datetime(2014, 9, 1, 17, 0, 0),
             end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0))]
 
     # Union Square would fit but it's after 3 failed points.
-    city_visit_best, point_left = self.city_visit_finder.FindCityVisit(
+    city_visit_best, point_left = self.city_visit_router.FindCityVisit(
         [self.points['Twin Peaks'],
          self.points['Ferry Building'],
          self.points['Pier 39'],
@@ -90,11 +90,11 @@ Total cost: 5001.00""", str(city_visit_best))
 
   def testOneDay(self):
     day_visit_parameterss = [
-        CityVisitFinderTest.GetDayVisitParameters(
+        CityVisitRouterTest.GetDayVisitParameters(
             start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
             end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0))]
 
-    city_visit_best, point_left = self.city_visit_finder.FindCityVisit(
+    city_visit_best, point_left = self.city_visit_router.FindCityVisit(
         [self.points['Twin Peaks'],
          self.points['Ferry Building'],
          self.points['Pier 39'],
@@ -126,14 +126,14 @@ Total cost: 2011.50""", str(city_visit_best))
 
   def testTwoDays(self):
     day_visit_parameterss = [
-        CityVisitFinderTest.GetDayVisitParameters(
+        CityVisitRouterTest.GetDayVisitParameters(
             start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
             end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0)),
-        CityVisitFinderTest.GetDayVisitParameters(
+        CityVisitRouterTest.GetDayVisitParameters(
             start_datetime=datetime.datetime(2014, 9, 2, 9, 0, 0),
             end_datetime=datetime.datetime(2014, 9, 2, 21, 0, 0))]
 
-    city_visit_best, point_left = self.city_visit_finder.FindCityVisit(
+    city_visit_best, point_left = self.city_visit_router.FindCityVisit(
         [self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
@@ -173,17 +173,17 @@ Total cost: 1017.50""", str(city_visit_best))
 
   def testTwoDaysOneShortDay(self):
     day_visit_parameterss = [
-      CityVisitFinderTest.GetDayVisitParameters(
+      CityVisitRouterTest.GetDayVisitParameters(
           start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
           end_datetime=datetime.datetime(2014, 9, 1, 23, 0, 0)),
-      CityVisitFinderTest.GetDayVisitParameters(
+      CityVisitRouterTest.GetDayVisitParameters(
           start_datetime=datetime.datetime(2014, 9, 2, 9, 0, 0),
           end_datetime=datetime.datetime(2014, 9, 2, 21, 0, 0)),
-      CityVisitFinderTest.GetDayVisitParameters(
+      CityVisitRouterTest.GetDayVisitParameters(
           start_datetime=datetime.datetime(2014, 9, 3, 17, 0, 0),
           end_datetime=datetime.datetime(2014, 9, 3, 21, 0, 0))]                         
 
-    city_visit_best, point_left = self.city_visit_finder.FindCityVisit(
+    city_visit_best, point_left = self.city_visit_router.FindCityVisit(
         [self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
@@ -226,17 +226,17 @@ Total cost: 1024.50""", str(city_visit_best))
 
   def testThreeDays(self):
     day_visit_parameterss = [
-      CityVisitFinderTest.GetDayVisitParameters(
+      CityVisitRouterTest.GetDayVisitParameters(
           start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
           end_datetime=datetime.datetime(2014, 9, 1, 23, 0, 0)),
-      CityVisitFinderTest.GetDayVisitParameters(
+      CityVisitRouterTest.GetDayVisitParameters(
           start_datetime=datetime.datetime(2014, 9, 2, 9, 0, 0),
           end_datetime=datetime.datetime(2014, 9, 2, 21, 0, 0)),
-      CityVisitFinderTest.GetDayVisitParameters(
+      CityVisitRouterTest.GetDayVisitParameters(
           start_datetime=datetime.datetime(2014, 9, 3, 9, 0, 0),
           end_datetime=datetime.datetime(2014, 9, 3, 21, 0, 0))]                         
 
-    city_visit_best, point_left = self.city_visit_finder.FindCityVisit(
+    city_visit_best, point_left = self.city_visit_router.FindCityVisit(
         [self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],

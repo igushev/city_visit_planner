@@ -2,7 +2,7 @@ import unittest
 
 
 import Yusi
-from Yusi.YuFinder.days_permutations import DaysPermutations
+from Yusi.YuRouter.days_permutations import DaysPermutations
 
 
 class MockPoint(object):

@@ -2,10 +2,10 @@ import datetime
 import unittest
 
 import Yusi
-from Yusi.YuFinder.cost_accumulator import FactorCostAccumulatorGenerator
-from Yusi.YuFinder.point_fit import SimplePointFit
-from Yusi.YuFinder.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
-from Yusi.YuFinder.test_utils import MockCoordinates, MockPoints,\
+from Yusi.YuRouter.cost_accumulator import FactorCostAccumulatorGenerator
+from Yusi.YuRouter.point_fit import SimplePointFit
+from Yusi.YuRouter.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
+from Yusi.YuRouter.test_utils import MockCoordinates, MockPoints,\
   MockMoveCalculator
 from Yusi.YuPoint.city_visit import DayVisitParameters
 

@@ -3,10 +3,10 @@ import copy
 
 
 import Yusi
-from Yusi.YuFinder.day_visit_heap import PointsCalculator, DayVisitHeap
+from Yusi.YuRouter.day_visit_heap import PointsCalculator, DayVisitHeap
 
 
-class DayVisitFinder(object):
+class DayVisitRouter(object):
   def __init__(self, calculator_generator, day_visit_heap_size):
     self.calculator_generator = calculator_generator
     self.day_visit_heap_size = day_visit_heap_size

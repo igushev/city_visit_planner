@@ -1,7 +1,7 @@
 import unittest
 
 import Yusi
-from Yusi.YuFinder.runner import Runner
+from Yusi.YuRouter.runner import Runner
 
 
 class RunnerTest(unittest.TestCase):

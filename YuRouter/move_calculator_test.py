@@ -1,7 +1,7 @@
 import unittest
 
 import Yusi
-from Yusi.YuFinder.move_calculator import SimpleMoveCalculator,\
+from Yusi.YuRouter.move_calculator import SimpleMoveCalculator,\
   MultiMoveCalculator
 from Yusi.YuPoint.point import Coordinates
 from Yusi.YuPoint.city_visit import MoveType

@@ -1,12 +1,12 @@
 import Yusi
-from Yusi.YuFinder.cost_accumulator import FactorCostAccumulatorGenerator
-from Yusi.YuFinder.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
-from Yusi.YuFinder.day_visit_finder import DayVisitFinder
-from Yusi.YuFinder.move_calculator import SimpleMoveCalculator, MultiMoveCalculator
-from Yusi.YuFinder.point_fit import SimplePointFit
-from Yusi.YuFinder.city_visit_finder import CityVisitFinder
-from Yusi.YuFinder.multi_day_visit_cost_calculator import MultiDayVisitCostCalculatorGenerator
-from Yusi.YuFinder.city_visit_cost_calculator import CityVisitCostCalculatorGenerator
+from Yusi.YuRouter.cost_accumulator import FactorCostAccumulatorGenerator
+from Yusi.YuRouter.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
+from Yusi.YuRouter.day_visit_router import DayVisitRouter
+from Yusi.YuRouter.move_calculator import SimpleMoveCalculator, MultiMoveCalculator
+from Yusi.YuRouter.point_fit import SimplePointFit
+from Yusi.YuRouter.city_visit_router import CityVisitRouter
+from Yusi.YuRouter.multi_day_visit_cost_calculator import MultiDayVisitCostCalculatorGenerator
+from Yusi.YuRouter.city_visit_cost_calculator import CityVisitCostCalculatorGenerator
 from Yusi.YuPoint.city_visit import MoveType
 
 
@@ -93,7 +93,7 @@ class PrototypeParameters(object):
 
     day_visit_heap_size = 1000
 
-    day_visit_finder = DayVisitFinder(
+    day_visit_router = DayVisitRouter(
         calculator_generator=day_visit_const_calculator_generator,
         day_visit_heap_size=day_visit_heap_size)
 
@@ -104,8 +104,8 @@ class PrototypeParameters(object):
     city_visit_heap_size = 10
     max_non_pushed_points = 3
 
-    self.city_visit_finder = CityVisitFinder(
-        day_visit_finder=day_visit_finder,
+    self.city_visit_router = CityVisitRouter(
+        day_visit_router=day_visit_router,
         city_visit_cost_calculator_generator=(
             city_visit_cost_calculator_generator),
         max_depth=max_depth,
@@ -113,5 +113,5 @@ class PrototypeParameters(object):
         max_non_pushed_points=max_non_pushed_points,
         num_processes=None)
 
-  def CityVisitFinder(self):
-    return self.city_visit_finder
+  def CityVisitRouter(self):
+    return self.city_visit_router

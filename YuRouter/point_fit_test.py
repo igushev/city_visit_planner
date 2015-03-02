@@ -1,7 +1,7 @@
 import datetime
 import unittest
 
-from Yusi.YuFinder.point_fit import SimplePointFit
+from Yusi.YuRouter.point_fit import SimplePointFit
 from Yusi.YuPoint.point import OperatingHours
 from Yusi.YuPoint.city_visit import StartEndDatetime
 

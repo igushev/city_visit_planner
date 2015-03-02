@@ -1,6 +1,6 @@
 import unittest
 
-from Yusi.YuFinder.city_visit_heap import CityVisitHeap
+from Yusi.YuRouter.city_visit_heap import CityVisitHeap
 
 
 class MockDayVisitParameters(object):

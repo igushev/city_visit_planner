@@ -1,28 +1,28 @@
 import multiprocessing
 
 import Yusi
-from Yusi.YuFinder.city_visit_heap import CityVisitHeap
-from Yusi.YuFinder.days_permutations import DaysPermutations
+from Yusi.YuRouter.city_visit_heap import CityVisitHeap
+from Yusi.YuRouter.days_permutations import DaysPermutations
 
 
 ################################################################################
 # NOTE(igushev): Code between hashtags lines is to be run inside worker
 # processes, therefore instead of module-level should be considered as
 # process-level.
-_day_visit_finder = None
+_day_visit_router = None
 _city_visit_cost_calculator_generator = None
 _max_depth = None
 _city_visit_heap_size = None
 
 
 def _PushPointsToDayVisitsInit(
-    day_visit_finder, city_visit_cost_calculator_generator, max_depth,
+    day_visit_router, city_visit_cost_calculator_generator, max_depth,
     city_visit_heap_size):
-  global _day_visit_finder
+  global _day_visit_router
   global _city_visit_cost_calculator_generator
   global _max_depth
   global _city_visit_heap_size
-  _day_visit_finder = day_visit_finder
+  _day_visit_router = day_visit_router
   _city_visit_cost_calculator_generator = city_visit_cost_calculator_generator
   _max_depth = max_depth
   _city_visit_heap_size = city_visit_heap_size
@@ -50,7 +50,7 @@ def _PushPointsToDayVisitsImpl(
       day_points_all = day_visits[i].GetPoints()
       day_points_all.extend(day_points_add)
       day_visit_best, day_points_left = (
-          _day_visit_finder.FindDayVisit(
+          _day_visit_router.FindDayVisit(
               day_points_all, day_visit_parameterss[i]))
       next_points_left.extend(day_points_left)
       next_day_visits_consider[i] = False
@@ -99,11 +99,11 @@ def _PushPointsToDayVisitsWork(
 ################################################################################
 
   
-class CityVisitFinder(object):
-  def __init__(self, day_visit_finder, city_visit_cost_calculator_generator,
+class CityVisitRouter(object):
+  def __init__(self, day_visit_router, city_visit_cost_calculator_generator,
                max_depth, city_visit_heap_size, max_non_pushed_points,
                num_processes):
-    self.day_visit_finder = day_visit_finder
+    self.day_visit_router = day_visit_router
     self.city_visit_cost_calculator_generator = (
         city_visit_cost_calculator_generator)
     self.max_depth = max_depth  # Don't need, but still add as member.
@@ -112,14 +112,14 @@ class CityVisitFinder(object):
     self.workers_pool = multiprocessing.Pool(
         num_processes,
         initializer=_PushPointsToDayVisitsInit,
-        initargs=(day_visit_finder, city_visit_cost_calculator_generator,
+        initargs=(day_visit_router, city_visit_cost_calculator_generator,
                   max_depth, city_visit_heap_size))
 
   def FindCityVisit(self, points, day_visit_parameterss):
     """Find best CityVisit."""
     initial_day_visits = [
         day_visit for day_visit, _ in [
-           self.day_visit_finder.FindDayVisit([], day_visit_parameters)
+           self.day_visit_router.FindDayVisit([], day_visit_parameters)
            for day_visit_parameters in day_visit_parameterss]]
     city_visit_cost_calculators = [
         self.city_visit_cost_calculator_generator.Generate(initial_day_visits)]

@@ -66,7 +66,7 @@ class CityVisitRouterTest(unittest.TestCase):
             end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0))]
 
     # Union Square would fit but it's after 3 failed points.
-    city_visit_best, point_left = self.city_visit_router.FindCityVisit(
+    city_visit_best, point_left = self.city_visit_router.RouteCityVisit(
         [self.points['Twin Peaks'],
          self.points['Ferry Building'],
          self.points['Pier 39'],
@@ -94,7 +94,7 @@ Total cost: 5001.00""", str(city_visit_best))
             start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
             end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0))]
 
-    city_visit_best, point_left = self.city_visit_router.FindCityVisit(
+    city_visit_best, point_left = self.city_visit_router.RouteCityVisit(
         [self.points['Twin Peaks'],
          self.points['Ferry Building'],
          self.points['Pier 39'],
@@ -133,7 +133,7 @@ Total cost: 2011.50""", str(city_visit_best))
             start_datetime=datetime.datetime(2014, 9, 2, 9, 0, 0),
             end_datetime=datetime.datetime(2014, 9, 2, 21, 0, 0))]
 
-    city_visit_best, point_left = self.city_visit_router.FindCityVisit(
+    city_visit_best, point_left = self.city_visit_router.RouteCityVisit(
         [self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
@@ -183,7 +183,7 @@ Total cost: 1017.50""", str(city_visit_best))
           start_datetime=datetime.datetime(2014, 9, 3, 17, 0, 0),
           end_datetime=datetime.datetime(2014, 9, 3, 21, 0, 0))]                         
 
-    city_visit_best, point_left = self.city_visit_router.FindCityVisit(
+    city_visit_best, point_left = self.city_visit_router.RouteCityVisit(
         [self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
@@ -236,7 +236,7 @@ Total cost: 1024.50""", str(city_visit_best))
           start_datetime=datetime.datetime(2014, 9, 3, 9, 0, 0),
           end_datetime=datetime.datetime(2014, 9, 3, 21, 0, 0))]                         
 
-    city_visit_best, point_left = self.city_visit_router.FindCityVisit(
+    city_visit_best, point_left = self.city_visit_router.RouteCityVisit(
         [self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],

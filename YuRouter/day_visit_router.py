@@ -12,8 +12,8 @@ class DayVisitRouter(object):
     self.day_visit_heap_size = day_visit_heap_size
     
   # TODO(igushev): Use set instead of list for Points.
-  def FindDayVisit(self, all_points, day_visit_parameters):
-    """Find maximum number of point with minimum cost for a particular day."""
+  def RouteDayVisit(self, all_points, day_visit_parameters):
+    """Route maximum number of points with minimum cost for DayVisit."""
     points_calculator_heap = DayVisitHeap(self.day_visit_heap_size)
     points_calculator_heap.Append(
         PointsCalculator(

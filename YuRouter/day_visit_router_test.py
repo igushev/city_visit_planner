@@ -50,7 +50,7 @@ class DayVisitRouterTest(unittest.TestCase):
         start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
         end_datetime=datetime.datetime(2014, 9, 1, 22, 0, 0))
 
-    day_visit_best, points_left = self.day_visit_router.FindDayVisit(
+    day_visit_best, points_left = self.day_visit_router.RouteDayVisit(
         [self.points['Ferry Building'],
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
@@ -76,7 +76,7 @@ Walking from Twin Peaks to Restaurant from 17:30:00 to 19:30:00"""
         start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
         end_datetime=datetime.datetime(2014, 9, 1, 22, 0, 0))
 
-    day_visit_best, points_left = self.day_visit_router.FindDayVisit(
+    day_visit_best, points_left = self.day_visit_router.RouteDayVisit(
         [self.points['Ferry Building'],
          self.points['Pier 39']],
         day_visit_parameters)
@@ -97,7 +97,7 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
         start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
         end_datetime=datetime.datetime(2014, 9, 1, 10, 30, 0))
 
-    day_visit_best, points_left = self.day_visit_router.FindDayVisit(
+    day_visit_best, points_left = self.day_visit_router.RouteDayVisit(
       [self.points['Ferry Building'],
        self.points['Pier 39'],
        self.points['Golden Gate Bridge'],
@@ -120,7 +120,7 @@ Walking from Hotel to Restaurant from 09:00:00 to 10:00:00"""
         start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
         end_datetime=datetime.datetime(2014, 9, 1, 22, 0, 0))
 
-    day_visit_best, points_left = self.day_visit_router.FindDayVisit(
+    day_visit_best, points_left = self.day_visit_router.RouteDayVisit(
         [],
         day_visit_parameters)
 

@@ -50,7 +50,7 @@ def _PushPointsToDayVisitsImpl(
       day_points_all = day_visits[i].GetPoints()
       day_points_all.extend(day_points_add)
       day_visit_best, day_points_left = (
-          _day_visit_router.FindDayVisit(
+          _day_visit_router.RouteDayVisit(
               day_points_all, day_visit_parameterss[i]))
       next_points_left.extend(day_points_left)
       next_day_visits_consider[i] = False
@@ -115,11 +115,11 @@ class CityVisitRouter(object):
         initargs=(day_visit_router, city_visit_cost_calculator_generator,
                   max_depth, city_visit_heap_size))
 
-  def FindCityVisit(self, points, day_visit_parameterss):
-    """Find best CityVisit."""
+  def RouteCityVisit(self, points, day_visit_parameterss):
+    """Route maximum number of points with minimum cost for CityVisit."""
     initial_day_visits = [
         day_visit for day_visit, _ in [
-           self.day_visit_router.FindDayVisit([], day_visit_parameters)
+           self.day_visit_router.RouteDayVisit([], day_visit_parameters)
            for day_visit_parameters in day_visit_parameterss]]
     city_visit_cost_calculators = [
         self.city_visit_cost_calculator_generator.Generate(initial_day_visits)]

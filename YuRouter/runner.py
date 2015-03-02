@@ -52,7 +52,7 @@ class Runner(object):
         PrototypeParameters(max_walking_distance=self.max_walking_distance).
         CityVisitRouter())
     
-    self.city_visit_best, self.points_left = city_visit_router.FindCityVisit(
+    self.city_visit_best, self.points_left = city_visit_router.RouteCityVisit(
         self.points_to_visit, day_visit_parameterss)
 
 

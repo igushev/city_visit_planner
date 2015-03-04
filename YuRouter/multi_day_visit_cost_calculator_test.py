@@ -4,13 +4,14 @@ import Yusi
 from Yusi.YuRouter.day_visit_cost_calculator_interface import DayVisitCostCalculatorInterface,\
   DayVisitCostCalculatorGeneratorInterface
 from Yusi.YuRouter.multi_day_visit_cost_calculator import MultiDayVisitCostCalculatorGenerator
+from Yusi.YuPoint.city_visit import DayVisitParametersInterface
 
 
 class MockPoint(object):
   pass
 
 
-class MockDayVisitParameters(object):
+class MockDayVisitParameters(DayVisitParametersInterface):
   pass
 
 

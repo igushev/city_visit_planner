@@ -3,15 +3,12 @@ import unittest
 
 import Yusi
 from Yusi.YuPoint.city_visit import CityVisitParameters
-from Yusi.YuPoint.point import AgeGroup, PointTypeInterface
+from Yusi.YuPoint.point import AgeGroup
 from Yusi.YuPoint.read_csv import ReadCSVToDict
 from Yusi.YuRanker.age_group_rank_adjuster import AgeGroupRankAdjuster
 from Yusi.YuRanker.rank_adjuster_interface import ScorePoint
-from Yusi.YuRanker.rank_adjuster_test_utils import RankAdjusterTestUtils
-
-
-class MockPointType(PointTypeInterface):
-  pass
+from Yusi.YuRanker.test_utils import RankAdjusterTestUtils,\
+  MockDayVisitParameters, MockPointType
 
 
 class AgeGroupRankAdjusterTest(RankAdjusterTestUtils):
@@ -36,6 +33,7 @@ class AgeGroupRankAdjusterTest(RankAdjusterTestUtils):
         toddlers=10)
 
     city_visit_parameters = CityVisitParameters(
+        day_visit_parameterss=[MockDayVisitParameters()],
         point_type=MockPointType(),
         age_group=parameters_age_groups)
 

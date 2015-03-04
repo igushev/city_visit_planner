@@ -3,13 +3,10 @@ import unittest
 from Yusi.YuRanker.points_ranker import PointsRanker
 from Yusi.YuRanker.rank_adjuster_interface import RankAdjusterInterface,\
   ScorePoint
+from Yusi.YuRanker.test_utils import MockCityVisitParameters
 
 
 class MockPoint(object):
-  pass
-
-
-class MockCityVisitParameters(object):
   pass
 
 
@@ -28,7 +25,7 @@ class MockRankAdjuster(RankAdjusterInterface):
          (score, point)) in zip(self.score_points_expected,
                                 score_points):
       self.test_obj.assertAlmostEqual(score_expected, score, places=self.places)
-      self.test_obj.assertTrue(point_expected is point)
+      self.test_obj.assertTrue(point is point_expected)
     self.test_obj.assertTrue(
         city_visit_parameters is self.city_visit_parameters_expected)
     assert len(self.point_score_mults) == len(score_points)

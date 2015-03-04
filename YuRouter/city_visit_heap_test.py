@@ -1,9 +1,10 @@
 import unittest
 
 from Yusi.YuRouter.city_visit_heap import CityVisitHeap
+from Yusi.YuPoint.city_visit import DayVisitParametersInterface
 
 
-class MockDayVisitParameters(object):
+class MockDayVisitParameters(DayVisitParametersInterface):
   
   def __init__(self, hash_key):
     assert isinstance(hash_key, str)

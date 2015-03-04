@@ -1,4 +1,22 @@
 import unittest
+from Yusi.YuPoint.city_visit import DayVisitParametersInterface
+from Yusi.YuPoint.point import PointTypeInterface, AgeGroupInterface
+
+
+class MockDayVisitParameters(DayVisitParametersInterface):
+  pass
+
+
+class MockPointType(PointTypeInterface):
+  pass
+
+
+class MockAgeGroup(AgeGroupInterface):
+  pass
+
+
+class MockCityVisitParameters(object):
+  pass
 
 
 class RankAdjusterTestUtils(unittest.TestCase):

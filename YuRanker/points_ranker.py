@@ -2,7 +2,15 @@ from Yusi.YuRanker.rank_adjuster_interface import ScorePoint,\
   RankAdjusterInterface
 
 
-class PointsRanker(object):
+class PointsRankerInterface(object):
+  """Abstract class which ranks points."""
+
+  def RankPoints(self, points, city_visit_parameters):
+    """Rank given points by given city_visit_parameters."""
+    raise NotImplemented()
+
+
+class PointsRanker(PointsRankerInterface):
   
   def __init__(self, rank_adjusters):
     for rank_adjuster in rank_adjusters:

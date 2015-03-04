@@ -5,11 +5,8 @@ import Yusi
 from Yusi.YuPoint.read_csv import ReadCSVToDict
 from Yusi.YuRanker.popularity_rank_adjuster import PopularityRankAdjuster
 from Yusi.YuRanker.rank_adjuster_interface import ScorePoint
-from Yusi.YuRanker.rank_adjuster_test_utils import RankAdjusterTestUtils
-
-
-class MockCityVisitParameters(object):
-  pass
+from Yusi.YuRanker.test_utils import RankAdjusterTestUtils,\
+  MockCityVisitParameters
 
 
 class PopularityRankAdjusterTest(RankAdjusterTestUtils):

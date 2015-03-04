@@ -9,6 +9,7 @@ from Yusi.YuRanker.popularity_rank_adjuster import PopularityRankAdjuster
 from Yusi.YuRanker.point_type_rank_adjuster import PointTypeRankAdjuster
 from Yusi.YuRanker.age_group_rank_adjuster import AgeGroupRankAdjuster
 from Yusi.YuRanker.points_ranker import PointsRanker
+from Yusi.YuRanker.test_utils import MockDayVisitParameters
 
 
 class Runner(object):
@@ -35,6 +36,7 @@ class Runner(object):
         toddlers=10)
 
     city_visit_parameters = CityVisitParameters(
+        day_visit_parameterss=[MockDayVisitParameters()],
         point_type=parameters_point_types,
         age_group=parameters_age_groups)
 

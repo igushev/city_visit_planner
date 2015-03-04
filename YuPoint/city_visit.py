@@ -28,7 +28,11 @@ class StartEndDatetime(object):
 
 
 # TODO(igushev): Rename to DayParameters and all its instances.
-class DayVisitParameters(object):
+class DayVisitParametersInterface(object):
+  pass
+
+
+class DayVisitParameters(DayVisitParametersInterface):
   """Set of users parameter for a particular day"""
 
   def __init__(self, start_datetime, end_datetime,
@@ -76,10 +80,13 @@ class DayVisitParameters(object):
 class CityVisitParameters(object):
   """Set of users parameter for whole city visit."""
 
-  def __init__(self, point_type, age_group):
+  def __init__(self, day_visit_parameterss, point_type, age_group):
+    for day_visit_parameters in day_visit_parameterss:
+      assert isinstance(day_visit_parameters, DayVisitParametersInterface)
     assert isinstance(point_type, PointTypeInterface)  # Must not be None
     assert isinstance(age_group, AgeGroupInterface)  # Must not be None
 
+    self.day_visit_parameterss = day_visit_parameterss
     self.point_type = point_type
     self.age_group = age_group
 

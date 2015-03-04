@@ -98,8 +98,17 @@ def _PushPointsToDayVisitsWork(
   return could_push, city_visit_heap
 ################################################################################
 
+
+class CityVisitRouterInterface(object):
+  """Abstract class which routes points."""
   
-class CityVisitRouter(object):
+  def RouteCityVisit(self, points, day_visit_parameterss):
+    """Route maximum number of points with minimum cost for CityVisit."""
+    raise NotImplemented()
+
+
+class CityVisitRouter(CityVisitRouterInterface):
+
   def __init__(self, day_visit_router, city_visit_cost_calculator_generator,
                max_depth, city_visit_heap_size, max_non_pushed_points,
                num_processes):
@@ -116,7 +125,6 @@ class CityVisitRouter(object):
                   max_depth, city_visit_heap_size))
 
   def RouteCityVisit(self, points, day_visit_parameterss):
-    """Route maximum number of points with minimum cost for CityVisit."""
     initial_day_visits = [
         day_visit for day_visit, _ in [
            self.day_visit_router.RouteDayVisit([], day_visit_parameters)

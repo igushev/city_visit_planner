@@ -12,51 +12,60 @@ from Yusi.YuRanker.points_ranker import PointsRanker
 from Yusi.YuRanker.test_utils import MockDayVisitParameters
 
 
-class Runner(object):
+def GetPointsInput():
+  points = ReadCSVToDict(
+      os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
+  return points.values()
+
+
+def GetCityVisitParameters(day_visit_parameterss):
+  parameters_point_types = PointType(
+      city_tours=90,
+      landmarks=90,
+      nature=10,
+      museums=10,
+      shopping=50,
+      dining=50)
+
+  parameters_age_groups = AgeGroup(
+      senior=None,
+      adult=90,
+      junior=None,
+      child=None,
+      toddlers=10)
+
+  return CityVisitParameters(
+      day_visit_parameterss=day_visit_parameterss,
+      point_type=parameters_point_types,
+      age_group=parameters_age_groups)
+
+
+class PointsRankerRunner(object):
   
   def __init__(self):
-    points = ReadCSVToDict(
-        os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
-
-    self.points_to_visit = points.values()
-
-    parameters_point_types = PointType(
-        city_tours=90,
-        landmarks=90,
-        nature=10,
-        museums=10,
-        shopping=50,
-        dining=50)
-
-    parameters_age_groups = AgeGroup(
-        senior=None,
-        adult=90,
-        junior=None,
-        child=None,
-        toddlers=10)
-
-    city_visit_parameters = CityVisitParameters(
-        day_visit_parameterss=[MockDayVisitParameters()],
-        point_type=parameters_point_types,
-        age_group=parameters_age_groups)
-
     rank_adjusters = [PopularityRankAdjuster(),
                       PointTypeRankAdjuster(),
                       AgeGroupRankAdjuster()]
     
-    points_ranker = PointsRanker(rank_adjusters)
+    self.points_ranker = PointsRanker(rank_adjusters)
     
-    self.points_ranked = points_ranker.RankPoints(
-        self.points_to_visit, city_visit_parameters)
+  def Run(self, points_input, city_visit_parameters):
+    return self.points_ranker.RankPoints(points_input, city_visit_parameters)
 
 
 def main():
   start = datetime.datetime.now()
-  runner = Runner()
+
+  points_input = GetPointsInput()
+  points_ranker_runner = PointsRankerRunner()
+  city_visit_parameters = GetCityVisitParameters([MockDayVisitParameters()])
+  points_ranked = points_ranker_runner.Run(points_input, city_visit_parameters)
+
   print('Input points: %s' %
-        ', '.join(point.name for point in runner.points_to_visit))
+        ', '.join(point.name for point in points_input))
   print('Points ranked: %s' %
-        ', '.join(point_left.name for point_left in runner.points_ranked))
+        ', '.join(point_left.name for point_left in points_ranked))
+
   print('Elapsed time %s' % (datetime.datetime.now() - start))
 
 

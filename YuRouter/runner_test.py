@@ -1,13 +1,14 @@
 import unittest
 
 import Yusi
-from Yusi.YuRouter.runner import Runner
+from Yusi.YuRouter.runner import CityVisitRouterRunner, GetPointsInput,\
+  GetDayVisitParameterss
 
 
-class RunnerTest(unittest.TestCase):
+class CityVisitRouterRunnerTest(unittest.TestCase):
   
   def testGeneral(self):
-    Runner()
+    CityVisitRouterRunner().Run(GetPointsInput(), GetDayVisitParameterss())
 
 
 if __name__ == '__main__':

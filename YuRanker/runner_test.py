@@ -1,13 +1,16 @@
 import unittest
 
 import Yusi
-from Yusi.YuRanker.runner import Runner
+from Yusi.YuRanker.runner import PointsRankerRunner, GetPointsInput,\
+  GetCityVisitParameters
+from Yusi.YuRanker.test_utils import MockDayVisitParameters
 
 
-class RunnerTest(unittest.TestCase):
+class PointsRankerRunnerTest(unittest.TestCase):
   
   def testGeneral(self):
-    Runner()
+    PointsRankerRunner().Run(
+        GetPointsInput(), GetCityVisitParameters([MockDayVisitParameters()]))
 
 
 if __name__ == '__main__':

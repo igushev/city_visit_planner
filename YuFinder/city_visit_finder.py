@@ -14,10 +14,10 @@ class CityVisitFinder(object):
     self.points_ranker = points_ranker
     self.city_visit_router = city_visit_router
 
-  def FindDayVisit(self, city_visit_parameters):
+  def FindCityVisit(self, city_visit_parameters):
     points_input = self.database_connection.GetPoints(city_visit_parameters)
     points_ranked = self.points_ranker.RankPoints(
         points_input, city_visit_parameters)
-    city_visit = self.city_visit_router.RouteCityVisit(
+    city_visit, _ = self.city_visit_router.RouteCityVisit(
         points_ranked, city_visit_parameters.day_visit_parameterss)
     return city_visit

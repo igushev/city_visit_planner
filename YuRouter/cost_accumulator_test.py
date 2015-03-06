@@ -50,12 +50,12 @@ class FactorCostAccumulatorTest(unittest.TestCase):
   def testGeneral(self):
     cost_accumulator = FactorCostAccumulatorGenerator(
         point_visit_factor=0.5,
-        move_walking_factor=1,
-        move_driving_factor=2,
-        move_ptt_factor=3,
+        move_walking_factor=1.,
+        move_driving_factor=2.,
+        move_ptt_factor=3.,
         lunch_factor=0.25,
-        no_point_visit_factor=10,
-        no_point_visit_const=100).Generate()
+        no_point_visit_factor=10.,
+        no_point_visit_const=100.).Generate()
     self.assertEqual(0., cost_accumulator.Cost())
     cost_accumulator.AddMoveBetween(
         MoveDescription(

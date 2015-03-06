@@ -8,8 +8,8 @@ from Yusi.YuPoint.city_visit_test_utils import CityVisitTestExample
 class CityVisitCostCalculatorTest(CityVisitTestExample):
 
   def setUp(self):
-    self.no_point_visit_factor = 0
-    self.no_point_visit_const = 1000
+    self.no_point_visit_factor = 0.
+    self.no_point_visit_const = 1000.
     cost_accumulator_generator=FactorCostAccumulatorGenerator(
         no_point_visit_factor=self.no_point_visit_factor,
         no_point_visit_const=self.no_point_visit_const)

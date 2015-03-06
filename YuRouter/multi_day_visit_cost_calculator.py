@@ -1,6 +1,8 @@
 import Yusi
 from Yusi.YuRouter.day_visit_cost_calculator_interface import DayVisitCostCalculatorInterface,\
   DayVisitCostCalculatorGeneratorInterface
+from Yusi.YuPoint.point import PointInterface
+from Yusi.YuPoint.city_visit import DayVisitParametersInterface
 
 
 class MultiDayVisitCostCalculator(DayVisitCostCalculatorInterface):
@@ -10,6 +12,9 @@ class MultiDayVisitCostCalculator(DayVisitCostCalculatorInterface):
   """
 
   def __init__(self, calculators):
+    for calculator in calculators:
+      assert isinstance(calculator, DayVisitCostCalculatorInterface)
+
     self.calculators = calculators
 
   def Copy(self):
@@ -17,6 +22,8 @@ class MultiDayVisitCostCalculator(DayVisitCostCalculatorInterface):
         [calculator.Copy() for calculator in self.calculators])
 
   def PushPoint(self, point):
+    assert isinstance(point, PointInterface)
+
     # Must create a list since any() would skip all calculator after first
     # successful push.
     return any([calculator.PushPoint(point) for calculator in self.calculators])
@@ -41,11 +48,18 @@ class MultiDayVisitCostCalculator(DayVisitCostCalculatorInterface):
 
 class MultiDayVisitCostCalculatorGenerator(
     DayVisitCostCalculatorGeneratorInterface):
+  """Returns every time new clean instance of MultiDayVisitCostCalculator."""
   
   def __init__(self, calculator_generators):
+    for calculator_generator in calculator_generators:
+      assert isinstance(calculator_generator,
+                        DayVisitCostCalculatorGeneratorInterface)
+
     self.calculator_generators = calculator_generators
     
   def Generate(self, day_visit_parameters):
+    assert isinstance(day_visit_parameters, DayVisitParametersInterface)
+
     return MultiDayVisitCostCalculator(
         [calculator_generator.Generate(day_visit_parameters)
          for calculator_generator in self.calculator_generators])

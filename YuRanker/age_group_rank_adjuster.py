@@ -1,5 +1,6 @@
 from Yusi.YuRanker.rank_adjuster_interface import RankAdjusterInterface,\
   ScorePoint
+from Yusi.YuPoint.city_visit import CityVisitParametersInterface
 
 
 class AgeGroupRankAdjuster(RankAdjusterInterface):
@@ -15,6 +16,10 @@ class AgeGroupRankAdjuster(RankAdjusterInterface):
         len(parameters_names_age_groups))
 
   def AdjustRank(self, score_points, city_visit_parameters):
+    for score_point in score_points:
+      assert isinstance(score_point, ScorePoint)
+    assert isinstance(city_visit_parameters, CityVisitParametersInterface)
+    
     parameters_names_age_groups = (
         city_visit_parameters.age_group.GetNamesAgeGroups())
     result_score_points = []

@@ -48,13 +48,13 @@ class PrototypeParameters(object):
       assert max_walking_distance >= min_max_walking_distance_before_ptt
       assert max_walking_distance <= max_max_walking_distance_before_ptt
 
-    point_visit_factor=0
-    move_walking_factor=1
+    point_visit_factor=0.
+    move_walking_factor=1.
     move_driving_factor=ptt_cost_mult
     move_ptt_factor=ptt_cost_mult
-    lunch_factor=0
-    no_point_visit_factor = 0
-    no_point_visit_const = 1000
+    lunch_factor=0.
+    no_point_visit_factor = 0.
+    no_point_visit_const = 1000.
     
     driving_move_calculator = SimpleMoveCalculator(
         driving_speed, MoveType.driving, pause=pause_before_driving)

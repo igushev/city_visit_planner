@@ -83,6 +83,7 @@ def ExtractOperatingHours(opens_str, closes_str):
 
 
 def ReadCSV(csv_filepath):
+  """Read CSV file to list of Point."""
   points_df = pd.DataFrame.from_csv(csv_filepath)
   points = []
   for _, point_series in points_df.iterrows():
@@ -116,6 +117,7 @@ def ReadCSV(csv_filepath):
 
 
 def ReadCSVToDict(csv_filepath):
+  """Read CSV file to dictionary of name of a Point to the Point."""
   points = ReadCSV(csv_filepath)
   points_dict = OrderedDict()
   for point in points:

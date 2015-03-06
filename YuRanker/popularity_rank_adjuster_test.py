@@ -25,7 +25,7 @@ class PopularityRankAdjusterTest(RankAdjusterTestUtils):
     
     score_points_actual = (
         self.popularity_rank_adjuster.AdjustRank(
-            score_points_input, MockCityVisitParameters))
+            score_points_input, MockCityVisitParameters()))
     
     score_points_expected = [
         ScorePoint(80., self.points['Ferry Building']),

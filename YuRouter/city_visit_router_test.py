@@ -28,8 +28,8 @@ class CityVisitRouterTest(unittest.TestCase):
         end_coordinates=MockCoordinates('Restaurant'))
 
   def setUp(self):
-    no_point_visit_factor = 0
-    no_point_visit_const = 1000
+    no_point_visit_factor = 0.
+    no_point_visit_const = 1000.
     day_visit_heap_size = 1000
     max_depth = 1
     city_visit_heap_size = 10

@@ -1,9 +1,21 @@
 from Yusi.YuFinder.database_connection import DatabaseConnectionInterface
 from Yusi.YuRanker.points_ranker import PointsRankerInterface
 from Yusi.YuRouter.city_visit_router import CityVisitRouterInterface
+from Yusi.YuPoint.city_visit import CityVisitParametersInterface,\
+  CityVisitInterface
+from Yusi.YuPoint.point import PointInterface
 
 
-class CityVisitFinder(object):
+class CityVisitFinderInterface(object):
+  """Abstract class which finds CityVisit."""
+
+  def FindCityVisit(self, city_visit_parameters):
+    """Find CityVisit with appropriate points by given city_visit_parameters."""
+    raise NotImplemented()
+
+
+class CityVisitFinder(CityVisitFinderInterface):
+  """Finds CityVisit by getting points, ranking them and routing."""
   
   def __init__(self, database_connection, points_ranker, city_visit_router):
     assert isinstance(database_connection, DatabaseConnectionInterface)
@@ -15,9 +27,21 @@ class CityVisitFinder(object):
     self.city_visit_router = city_visit_router
 
   def FindCityVisit(self, city_visit_parameters):
+    assert isinstance(city_visit_parameters, CityVisitParametersInterface)
+    
     points_input = self.database_connection.GetPoints(city_visit_parameters)
+    for point_input in  points_input:
+      assert isinstance(point_input, PointInterface)
+
     points_ranked = self.points_ranker.RankPoints(
         points_input, city_visit_parameters)
-    city_visit, _ = self.city_visit_router.RouteCityVisit(
+    for point_ranked in points_ranked:
+      assert isinstance(point_ranked, PointInterface)
+    
+    city_visit, points_left = self.city_visit_router.RouteCityVisit(
         points_ranked, city_visit_parameters.day_visit_parameterss)
+    assert isinstance(city_visit, CityVisitInterface)
+    for point_left in points_left:
+      assert isinstance(point_left, PointInterface)
+
     return city_visit

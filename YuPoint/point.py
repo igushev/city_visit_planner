@@ -3,13 +3,14 @@ import datetime
 
 
 class CoordinatesInterface(object):
+  """Coordinates on Earth of anything interface."""
 
   def Copy(self):
     return copy.deepcopy(self)
 
 
 class Coordinates(CoordinatesInterface):
-  """Coordinates on Earth of anything."""
+  """Coordinates on Earth using latitude and longitude."""  
 
   def __init__(self, latitude, longitude):
     assert isinstance(latitude, float)
@@ -24,8 +25,14 @@ class Coordinates(CoordinatesInterface):
     return '%.4f:%.4f' % (self.latitude, self.longitude)
 
 
-class OperatingHours(object):
-  """Operating hours of a Point."""
+class OperatingHoursInterface(object):
+  """Operating hours of a Point interface."""
+  pass
+
+
+class OperatingHours(OperatingHoursInterface):
+  """Operating hours of a Point straightforward implementation. Doesn't know
+  about days of week, seasons, etc."""
 
   def __init__(self, opens, closes):
     assert isinstance(opens, datetime.time)
@@ -43,11 +50,15 @@ class OperatingHours(object):
 
 
 class PointTypeInterface(object):
-  pass
+  """Type of a point interface."""
+
+  def GetNamesPointTypes(self):
+    """Get dictionary of point type name to point type value."""    
+    raise NotImplemented
 
 
 class PointType(PointTypeInterface):
-  """Type of a point."""
+  """Type of a point implementation using assign value to each type."""
 
   def __init__(self, city_tours, landmarks, nature, museums, shopping, dining):
     if city_tours is not None:
@@ -100,11 +111,16 @@ class PointType(PointTypeInterface):
 
 
 class AgeGroupInterface(object):
-  pass
+  """Age groups most suitable for a Point interface."""
+
+  def GetNamesAgeGroups(self):
+    """Get dictionary of age group name to age group value."""    
+    raise NotImplemented()
 
 
 class AgeGroup(AgeGroupInterface):
-  """Age groups most suitable for a point."""
+  """Age groups most suitable for a Point implementation using assign value to
+  each age group."""
 
   def __init__(self, senior, adult, junior, child, toddlers):
     if senior is not None:
@@ -152,8 +168,13 @@ class AgeGroup(AgeGroupInterface):
       return 'No age group'
 
 
-class Point(object):
-  """Sightseeing, Attraction or Point Of Interest."""
+class PointInterface(object):
+  """Sightseeing, Attraction or Point Of Interest interface."""
+  pass
+
+
+class Point(PointInterface):
+  """Sightseeing, Attraction or Point Of Interest common implementation."""
 
   def __init__(self, name, coordinates_starts, coordinates_ends,
                operating_hours, duration, popularity, point_type,
@@ -164,7 +185,7 @@ class Point(object):
     if coordinates_ends is not None:
       assert isinstance(coordinates_ends, CoordinatesInterface)
     if operating_hours is not None:
-      assert isinstance(operating_hours, OperatingHours)
+      assert isinstance(operating_hours, OperatingHoursInterface)
     assert isinstance(duration, float)   # Must not be None
     assert isinstance(popularity, int)   # Must not be None
     assert isinstance(point_type, PointTypeInterface)  # Must not be None

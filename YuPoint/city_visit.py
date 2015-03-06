@@ -6,8 +6,16 @@ from Yusi.YuPoint.point import Point, CoordinatesInterface, PointTypeInterface,\
   AgeGroupInterface
 
 
-class StartEndDatetime(object):
-  """Start and end time."""
+class StartEndDatetimeInterface(object):
+  """Start and end time interface."""
+
+  def Fit(self, time):
+    """Check if time fits to incorporated time range."""
+    raise NotImplemented()
+
+
+class StartEndDatetime(StartEndDatetimeInterface):
+  """Start and end time implementation."""
 
   def __init__(self, start, end):
     assert isinstance(start, datetime.datetime)
@@ -27,13 +35,13 @@ class StartEndDatetime(object):
     return 'from %s to %s' % (self.start.time(), self.end.time())
 
 
-# TODO(igushev): Rename to DayParameters and all its instances.
 class DayVisitParametersInterface(object):
+  """Set of users parameter for a particular day interface."""
   pass
 
 
 class DayVisitParameters(DayVisitParametersInterface):
-  """Set of users parameter for a particular day"""
+  """Set of users parameter for a particular day implementation."""
 
   def __init__(self, start_datetime, end_datetime,
                lunch_start_datetime, lunch_hours,
@@ -77,8 +85,13 @@ class DayVisitParameters(DayVisitParametersInterface):
     return self.__dict__ == other.__dict__
 
 
-class CityVisitParameters(object):
-  """Set of users parameter for whole city visit."""
+class CityVisitParametersInterface(object):
+  """Set of users parameter for city visit interface."""
+  pass
+
+
+class CityVisitParameters(CityVisitParametersInterface):
+  """Set of users parameter for city visit implementation."""
 
   def __init__(self, day_visit_parameterss, point_type, age_group):
     for day_visit_parameters in day_visit_parameterss:
@@ -98,7 +111,7 @@ class ActionInterface(object):
   """Abstract interface for an action (visit a point, etc.) of a user."""
   
   def __init__(self, start_end_datetime):
-    assert isinstance(start_end_datetime, StartEndDatetime)
+    assert isinstance(start_end_datetime, StartEndDatetimeInterface)
     self.start_end_datetime = start_end_datetime
 
   def __eq__(self, other):
@@ -186,8 +199,18 @@ class Lunch(ActionInterface):
     return 'Having lunch %s' % self.start_end_datetime
 
 
-class DayVisit(object):
-  """Set of visiting points and moving between points by a user in a day."""
+class DayVisitInterface(object):
+  """Set of visiting points and moving between points in particular day
+  interface."""
+
+  def GetPoints(self):
+    """Get points for incorporated day in order of visiting."""
+    raise NotImplemented()
+
+
+class DayVisit(DayVisitInterface):
+  """Set of visiting points and moving between points in particular day
+  implementation."""
 
   def __init__(self, start_datetime, actions, cost):
     assert isinstance(start_datetime, datetime.datetime)
@@ -235,8 +258,13 @@ class DayVisit(object):
     return s
       
 
-class CityVisit(object):
-  """Set of day visiting by a user ."""
+class CityVisitInterface(object):
+  """Set of day visiting interface."""
+  pass
+
+
+class CityVisit(CityVisitInterface):
+  """Set of day visiting implementation."""
 
   def __init__(self, day_visits, cost):
     for day_visit in day_visits:

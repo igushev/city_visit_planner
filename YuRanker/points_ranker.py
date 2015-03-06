@@ -1,5 +1,7 @@
 from Yusi.YuRanker.rank_adjuster_interface import ScorePoint,\
   RankAdjusterInterface
+from Yusi.YuPoint.point import PointInterface
+from Yusi.YuPoint.city_visit import CityVisitParametersInterface
 
 
 class PointsRankerInterface(object):
@@ -11,13 +13,19 @@ class PointsRankerInterface(object):
 
 
 class PointsRanker(PointsRankerInterface):
+  """Ranks points by given RankAdjusters."""
   
   def __init__(self, rank_adjusters):
     for rank_adjuster in rank_adjusters:
       assert isinstance(rank_adjuster, RankAdjusterInterface)
+
     self.rank_adjusters = rank_adjusters
 
   def RankPoints(self, points, city_visit_parameters):
+    for point in points:
+      isinstance(point, PointInterface)
+    assert isinstance(city_visit_parameters, CityVisitParametersInterface)
+    
     score_points = [ScorePoint(100., point) for point in points]
     for rank_adjuster in self.rank_adjusters:
       score_points = rank_adjuster.AdjustRank(

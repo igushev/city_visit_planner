@@ -5,14 +5,18 @@ PointsCalculator = namedtuple('PointsCalculator', 'Points Calculator')
 
 
 class DayVisitHeap(object):
+  """Keeps track of the best DayVisits.""" 
   
   def __init__(self, max_count):
+    assert isinstance(max_count, int)
+
     self.max_count = max_count
     self._points_calculator_list = []
     self._invariant = True
 
   def Append(self, points_calculator):
     assert isinstance(points_calculator, PointsCalculator)
+
     if self._points_calculator_list:
       assert (len(self._points_calculator_list[0].Points) ==
               len(points_calculator.Points)), (

@@ -23,8 +23,8 @@ class DayVisitCostCalculatorTest(unittest.TestCase):
         end_coordinates=MockCoordinates('Restaurant'))
 
   def setUp(self):
-    self.no_point_visit_factor = 0
-    self.no_point_visit_const = 1000
+    self.no_point_visit_factor = 0.
+    self.no_point_visit_const = 1000.
     self.points = MockPoints()
     move_calculator = MockMoveCalculator()
     point_fit = SimplePointFit()

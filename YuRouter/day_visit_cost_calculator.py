@@ -4,7 +4,11 @@ import datetime
 from Yusi.YuRouter.day_visit_cost_calculator_interface import DayVisitCostCalculatorInterface,\
   DayVisitCostCalculatorGeneratorInterface
 from Yusi.YuPoint.city_visit import DayVisit, Lunch, StartEndDatetime,\
-  MoveBetween, PointVisit
+  MoveBetween, PointVisit, DayVisitParametersInterface
+from Yusi.YuRouter.move_calculator import MoveCalculatorInterface
+from Yusi.YuRouter.point_fit import PointFitInterface
+from Yusi.YuRouter.cost_accumulator import CostAccumulatorGeneratorInterface
+from Yusi.YuPoint.point import PointInterface
 
 
 class DayVisitCostCalculatorState(object):
@@ -137,7 +141,7 @@ class LunchAdder(ActionAdderInterface):
 # pushed, none of following will be pushed, since higher level modules should
 # be responsible for permutation.
 class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
-  """Calculates cost of DayVisit."""
+  """Constructs DayVisit and calculates its cost."""
 
   def __init__(self, move_calculator, point_fit, day_visit_parameters,
                current_state, points_left):
@@ -211,6 +215,8 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
     return True
   
   def PushPoint(self, point):
+    assert isinstance(point, PointInterface)
+
     # If self.points_left is empty, it means no point has not been pushed, so
     # we can proceed.
     if not self.points_left:
@@ -263,13 +269,21 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
 
 
 class DayVisitCostCalculatorGenerator(DayVisitCostCalculatorGeneratorInterface):
+  """Returns every time new clean instance of DayVisitCostCalculator."""
 
   def __init__(self, move_calculator, point_fit, cost_accumulator_generator):
+    assert isinstance(move_calculator, MoveCalculatorInterface)
+    assert isinstance(point_fit, PointFitInterface)
+    assert isinstance(cost_accumulator_generator,
+                      CostAccumulatorGeneratorInterface)
+
     self.move_calculator = move_calculator
     self.point_fit = point_fit
     self.cost_accumulator_generator = cost_accumulator_generator
   
   def Generate(self, day_visit_parameters):
+    assert isinstance(day_visit_parameters, DayVisitParametersInterface)
+
     return DayVisitCostCalculator.Init(
         self.move_calculator, self.point_fit, day_visit_parameters,
         self.cost_accumulator_generator)

@@ -4,6 +4,7 @@ import Yusi
 from Yusi.YuPoint.city_visit import MoveType, MoveDescription
 from Yusi.YuPoint.point import CoordinatesInterface
 from Yusi.YuPoint.read_csv import ReadCSVToDict
+from Yusi.YuRouter.move_calculator import MoveCalculatorInterface
 
 
 class MockCoordinates(CoordinatesInterface):
@@ -45,7 +46,7 @@ MOVE_HOURS = {frozenset({'Hotel', 'Ferry Building'}): 1.,
               frozenset({'Union Square', 'Restaurant'}): 1.}
 
 
-class MockMoveCalculator(object):
+class MockMoveCalculator(MoveCalculatorInterface):
   def CalculateMoveDescription(self, coordinates_from, coordinates_to):
     coordinates_between = (
       frozenset({coordinates_from.name, coordinates_to.name}))

@@ -3,7 +3,8 @@
 import math
 
 import Yusi
-from Yusi.YuPoint.city_visit import MoveDescription
+from Yusi.YuPoint.city_visit import MoveDescription, MoveType
+from Yusi.YuPoint.point import CoordinatesInterface
 
 
 R = 3959  # Earth radius in miles.
@@ -11,6 +12,9 @@ R = 3959  # Earth radius in miles.
 
 def CalculateDistance(coordinates_from, coordinates_to):
   """Calculates distance in km/miles."""
+  assert isinstance(coordinates_from, CoordinatesInterface)
+  assert isinstance(coordinates_to, CoordinatesInterface)
+    
   lat_1 = math.radians(coordinates_from.latitude)
   lat_2 = math.radians(coordinates_to.latitude)
   delta_lat = math.radians(coordinates_to.latitude - coordinates_from.latitude)
@@ -36,18 +40,26 @@ class MoveCalculatorInterface(object):
   """Abstract class which calculates move_description."""
   
   def CalculateMoveDescription(self, coordinates_from, coordinates_to):
+    """Calculate time and type to move from one coordinates to another."""
     raise NotImplemented()
 
 
 class SimpleMoveCalculator(MoveCalculatorInterface):
   """Calculates move_description considering pause before moving."""
   
-  def __init__(self, speed, move_type, pause=0):
+  def __init__(self, speed, move_type, pause=0.):
+    assert isinstance(speed, float)
+    assert isinstance(move_type, int)
+    assert isinstance(pause, float)
+    
     self._speed = speed
     self._move_type = move_type
     self._pause = pause
 
   def CalculateMoveDescription(self, coordinates_from, coordinates_to):
+    assert isinstance(coordinates_from, CoordinatesInterface)
+    assert isinstance(coordinates_to, CoordinatesInterface)
+    
     d = CalculateCityDistance(coordinates_from, coordinates_to)
     return MoveDescription(coordinates_from, coordinates_to,
                            (d / self._speed) + self._pause, self._move_type)
@@ -71,6 +83,9 @@ class MultiMoveCalculator(MoveCalculatorInterface):
     self._move_calculators = move_calculators
 
   def CalculateMoveDescription(self, coordinates_from, coordinates_to):
+    assert isinstance(coordinates_from, CoordinatesInterface)
+    assert isinstance(coordinates_to, CoordinatesInterface)
+
     d = CalculateCityDistance(coordinates_from, coordinates_to)
     
     for i, distances_split in enumerate(self._distances_splits):

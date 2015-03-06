@@ -4,8 +4,9 @@ from Yusi.YuFinder.database_connection import DatabaseConnectionInterface
 from Yusi.YuRanker.points_ranker import PointsRankerInterface
 from Yusi.YuRouter.city_visit_router import CityVisitRouterInterface
 from Yusi.YuPoint.city_visit import DayVisitParametersInterface,\
-  CityVisitParameters
-from Yusi.YuPoint.point import PointTypeInterface, AgeGroupInterface
+  CityVisitParameters, CityVisitInterface
+from Yusi.YuPoint.point import PointTypeInterface, AgeGroupInterface,\
+  PointInterface
 
 
 class MockDayVisitParameters(DayVisitParametersInterface):
@@ -20,11 +21,11 @@ class MockAgeGroup(AgeGroupInterface):
   pass
 
 
-class MockPoints(object):
+class MockPoint(PointInterface):
   pass
 
 
-class MockCityVisit(object):
+class MockCityVisit(CityVisitInterface):
   pass
 
 
@@ -84,9 +85,9 @@ class CityVisitFinderTest(unittest.TestCase):
         point_type=MockPointType(),
         age_group=MockAgeGroup())
 
-    points_input = MockPoints()
-    points_ranked = MockPoints()
-    points_left = MockPoints()
+    points_input = [MockPoint(), MockPoint()]
+    points_ranked = [MockPoint(), MockPoint()]
+    points_left = [MockPoint(), MockPoint()]
     city_visit = MockCityVisit()
 
     database_connection = MockDatabaseConnection(

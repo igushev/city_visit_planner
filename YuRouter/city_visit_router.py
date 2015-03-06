@@ -3,6 +3,11 @@ import multiprocessing
 import Yusi
 from Yusi.YuRouter.city_visit_heap import CityVisitHeap
 from Yusi.YuRouter.days_permutations import DaysPermutations
+from Yusi.YuRouter.day_visit_router import DayVisitRouterInterface
+from Yusi.YuRouter.city_visit_cost_calculator import CityVisitCostCalculatorGeneratorInterface
+from Yusi.YuPoint.point import PointInterface
+from Yusi.YuPoint.city_visit import DayVisitParametersInterface,\
+  DayVisitInterface
 
 
 ################################################################################
@@ -52,6 +57,9 @@ def _PushPointsToDayVisitsImpl(
       day_visit_best, day_points_left = (
           _day_visit_router.RouteDayVisit(
               day_points_all, day_visit_parameterss[i]))
+      assert isinstance(day_visit_best, DayVisitInterface)
+      for day_point_left in day_points_left:
+        assert isinstance(day_point_left, PointInterface)
       next_points_left.extend(day_points_left)
       next_day_visits_consider[i] = False
       next_day_visits = (
@@ -100,7 +108,7 @@ def _PushPointsToDayVisitsWork(
 
 
 class CityVisitRouterInterface(object):
-  """Abstract class which routes points."""
+  """Abstract class which routes points across CityVisit."""
   
   def RouteCityVisit(self, points, day_visit_parameterss):
     """Route maximum number of points with minimum cost for CityVisit."""
@@ -108,10 +116,21 @@ class CityVisitRouterInterface(object):
 
 
 class CityVisitRouter(CityVisitRouterInterface):
+  """Routes points across CityVisit using permutation and keeping track of
+  best so far."""
 
   def __init__(self, day_visit_router, city_visit_cost_calculator_generator,
                max_depth, city_visit_heap_size, max_non_pushed_points,
                num_processes):
+    assert isinstance(day_visit_router, DayVisitRouterInterface)
+    assert isinstance(city_visit_cost_calculator_generator,
+                      CityVisitCostCalculatorGeneratorInterface)
+    assert isinstance(max_depth, int)
+    assert isinstance(city_visit_heap_size, int)
+    assert isinstance(max_non_pushed_points, int)
+    if num_processes is not None:
+      assert isinstance(num_processes, int)
+
     self.day_visit_router = day_visit_router
     self.city_visit_cost_calculator_generator = (
         city_visit_cost_calculator_generator)
@@ -125,6 +144,11 @@ class CityVisitRouter(CityVisitRouterInterface):
                   max_depth, city_visit_heap_size))
 
   def RouteCityVisit(self, points, day_visit_parameterss):
+    for point in points:
+      assert isinstance(point, PointInterface)
+    for day_visit_parameters in day_visit_parameterss:
+      assert isinstance(day_visit_parameters, DayVisitParametersInterface)
+
     initial_day_visits = [
         day_visit for day_visit, _ in [
            self.day_visit_router.RouteDayVisit([], day_visit_parameters)

@@ -5,9 +5,10 @@ from Yusi.YuRouter.day_visit_cost_calculator_interface import DayVisitCostCalcul
   DayVisitCostCalculatorGeneratorInterface
 from Yusi.YuRouter.multi_day_visit_cost_calculator import MultiDayVisitCostCalculatorGenerator
 from Yusi.YuPoint.city_visit import DayVisitParametersInterface
+from Yusi.YuPoint.point import PointInterface
 
 
-class MockPoint(object):
+class MockPoint(PointInterface):
   pass
 
 

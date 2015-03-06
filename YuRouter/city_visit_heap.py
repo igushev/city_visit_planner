@@ -1,9 +1,16 @@
 import hashlib
+from Yusi.YuPoint.city_visit import DayVisitParametersInterface
+from Yusi.YuRouter.city_visit_cost_calculator import CityVisitCostCalculatorInterface
 
 
 class CityVisitHeap(object):
+  """Keeps track of the best CityVisits.""" 
 
   def __init__(self, max_count, day_visit_parameterss):
+    assert isinstance(max_count, int)
+    for day_visit_parameters in day_visit_parameterss:
+      assert isinstance(day_visit_parameters, DayVisitParametersInterface)
+
     self.max_count = max_count
     self.day_visit_parameterss = day_visit_parameterss
     self.calculators = dict()
@@ -11,6 +18,8 @@ class CityVisitHeap(object):
     self.calculators_sorted = []
   
   def PushCalculator(self, add_calculator):
+    assert isinstance(add_calculator, CityVisitCostCalculatorInterface)
+
     add_hash_key = self._CityVisitDatelessHashKey(add_calculator)
     # If we already has this calculator in our list.
     if add_hash_key in self.calculators:

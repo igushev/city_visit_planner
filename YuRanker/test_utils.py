@@ -1,5 +1,6 @@
 import unittest
-from Yusi.YuPoint.city_visit import DayVisitParametersInterface
+from Yusi.YuPoint.city_visit import DayVisitParametersInterface,\
+  CityVisitParametersInterface
 from Yusi.YuPoint.point import PointTypeInterface, AgeGroupInterface
 
 
@@ -15,7 +16,7 @@ class MockAgeGroup(AgeGroupInterface):
   pass
 
 
-class MockCityVisitParameters(object):
+class MockCityVisitParameters(CityVisitParametersInterface):
   pass
 
 

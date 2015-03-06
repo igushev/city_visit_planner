@@ -4,16 +4,37 @@ import copy
 
 import Yusi
 from Yusi.YuRouter.day_visit_heap import PointsCalculator, DayVisitHeap
+from Yusi.YuRouter.day_visit_cost_calculator_interface import DayVisitCostCalculatorGeneratorInterface
+from Yusi.YuPoint.point import PointInterface
+from Yusi.YuPoint.city_visit import DayVisitParametersInterface
 
 
-class DayVisitRouter(object):
+class DayVisitRouterInterface(object):
+  """Abstract class which routes points during particular day."""
+
+  def RouteDayVisit(self, all_points, day_visit_parameters):
+    """Route maximum number of points with minimum cost for DayVisit."""
+    raise NotImplemented()
+
+
+class DayVisitRouter(DayVisitRouterInterface):
+  """Routes points during particular day using permutation and keeping track of
+  best so far."""
+
   def __init__(self, calculator_generator, day_visit_heap_size):
+    assert isinstance(calculator_generator,
+                      DayVisitCostCalculatorGeneratorInterface)
+    assert isinstance(day_visit_heap_size, int)
+    
     self.calculator_generator = calculator_generator
     self.day_visit_heap_size = day_visit_heap_size
     
   # TODO(igushev): Use set instead of list for Points.
   def RouteDayVisit(self, all_points, day_visit_parameters):
-    """Route maximum number of points with minimum cost for DayVisit."""
+    for point in all_points:
+      assert isinstance(point, PointInterface)
+    assert isinstance(day_visit_parameters, DayVisitParametersInterface)
+
     points_calculator_heap = DayVisitHeap(self.day_visit_heap_size)
     points_calculator_heap.Append(
         PointsCalculator(

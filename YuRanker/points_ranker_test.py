@@ -4,9 +4,10 @@ from Yusi.YuRanker.points_ranker import PointsRanker
 from Yusi.YuRanker.rank_adjuster_interface import RankAdjusterInterface,\
   ScorePoint
 from Yusi.YuRanker.test_utils import MockCityVisitParameters
+from Yusi.YuPoint.point import PointInterface
 
 
-class MockPoint(object):
+class MockPoint(PointInterface):
   pass
 
 

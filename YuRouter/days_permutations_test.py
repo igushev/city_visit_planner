@@ -3,9 +3,10 @@ import unittest
 
 import Yusi
 from Yusi.YuRouter.days_permutations import DaysPermutations
+from Yusi.YuPoint.point import PointInterface
 
 
-class MockPoint(object):
+class MockPoint(PointInterface):
   pass
 
 

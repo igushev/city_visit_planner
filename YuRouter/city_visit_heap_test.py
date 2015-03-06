@@ -1,7 +1,8 @@
 import unittest
 
 from Yusi.YuRouter.city_visit_heap import CityVisitHeap
-from Yusi.YuPoint.city_visit import DayVisitParametersInterface
+from Yusi.YuPoint.city_visit import DayVisitParametersInterface,\
+  DayVisitInterface
 from Yusi.YuRouter.city_visit_cost_calculator import CityVisitCostCalculatorInterface
 
 
@@ -15,7 +16,7 @@ class MockDayVisitParameters(DayVisitParametersInterface):
     return self.hash_key
 
 
-class MockDayVisit(object):
+class MockDayVisit(DayVisitInterface):
   
   def __init__(self, hash_key):
     assert isinstance(hash_key, str)

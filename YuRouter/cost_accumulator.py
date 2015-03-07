@@ -4,7 +4,6 @@ from Yusi.YuPoint.point import PointInterface
 from Yusi.YuPoint.city_visit import MoveDescription, MoveType
 
 
-# TODO(igushev): Do we need to add lunch time to cost?
 class CostAccumulatorInterface(object):
   """Abstract class which accumulates cost for a day."""
 

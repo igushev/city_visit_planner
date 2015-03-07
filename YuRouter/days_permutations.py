@@ -11,7 +11,7 @@ class DaysToPoints(collections.defaultdict):
 
 
 def DaysPermutations(points, days_consider):
-  """Returns list of potential permutation. Each permutation is a dictionaries
+  """Returns list of potential permutations. Each permutation is a dictionary
   of day number to points to visit that day."""
   results = [DaysToPoints()]
   for point in points:

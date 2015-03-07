@@ -3,7 +3,7 @@ import datetime
 
 
 class CoordinatesInterface(object):
-  """Coordinates on Earth of anything interface."""
+  """Coordinates on Earth interface."""
 
   def Copy(self):
     return copy.deepcopy(self)
@@ -51,14 +51,11 @@ class OperatingHours(OperatingHoursInterface):
 
 class PointTypeInterface(object):
   """Type of a point interface."""
-
-  def GetNamesPointTypes(self):
-    """Get dictionary of point type name to point type value."""    
-    raise NotImplemented
+  pass
 
 
 class PointType(PointTypeInterface):
-  """Type of a point implementation using assign value to each type."""
+  """Type of a point implementation using assigned value to each type."""
 
   def __init__(self, city_tours, landmarks, nature, museums, shopping, dining):
     if city_tours is not None:
@@ -112,14 +109,11 @@ class PointType(PointTypeInterface):
 
 class AgeGroupInterface(object):
   """Age groups most suitable for a Point interface."""
-
-  def GetNamesAgeGroups(self):
-    """Get dictionary of age group name to age group value."""    
-    raise NotImplemented()
+  pass
 
 
 class AgeGroup(AgeGroupInterface):
-  """Age groups most suitable for a Point implementation using assign value to
+  """Age groups most suitable for a Point implementation using assigned value to
   each age group."""
 
   def __init__(self, senior, adult, junior, child, toddlers):

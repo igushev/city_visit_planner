@@ -73,13 +73,14 @@ class DayVisitCostCalculatorTest(unittest.TestCase):
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
-Cost: 11.00
 Walking from Hotel to Ferry Building from 09:00:00 to 10:00:00
 Visiting point "Ferry Building" from 10:00:00 to 11:00:00
 Walking from Ferry Building to Pier 39 from 11:00:00 to 12:00:00
 Visiting point "Pier 39" from 12:00:00 to 15:00:00
 Having lunch from 15:00:00 to 16:00:00
-Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
+Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
+Cost: 11.00
+Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
 
@@ -136,13 +137,14 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
-Cost: 11.00
 Walking from Hotel to Ferry Building from 09:00:00 to 10:00:00
 Visiting point "Ferry Building" from 10:00:00 to 11:00:00
 Walking from Ferry Building to Pier 39 from 11:00:00 to 12:00:00
 Having lunch from 12:00:00 to 13:00:00
 Visiting point "Pier 39" from 13:00:00 to 16:00:00
-Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
+Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
+Cost: 11.00
+Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
 
@@ -184,10 +186,11 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
-Cost: 10.00
 Walking from Hotel to Pier 39 from 10:30:00 to 13:30:00
 Visiting point "Pier 39" from 13:30:00 to 16:30:00
-Walking from Pier 39 to Restaurant from 16:30:00 to 20:30:00"""
+Walking from Pier 39 to Restaurant from 16:30:00 to 20:30:00
+Cost: 10.00
+Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
     
@@ -231,11 +234,12 @@ Walking from Pier 39 to Restaurant from 16:30:00 to 20:30:00"""
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
-Cost: 5.00
 Walking from Hotel to Ferry Building from 09:00:00 to 10:00:00
 Visiting point "Ferry Building" from 10:00:00 to 11:00:00
 Walking from Ferry Building to Restaurant from 11:00:00 to 13:00:00
-Having lunch from 13:00:00 to 14:00:00"""
+Having lunch from 13:00:00 to 14:00:00
+Cost: 5.00
+Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
 
@@ -281,11 +285,12 @@ Having lunch from 13:00:00 to 14:00:00"""
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
-Cost: 11.00
 Having lunch from 09:00:00 to 10:00:00
 Walking from Hotel to Pier 39 from 10:00:00 to 13:00:00
 Visiting point "Pier 39" from 13:00:00 to 16:00:00
-Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
+Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
+Cost: 11.00
+Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
 
@@ -312,11 +317,12 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
-Cost: 11.00
 Walking from Hotel to Pier 39 from 09:00:00 to 12:00:00
 Having lunch from 12:00:00 to 13:00:00
 Visiting point "Pier 39" from 13:00:00 to 16:00:00
-Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
+Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
+Cost: 11.00
+Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
 
@@ -343,11 +349,12 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
-Cost: 11.00
 Walking from Hotel to Pier 39 from 09:00:00 to 12:00:00
 Having lunch from 12:00:00 to 13:00:00
 Visiting point "Pier 39" from 13:00:00 to 16:00:00
-Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
+Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
+Cost: 11.00
+Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
 
@@ -374,11 +381,12 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
-Cost: 11.00
 Walking from Hotel to Pier 39 from 09:00:00 to 12:00:00
 Visiting point "Pier 39" from 12:00:00 to 15:00:00
 Having lunch from 15:00:00 to 16:00:00
-Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
+Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
+Cost: 11.00
+Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
 
@@ -404,11 +412,12 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
-Cost: 11.00
 Walking from Hotel to Pier 39 from 09:00:00 to 12:00:00
 Visiting point "Pier 39" from 12:00:00 to 15:00:00
 Having lunch from 15:00:00 to 16:00:00
-Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
+Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
+Cost: 11.00
+Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
 
@@ -434,11 +443,12 @@ Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00"""
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
-Cost: 11.00
 Walking from Hotel to Pier 39 from 09:00:00 to 12:00:00
 Visiting point "Pier 39" from 12:00:00 to 15:00:00
 Walking from Pier 39 to Restaurant from 15:00:00 to 19:00:00
-Having lunch from 19:00:00 to 20:00:00"""
+Having lunch from 19:00:00 to 20:00:00
+Cost: 11.00
+Price: 0.00"""
 
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))

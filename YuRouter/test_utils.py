@@ -58,8 +58,6 @@ class MockMoveCalculator(MoveCalculatorInterface):
                            MOVE_HOURS[coordinates_between], MoveType.walking)
 
 
-# TODO(igushev): Change points to points_dict everywhere in code and
-# for other dicts (?).
 def MockPoints():
   points = ReadCSVToDict(
       os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))

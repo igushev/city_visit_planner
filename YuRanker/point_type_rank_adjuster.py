@@ -3,6 +3,8 @@ from Yusi.YuRanker.rank_adjuster_interface import RankAdjusterInterface,\
 from Yusi.YuPoint.city_visit import CityVisitParametersInterface
 
 
+# NOTE(igushev): This class works only with PointType implementation of
+# PointTypeInterface.
 class PointTypeRankAdjuster(RankAdjusterInterface):
   """Adjusts rank of points by point types."""
 

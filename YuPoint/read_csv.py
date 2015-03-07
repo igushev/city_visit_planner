@@ -83,7 +83,7 @@ def ExtractOperatingHours(opens_str, closes_str):
 
 
 def ReadCSV(csv_filepath):
-  """Read CSV file to list of Point."""
+  """Read CSV file to list of Points."""
   points_df = pd.DataFrame.from_csv(csv_filepath)
   points = []
   for _, point_series in points_df.iterrows():

@@ -11,6 +11,9 @@ class PointFitInterface(object):
     raise NotImplemented
 
 
+# NOTE(igushev): This class works only with StartEndDatetime of
+# StartEndDatetimeInterface implementation and OperatingHours implementation
+# of OperatingHoursInterface.
 class SimplePointFit(PointFitInterface):
   """Checks if point can be visited in a very straightforward way. Doesn't know
   about days of week, seasons, etc."""

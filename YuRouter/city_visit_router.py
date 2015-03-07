@@ -108,7 +108,7 @@ def _PushPointsToDayVisitsWork(
 
 
 class CityVisitRouterInterface(object):
-  """Abstract class which routes points across CityVisit."""
+  """Abstract class which routes points during CityVisit."""
   
   def RouteCityVisit(self, points, day_visit_parameterss):
     """Route maximum number of points with minimum cost for CityVisit."""
@@ -116,7 +116,7 @@ class CityVisitRouterInterface(object):
 
 
 class CityVisitRouter(CityVisitRouterInterface):
-  """Routes points across CityVisit using permutation and keeping track of
+  """Routes points during CityVisit using permutation and keeping track of
   best so far."""
 
   def __init__(self, day_visit_router, city_visit_cost_calculator_generator,
@@ -149,10 +149,13 @@ class CityVisitRouter(CityVisitRouterInterface):
     for day_visit_parameters in day_visit_parameterss:
       assert isinstance(day_visit_parameters, DayVisitParametersInterface)
 
-    initial_day_visits = [
-        day_visit for day_visit, _ in [
-           self.day_visit_router.RouteDayVisit([], day_visit_parameters)
-           for day_visit_parameters in day_visit_parameterss]]
+    initial_day_visits = []
+    for day_visit_parameters in day_visit_parameterss:
+        day_visit, points_left = (
+            self.day_visit_router.RouteDayVisit([], day_visit_parameters))
+        assert isinstance(day_visit, DayVisitInterface)
+        assert not points_left
+        initial_day_visits.append(day_visit) 
     city_visit_cost_calculators = [
         self.city_visit_cost_calculator_generator.Generate(initial_day_visits)]
     could_not_push = 0

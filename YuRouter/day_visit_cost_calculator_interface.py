@@ -1,8 +1,8 @@
 class DayVisitCostCalculatorInterface(object):
   """Abstract class which constructs DayVisit and calculates its cost.
   
-  If at Point cannot be fit into DayVisit, Calculator stops accepting new points
-  (even if a Point can be fit) and just collects to left points. 
+  If a Point cannot be fit into DayVisit, Calculator stops accepting new points
+  (even if a following Point can be fit) and just collects left points. 
   """
 
   def Copy(self):

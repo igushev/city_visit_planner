@@ -216,6 +216,7 @@ class DayVisit(DayVisitInterface):
     assert isinstance(start_datetime, datetime.datetime)
     have_lunch = False
     must_move = True
+    self.price = 0
     for action in actions:
       if isinstance(action, Lunch):
         have_lunch = True
@@ -226,6 +227,7 @@ class DayVisit(DayVisitInterface):
       else:
         assert isinstance(action, PointVisit), (
             'Wrong order of actions: no PointVisit.')
+        self.price += action.point.price
       must_move = not must_move    
     assert len(actions) % 2 == (0 if have_lunch else 1), (
         'Wrong number of actions.')
@@ -252,10 +254,10 @@ class DayVisit(DayVisitInterface):
     return self.__dict__ == other.__dict__
 
   def __str__(self):
-    s = 'Date: %s\n' % self.start_datetime.date()
-    s += 'Cost: %.2f\n' % self.cost
-    s += '\n'.join(['%s' % action for action in self.actions])
-    return s
+    return '\n'.join(['Date: %s' % self.start_datetime.date(),
+                      '\n'.join(['%s' % action for action in self.actions]),
+                      'Cost: %.2f' % self.cost,
+                      'Price: %.2f' % self.price])
       
 
 class CityVisitInterface(object):
@@ -267,8 +269,10 @@ class CityVisit(CityVisitInterface):
   """Set of day visiting implementation."""
 
   def __init__(self, day_visits, cost):
+    self.price = 0
     for day_visit in day_visits:
       isinstance(day_visit, DayVisit)
+      self.price += day_visit.price
     assert isinstance(cost, float)
 
     self.day_visits = day_visits
@@ -279,5 +283,6 @@ class CityVisit(CityVisitInterface):
 
   def __str__(self):
     return '\n'.join(['%s' % day_visit for day_visit in self.day_visits] +
-                     ['Total cost: %.2f' % self.cost])
+                     ['Total cost: %.2f' % self.cost,
+                      'Total price: %.2f' % self.price])
     

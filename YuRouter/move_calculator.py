@@ -3,7 +3,7 @@
 import math
 
 import Yusi
-from Yusi.YuPoint.city_visit import MoveDescription, MoveType
+from Yusi.YuPoint.city_visit import MoveDescription
 from Yusi.YuPoint.point import CoordinatesInterface
 
 

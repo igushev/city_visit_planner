@@ -16,32 +16,32 @@ def GetPointsInput():
       points['West Village'],
       points['SoHo'],
       points['Upper West Side'],
-      points['Chelsea Market'],
-      points['Battery Park'],
       points['Columbia University'],
-      points['New York University'],
       points['Grand Central Terminal'],
-      points['Charging Bull'],
-      points['New York Stock Exchange'],
-      points['Federal Reserve Bank of New York'],
-      points['Alexander Hamilton US Custom House'],
+      points['New York Public Library'],
+      points['National September 11 Memorial And Museum'],
       points['Union Square'],
       points['Headquarters of the United Nations'],
       points['Rockefeller Center'],
       points['Trump Tower'],
-      points['Chrysler Building'],
       points['Empire State Building'],
-      points['New York Public Library'],
+      points['Chrysler Building'],
+      points['Charging Bull'],
+      points['New York Stock Exchange'],
+      points['Federal Reserve Bank of New York'],
+      points['Alexander Hamilton US Custom House'],
+      points['New York University'],
+      points['Battery Park'],
       points['Madison Square Garden'],
-      points['Times Square Church'],
-      points['National September 11 Memorial And Museum'],
+      points['Chelsea Market'],
       points['Skyscraper Museum'],
-      points['Museum of Modern Art'],
       points['Washington Square Park'],
-      points['Strawberry Fields'],
       points['Madison Square'],
-      points['Titanic Memorial'],
+      points['Strawberry Fields'],
+      points['Times Square Church'],
+      points['Museum of Modern Art'],
       points['Ghostbusters Firestation'],
+      points['Titanic Memorial'],
       ]
 
 
@@ -63,7 +63,7 @@ def GetDayVisitParameterss():
       GetDayVisitParameters(
           start_datetime=datetime.datetime(2015, 7, day, 11, 0, 0),
           end_datetime=datetime.datetime(2015, 7, day, 19, 0, 0))
-      for day in range(11, 13)]
+      for day in range(11, 18)]
 
 
 class CityVisitRouterRunner(object):

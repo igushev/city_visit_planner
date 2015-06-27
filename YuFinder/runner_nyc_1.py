@@ -4,14 +4,14 @@ import os
 import Yusi
 from Yusi.YuFinder.city_visit_finder import CityVisitFinder
 from Yusi.YuPoint.read_csv import ReadCSVToDict
-from Yusi.YuRanker.runner import PointsRankerRunner, GetCityVisitParameters
-from Yusi.YuRouter.runner import CityVisitRouterRunner, GetDayVisitParameterss
+from Yusi.YuRanker.runner_nyc_1 import PointsRankerRunner, GetCityVisitParameters
+from Yusi.YuRouter.runner_nyc_1 import CityVisitRouterRunner, GetDayVisitParameterss
 from Yusi.YuFinder.database_connection import DatabaseConnectionInterface
 
 
 def GetPointsInput():
   points = ReadCSVToDict(
-      os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
+      os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_nyc_1.csv'))
   return points.values()
 
 

@@ -160,6 +160,7 @@ class CityVisitRouter(CityVisitRouterInterface):
         self.city_visit_cost_calculator_generator.Generate(initial_day_visits)]
     could_not_push = 0
     for i, point in enumerate(points):
+      print('Processing %d out of %d' % (i+1, len(points)))
 
       # NOTE(igushev): Run in parallel pushing points to different
       # CityVisitCostCalculators from previous heap and collect AsyncResult

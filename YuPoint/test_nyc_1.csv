@@ -1,21 +1,21 @@
 ID,Name,CoordinatesStarts,CoordinatesEnds,Address,OperatingHoursOpens,OperatingHoursCloses,Telephone,Days Close,Reservation Required,Guided,Duration,Popularity,City Tours,Landmarks,Nature,Museums,Shopping,Entertainment,Dining,Religion,Film Locations,Panoramic View,Senior,Adult,Junior,Child,Toddlers,Price,Seniors,Students,Children,Parking,Eating
-,The Town Hall,"40.756075, -73.984447",,"123 W. 43rd St, New York City, NY",12:00:00,18:00:00,212-840-2824,Sunday,1,,1,60,,100,,100,,100,70,,,,100,100,100,100,,0,,,,,70
-,Ghostbusters Building,"40.771944, -73.978889",,"55 Central Park West, New York City, NY 10023",,,,,0,,0.15,30,,100,,,,,,,,,100,100,100,100,100,0,,,,,
-,Carnegie Hill,"40.784722N, 73.956111W",,"Madison Ave at 92nd St, New York, NY 10128",,,,,0,,1,50,,100,,100,,,70,,,,100,100,100,100,100,0,,,,,70
+,The Town Hall,"40.756075, -73.984447",,"123 W. 43rd St, New York City, NY",12:00:00,18:00:00,212-840-2824,Sunday,1,,1,60,,100,,100,,100,70,,,,,,,,,0,,,,,70
+,Ghostbusters Building,"40.771944, -73.978889",,"55 Central Park West, New York City, NY 10023",,,,,0,,0.15,30,,100,,,,,,,,,,,,,,0,,,,,
+,Carnegie Hill,"40.784722N, 73.956111W",,"Madison Ave at 92nd St, New York, NY 10128",,,,,0,,1,50,,100,,100,,,70,,,,,,,,,0,,,,,70
 ,Alexander Hamilton US Custom House,"40.703931, -74.013749",," 1 Bowling Green, New York City, NY",,,212-514-3700,,,,0.5,30,,100,,,,,,,,,,,,,,,,,,,
 ,New York City Criminal Court,"40.715989, -74.001052",,"100 Centre Street, New York City, NY",,,646 386 4511,,,,0.3,50,,100,,,,,,,,,,,,,,,,,,,
-,Skyscraper Museum,"40.705556N, 74.0175W",,"39 Battery Place, (at Nassau St.), New York City, NY 10280",12:00:00,18:00:00,212 968-1961,"Monday, Tuesday",,,1,70,,,,100,,,,,,,100,100,100,100,100,5,2.5,2.5,0,,
+,Skyscraper Museum,"40.705556N, 74.0175W",,"39 Battery Place, (at Nassau St.), New York City, NY 10280",12:00:00,18:00:00,212 968-1961,"Monday, Tuesday",,,1,70,,,,100,,,,,,,,,,,,5,2.5,2.5,0,,
 ,Manhattan Municipal Building,"40.712964N, 74.003886W",,"Chambers and Centre streets, New York City, NY",9:00:00,17:00:00,,"Saturday,Sunday",,,0.3,70,,100,,,,,,,,,,,,,,,,,,,
 ,Tweed Courthouse,"40.713414, -74.005494",,"52 Chambers St, New York City, NY 10001",,,(718) 935-2000,,1,,1.5,30,,100,,100,,,,,,,,,,,,0,,,,,
 ,Columbus Park,"40.715051, -74.000087",,"67 Mulberry St, New York City, NY",8:00:00,20:00:00,,,,,0.5,70,,100,80,,,,,,,,,,,,,,,,,,
 ,Morningside Park,"40.806225N, 73.95848W",,"Morningside Avenue, at 110th Street, New York City, NY 10027",,,212 360 1311,,,,1.5,50,,100,100,,,,,,,,,,,,,,,,,,
-,Museum of Modern Art,"40.761484N, 73.977664W",,"11 West 53rd Street, New York City, NY 10019",10:30:00,17:30:00,212-708-9400,,,,24,95,,100,20,100,,,30,,,,100,100,100,100,,25,18,14,0,,
+,Museum of Modern Art,"40.761484N, 73.977664W",,"11 West 53rd Street, New York City, NY 10019",10:30:00,17:30:00,212-708-9400,,,,24,95,,100,20,100,,,30,,,,,,,,,25,18,14,0,,
 ,St. Peter's Roman Catholic Church,"40.712488N, 74.009501W",,"Church Street / Ecke Barclay Street, New York City, NY",,,,,,,0.5,50,,100,,,,,,,,,,,,,,,,,,,
 ,Refinery Rooftop Bar and Lounge,"40.752431, -73.985393",,"63 W 38th St, New York, NY 10018",11:30:00,13:30:00,646.664.0372,,,,2,70,,,,,,,100,,,,,,,,,,,,,,100
 ,"Chinatown, Manhattan","40.714660, -73.997181",,"22 Bowery, New York, NY 10013",,,,,,,2,100,,100,,,80,,80,,,,,,,,,,,,,,80
-,Central Park Carousel,"40.769925, -73.975276",,"65th St Transverse, Central Park, New York City, NY",10:00:00,17:00:00,,"Mon,Tue,Wed,Thu",,,0.2,100,,100,80,,,100,,,,,,,100,100,,3,,,,,
+,Central Park Carousel,"40.769925, -73.975276",,"65th St Transverse, Central Park, New York City, NY",10:00:00,17:00:00,,"Mon,Tue,Wed,Thu",,,0.2,70,,100,80,,,100,,,,,,,,,,3,,,,,
 ,Central Park,"40.782773, -73.965395",,"59th to 110th St., from Central Park West to 5th Ave., New York City, NY 10022",6:00:00,13:00:00,,,,,2,100,,100,100,,,,,,,,,,,,,,,,,,80
-,American Radiator Building,"40.752970N, 73.983970W",,"40 West 40th St, New York City, NY 10018",,,,,,,0.25,10,,100,,,,,,,,,,,,,,,,,,,
+,American Radiator Building,"40.752970N, 73.983970W",,"40 West 40th St, New York City, NY 10018",,,,,,,0.25,60,,100,,,,,,,,,,,,,,,,,,,
 ,Park Avenue Armory,"40.76761N, 73.96623W",,"643 Park Avenue, New York City, NY 10065",,,(212) 616-3930,,,,0.5,30,,100,,,,100,,,,,,,,,,,,,,,
 ,New York University,"40.729571, -73.996596",,"70 Washington Square South, New York City, NY",9:00:00,17:00:00,(212).998.4550,,,,1,30,,100,,,,,,,,,,,,,,,,,,,
 ,Church of St. Mary the Virgin,"40.758329, -73.983608",,"139 West 46th St, New York City, NY 10036-8502",,,212 869 5830,,,,0.5,50,,100,,,,,,100,,,,,,,,,,,,,
@@ -33,20 +33,20 @@ ID,Name,CoordinatesStarts,CoordinatesEnds,Address,OperatingHoursOpens,OperatingH
 ,Belvedere Castle,"40.779447N, 73.96906W",,"Mid-Central Park at 79th Street, New York City, NY",10:00:00,17:00:00,212-772 - 0210,Mon,,,0.2,70,,100,80,,,,,,,,,,,,,,,,,,
 ,Headquarters of the United Nations,"40.748879, -73.968017",,"405 East 42nd Street, New York City, NY 10017",9:00:00,16:30:00,212-963-8687,,0,1,0.25,70,,100,,80,,,,,,,,,,,,18,11,11,9,,
 ,Little Italy,"40.719311, -73.997334",,"Mulberry Street, New York City, NY 10013",,,,,,,1,70,,100,,,,,100,,,,,,,,,,,,,,100
-,Battery Park,"40.703717N, 74.016094W",,"75 Battery Place, New York City, NY 10280",,,212 417 2000,,,,0.5,100,,100,,,,,,,,,,,,,,,,,,,50
+,Battery Park,"40.703717N, 74.016094W",,"75 Battery Place, New York City, NY 10280",,,212 417 2000,,,,0.5,70,,100,,,,,,,,,,,,,,,,,,,50
 ,Alice in Wonderland Statue,"40.775263, -73.966597",,"76th Street and 5th Avenue, near Conservatory Lake",,,,,,,0.1,70,,100,70,,,,,,,,,,,,,,,,,,
 ,Fort Tryon Park,"40.862369, -73.932352",,"Riverside Drive to Broadway, West 192nd to Dyckman Street, New York City, NY 10040",6:00:00,13:00:00,,,,,1,70,,100,100,70,,,,,,,,,,,,,,,,,50
 ,The Cloisters,"40.864859, -73.931738",,"99 Margaret Corbin Dr, Fort Tryon Park, New York City, NY 10040",10:00:00,17:15:00,212 923 3700,,,,1,80,,100,80,100,,,,,,,,,,,,25,17,12,0,,
-,Strawberry Fields,"40.775815, -73.974554",,"W. Park Dr. and W. 72nd St., Central Park, New York City, NY",,,,,,,0.25,100,,100,80,,,,,,,,,,,,,,,,,,
+,Strawberry Fields,"40.775815, -73.974554",,"W. Park Dr. and W. 72nd St., Central Park, New York City, NY",,,,,,,0.25,70,,100,80,,,,,,,,,,,,,,,,,,
 ,Ghostbusters Firestation,"40.719558, -74.006623",,"14 North Moore Street, TriBeCa, New York City, NY",,,,,,,0.2,70,,100,,,,,,,100,,,,,,,,,,,,
 ,Riverside Church,"40.811808, -73.962999",,"Riverside Drive at 120th Street, 91 Claremont Ave, New York City, NY",9:00:00,17:00:00,212-870-6700,,,0,1,60,,100,,,,,,100,,,,,,,,,,,,100,
 ,Wall Street,"40.706159, -74.008837",,"Wall Street, New York City, NY 10005",,,,,,,1,100,,100,,,,,,,100,,,,,,,,,,,,
 ,Hudson River Park,"40.733076, -74.010873",,"40 Hudson River Greenway, New York City, NY 10014",6:00:00,13:00:00,(212) 627-2020,,,,1,70,,,100,,,,,,,,,,,,,,,,,,100
 ,Union Square,"40.735900, -73.990419",,"E 17th St & Broadway, New York City, NY",,,212 788 7900,,,,2,70,,100,,,100,,100,,,,,,,,,,,,,,100
-,Manhattan Bridge,"40.707222N, 73.9909W",,"South Street and FDR Drive, New York City, NY 10002",,,,,,,2,100,,100,70,,,,,,,,,,,,,,,,,,
-,Times Square Church,"40.762281, -73.983763",,"237 W 51st St, New York, NY 10019",,,212-541-6300,"Mon,Sat",,,0.5,100,,100,,,,,,100,,,,,,,,,,,,100,
-,Bethesda Terrace and Fountain,"40.774123N, 73.971135W",,"Midpark at 72nd St. Transverse, Central Park, New York City, NY",,,,,,,0.2,100,,100,70,,,,,,,,,,,,,,,,,,50
-,Trinity Church,"40.708063, -74.012189",,"75 Broadway, New York, NY 10006",7:00:00,17:00:00,(212) 602-0800,,,,0.2,100,,100,,,,,,100,,,,,,,,,,,,,
+,Manhattan Bridge,"40.707222N, 73.9909W",,"South Street and FDR Drive, New York City, NY 10002",,,,,,,2,70,,100,70,,,,,,,,,,,,,,,,,,
+,Times Square Church,"40.762281, -73.983763",,"237 W 51st St, New York, NY 10019",,,212-541-6300,"Mon,Sat",,,0.5,70,,100,,,,,,100,,,,,,,,,,,,100,
+,Bethesda Terrace and Fountain,"40.774123N, 73.971135W",,"Midpark at 72nd St. Transverse, Central Park, New York City, NY",,,,,,,0.2,70,,100,70,,,,,,,,,,,,,,,,,,50
+,Trinity Church,"40.708063, -74.012189",,"75 Broadway, New York, NY 10006",7:00:00,17:00:00,(212) 602-0800,,,,0.2,70,,100,,,,,,100,,,,,,,,,,,,,
 ,Columbia University,"40.807533, -73.962591",,"116th Street, New York City, NY 10027",,,212 854 1754,,0,1,1,70,,100,,,,,,,,,,,,,,0,,,,,50
 ,Chelsea Market,"40.742543, -74.006074",,"75 9th Ave, New York City, NY",9:00:00,17:00:00,,,,,1,70,,100,,,100,,100,,,,,,,,,,,,,,100
 ,St. Paul's Chapel,"40.711326, -74.009191",,"209 Broadway, b/t Fulton St & Vesey St, New York City, NY 10007",10:00:00,18:00:00,212.602.0800,,,,0.5,70,,100,,,,,,100,,,,,,,,,,,,,
@@ -57,7 +57,7 @@ ID,Name,CoordinatesStarts,CoordinatesEnds,Address,OperatingHoursOpens,OperatingH
 ,Riverside Park,"40.804, -73.97",,"475 Riverside Drive, New York City, NY 10115",,,212 870 3070,,,,2,75,,,100,,,,,,,,,,,,,,,,,,
 ,Lower East Side Tenement Museum,"40.718794, -73.990025",,"103 Orchard Street, Lower East Side, New York City, NY 10002",10:00:00,20:30:00,877-975-3786,,,,1.5,75,,100,,100,,,,,,,,,,,,25,20,20,,,
 ,Rockefeller Center,"40.758740, -73.978677",,"45 Rockefeller Plaza, New York City, NY 10111",5:00:00,23:59:00,212-332-6868,,,,1,100,,100,,,100,,100,,100,100,,,,,,,,,,,100
-,Bryant Park,"40.753603, -73.983232",,"6th Ave. between W. 40th and W. 42nd Sts., New York City, NY 10017",7:00:00,23:59:00,212-768-4242,,,,0.5,100,,100,70,,,,100,,,,,,,,,,,,,,100
+,Bryant Park,"40.753603, -73.983232",,"6th Ave. between W. 40th and W. 42nd Sts., New York City, NY 10017",7:00:00,23:59:00,212-768-4242,,,,0.5,70,,100,70,,,,100,,,,,,,,,,,,,,100
 ,Grand Central Terminal,"40.752742, -73.977237",,"42nd Street and Park Avenue, New York City, NY 10017",,,212-340-2583,,0,1,1.5,100,,100,,,100,,100,,,,,,,,,20,15,15,,,100
 ,National September 11 Memorial And Museum,"40.711483, -74.013311",,"180 Greenwich St New York, NY 10007",9:00:00,20:00:00,212-312-8800,,,1,1,100,,100,,100,,,,,,,,,,,,24,18,15,,,
 ,Metropolitan Museum of Art,"40.77891N,73.96367W",,"1000 5th Ave, New York City, NY 10028-0198",10:00:00,22:00:00,212-535-7710,,,1,4,100,,100,,100,,,,,100,,,,,,,25,17,12,0,,70
@@ -81,14 +81,14 @@ ID,Name,CoordinatesStarts,CoordinatesEnds,Address,OperatingHoursOpens,OperatingH
 ,Times Square,"40.75773, -73.985708",,"Broadway, New York City, NY 10036",,,(212) 768-1560,,,,0.7,100,,100,,,100,100,100,,100,100,,,,,,,,,,,100
 ,Intrepid Sea Air And Space Museum,"40.764832N, 74.000763W",,"12th Avenue & 46th Street, Pier 86, New York City, NY 10036",10:00:00,17:00:00,212-245-0072,,,,2,75,,100,,100,,,,,,100,,,,,,24,20,19,12,,
 ,American Museum of Natural History,"40.780556, -73.974722",,"79th Street and Central Park West, New York City, NY 10024",10:00:00,17:45:00,212-769-5100,,,1,4,100,,100,,100,,,,,100,,,,,,,22,17,12.5,12.5,,70
-,Ground Zero Catholic Memorial,"40.712032, -74.013251",,"263 Lafayette St, New York City, NY",,,,,,,0.5,100,,100,,,,,,100,,,,,,,,,,,,,
+,Ground Zero Catholic Memorial,"40.712032, -74.013251",,"263 Lafayette St, New York City, NY",,,,,,,0.5,70,,100,,,,,,100,,,,,,,,,,,,,
 ,Washington Square Park,"40.730833, -73.9975",,"West 4th Street, Greenwich Village, New York City, NY 10001",9:00:00,17:00:00,,,,,1,70,,100,70,,,,,,,,,,,,,,,,,,70
 ,Chrysler Building,"40.7517, -73.9753",,"405 Lexington and 42nd St., New York City, NY 10174",8:00:00,18:00:00,,,,,0.2,100,,100,,,,,,,100,,,,,,,,,,,,
 ,Madame Tussauds New York,"40.756474, -73.988862",,"234 West 42nd Street, New York City, NY 10036",9:00:00,22:00:00,212.512.9600,,,,2,90,,,,100,,100,,,,,,,,,,37,37,30,30,,70
 ,Apollo Theater,"40.810047, -73.95015",,"253 W. 125th St., New York City, NY 10027",,,212 531 5300,,,,0.1,50,,100,,,,100,,,,,,,,,,,,,,,
 ,Greenwich Village,"40.733889, -74.001111",,"14th Street and West of Broadway, New York City, NY",,,,,,,2,70,,100,,,100,,100,,100,,,,,,,,,,,,100
 ,West Village,"40.73578N, 74.00357W",,,,,,,,,2,70,,100,,,100,,100,,100,,,,,,,,,,,,100
-,Fifth Avenue,"40.774739, -73.965369",,,,,,,,,1,100,,100,,,100,,100,,,,,,,,,,,,,,100
+,Fifth Avenue,"40.774739, -73.965369",,,,,,,,,1,70,,100,,,100,,100,,,,,,,,,,,,,,100
 ,SoHo,"40.723056, -74.000833",,"South of Houston Street, New York City, NY",,,,,,,1,70,,100,,,100,100,100,,100,,,,,,,,,,,,100
 ,Upper West Side,"40.786944, -73.975278",,"Columbus and Amsterdam Ave., between 63rd and 85th Streets, New York City, NY",,,,,,,1,70,,100,,,100,100,100,,100,,,,,,,,,,,,100
 ,Macy's Herald Square,"40.750278, -73.988333",,"151 West 34th Street, New York City, NY 10001",,,,,,,2,80,,100,,,100,,100,,,,,,,,,,,,,,100

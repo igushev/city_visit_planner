@@ -31,7 +31,7 @@ ID,Name,CoordinatesStarts,CoordinatesEnds,Address,OperatingHoursOpens,OperatingH
 ,Charging Bull,"40.705576N, 74.013421W",,"26 Broadway, New York City, NY 10004",,,,,,,0.1,100,,100,,,,,,,,,,,,,,,,,,,
 ,Williamsburg Bridge,"40.713561, -73.971969",,"Brooklyn to Manhattan lower East Side, New York City, NY",,,,,,,1,60,,100,60,,,,,,,,,,,,,,,,,,
 ,Belvedere Castle,"40.779447N, 73.96906W",,"Mid-Central Park at 79th Street, New York City, NY",10:00:00,17:00:00,212-772 - 0210,Mon,,,0.2,70,,100,80,,,,,,,,,,,,,,,,,,
-,Headquarters of the United Nations,"40.748879, -73.968017",,"405 East 42nd Street, New York City, NY 10017",9:00:00,16:30:00,212-963-8687,,0,1,0.25,70,,100,,80,,,,,,,,,,,,18,11,11,9,,
+,Headquarters of the United Nations,"40.748879, -73.968017",,"405 East 42nd Street, New York City, NY 10017",9:00:00,16:30:00,212-963-8687,,0,1,2,70,,100,,80,,,,,,,,,,,,18,11,11,9,,
 ,Little Italy,"40.719311, -73.997334",,"Mulberry Street, New York City, NY 10013",,,,,,,1,70,,100,,,,,100,,,,,,,,,,,,,,100
 ,Battery Park,"40.703717N, 74.016094W",,"75 Battery Place, New York City, NY 10280",,,212 417 2000,,,,0.5,70,,100,,,,,,,,,,,,,,,,,,,50
 ,Alice in Wonderland Statue,"40.775263, -73.966597",,"76th Street and 5th Avenue, near Conservatory Lake",,,,,,,0.1,70,,100,70,,,,,,,,,,,,,,,,,,
@@ -95,3 +95,4 @@ ID,Name,CoordinatesStarts,CoordinatesEnds,Address,OperatingHoursOpens,OperatingH
 ,Studio 54,"40.764303N, 73.983829W",,"254 West 54th Street, New York City, NY",,,212-719-1300,,,,0.1,30,,,,,,,,,,,,,,,,,,,,,
 ,Meatpacking District,"40.740278, -74.006944",,"West of Eighth Avenue, New York City, NY 10014",,,,,,,1,50,,100,,,100,100,100,,,,,,,,,,,,,,100
 ,Madison Square,"40.742054, -73.987984",,"Between 23rd and 26 streets, and Madison and Fifth Avenues, New York City, NY",,,,,,,1,70,,100,,,,100,100,,,,,,,,,,,,,,100
+,One World Observatory,"40.712917, -74.013008",,"285 Fulton St, New York, NY 10006",09:00:00 AM,11:15:00 PM,844-696-1776,,,,1.5,70,100,20,,,,,,,,100,,,,,,32,30,32,26,,50

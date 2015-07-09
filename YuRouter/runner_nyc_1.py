@@ -69,7 +69,7 @@ def GetDayVisitParameterss():
 class CityVisitRouterRunner(object):
   
   def __init__(self):
-    self.max_walking_distance=2.0
+    self.max_walking_distance=0.5
     self.city_visit_router = (
         PrototypeParameters(max_walking_distance=self.max_walking_distance).
         CityVisitRouter())

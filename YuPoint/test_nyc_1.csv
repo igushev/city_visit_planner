@@ -56,7 +56,7 @@ ID,Name,CoordinatesStarts,CoordinatesEnds,Address,OperatingHoursOpens,OperatingH
 ,Flatiron Building,"40.741061, -73.989701",,"175 Fifth Ave., At 23rd St., New York City, NY 10010",,,,,,,0.2,100,,100,,,,,,,,,,,,,,,,,,,
 ,Riverside Park,"40.804, -73.97",,"475 Riverside Drive, New York City, NY 10115",,,212 870 3070,,,,2,75,,,100,,,,,,,,,,,,,,,,,,
 ,Lower East Side Tenement Museum,"40.718794, -73.990025",,"103 Orchard Street, Lower East Side, New York City, NY 10002",10:00:00,20:30:00,877-975-3786,,,,1.5,75,,,,100,,,,,,,,,,,,25,20,20,,,
-,Rockefeller Center,"40.758740, -73.978677",,"45 Rockefeller Plaza, New York City, NY 10111",5:00:00,23:59:00,212-332-6868,,,,1,100,,100,,,100,,100,,100,100,,,,,,,,,,,100
+,Rockefeller Center,"40.758740, -73.978677",,"45 Rockefeller Plaza, New York City, NY 10111",5:00:00,23:59:00,212-332-6868,,,,1.5,100,,100,,,100,,100,,100,100,,,,,,,,,,,100
 ,Bryant Park,"40.753603, -73.983232",,"6th Ave. between W. 40th and W. 42nd Sts., New York City, NY 10017",7:00:00,23:59:00,212-768-4242,,,,0.5,70,,30,70,,,,100,,,,,,,,,,,,,,100
 ,Grand Central Terminal,"40.752742, -73.977237",,"42nd Street and Park Avenue, New York City, NY 10017",,,212-340-2583,,0,1,1.5,100,,100,,,100,,100,,,,,,,,,20,15,15,,,100
 ,National September 11 Memorial And Museum,"40.711483, -74.013311",,"180 Greenwich St New York, NY 10007",9:00:00,20:00:00,212-312-8800,,,1,1,100,,100,,100,,,,,,,,,,,,24,18,15,,,
@@ -74,7 +74,7 @@ ID,Name,CoordinatesStarts,CoordinatesEnds,Address,OperatingHoursOpens,OperatingH
 ,Ellis Island,"40.703717N, 74.016094W",,"New York Harbor, New York City, NY 10017",8:30:00,19:00:00,212 363 3206,,,1,3,90,,90,70,100,,,,,100,100,,,,,,18,14,9,9,,
 ,Empire State Building,"40.748433, -73.985656",,"350 Fifth Avenue, Between 33rd and 34th Streets, New York City, NY 10118",8:00:00,14:00:00,212-736-3100,,,,3,100,,100,,80,70,,100,,100,100,,,,,,32,29,26,,,100
 ,Broadway,"40.781239, -73.981433",,"Broadway, New York",,,,,,,1,100,,100,,,,,100,,100,,,,,,,,,,,,100
-,Lincoln Center for the Performing Arts,"40.772311N, 73.983403W",,"The David RubenStein Atrium, Broadway & 64th Street - main entrance, New York City, NY 10023",,,212-875-5350,,,,1,80,,20,,,,100,100,,100,,,,,,,,,,,,100
+,Lincoln Center for the Performing Arts,"40.772311N, 73.983403W",,"The David RubenStein Atrium, Broadway & 64th Street - main entrance, New York City, NY 10023",,,212-875-5350,,,,1,60,,20,,,,100,100,,100,,,,,,,,,,,,100
 ,New York Public Library,"40.75270N, 73.98180W",,"476 5th Ave New York, NY 10018, New York City, NY 10018",,,212 930 0800,,,1,1,80,,60,,,,,,,100,,,,,,,0,,,,,
 ,Staten Island Ferry,"40.70141N, 74.01319W",,"4 South Street, New York City, NY 10004",,,,,,,1,60,,,70,,,,,,,100,,,,,,,,,,,
 ,Madison Square Garden,"40.750556, -73.993611",,"4 Penn Plaza, New York City, NY 10001",,,,,,1,1,60,,80,,,,100,,,100,,,,,,,19.95,,,,,
@@ -90,9 +90,12 @@ ID,Name,CoordinatesStarts,CoordinatesEnds,Address,OperatingHoursOpens,OperatingH
 ,West Village,"40.73578N, 74.00357W",,,,,,,,,2,70,,70,,,100,,100,,100,,,,,,,,,,,,100
 ,Fifth Avenue,"40.774739, -73.965369",,,,,,,,,1,70,,70,,,100,,100,,,,,,,,,,,,,,100
 ,SoHo,"40.723056, -74.000833",,"South of Houston Street, New York City, NY",,,,,,,1,70,,30,,,100,100,100,,100,,,,,,,,,,,,100
-,Upper West Side,"40.786944, -73.975278",,"Columbus and Amsterdam Ave., between 63rd and 85th Streets, New York City, NY",,,,,,,1,70,,20,,,100,100,100,,100,,,,,,,,,,,,100
 ,Macy's Herald Square,"40.750278, -73.988333",,"151 West 34th Street, New York City, NY 10001",,,,,,,2,80,,70,,,100,,100,,,,,,,,,,,,,,100
 ,Studio 54,"40.764303N, 73.983829W",,"254 West 54th Street, New York City, NY",,,212-719-1300,,,,0.1,30,,40,,,,,,,,,,,,,,,,,,,
 ,Meatpacking District,"40.740278, -74.006944",,"West of Eighth Avenue, New York City, NY 10014",,,,,,,1,50,,20,,,100,100,100,,,,,,,,,,,,,,100
 ,Madison Square,"40.742054, -73.987984",,"Between 23rd and 26 streets, and Madison and Fifth Avenues, New York City, NY",,,,,,,1,70,,20,,,,100,100,,,,,,,,,,,,,,100
 ,One World Observatory,"40.712917, -74.013008",,"285 Fulton St, New York, NY 10006",09:00:00,23:15:00,844-696-1776,,,,1.5,70,100,20,,,,,,,,100,,,,,,32,30,32,26,,50
+,Upper East Side (Lower),"40.766636, -73.967054",,Park Ave at 65th street,,,,,,,2,70,,20,,,60,,60,,80,,,,,,,,,,,,80
+,Upper East Side (Middle),"40.779519, -73.957699",,Park Ave at 85th street,,,,,,,2,40,,20,,,,,20,,,,,,,,,,,,,,40
+,Upper West Side (Lower),"40.774136, -73.984896",,Amsterdam Ave at 65th street,,,,,,,2,60,,20,,,40,,40,,,,,,,,,,,,,,60
+,Upper West Side (Middle),"40.787017, -73.975530",,Amsterdam Ave at 85th street,,,,,,,2,30,,20,,,,,,,,,,,,,,,,,,,20

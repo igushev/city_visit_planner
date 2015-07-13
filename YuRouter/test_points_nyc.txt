@@ -7,9 +7,6 @@ Skyscraper Museum
 Upper East Side (Lower)
 Upper West Side (Lower)
 
-Ground Zero Catholic Memorial
-Titanic Memorial
-Headquarters of the United Nations
 Flatiron Building
 
 Columbia University
@@ -17,6 +14,7 @@ Fort Tryon Park
 The Cloisters
 
 Lincoln Center for the Performing Arts
+Headquarters of the United Nations
 Metropolitan Museum of Art
 Madison Square
 
@@ -43,6 +41,8 @@ Museum of Modern Art
 
 Soldiers' and Sailors' Monument
 Lower East Side Tenement Museum
+Titanic Memorial
+Ground Zero Catholic Memorial
 Park Avenue Armory
 
 St. Peter's Roman Catholic Church

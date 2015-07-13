@@ -42,7 +42,7 @@ def GetDayVisitParameterss():
       GetDayVisitParameters(
           start_datetime=datetime.datetime(2015, 7, day, 11, 0, 0),
           end_datetime=datetime.datetime(2015, 7, day, 19, 0, 0))
-      for day in range(13, 18)]
+      for day in range(13, 16)]
 
 
 class CityVisitRouterRunner(object):

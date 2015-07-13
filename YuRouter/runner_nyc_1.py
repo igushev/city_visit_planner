@@ -8,41 +8,20 @@ from Yusi.YuPoint.read_csv import ReadCSVToDict
 from Yusi.YuPoint.point import Coordinates
 
 
+def _GetPointsKeys():
+  test_points_filepath = os.path.join(
+      Yusi.GetYusiDir(), 'YuRouter', 'test_points_nyc.txt')
+  lines = open(test_points_filepath).readlines()
+  lines = [line.strip() for line in lines]
+  keys = [line for line in lines if line and not line.startswith('#')]
+  return keys
+
+
 def GetPointsInput():
   points = ReadCSVToDict(
       os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_nyc_1.csv'))
-  return [
-      points['Times Square'],
-      points['West Village'],
-      points['SoHo'],
-      points['Upper West Side'],
-      points['Columbia University'],
-      points['Grand Central Terminal'],
-      points['New York Public Library'],
-      points['National September 11 Memorial And Museum'],
-      points['Union Square'],
-      points['Headquarters of the United Nations'],
-      points['Rockefeller Center'],
-      points['Trump Tower'],
-      points['Empire State Building'],
-      points['Chrysler Building'],
-      points['Charging Bull'],
-      points['New York Stock Exchange'],
-      points['Federal Reserve Bank of New York'],
-      points['Alexander Hamilton US Custom House'],
-      points['New York University'],
-      points['Battery Park'],
-      points['Madison Square Garden'],
-      points['Chelsea Market'],
-      points['Skyscraper Museum'],
-      points['Washington Square Park'],
-      points['Madison Square'],
-      points['Strawberry Fields'],
-      points['Times Square Church'],
-      points['Museum of Modern Art'],
-      points['Ghostbusters Firestation'],
-      points['Titanic Memorial'],
-      ]
+  keys = _GetPointsKeys()
+  return [points[key] for key in keys]
 
 
 def GetDayVisitParameterss():
@@ -63,13 +42,13 @@ def GetDayVisitParameterss():
       GetDayVisitParameters(
           start_datetime=datetime.datetime(2015, 7, day, 11, 0, 0),
           end_datetime=datetime.datetime(2015, 7, day, 19, 0, 0))
-      for day in range(11, 18)]
+      for day in range(13, 18)]
 
 
 class CityVisitRouterRunner(object):
   
   def __init__(self):
-    self.max_walking_distance=0.5
+    self.max_walking_distance=1.0
     self.city_visit_router = (
         PrototypeParameters(max_walking_distance=self.max_walking_distance,
                             validate_max_walking_distance=False).

@@ -201,35 +201,36 @@ Total price: 0.00""", str(city_visit_best))
     day_visits = city_visit_best.day_visits
     self.assertEqual(3, len(day_visits))
     self.assertEqual(
-        [self.points['Pier 39']], day_visits[0].GetPoints())
+        [self.points['Twin Peaks']], day_visits[0].GetPoints())
     self.assertEqual(
         [self.points['Ferry Building'],
-         self.points['Twin Peaks']], day_visits[1].GetPoints())
-    self.assertEqual([self.points['Union Square']], day_visits[2].GetPoints())
+         self.points['Pier 39'],
+         self.points['Union Square']], day_visits[1].GetPoints())
+    self.assertEqual([], day_visits[2].GetPoints())
 
     self.assertEqual("""Date: 2014-09-01
-Walking from Hotel to Pier 39 from 09:00:00 to 12:00:00
-Having lunch from 12:00:00 to 13:00:00
-Visiting point "Pier 39" from 13:00:00 to 16:00:00
-Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
-Cost: 11.00
+Walking from Hotel to Twin Peaks from 09:00:00 to 12:00:00
+Visiting point "Twin Peaks" from 12:00:00 to 12:30:00
+Having lunch from 12:30:00 to 13:30:00
+Walking from Twin Peaks to Restaurant from 13:30:00 to 15:30:00
+Cost: 6.50
 Price: 0.00
 Date: 2014-09-02
 Walking from Hotel to Ferry Building from 09:00:00 to 10:00:00
 Visiting point "Ferry Building" from 10:00:00 to 11:00:00
-Having lunch from 11:00:00 to 12:00:00
-Walking from Ferry Building to Twin Peaks from 12:00:00 to 17:00:00
-Visiting point "Twin Peaks" from 17:00:00 to 17:30:00
-Walking from Twin Peaks to Restaurant from 17:30:00 to 19:30:00
-Cost: 10.50
-Price: 0.00
-Date: 2014-09-03
-Walking from Hotel to Union Square from 17:00:00 to 18:00:00
+Walking from Ferry Building to Pier 39 from 11:00:00 to 12:00:00
+Having lunch from 12:00:00 to 13:00:00
+Visiting point "Pier 39" from 13:00:00 to 16:00:00
+Walking from Pier 39 to Union Square from 16:00:00 to 18:00:00
 Visiting point "Union Square" from 18:00:00 to 19:00:00
 Walking from Union Square to Restaurant from 19:00:00 to 20:00:00
-Cost: 3.00
+Cost: 11.00
 Price: 0.00
-Total cost: 1024.50
+Date: 2014-09-03
+Walking from Hotel to Restaurant from 17:00:00 to 18:00:00
+Cost: 1.00
+Price: 0.00
+Total cost: 1018.50
 Total price: 0.00""", str(city_visit_best))
     self.assertEqual(
         [self.points['Golden Gate Bridge']],

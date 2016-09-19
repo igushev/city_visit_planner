@@ -72,12 +72,11 @@ def _PushPointsToDayVisitsImpl(
     # input points, it than each corresponding day has not fit its points. The
     # recursive call will check other days, which should be covered by this
     # level of permutation.
-    if set(next_points_left) == set(points):
-      continue
-    
     # NOTE(igushev): If maximum depth of recursion or no next_points_left, add
     # a potential result.
-    if depth == _max_depth or not next_points_left:
+    if (set(next_points_left) == set(points) or
+        depth == _max_depth or
+        not next_points_left):
       city_visit_cost_calculator = (
           _city_visit_cost_calculator_generator.Generate(
               next_day_visits))
@@ -187,18 +186,14 @@ class CityVisitRouter(CityVisitRouterInterface):
         for city_visit_cost_calculator in city_visit_heap_one.GetCalculators():
           city_visit_heap.PushCalculator(city_visit_cost_calculator)
 
+      city_visit_heap.Shrink()
+      city_visit_cost_calculators = city_visit_heap.GetCalculators()
       if not could_push.value:
         could_not_push += 1
         if could_not_push >= self.max_non_pushed_points:
           for city_visit_cost_calculator in city_visit_cost_calculators:
-            city_visit_cost_calculator.AddPointsLeft(points[i:])
+            city_visit_cost_calculator.AddPointsLeft(points[i+1:])
           break
-      if city_visit_heap.Size():
-        city_visit_heap.Shrink()
-        city_visit_cost_calculators = city_visit_heap.GetCalculators()
-      else:
-        for city_visit_cost_calculator in city_visit_cost_calculators:
-          city_visit_cost_calculator.AddPointsLeft([point])
     assert len(city_visit_cost_calculators) >= 1
     city_visit_cost_calculators_best = city_visit_cost_calculators[0]
     return (city_visit_cost_calculators_best.CityVisit(),

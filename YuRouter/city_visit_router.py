@@ -76,7 +76,9 @@ def _PushPointsToDayVisitsImpl(
     # a potential result.
     if (set(next_points_left) == set(points) or
         depth == _max_depth or
-        not next_points_left):
+        not next_points_left or
+        all(not day_visit_consider
+            for day_visit_consider in next_day_visits_consider)):
       city_visit_cost_calculator = (
           _city_visit_cost_calculator_generator.Generate(
               next_day_visits))

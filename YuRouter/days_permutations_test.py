@@ -47,6 +47,12 @@ class DaysPermutationsTest(unittest.TestCase):
     self.assertEqual({0: [c], 2: [a, b]}, dict(actual[6]))
     self.assertEqual({2: [a, b, c]}, dict(actual[7]))
     
+  def testOneDay(self):
+    a, b, c = MockPoint(), MockPoint(), MockPoint()
+    actual = DaysPermutations([a, b, c], [True])
+    self.assertEqual(1, len(actual))
+    self.assertEqual({0: [a, b, c]}, dict(actual[0]))
+
 
 if __name__ == '__main__':
     unittest.main()

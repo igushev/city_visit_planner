@@ -54,13 +54,13 @@ def _PushPointsToDayVisitsImpl(
     for i, day_points_add in days_permutation.iteritems():
       day_points_all = day_visits[i].GetPoints()
       day_points_all.extend(day_points_add)
-      day_visit_best, day_points_left = (
+      day_visit_best, points_left_best = (
           _day_visit_router.RouteDayVisit(
               day_points_all, day_visit_parameterss[i]))
       assert isinstance(day_visit_best, DayVisitInterface)
-      for day_point_left in day_points_left:
-        assert isinstance(day_point_left, PointInterface)
-      next_points_left.extend(day_points_left)
+      for point_left_best in points_left_best:
+        assert isinstance(point_left_best, PointInterface)
+      next_points_left.extend(points_left_best)
       next_day_visits_consider[i] = False
       next_day_visits = (
           next_day_visits[:i] + [day_visit_best] + next_day_visits[i+1:])

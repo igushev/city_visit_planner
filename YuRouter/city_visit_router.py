@@ -41,7 +41,7 @@ class CouldPush(object):
 
 def _PushPointsToDayVisitsImpl(
     depth, points, days_consider, day_visits, points_left,
-    could_push, city_visit_heap, day_visit_parameterss):
+    could_push, city_visit_heap, day_visit_parameterss, points_left_consistent):
   assert len(days_consider) == len(day_visits)
   assert len(day_visits) == len(day_visit_parameterss)
   for days_permutation in DaysPermutations(points, days_consider):
@@ -84,25 +84,30 @@ def _PushPointsToDayVisitsImpl(
               next_day_visits))
       city_visit_cost_calculator.AddPointsLeft(points_left + next_points_left)
       city_visit_heap.PushCalculator(city_visit_cost_calculator)
-      if not next_points_left:
+      # If next_points_left are only the ones we consistently can't push,
+      # consider this iteration successful and assign could_push True.
+      if set(next_points_left) <= points_left_consistent:
         could_push.value = True
       continue
     
     # NOTE(igushev): Recursion call.
     _PushPointsToDayVisitsImpl(
         depth+1, next_points_left, next_day_visits_consider, next_day_visits,
-        points_left, could_push, city_visit_heap, day_visit_parameterss)
+        points_left, could_push, city_visit_heap, day_visit_parameterss,
+        points_left_consistent)
 
 
 def _PushPointsToDayVisitsWork(
-    points, day_visits, points_left, day_visit_parameterss):
+    points, day_visits, points_left, day_visit_parameterss,
+    points_left_consistent):
   days_consider = [True] * len(day_visits)
   could_push = CouldPush()
   city_visit_heap = CityVisitHeap(
       _city_visit_heap_size, day_visit_parameterss)
   _PushPointsToDayVisitsImpl(
       0, points, days_consider, day_visits, points_left,
-      could_push, city_visit_heap, day_visit_parameterss)
+      could_push, city_visit_heap, day_visit_parameterss,
+      points_left_consistent)
   city_visit_heap.Shrink()
   return could_push, city_visit_heap
 ################################################################################
@@ -144,12 +149,8 @@ class CityVisitRouter(CityVisitRouterInterface):
         initargs=(day_visit_router, city_visit_cost_calculator_generator,
                   max_depth, city_visit_heap_size))
 
-  def RouteCityVisit(self, points, day_visit_parameterss):
-    for point in points:
-      assert isinstance(point, PointInterface)
-    for day_visit_parameters in day_visit_parameterss:
-      assert isinstance(day_visit_parameters, DayVisitParametersInterface)
-
+  def RouteCityVisitShard(self, points, day_visit_parameterss,
+                          points_left_consistent):
     initial_day_visits = []
     for day_visit_parameters in day_visit_parameterss:
         day_visit, points_left = (
@@ -173,7 +174,8 @@ class CityVisitRouter(CityVisitRouterInterface):
         push_points_to_day_visits_results.append(
             self.workers_pool.apply_async(
                 _PushPointsToDayVisitsWork,
-                args=([point], day_visits, points_left, day_visit_parameterss)))
+                args=([point], day_visits, points_left, day_visit_parameterss,
+                      points_left_consistent)))
 
       # NOTE(igushev): Process results and fill overall could_push and
       # city_visit_heap.
@@ -200,3 +202,10 @@ class CityVisitRouter(CityVisitRouterInterface):
     city_visit_cost_calculators_best = city_visit_cost_calculators[0]
     return (city_visit_cost_calculators_best.CityVisit(),
             city_visit_cost_calculators_best.GetPointsLeft())
+
+  def RouteCityVisit(self, points, day_visit_parameterss):
+    for point in points:
+      assert isinstance(point, PointInterface)
+    for day_visit_parameters in day_visit_parameterss:
+      assert isinstance(day_visit_parameters, DayVisitParametersInterface)
+    return self.RouteCityVisitShard(points, day_visit_parameterss, set())

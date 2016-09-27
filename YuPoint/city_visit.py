@@ -1,5 +1,6 @@
 import datetime
 import hashlib
+import itertools
 
 import Yusi
 from Yusi.YuPoint.point import Point, CoordinatesInterface, PointTypeInterface,\
@@ -277,6 +278,17 @@ class CityVisit(CityVisitInterface):
 
     self.day_visits = day_visits
     self.cost = cost
+
+  def HashKey(self):
+    m = hashlib.md5()
+    for day_visit in self.day_visits:
+      m.update(day_visit.HashKey())
+    m.update(str(self.cost).encode('utf-8'))
+    return m.hexdigest()
+
+  def GetPoints(self):
+    return list(itertools.chain.from_iterable(
+        day_visit.GetPoints() for day_visit in self.day_visits))
 
   def __eq__(self, other):
     return self.__dict__ == other.__dict__

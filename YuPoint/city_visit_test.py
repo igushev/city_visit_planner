@@ -102,21 +102,32 @@ class DayVisitTest(CityVisitTestExample):
 
 class CityVisitTest(CityVisitTestExample):
 
+  def testHashKey(self):
+    self.city_visit.HashKey()
+
+  def testGetPoints(self):
+    self.assertEqual([self.points['Ferry Building'], self.points['Pier 39'],
+                      self.points['Golden Gate Bridge']],
+                     self.city_visit.GetPoints())
+
   def testStr(self):
     city_visit_str_actual = '%s' % self.city_visit
     city_visit_str_expected = """Date: 2014-09-01
-Cost: 12.00
 Walking from 37.7833:-122.4167 to 37.7955:-122.3937 from 09:00:00 to 10:15:00
 Visiting point "Ferry Building" from 10:15:00 to 11:15:00
 Walking from 37.7955:-122.3937 to 37.8100:-122.4104 from 11:15:00 to 11:45:00
 Visiting point "Pier 39" from 11:45:00 to 14:45:00
 Walking from 37.8100:-122.4104 to 37.7833:-122.4167 from 14:45:00 to 16:15:00
+Cost: 12.00
+Price: 0.00
 Date: 2014-09-02
-Cost: 10.00
 Driving from 37.7833:-122.4167 to 37.8197:-122.4786 from 09:00:00 to 09:15:00
 Visiting point "Golden Gate Bridge" from 09:15:00 to 09:45:00
 Driving from 37.8197:-122.4786 to 37.7833:-122.4167 from 09:45:00 to 10:00:00
-Total cost: 20.00"""
+Cost: 10.00
+Price: 0.00
+Total cost: 20.00
+Total price: 0.00"""
     self.assertEqual(city_visit_str_expected, city_visit_str_actual)
 
 

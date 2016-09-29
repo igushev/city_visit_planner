@@ -100,6 +100,7 @@ class PrototypeParameters(object):
     city_visit_cost_calculator_generator = CityVisitCostCalculatorGenerator(
         cost_accumulator_generator=cost_accumulator_generator)
 
+    shard_num_days = 2
     max_depth = 1
     city_visit_heap_size = 10
     max_non_pushed_points = 3
@@ -108,6 +109,7 @@ class PrototypeParameters(object):
         day_visit_router=day_visit_router,
         city_visit_cost_calculator_generator=(
             city_visit_cost_calculator_generator),
+        shard_num_days=shard_num_days,
         max_depth=max_depth,
         city_visit_heap_size=city_visit_heap_size,
         max_non_pushed_points=max_non_pushed_points,

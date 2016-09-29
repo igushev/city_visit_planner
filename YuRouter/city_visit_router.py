@@ -126,11 +126,13 @@ class CityVisitRouter(CityVisitRouterInterface):
   best so far."""
 
   def __init__(self, day_visit_router, city_visit_cost_calculator_generator,
-               max_depth, city_visit_heap_size, max_non_pushed_points,
-               num_processes):
+               shard_num_days, max_depth, city_visit_heap_size,
+               max_non_pushed_points, num_processes):
     assert isinstance(day_visit_router, DayVisitRouterInterface)
     assert isinstance(city_visit_cost_calculator_generator,
                       CityVisitCostCalculatorGeneratorInterface)
+    if shard_num_days is not None:
+      assert isinstance(shard_num_days, int)
     assert isinstance(max_depth, int)
     assert isinstance(city_visit_heap_size, int)
     assert isinstance(max_non_pushed_points, int)
@@ -140,6 +142,7 @@ class CityVisitRouter(CityVisitRouterInterface):
     self.day_visit_router = day_visit_router
     self.city_visit_cost_calculator_generator = (
         city_visit_cost_calculator_generator)
+    self.shard_num_days = shard_num_days
     self.max_depth = max_depth  # Don't need, but still add as member.
     self.city_visit_heap_size = city_visit_heap_size
     self.max_non_pushed_points = max_non_pushed_points
@@ -161,8 +164,8 @@ class CityVisitRouter(CityVisitRouterInterface):
     city_visit_cost_calculators = [
         self.city_visit_cost_calculator_generator.Generate(initial_day_visits)]
     could_not_push = 0
-    for i, point in enumerate(points):
-      print('Processing %d out of %d' % (i+1, len(points)))
+    for point_i, point in enumerate(points):
+      print('Processing %d out of %d' % (point_i+1, len(points)))
 
       # NOTE(igushev): Run in parallel pushing points to different
       # CityVisitCostCalculators from previous heap and collect AsyncResult
@@ -195,17 +198,43 @@ class CityVisitRouter(CityVisitRouterInterface):
       if not could_push.value:
         could_not_push += 1
         if could_not_push >= self.max_non_pushed_points:
-          for city_visit_cost_calculator in city_visit_cost_calculators:
-            city_visit_cost_calculator.AddPointsLeft(points[i+1:])
           break
     assert len(city_visit_cost_calculators) >= 1
-    city_visit_cost_calculators_best = city_visit_cost_calculators[0]
-    return (city_visit_cost_calculators_best.CityVisit(),
-            city_visit_cost_calculators_best.GetPointsLeft())
+    city_visit_cost_calculator_best = city_visit_cost_calculators[0]
+    return (city_visit_cost_calculator_best.CityVisit(),
+            city_visit_cost_calculator_best.GetPointsLeft())
 
   def RouteCityVisit(self, points, day_visit_parameterss):
     for point in points:
       assert isinstance(point, PointInterface)
     for day_visit_parameters in day_visit_parameterss:
       assert isinstance(day_visit_parameters, DayVisitParametersInterface)
-    return self.RouteCityVisitShard(points, day_visit_parameterss, set())
+
+    shard_num_days = self.shard_num_days or len(day_visit_parameterss)
+    day_visits = []
+    points_queue = points[:]
+    points_left_consistent = set([])
+    for shard_i, begin in (
+        enumerate(range(0, len(day_visit_parameterss), shard_num_days))):
+      end = min(begin + shard_num_days, len(day_visit_parameterss))
+      print('Processing shard %d from %d to %d' % (shard_i+1, begin, end))
+
+      city_visit_cost_calculator_shard, points_left_shard = (
+          self.RouteCityVisitShard(
+              points_queue, day_visit_parameterss[begin:end],
+              points_left_consistent))
+
+      day_visits.extend(city_visit_cost_calculator_shard.day_visits)
+      points_processed_count = (
+          len(city_visit_cost_calculator_shard.GetPoints()) +
+          len(points_left_shard))
+      # Next iteration points_queue should points left from previous iteration
+      # and the rest of points.
+      points_queue = points_left_shard + points_queue[points_processed_count:]
+      points_left_consistent.update(set(points_left_shard))
+
+    city_visit_cost_calculator = (
+        self.city_visit_cost_calculator_generator.Generate(day_visits))
+    city_visit_cost_calculator.AddPointsLeft(points_queue)
+    return (city_visit_cost_calculator.CityVisit(),
+            city_visit_cost_calculator.GetPointsLeft())

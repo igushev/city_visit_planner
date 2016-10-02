@@ -1,4 +1,5 @@
 import copy
+from datetime import timedelta
 
 from Yusi.YuPoint.point import PointInterface
 from Yusi.YuPoint.city_visit import MoveDescription, MoveType
@@ -53,7 +54,8 @@ class FactorCostAccumulator(CostAccumulatorInterface):
                move_ptt_factor=1.,
                lunch_factor=1.,
                no_point_visit_factor=1.,
-               no_point_visit_const=0.):
+               no_point_visit_const=0.,
+               unused_time_factor=1.):
     assert isinstance(point_visit_factor, float)
     assert isinstance(move_walking_factor, float)
     assert isinstance(move_driving_factor, float)
@@ -61,6 +63,7 @@ class FactorCostAccumulator(CostAccumulatorInterface):
     assert isinstance(lunch_factor, float)
     assert isinstance(no_point_visit_factor, float)
     assert isinstance(no_point_visit_const, float)
+    assert isinstance(unused_time_factor, float)
 
     self._point_visit_factor = point_visit_factor
     self._move_walking_factor = move_walking_factor
@@ -69,6 +72,7 @@ class FactorCostAccumulator(CostAccumulatorInterface):
     self._lunch_factor = lunch_factor
     self._no_point_visit_factor = no_point_visit_factor
     self._no_point_visit_const = no_point_visit_const
+    self._unused_time_factor = unused_time_factor
     super(FactorCostAccumulator, self).__init__()
 
   def AddPointVisit(self, point):
@@ -100,6 +104,11 @@ class FactorCostAccumulator(CostAccumulatorInterface):
     self.cost += (point.duration * self._no_point_visit_factor +
                   self._no_point_visit_const)
 
+  def AddUnusedTime(self, unused_time):
+    assert isinstance(unused_time, timedelta)
+    
+    self.cost += unused_time.total_seconds() / 60. * self._unused_time_factor
+
 
 class FactorCostAccumulatorGenerator(CostAccumulatorGeneratorInterface):
   """Returns every time new clean instance of FactorCostAccumulator."""
@@ -111,7 +120,8 @@ class FactorCostAccumulatorGenerator(CostAccumulatorGeneratorInterface):
                move_ptt_factor=1.,
                lunch_factor=1.,
                no_point_visit_factor=1.,
-               no_point_visit_const=0.):
+               no_point_visit_const=0.,
+               unused_time_factor=1.):
     assert isinstance(point_visit_factor, float)
     assert isinstance(move_walking_factor, float)
     assert isinstance(move_driving_factor, float)
@@ -119,6 +129,7 @@ class FactorCostAccumulatorGenerator(CostAccumulatorGeneratorInterface):
     assert isinstance(lunch_factor, float)
     assert isinstance(no_point_visit_factor, float)
     assert isinstance(no_point_visit_const, float)
+    assert isinstance(unused_time_factor, float)
 
     self._point_visit_factor = point_visit_factor
     self._move_walking_factor = move_walking_factor
@@ -127,6 +138,7 @@ class FactorCostAccumulatorGenerator(CostAccumulatorGeneratorInterface):
     self._lunch_factor = lunch_factor
     self._no_point_visit_factor = no_point_visit_factor
     self._no_point_visit_const = no_point_visit_const
+    self._unused_time_factor = unused_time_factor
 
   def Generate(self):
     return FactorCostAccumulator(
@@ -136,4 +148,5 @@ class FactorCostAccumulatorGenerator(CostAccumulatorGeneratorInterface):
         move_ptt_factor=self._move_ptt_factor,
         lunch_factor=self._lunch_factor,
         no_point_visit_factor=self._no_point_visit_factor,
-        no_point_visit_const=self._no_point_visit_const)
+        no_point_visit_const=self._no_point_visit_const,
+        unused_time_factor=self._unused_time_factor)

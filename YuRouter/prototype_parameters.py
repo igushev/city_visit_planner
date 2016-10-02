@@ -55,6 +55,7 @@ class PrototypeParameters(object):
     lunch_factor=0.
     no_point_visit_factor = 0.
     no_point_visit_const = 1000.
+    unused_time_factor = 0.01
     
     driving_move_calculator = SimpleMoveCalculator(
         driving_speed, MoveType.driving, pause=pause_before_driving)
@@ -74,7 +75,8 @@ class PrototypeParameters(object):
         move_ptt_factor=move_ptt_factor,
         lunch_factor=lunch_factor,
         no_point_visit_factor=no_point_visit_factor,
-        no_point_visit_const=no_point_visit_const)
+        no_point_visit_const=no_point_visit_const,
+        unused_time_factor=unused_time_factor)
 
 #     driving_day_visit_const_calculator_generator = (
 #         DayVisitCostCalculatorGenerator(

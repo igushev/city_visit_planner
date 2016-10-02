@@ -5,9 +5,9 @@ import Yusi
 from Yusi.YuRouter.cost_accumulator import FactorCostAccumulatorGenerator
 from Yusi.YuRouter.point_fit import SimplePointFit
 from Yusi.YuRouter.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
-from Yusi.YuRouter.test_utils import MockCoordinates, MockPoints,\
-  MockMoveCalculator
+from Yusi.YuRouter.test_utils import MockMoveCalculator
 from Yusi.YuPoint.city_visit import DayVisitParameters
+from Yusi.YuPoint.test_utils import MockCoordinates, MockPoints
 
 
 class DayVisitCostCalculatorTest(unittest.TestCase):
@@ -25,12 +25,14 @@ class DayVisitCostCalculatorTest(unittest.TestCase):
   def setUp(self):
     self.no_point_visit_factor = 0.
     self.no_point_visit_const = 1000.
+    self.unused_time_factor = 0.01
     self.points = MockPoints()
     move_calculator = MockMoveCalculator()
     point_fit = SimplePointFit()
     cost_accumulator_generator=FactorCostAccumulatorGenerator(
         no_point_visit_factor=self.no_point_visit_factor,
-        no_point_visit_const=self.no_point_visit_const)
+        no_point_visit_const=self.no_point_visit_const,
+        unused_time_factor=self.unused_time_factor)
     self.day_visit_cost_calculator_generator = DayVisitCostCalculatorGenerator(
         move_calculator=move_calculator,
         point_fit=point_fit,
@@ -56,7 +58,7 @@ class DayVisitCostCalculatorTest(unittest.TestCase):
     self.assertEqual(MockCoordinates('Ferry Building'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(2, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(4, day_visit_cost_calculator.FinalizedCost())
+    self.assertEqual(8.95, day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     # Pier 39.
@@ -69,7 +71,7 @@ class DayVisitCostCalculatorTest(unittest.TestCase):
     self.assertEqual(MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(7, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(11, day_visit_cost_calculator.FinalizedCost())
+    self.assertEqual(11.75, day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
@@ -79,7 +81,7 @@ Walking from Ferry Building to Pier 39 from 11:00:00 to 12:00:00
 Visiting point "Pier 39" from 12:00:00 to 15:00:00
 Having lunch from 15:00:00 to 16:00:00
 Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
-Cost: 11.00
+Cost: 11.75
 Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
@@ -96,7 +98,7 @@ Price: 0.00"""
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(7 + self.no_point_visit_const,
                      day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(11 + self.no_point_visit_const,
+    self.assertEqual(11.75 + self.no_point_visit_const,
                      day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([self.points['Twin Peaks']],
                      day_visit_cost_calculator.GetPointsLeft())
@@ -120,7 +122,7 @@ Price: 0.00"""
     self.assertEqual(MockCoordinates('Ferry Building'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(2, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(5, day_visit_cost_calculator.FinalizedCost())  # Lunch.
+    self.assertEqual(8.6, day_visit_cost_calculator.FinalizedCost())  # Lunch.
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     # Pier 39.
@@ -182,14 +184,14 @@ Price: 0.00"""
     self.assertEqual(MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(6, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(10, day_visit_cost_calculator.FinalizedCost())
+    self.assertEqual(11.2, day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
 Walking from Hotel to Pier 39 from 10:30:00 to 13:30:00
 Visiting point "Pier 39" from 13:30:00 to 16:30:00
 Walking from Pier 39 to Restaurant from 16:30:00 to 20:30:00
-Cost: 10.00
+Cost: 11.20
 Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
@@ -206,7 +208,7 @@ Price: 0.00"""
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(6 + self.no_point_visit_const,
                      day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(10 + self.no_point_visit_const,
+    self.assertEqual(11.2 + self.no_point_visit_const,
                      day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([self.points['Ferry Building']],
                      day_visit_cost_calculator.GetPointsLeft())
@@ -230,7 +232,7 @@ Price: 0.00"""
     self.assertEqual(MockCoordinates('Ferry Building'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(2, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(5, day_visit_cost_calculator.FinalizedCost())  # Lunch.
+    self.assertEqual(7.4, day_visit_cost_calculator.FinalizedCost())  # Lunch.
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
@@ -238,7 +240,7 @@ Walking from Hotel to Ferry Building from 09:00:00 to 10:00:00
 Visiting point "Ferry Building" from 10:00:00 to 11:00:00
 Walking from Ferry Building to Restaurant from 11:00:00 to 13:00:00
 Having lunch from 13:00:00 to 14:00:00
-Cost: 5.00
+Cost: 7.40
 Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
@@ -257,7 +259,7 @@ Price: 0.00"""
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(2 + self.no_point_visit_const,
                      day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(5 + self.no_point_visit_const,
+    self.assertEqual(7.4 + self.no_point_visit_const,
                      day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([self.points['Pier 39']],
                      day_visit_cost_calculator.GetPointsLeft())
@@ -281,7 +283,7 @@ Price: 0.00"""
     self.assertEqual(MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(7, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(11, day_visit_cost_calculator.FinalizedCost())
+    self.assertEqual(11.6, day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
@@ -289,7 +291,7 @@ Having lunch from 09:00:00 to 10:00:00
 Walking from Hotel to Pier 39 from 10:00:00 to 13:00:00
 Visiting point "Pier 39" from 13:00:00 to 16:00:00
 Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
-Cost: 11.00
+Cost: 11.60
 Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
@@ -313,7 +315,7 @@ Price: 0.00"""
     self.assertEqual(MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(7, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(11, day_visit_cost_calculator.FinalizedCost())
+    self.assertEqual(11.6, day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
@@ -321,7 +323,7 @@ Walking from Hotel to Pier 39 from 09:00:00 to 12:00:00
 Having lunch from 12:00:00 to 13:00:00
 Visiting point "Pier 39" from 13:00:00 to 16:00:00
 Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
-Cost: 11.00
+Cost: 11.60
 Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
@@ -345,7 +347,7 @@ Price: 0.00"""
     self.assertEqual(MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(7, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(11, day_visit_cost_calculator.FinalizedCost())
+    self.assertEqual(11.6, day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
@@ -353,7 +355,7 @@ Walking from Hotel to Pier 39 from 09:00:00 to 12:00:00
 Having lunch from 12:00:00 to 13:00:00
 Visiting point "Pier 39" from 13:00:00 to 16:00:00
 Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
-Cost: 11.00
+Cost: 11.60
 Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
@@ -377,7 +379,7 @@ Price: 0.00"""
     self.assertEqual(MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(7, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(11, day_visit_cost_calculator.FinalizedCost())
+    self.assertEqual(11.6, day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
@@ -385,7 +387,7 @@ Walking from Hotel to Pier 39 from 09:00:00 to 12:00:00
 Visiting point "Pier 39" from 12:00:00 to 15:00:00
 Having lunch from 15:00:00 to 16:00:00
 Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
-Cost: 11.00
+Cost: 11.60
 Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
@@ -408,7 +410,7 @@ Price: 0.00"""
     self.assertEqual(MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(6, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(11, day_visit_cost_calculator.FinalizedCost())
+    self.assertEqual(11.6, day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
@@ -416,7 +418,7 @@ Walking from Hotel to Pier 39 from 09:00:00 to 12:00:00
 Visiting point "Pier 39" from 12:00:00 to 15:00:00
 Having lunch from 15:00:00 to 16:00:00
 Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
-Cost: 11.00
+Cost: 11.60
 Price: 0.00"""
     self.assertEqual(day_visit_str_expected,
                      str(day_visit_cost_calculator.FinalizedDayVisit()))
@@ -439,7 +441,7 @@ Price: 0.00"""
     self.assertEqual(MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(6, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(11, day_visit_cost_calculator.FinalizedCost())
+    self.assertEqual(11.6, day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     day_visit_str_expected = """Date: 2014-09-01
@@ -447,7 +449,7 @@ Walking from Hotel to Pier 39 from 09:00:00 to 12:00:00
 Visiting point "Pier 39" from 12:00:00 to 15:00:00
 Walking from Pier 39 to Restaurant from 15:00:00 to 19:00:00
 Having lunch from 19:00:00 to 20:00:00
-Cost: 11.00
+Cost: 11.60
 Price: 0.00"""
 
     self.assertEqual(day_visit_str_expected,
@@ -473,7 +475,7 @@ Price: 0.00"""
     self.assertEqual(MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(6, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(10, day_visit_cost_calculator.FinalizedCost())
+    self.assertEqual(11.2, day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     # Union Square.
@@ -486,7 +488,7 @@ Price: 0.00"""
     self.assertEqual(MockCoordinates('Union Square'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(9, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(10, day_visit_cost_calculator.FinalizedCost())
+    self.assertEqual(11.2, day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     # Test that Union Square can be pushed by time, but should not be since
@@ -504,7 +506,7 @@ Price: 0.00"""
     self.assertEqual(MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(6, day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(10, day_visit_cost_calculator.FinalizedCost())
+    self.assertEqual(11.2, day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([], day_visit_cost_calculator.GetPointsLeft())
 
     # Ferry Building.
@@ -519,7 +521,7 @@ Price: 0.00"""
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(6 + self.no_point_visit_const,
                      day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(10 + self.no_point_visit_const,
+    self.assertEqual(11.2 + self.no_point_visit_const,
                      day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([self.points['Ferry Building']],
                      day_visit_cost_calculator.GetPointsLeft())
@@ -536,7 +538,7 @@ Price: 0.00"""
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(6 + self.no_point_visit_const * 2,
                      day_visit_cost_calculator.CurrentCost())
-    self.assertEqual(10 + self.no_point_visit_const * 2,
+    self.assertEqual(11.2 + self.no_point_visit_const * 2,
                      day_visit_cost_calculator.FinalizedCost())
     self.assertEqual([self.points['Ferry Building'], self.points['Union Square']],
                      day_visit_cost_calculator.GetPointsLeft())

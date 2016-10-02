@@ -3,15 +3,36 @@ import datetime
 import unittest
 
 import Yusi
-from Yusi.YuPoint.city_visit import MoveBetween, StartEndDatetime, PointVisit,\
+from Yusi.YuPoint.city_visit import DayVisitParameters, MoveBetween, StartEndDatetime, PointVisit,\
   MoveDescription, MoveType, DayVisit, CityVisit
 from Yusi.YuPoint.read_csv import ReadCSVToDict
 from Yusi.YuPoint.point import Coordinates
+from Yusi.YuPoint.test_utils import MockCoordinates
 
 
 class CityVisitTestExample(unittest.TestCase):
   
+  @staticmethod
+  def GetDayVisitParameters(start_datetime, end_datetime, lunch_start_datetime):
+    return DayVisitParameters(
+        start_datetime=start_datetime,
+        end_datetime=end_datetime,
+        lunch_start_datetime=lunch_start_datetime,
+        lunch_hours=1.,
+        start_coordinates=MockCoordinates('Hotel'),
+        end_coordinates=MockCoordinates('Restaurant'))
+
   def setUp(self):
+
+    self.day_visit_parameters_1 = CityVisitTestExample.GetDayVisitParameters(
+        start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
+        end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0),
+        lunch_start_datetime=datetime.datetime(2014, 9, 1, 22, 0, 0))
+
+    self.day_visit_parameters_2 = CityVisitTestExample.GetDayVisitParameters(
+        start_datetime=datetime.datetime(2014, 9, 2, 9, 0, 0),
+        end_datetime=datetime.datetime(2014, 9, 2, 21, 0, 0),
+        lunch_start_datetime=datetime.datetime(2014, 9, 2, 22, 0, 0))
 
     self.points = ReadCSVToDict(
         os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))

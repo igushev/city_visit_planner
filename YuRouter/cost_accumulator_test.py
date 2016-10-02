@@ -1,3 +1,4 @@
+from datetime import timedelta
 import os
 import unittest
 
@@ -46,6 +47,10 @@ class FactorCostAccumulatorTest(unittest.TestCase):
     self.assertEqual(6.80, cost_accumulator.Cost())
     cost_accumulator.AddPointLeft(self.points['Golden Gate Bridge'])
     self.assertEqual(7.30, cost_accumulator.Cost())
+    cost_accumulator.AddUnusedTime(timedelta(hours=0.005))
+    self.assertAlmostEqual(7.60, cost_accumulator.Cost())
+    cost_accumulator.AddUnusedTime(timedelta(seconds=30))
+    self.assertAlmostEqual(8.10, cost_accumulator.Cost())
   
   def testGeneral(self):
     cost_accumulator = FactorCostAccumulatorGenerator(
@@ -55,7 +60,8 @@ class FactorCostAccumulatorTest(unittest.TestCase):
         move_ptt_factor=3.,
         lunch_factor=0.25,
         no_point_visit_factor=10.,
-        no_point_visit_const=100.).Generate()
+        no_point_visit_const=100.,
+        unused_time_factor=2.).Generate()
     self.assertEqual(0., cost_accumulator.Cost())
     cost_accumulator.AddMoveBetween(
         MoveDescription(
@@ -83,6 +89,10 @@ class FactorCostAccumulatorTest(unittest.TestCase):
     self.assertEqual(5.10, cost_accumulator.Cost())
     cost_accumulator.AddPointLeft(self.points['Golden Gate Bridge'])
     self.assertEqual(110.10, cost_accumulator.Cost())
+    cost_accumulator.AddUnusedTime(timedelta(hours=0.005))
+    self.assertAlmostEqual(110.70, cost_accumulator.Cost())
+    cost_accumulator.AddUnusedTime(timedelta(seconds=30))
+    self.assertAlmostEqual(111.70, cost_accumulator.Cost())
     
 
 if __name__ == '__main__':

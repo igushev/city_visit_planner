@@ -6,9 +6,9 @@ from Yusi.YuRouter.cost_accumulator import FactorCostAccumulatorGenerator
 from Yusi.YuRouter.day_visit_router import DayVisitRouter
 from Yusi.YuRouter.point_fit import SimplePointFit
 from Yusi.YuRouter.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
-from Yusi.YuRouter.test_utils import MockCoordinates, MockPoints,\
-  MockMoveCalculator
+from Yusi.YuRouter.test_utils import MockMoveCalculator
 from Yusi.YuPoint.city_visit import DayVisitParameters
+from Yusi.YuPoint.test_utils import MockCoordinates, MockPoints
 
 
 class DayVisitRouterTest(unittest.TestCase):
@@ -28,13 +28,15 @@ class DayVisitRouterTest(unittest.TestCase):
   def setUp(self):
     no_point_visit_factor = 0.
     no_point_visit_const = 1000.
+    unused_time_factor = 0.01
     day_visit_heap_size = 1000
     self.points = MockPoints()
     move_calculator = MockMoveCalculator()
     point_fit = SimplePointFit()
     cost_accumulator_generator=FactorCostAccumulatorGenerator(
         no_point_visit_factor=no_point_visit_factor,
-        no_point_visit_const=no_point_visit_const)
+        no_point_visit_const=no_point_visit_const,
+        unused_time_factor=unused_time_factor)
     day_visit_cost_calculator_generator = DayVisitCostCalculatorGenerator(
         move_calculator=move_calculator,
         point_fit=point_fit,
@@ -64,7 +66,7 @@ Having lunch from 11:00:00 to 12:00:00
 Walking from Ferry Building to Twin Peaks from 12:00:00 to 17:00:00
 Visiting point "Twin Peaks" from 17:00:00 to 17:30:00
 Walking from Twin Peaks to Restaurant from 17:30:00 to 19:30:00
-Cost: 10.50
+Cost: 12.00
 Price: 0.00"""
     self.assertEqual(day_visit_best_str_expected, str(day_visit_best))
     self.assertEqual(
@@ -89,7 +91,7 @@ Walking from Ferry Building to Pier 39 from 11:00:00 to 12:00:00
 Having lunch from 12:00:00 to 13:00:00
 Visiting point "Pier 39" from 13:00:00 to 16:00:00
 Walking from Pier 39 to Restaurant from 16:00:00 to 20:00:00
-Cost: 11.00
+Cost: 12.20
 Price: 0.00"""
     self.assertEqual(day_visit_best_str_expected, str(day_visit_best))
     self.assertEqual([], points_left)
@@ -108,7 +110,7 @@ Price: 0.00"""
 
     day_visit_best_str_expected = """Date: 2014-09-01
 Walking from Hotel to Restaurant from 09:00:00 to 10:00:00
-Cost: 1.00
+Cost: 1.30
 Price: 0.00"""
     self.assertEqual(day_visit_best_str_expected, str(day_visit_best))
     self.assertEqual(
@@ -129,7 +131,7 @@ Price: 0.00"""
 
     day_visit_best_str_expected = """Date: 2014-09-01
 Walking from Hotel to Restaurant from 09:00:00 to 10:00:00
-Cost: 1.00
+Cost: 8.20
 Price: 0.00"""
     self.assertEqual(day_visit_best_str_expected, str(day_visit_best))
     self.assertEqual([], points_left)

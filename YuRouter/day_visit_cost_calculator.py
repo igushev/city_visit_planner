@@ -233,22 +233,24 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
       self.points_left.append(point)
       return False
 
-  def FinalizedCost(self):
+  def _FinalizedCurrentState(self):
     finalized_current_state = self.current_state.Copy()
     finalize_action_adder = (
         MoveBetweenAdder(self, self.day_visit_parameters.end_coordinates))
     assert self._AddActionAndLunch(
         finalize_action_adder, finalized_current_state), (
             'Finalizing Move must be able to be added.')
+    unused_time = (self.day_visit_parameters.end_datetime -
+                   finalized_current_state.current_datetime)
+    finalized_current_state.cost_accumulator.AddUnusedTime(unused_time)
+    return finalized_current_state
+
+  def FinalizedCost(self):
+    finalized_current_state = self._FinalizedCurrentState()
     return finalized_current_state.cost_accumulator.Cost()
 
   def FinalizedDayVisit(self):
-    finalized_current_state = self.current_state.Copy()
-    finalize_action_adder = (
-        MoveBetweenAdder(self, self.day_visit_parameters.end_coordinates))
-    assert self._AddActionAndLunch(
-        finalize_action_adder, finalized_current_state), (
-            'Finalizing Move must be able to be added.')
+    finalized_current_state = self._FinalizedCurrentState()
     return DayVisit(
         self.day_visit_parameters.start_datetime,
         finalized_current_state.actions,

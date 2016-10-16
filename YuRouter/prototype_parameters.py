@@ -61,11 +61,15 @@ class PrototypeParameters(object):
     driving_move_calculator = SimpleMoveCalculator(
         driving_speed, MoveType.driving, pause=pause_before_driving)
 
-    ptt_move_calculator = MultiMoveCalculator(
+    walking_move_calculator = SimpleMoveCalculator(
+        walking_speed, MoveType.walking)
+
+    ptt_move_calculator = SimpleMoveCalculator(
+        ptt_speed, MoveType.ptt, pause=pause_before_ptt)
+
+    walking_ptt_move_calculator = MultiMoveCalculator(
             [max_walking_distance],
-            [SimpleMoveCalculator(walking_speed, MoveType.walking),
-             SimpleMoveCalculator(
-                 ptt_speed, MoveType.ptt, pause=pause_before_ptt)])
+            [walking_move_calculator, ptt_move_calculator])
 
     point_fit = SimplePointFit()
 
@@ -86,7 +90,7 @@ class PrototypeParameters(object):
 #             cost_accumulator_generator=cost_accumulator_generator))
 
     ptt_day_visit_const_calculator_generator = DayVisitCostCalculatorGenerator(
-        move_calculator=ptt_move_calculator,
+        move_calculator=walking_ptt_move_calculator,
         point_fit=point_fit,
         cost_accumulator_generator=cost_accumulator_generator)
 
@@ -108,7 +112,7 @@ class PrototypeParameters(object):
     shard_num_days = 2
     max_depth = 1
     city_visit_heap_size = 10
-    max_non_pushed_points = 3
+    max_non_pushed_points = 5
 
     self.city_visit_router = CityVisitRouter(
         day_visit_router=day_visit_router,

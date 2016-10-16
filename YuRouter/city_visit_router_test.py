@@ -9,6 +9,7 @@ from Yusi.YuRouter.point_fit import SimplePointFit
 from Yusi.YuRouter.day_visit_router import DayVisitRouter
 from Yusi.YuRouter.city_visit_cost_calculator import CityVisitCostCalculatorGenerator
 from Yusi.YuRouter.test_utils import MockMoveCalculator
+from Yusi.YuRouter.points_queue import OneByOnePointsQueueGenerator
 from Yusi.YuPoint.city_visit import DayVisitParameters
 from Yusi.YuPoint.test_utils import MockCoordinates, MockPoints
 
@@ -52,10 +53,12 @@ class CityVisitRouterTest(unittest.TestCase):
         day_visit_heap_size=day_visit_heap_size)
     city_visit_cost_calculator_generator = CityVisitCostCalculatorGenerator(
         cost_accumulator_generator=cost_accumulator_generator)
+    points_queue_generator = OneByOnePointsQueueGenerator()
     self.city_visit_router = CityVisitRouter(
         day_visit_router=day_visit_router,
         city_visit_cost_calculator_generator=(
             city_visit_cost_calculator_generator),
+        points_queue_generator=points_queue_generator,
         shard_num_days=shard_num_days,
         max_depth=max_depth,
         city_visit_heap_size=city_visit_heap_size,

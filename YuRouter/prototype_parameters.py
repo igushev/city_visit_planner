@@ -7,6 +7,7 @@ from Yusi.YuRouter.point_fit import SimplePointFit
 from Yusi.YuRouter.city_visit_router import CityVisitRouter
 from Yusi.YuRouter.multi_day_visit_cost_calculator import MultiDayVisitCostCalculatorGenerator
 from Yusi.YuRouter.city_visit_cost_calculator import CityVisitCostCalculatorGenerator
+from Yusi.YuRouter.points_queue import OneByOnePointsQueueGenerator
 from Yusi.YuPoint.city_visit import MoveType
 
 
@@ -102,6 +103,8 @@ class PrototypeParameters(object):
     city_visit_cost_calculator_generator = CityVisitCostCalculatorGenerator(
         cost_accumulator_generator=cost_accumulator_generator)
 
+    points_queue_generator = OneByOnePointsQueueGenerator()
+
     shard_num_days = 2
     max_depth = 1
     city_visit_heap_size = 10
@@ -111,6 +114,7 @@ class PrototypeParameters(object):
         day_visit_router=day_visit_router,
         city_visit_cost_calculator_generator=(
             city_visit_cost_calculator_generator),
+        points_queue_generator=points_queue_generator,
         shard_num_days=shard_num_days,
         max_depth=max_depth,
         city_visit_heap_size=city_visit_heap_size,

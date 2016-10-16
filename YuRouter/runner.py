@@ -5,22 +5,16 @@ from Yusi.YuRouter.prototype_parameters import PrototypeParameters
 
 
 def GetDayVisitParameterss(start_end_coordinates, first_day, last_day):
-  def GetDayVisitParameters(start_datetime, end_datetime):
+  def GetDayVisitParameters(day):
     return DayVisitParameters(
-        start_datetime=start_datetime,
-        end_datetime=end_datetime,
-        lunch_start_datetime=datetime.datetime(
-            start_datetime.year, start_datetime.month, start_datetime.day,
-            14, 0, 0),
+        start_datetime=datetime.datetime(2015, 7, day, 10, 0, 0),
+        end_datetime=datetime.datetime(2015, 7, day, 19, 0, 0),
+        lunch_start_datetime=datetime.datetime(2015, 7, day, 14, 0, 0),
         lunch_hours=1.,
         start_coordinates=start_end_coordinates,
         end_coordinates=start_end_coordinates)
 
-  return [
-      GetDayVisitParameters(
-          start_datetime=datetime.datetime(2015, 7, day, 10, 0, 0),
-          end_datetime=datetime.datetime(2015, 7, day, 19, 0, 0))
-      for day in range(first_day, last_day)]
+  return [GetDayVisitParameters(day) for day in range(first_day, last_day)]
 
 
 class CityVisitRouterRunner(object):

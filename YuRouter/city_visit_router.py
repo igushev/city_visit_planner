@@ -106,7 +106,7 @@ def _PushPointsToDayVisitsWork(
   city_visit_heap = CityVisitHeap(
       _city_visit_heap_size, day_visit_parameterss)
   _PushPointsToDayVisitsImpl(
-      0, points, days_consider, day_visits, points_left,
+      1, points, days_consider, day_visits, points_left,
       could_push, city_visit_heap, day_visit_parameterss,
       points_left_consistent)
   city_visit_heap.Shrink()

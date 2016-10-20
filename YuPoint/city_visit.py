@@ -119,7 +119,7 @@ class ActionInterface(object):
     return self.__dict__ == other.__dict__
 
   def __str__(self):
-    raise NotImplemented
+    raise NotImplemented()
 
 
 class PointVisit(ActionInterface):

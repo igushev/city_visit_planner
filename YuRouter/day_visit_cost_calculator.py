@@ -38,10 +38,10 @@ class DayVisitCostCalculatorState(object):
 class ActionAdderInterface(object):
   
   def StartEndDatetime(self, current_state):
-    raise NotImplemented
+    raise NotImplemented()
   
   def Add(self, current_state):
-    raise NotImplemented
+    raise NotImplemented()
 
 
 class PointVisitAdder(ActionAdderInterface):

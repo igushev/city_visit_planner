@@ -8,7 +8,7 @@ class PointFitInterface(object):
   def IfPointFit(self, start_end_datetime, operating_hours):
     """Return if point with given operating_hours can be visited during given
     start_end_datetime."""
-    raise NotImplemented
+    raise NotImplemented()
 
 
 # NOTE(igushev): This class works only with StartEndDatetime of

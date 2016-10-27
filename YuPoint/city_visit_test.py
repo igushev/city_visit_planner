@@ -9,7 +9,7 @@ from Yusi.YuPoint.city_visit_test_utils import CityVisitTestExample
 
 class DayVisitParametersTest(CityVisitTestExample):
   
-  def testHashKey(self):
+  def testDatelessHashKey(self):
     day_visit_parameters_9to21 = DayVisitParameters(
         start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
         end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0),
@@ -25,10 +25,10 @@ class DayVisitParametersTest(CityVisitTestExample):
         start_coordinates=self.san_francisco_coordinates,
         end_coordinates=self.san_francisco_coordinates)
     # Stupid test.
-    self.assertEqual(day_visit_parameters_9to21.HashKey(),
-                     day_visit_parameters_9to21.HashKey())
-    self.assertNotEqual(day_visit_parameters_9to21.HashKey(),
-                        day_visit_parameters_9to23.HashKey())
+    self.assertEqual(day_visit_parameters_9to21.DatelessHashKey(),
+                     day_visit_parameters_9to21.DatelessHashKey())
+    self.assertNotEqual(day_visit_parameters_9to21.DatelessHashKey(),
+                        day_visit_parameters_9to23.DatelessHashKey())
 
 
 class MoveBetweenTest(CityVisitTestExample):
@@ -47,9 +47,11 @@ class MoveBetweenTest(CityVisitTestExample):
 
 class DayVisitTest(CityVisitTestExample):
 
-  def testHashKey(self):
-    self.assertEqual(self.day_visit_1.HashKey(), self.day_visit_1.HashKey())
-    self.assertNotEqual(self.day_visit_1.HashKey(), self.day_visit_2.HashKey())
+  def testDatelessHashKey(self):
+    self.assertEqual(self.day_visit_1.DatelessHashKey(),
+                     self.day_visit_1.DatelessHashKey())
+    self.assertNotEqual(self.day_visit_1.DatelessHashKey(),
+                        self.day_visit_2.DatelessHashKey())
 
   def testGetPoints(self):
     self.assertEqual([self.points['Ferry Building'], self.points['Pier 39']],
@@ -101,9 +103,6 @@ class DayVisitTest(CityVisitTestExample):
 
 
 class CityVisitTest(CityVisitTestExample):
-
-  def testHashKey(self):
-    self.city_visit.HashKey()
 
   def testGetPoints(self):
     self.assertEqual([self.points['Ferry Building'], self.points['Pier 39'],

@@ -22,7 +22,7 @@ class MockDayVisit(DayVisitInterface):
     assert isinstance(hash_key, str)
     self.hash_key = hash_key
 
-  def HashKey(self):
+  def DatelessHashKey(self):
     return self.hash_key
 
 

@@ -5,6 +5,7 @@ import itertools
 import Yusi
 from Yusi.YuPoint.point import Point, CoordinatesInterface, PointTypeInterface,\
   AgeGroupInterface
+from Yusi.YuUtils.hash_utils import HashKey
 
 
 class StartEndDatetimeInterface(object):
@@ -28,6 +29,12 @@ class StartEndDatetime(StartEndDatetimeInterface):
     if self.start < time and time <= self.end:
       return True
     return False
+
+  def DatelessHashKey(self):
+    m = hashlib.md5()
+    m.update(HashKey(self.start.time()))
+    m.update(HashKey(self.end.time()))
+    return m.hexdigest()    
   
   def __eq__(self, other):
     return self.__dict__ == other.__dict__
@@ -62,24 +69,14 @@ class DayVisitParameters(DayVisitParametersInterface):
     self.start_coordinates = start_coordinates
     self.end_coordinates = end_coordinates or start_coordinates
 
-  def HashKey(self):
-    m = hashlib.md5()
-    m.update(str(self.start_datetime).encode('utf-8'))
-    m.update(str(self.end_datetime).encode('utf-8'))
-    m.update(str(self.lunch_start_datetime).encode('utf-8'))
-    m.update(str(self.lunch_hours).encode('utf-8'))
-    m.update(str(self.start_coordinates).encode('utf-8'))
-    m.update(str(self.end_coordinates).encode('utf-8'))
-    return m.hexdigest()    
-
   def DatelessHashKey(self):
     m = hashlib.md5()
-    m.update(str(self.start_datetime.time()).encode('utf-8'))
-    m.update(str(self.end_datetime.time()).encode('utf-8'))
-    m.update(str(self.lunch_start_datetime.time()).encode('utf-8'))
-    m.update(str(self.lunch_hours).encode('utf-8'))
-    m.update(str(self.start_coordinates).encode('utf-8'))
-    m.update(str(self.end_coordinates).encode('utf-8'))
+    m.update(HashKey(self.start_datetime.time()))
+    m.update(HashKey(self.end_datetime.time()))
+    m.update(HashKey(self.lunch_start_datetime.time()))
+    m.update(HashKey(self.lunch_hours))
+    m.update(HashKey(self.start_coordinates))
+    m.update(HashKey(self.end_coordinates))
     return m.hexdigest()    
 
   def __eq__(self, other):
@@ -115,6 +112,11 @@ class ActionInterface(object):
     assert isinstance(start_end_datetime, StartEndDatetimeInterface)
     self.start_end_datetime = start_end_datetime
 
+  def DatelessHashKey(self):
+    m = hashlib.md5()
+    m.update(self.start_end_datetime.DatelessHashKey())
+    return m.hexdigest()
+
   def __eq__(self, other):
     return self.__dict__ == other.__dict__
 
@@ -132,6 +134,12 @@ class PointVisit(ActionInterface):
 
     self.point = point
     super(PointVisit, self).__init__(start_end_datetime)
+
+  def DatelessHashKey(self):
+    m = hashlib.md5()
+    m.update(super(PointVisit, self).DatelessHashKey())
+    m.update(HashKey(self.point))
+    return m.hexdigest()    
 
   def __str__(self):
     return 'Visiting point "%s" %s' % (self.point.name, self.start_end_datetime)
@@ -170,6 +178,12 @@ class MoveBetween(ActionInterface):
     self.move_description = move_description
     super(MoveBetween, self).__init__(start_end_datetime)
 
+  def DatelessHashKey(self):
+    m = hashlib.md5()
+    m.update(super(MoveBetween, self).DatelessHashKey())
+    m.update(HashKey(self.move_description))
+    return m.hexdigest()    
+
   def __str__(self):
     if self.move_description.move_type == MoveType.walking:
       move_type_str = "Walking"
@@ -195,6 +209,12 @@ class Lunch(ActionInterface):
 
     self.lunch_hours = lunch_hours
     super(Lunch, self).__init__(start_end_datetime)
+
+  def DatelessHashKey(self):
+    m = hashlib.md5()
+    m.update(super(Lunch, self).DatelessHashKey())
+    m.update(HashKey(self.lunch_hours))
+    return m.hexdigest()    
 
   def __str__(self):
     return 'Having lunch %s' % self.start_end_datetime
@@ -239,12 +259,12 @@ class DayVisit(DayVisitInterface):
     self.actions = actions
     self.cost = cost
 
-  def HashKey(self):
-    # self.start_datetime doesn't matter.
+  def DatelessHashKey(self):
     m = hashlib.md5()
+    m.update(HashKey(self.start_datetime.time()))
     for action in self.actions:
-      m.update(str(action).encode('utf-8'))
-    m.update(str(self.cost).encode('utf-8'))
+      m.update(action.DatelessHashKey())
+    m.update(HashKey(self.cost))
     return m.hexdigest()
 
   def GetPoints(self):
@@ -278,13 +298,6 @@ class CityVisit(CityVisitInterface):
 
     self.day_visits = day_visits
     self.cost = cost
-
-  def HashKey(self):
-    m = hashlib.md5()
-    for day_visit in self.day_visits:
-      m.update(day_visit.HashKey())
-    m.update(str(self.cost).encode('utf-8'))
-    return m.hexdigest()
 
   def GetPoints(self):
     return list(itertools.chain.from_iterable(

@@ -1,39 +1,8 @@
-import hashlib
 import unittest
 
 from Yusi.YuUtils import json_utils
-
-
-def HashKey(obj):
-  if hasattr(obj, 'HashKey'):
-    return obj.HashKey()
-  elif hasattr(obj, '__dict__'):
-    return HashKey(obj.__dict__)
-  elif isinstance(obj, (list, tuple)):
-    m = hashlib.md5()
-    for item in obj:
-      m.update(HashKey(item).encode('utf-8'))
-    return m.hexdigest()
-  elif isinstance(obj, set):
-    m = hashlib.md5()
-    for item in sorted(obj):
-      m.update(HashKey(item).encode('utf-8'))
-    return m.hexdigest()
-  elif isinstance(obj, dict):
-    m = hashlib.md5()
-    for key, value in sorted(obj.iteritems()):
-      m.update(HashKey(key).encode('utf-8'))
-      m.update(HashKey(value).encode('utf-8'))
-    return m.hexdigest()
-  else:
-    m = hashlib.md5()
-    m.update(str(obj).encode('utf-8'))
-    return m.hexdigest()    
-
-
-def Repr(obj):
-  return '\n'.join(['%s: %s' % (key.replace('_', ' ').title(), value)
-                    for key, value in sorted(obj.__dict__.iteritems())])
+from Yusi.YuUtils.hash_utils import HashKey
+from Yusi.YuUtils.repr_utils import Repr
 
 
 @json_utils.JSONDecorator(
@@ -120,13 +89,13 @@ class JSONUtilsTest(unittest.TestCase):
     obj_simple = obj.ToSimple()
     obj_from_simple = WithNestedFields.FromSimple(obj_simple)
     self.assertEqual(obj.HashKey(), obj_from_simple.HashKey())
-    self.assertEqual(str(obj), str(obj_from_simple))
+    self.assertEqual(repr(obj), repr(obj_from_simple))
     self.assertEqual(obj, obj_from_simple)
     
     obj_json = obj.ToJSON()
     obj_from_json = WithNestedFields.FromJSON(obj_json)
     self.assertEqual(obj.HashKey(), obj_from_json.HashKey())
-    self.assertEqual(str(obj), str(obj_from_json))
+    self.assertEqual(repr(obj), repr(obj_from_json))
     self.assertEqual(obj, obj_from_json)
 
 

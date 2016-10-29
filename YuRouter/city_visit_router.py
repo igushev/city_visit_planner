@@ -9,6 +9,7 @@ from Yusi.YuRouter.points_queue import PointsQueueGeneratorInterface
 from Yusi.YuPoint.point import PointInterface
 from Yusi.YuPoint.city_visit import DayVisitParametersInterface,\
   DayVisitInterface
+from Yusi.YuRouter.city_visit_accumulator import CityVisitAccumulatorGenerator
 
 
 ################################################################################
@@ -127,11 +128,14 @@ class CityVisitRouter(CityVisitRouterInterface):
   best so far."""
 
   def __init__(self, day_visit_router, city_visit_cost_calculator_generator,
-               points_queue_generator, shard_num_days, max_depth,
-               city_visit_heap_size, max_non_pushed_points, num_processes):
+               city_visit_accumulator_generator, points_queue_generator,
+               shard_num_days, max_depth,city_visit_heap_size,
+               max_non_pushed_points, num_processes):
     assert isinstance(day_visit_router, DayVisitRouterInterface)
     assert isinstance(city_visit_cost_calculator_generator,
                       CityVisitCostCalculatorGeneratorInterface)
+    assert isinstance(city_visit_accumulator_generator,
+                      CityVisitAccumulatorGenerator)
     assert isinstance(points_queue_generator, PointsQueueGeneratorInterface)
     if shard_num_days is not None:
       assert isinstance(shard_num_days, int)
@@ -144,6 +148,7 @@ class CityVisitRouter(CityVisitRouterInterface):
     self.day_visit_router = day_visit_router
     self.city_visit_cost_calculator_generator = (
         city_visit_cost_calculator_generator)
+    self.city_visit_accumulator_generator = city_visit_accumulator_generator
     self.points_queue_generator = points_queue_generator
     self.shard_num_days = shard_num_days
     self.max_depth = max_depth  # Don't need, but still add as member.
@@ -214,7 +219,7 @@ class CityVisitRouter(CityVisitRouterInterface):
       assert isinstance(day_visit_parameters, DayVisitParametersInterface)
 
     shard_num_days = self.shard_num_days or len(day_visit_parameterss)
-    day_visits = []
+    city_visit_accumulator = self.city_visit_accumulator_generator.Generate()
     points_queue = self.points_queue_generator.Generate(points)
     points_left_consistent = set([])
     for shard_i, begin in (
@@ -227,15 +232,14 @@ class CityVisitRouter(CityVisitRouterInterface):
               points_queue, day_visit_parameterss[begin:end],
               points_left_consistent))
 
-      day_visits.extend(city_visit_cost_calculator_shard.day_visits)
+      city_visit_accumulator.AddDayVisits(
+          city_visit_cost_calculator_shard.day_visits,
+          day_visit_parameterss[begin:end])
       # Next iteration points_queue should points left from previous iteration
       # and the rest of points.
       points_queue.AddBackToQueue(points_left_shard)
       points_left_consistent.update(set(points_left_shard))
 
-    city_visit_cost_calculator = (
-        self.city_visit_cost_calculator_generator.Generate(
-            day_visits, day_visit_parameterss))
-    city_visit_cost_calculator.AddPointsLeft(points_queue.GetPointsLeft())
-    return (city_visit_cost_calculator.CityVisit(),
-            city_visit_cost_calculator.GetPointsLeft())
+    city_visit_accumulator.AddPointsLeft(points_queue.GetPointsLeft())
+    return city_visit_accumulator.Result(
+        self.city_visit_cost_calculator_generator)

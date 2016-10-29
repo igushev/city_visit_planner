@@ -12,6 +12,7 @@ from Yusi.YuRouter.test_utils import MockMoveCalculator
 from Yusi.YuRouter.points_queue import OneByOnePointsQueueGenerator
 from Yusi.YuPoint.city_visit import DayVisitParameters
 from Yusi.YuPoint.test_utils import MockCoordinates, MockPoints
+from Yusi.YuRouter.city_visit_accumulator import CityVisitAccumulatorGenerator
 
 
 class CityVisitRouterTest(unittest.TestCase):
@@ -53,11 +54,13 @@ class CityVisitRouterTest(unittest.TestCase):
         day_visit_heap_size=day_visit_heap_size)
     city_visit_cost_calculator_generator = CityVisitCostCalculatorGenerator(
         cost_accumulator_generator=cost_accumulator_generator)
+    city_visit_accumulator_generator = CityVisitAccumulatorGenerator()
     points_queue_generator = OneByOnePointsQueueGenerator()
     self.city_visit_router = CityVisitRouter(
         day_visit_router=day_visit_router,
         city_visit_cost_calculator_generator=(
             city_visit_cost_calculator_generator),
+        city_visit_accumulator_generator=city_visit_accumulator_generator,
         points_queue_generator=points_queue_generator,
         shard_num_days=shard_num_days,
         max_depth=max_depth,
@@ -255,14 +258,21 @@ Total price: 0.00""", str(city_visit_best))
     day_visits = city_visit_best.day_visits
     self.assertEqual(3, len(day_visits))
     self.assertEqual(
+        [self.points['Twin Peaks']], day_visits[0].GetPoints())
+    self.assertEqual(
         [self.points['Ferry Building'],
          self.points['Pier 39'],
-         self.points['Union Square']], day_visits[0].GetPoints())
-    self.assertEqual(
-        [self.points['Twin Peaks']], day_visits[1].GetPoints())
+         self.points['Union Square']], day_visits[1].GetPoints())
     self.assertEqual([], day_visits[2].GetPoints())
 
     self.assertEqual("""Date: 2014-09-01
+Walking from Hotel to Twin Peaks from 09:00:00 to 12:00:00
+Visiting point "Twin Peaks" from 12:00:00 to 12:30:00
+Having lunch from 12:30:00 to 13:30:00
+Walking from Twin Peaks to Restaurant from 13:30:00 to 15:30:00
+Cost: 11.00
+Price: 0.00
+Date: 2014-09-02
 Walking from Hotel to Ferry Building from 09:00:00 to 10:00:00
 Visiting point "Ferry Building" from 10:00:00 to 11:00:00
 Walking from Ferry Building to Pier 39 from 11:00:00 to 12:00:00
@@ -271,14 +281,7 @@ Visiting point "Pier 39" from 13:00:00 to 16:00:00
 Walking from Pier 39 to Union Square from 16:00:00 to 18:00:00
 Visiting point "Union Square" from 18:00:00 to 19:00:00
 Walking from Union Square to Restaurant from 19:00:00 to 20:00:00
-Cost: 12.80
-Price: 0.00
-Date: 2014-09-02
-Walking from Hotel to Twin Peaks from 09:00:00 to 12:00:00
-Visiting point "Twin Peaks" from 12:00:00 to 12:30:00
-Having lunch from 12:30:00 to 13:30:00
-Walking from Twin Peaks to Restaurant from 13:30:00 to 15:30:00
-Cost: 9.80
+Cost: 11.60
 Price: 0.00
 Date: 2014-09-03
 Walking from Hotel to Restaurant from 17:00:00 to 18:00:00

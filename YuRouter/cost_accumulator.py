@@ -9,7 +9,7 @@ class CostAccumulatorInterface(object):
   """Abstract class which accumulates cost for a day."""
 
   def __init__(self):
-    self.cost = 0
+    self.cost = 0.
 
   def Copy(self):
     return copy.deepcopy(self)

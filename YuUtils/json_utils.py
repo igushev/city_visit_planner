@@ -95,7 +95,7 @@ def FromSimple(cls, simple):
   obj_dict = dict()
   for key, value in simple.iteritems():
     json_obj =  cls.desc_dict.get(key, json_default)
-    obj_dict[key] = json_obj.FromSimple(value)
+    obj_dict[str(key)] = json_obj.FromSimple(value)
   obj = cls.__new__(cls)
   obj.__dict__ = obj_dict 
   return obj

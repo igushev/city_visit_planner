@@ -9,7 +9,7 @@ from Yusi.YuUtils.repr_utils import Repr
     {'_int_field': json_utils.JSONInt()})
 class WithFields(object):
   
-  def __init__(self, int_field, float_field, string_field=5):
+  def __init__(self, int_field, float_field, string_field):
     assert isinstance(int_field, int)
     assert isinstance(float_field, float)
     assert isinstance(string_field, basestring)

@@ -33,8 +33,7 @@ class CityVisitAccumulator(CityVisitAccumulatorInterface):
   def Result(self, city_visit_cost_calculator_generator):
     city_visit_cost_calculator = (
         city_visit_cost_calculator_generator.Generate(
-            self.day_visits, self.day_visit_parameterss))
-    city_visit_cost_calculator.AddPointsLeft(self.points_left)
+            self.day_visits, self.day_visit_parameterss, self.points_left))
     return (city_visit_cost_calculator.CityVisit(),
             city_visit_cost_calculator.GetPointsLeft())
 

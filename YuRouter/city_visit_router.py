@@ -83,8 +83,8 @@ def _PushPointsToDayVisitsImpl(
             for day_visit_consider in next_day_visits_consider)):
       city_visit_cost_calculator = (
           _city_visit_cost_calculator_generator.Generate(
-              next_day_visits, day_visit_parameterss))
-      city_visit_cost_calculator.AddPointsLeft(points_left + next_points_left)
+              next_day_visits, day_visit_parameterss,
+              points_left + next_points_left))
       city_visit_heap.PushCalculator(city_visit_cost_calculator)
       # If next_points_left are only the ones we consistently can't push,
       # consider this iteration successful and assign could_push True.
@@ -171,7 +171,7 @@ class CityVisitRouter(CityVisitRouterInterface):
         initial_day_visits.append(day_visit) 
     city_visit_cost_calculators = [
         self.city_visit_cost_calculator_generator.Generate(
-            initial_day_visits, day_visit_parameterss)]
+            initial_day_visits, day_visit_parameterss, [])]
     could_not_push = 0
     while points_queue.HasPoints():
       # NOTE(igushev): Run in parallel pushing points to different

@@ -4,10 +4,6 @@ from Yusi.YuPoint.city_visit import PointVisit, MoveBetween, Lunch, CityVisit
 class CityVisitCostCalculatorInterface(object):
   """Abstract class which constructs CityVisit and calculates its cost."""
 
-  def AddPointsLeft(self, points_left):
-    """Add points that cannot be visited to the cost of CityVisit."""
-    raise NotImplemented()
-  
   def Cost(self):
     """Get current cost of CityVisit."""
     raise NotImplemented()
@@ -25,16 +21,18 @@ class CityVisitCostCalculator(CityVisitCostCalculatorInterface):
   """Constructs CityVisit and calculates its cost."""
   
   def __init__(
-      self, cost_accumulator_generator, day_visits, day_visit_parameterss):
+      self, cost_accumulator_generator, day_visits, day_visit_parameterss,
+      points_left):
     self.cost_accumulator = cost_accumulator_generator.Generate()
-    self.day_visits = []
-    self.day_visit_parameterss = day_visit_parameterss
-    self.points_left = []
-    self._AddDayVisits(day_visits)
+    self.day_visits = day_visits[:]
+    self.day_visit_parameterss = day_visit_parameterss[:]
+    self._AddDayVisits()
+    self.points_left = points_left[:]
+    self._AddPointsLeft()
   
-  def _AddDayVisits(self, day_visits):
+  def _AddDayVisits(self):
     for day_visit, day_visit_parameters in (
-        zip(day_visits, self.day_visit_parameterss)):
+        zip(self.day_visits, self.day_visit_parameterss)):
       for action in day_visit.actions:
         if isinstance(action, PointVisit):
           self.cost_accumulator.AddPointVisit(action.point)
@@ -47,12 +45,10 @@ class CityVisitCostCalculator(CityVisitCostCalculatorInterface):
       unused_time = (day_visit_parameters.end_datetime -
                      day_visit.actions[-1].start_end_datetime.end)
       self.cost_accumulator.AddUnusedTime(unused_time)
-    self.day_visits.extend(day_visits)
         
-  def AddPointsLeft(self, points_left):
-    for point_left in points_left:
+  def _AddPointsLeft(self):
+    for point_left in self.points_left:
       self.cost_accumulator.AddPointLeft(point_left)
-    self.points_left.extend(points_left)
   
   def Cost(self):
     return self.cost_accumulator.Cost()
@@ -80,6 +76,7 @@ class CityVisitCostCalculatorGenerator(
   def __init__(self, cost_accumulator_generator):
     self.cost_accumulator_generator = cost_accumulator_generator
   
-  def Generate(self, day_visits, day_visit_parameterss):
+  def Generate(self, day_visits, day_visit_parameterss, points_left):
     return CityVisitCostCalculator(
-        self.cost_accumulator_generator, day_visits, day_visit_parameterss)
+        self.cost_accumulator_generator, day_visits, day_visit_parameterss,
+        points_left)

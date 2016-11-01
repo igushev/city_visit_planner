@@ -3,7 +3,7 @@ import unittest
 
 from Yusi.YuPoint.city_visit_test_utils import CityVisitTestExample
 from Yusi.YuRouter.cost_accumulator import FactorCostAccumulatorGenerator
-from Yusi.YuRouter.city_visit_cost_calculator import CityVisitCostCalculatorGenerator
+from Yusi.YuRouter.city_visit_points_left import CityVisitPointsLeftGenerator
 from Yusi.YuRouter.city_visit_accumulator import CityVisitAccumulatorGenerator
 from Yusi.YuPoint.city_visit import CityVisit
 
@@ -18,8 +18,8 @@ class CityVisitAccumulatorTest(CityVisitTestExample):
         no_point_visit_factor=self.no_point_visit_factor,
         no_point_visit_const=self.no_point_visit_const,
         unused_time_factor=self.unused_time_factor)
-    self.city_visit_cost_calculator_generator = (
-        CityVisitCostCalculatorGenerator(
+    self.city_visit_points_left_generator = (
+        CityVisitPointsLeftGenerator(
             cost_accumulator_generator=cost_accumulator_generator))
     self.city_visit_accumulator_generator = CityVisitAccumulatorGenerator()
     super(CityVisitAccumulatorTest, self).setUp()
@@ -28,7 +28,7 @@ class CityVisitAccumulatorTest(CityVisitTestExample):
     city_visit_accumulator = self.city_visit_accumulator_generator.Generate()
     city_visit, points_left = (
         city_visit_accumulator.Result(
-            self.city_visit_cost_calculator_generator))
+            self.city_visit_points_left_generator))
     self.assertEqual(CityVisit([], 0.), city_visit)
     self.assertEqual([], points_left)
     
@@ -42,7 +42,7 @@ class CityVisitAccumulatorTest(CityVisitTestExample):
     city_visit_accumulator.AddPointsLeft([self.points['Lombard Street']])
     city_visit, points_left = (
         city_visit_accumulator.Result(
-            self.city_visit_cost_calculator_generator))
+            self.city_visit_points_left_generator))
     self.assertEqual(CityVisit([self.day_visit_1, self.day_visit_2],
                                17.7 + 2 * self.no_point_visit_const),
                      city_visit)
@@ -58,7 +58,7 @@ class CityVisitAccumulatorTest(CityVisitTestExample):
         [self.points['Union Square'],self.points['Lombard Street']])
     city_visit, points_left = (
         city_visit_accumulator.Result(
-            self.city_visit_cost_calculator_generator))
+            self.city_visit_points_left_generator))
     self.assertEqual(CityVisit([self.day_visit_1, self.day_visit_2],
                                17.7 + 2 * self.no_point_visit_const),
                      city_visit)

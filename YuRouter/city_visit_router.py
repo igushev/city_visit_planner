@@ -180,7 +180,7 @@ class CityVisitRouter(CityVisitRouterInterface):
       push_points = points_queue.GetPushPoints(day_visit_parameterss)
       push_points_to_day_visits_results = []
       for city_visit_cost_calculator in city_visit_cost_calculators:
-        day_visits = city_visit_cost_calculator.day_visits
+        day_visits = city_visit_cost_calculator.CityVisit().day_visits
         points_left = city_visit_cost_calculator.GetPointsLeft()
         push_points_to_day_visits_results.append(
             self.workers_pool.apply_async(

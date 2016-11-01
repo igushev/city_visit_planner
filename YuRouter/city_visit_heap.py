@@ -64,7 +64,7 @@ class CityVisitHeap(object):
   def _CityVisitDatelessHashKey(self, calculator):
     hash_keys = []
     for day_visit_parameters, day_visit in (
-        zip(self.day_visit_parameterss, calculator.day_visits)):
+        zip(self.day_visit_parameterss, calculator.CityVisit().day_visits)):
       m_day = hashlib.md5()
       m_day.update(day_visit_parameters.DatelessHashKey())
       m_day.update(day_visit.DatelessHashKey())

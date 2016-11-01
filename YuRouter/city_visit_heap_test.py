@@ -2,7 +2,7 @@ import unittest
 
 from Yusi.YuRouter.city_visit_heap import CityVisitHeap
 from Yusi.YuPoint.city_visit import DayVisitParametersInterface,\
-  DayVisitInterface
+  DayVisitInterface, CityVisitInterface
 from Yusi.YuRouter.city_visit_cost_calculator import CityVisitCostCalculatorInterface
 
 
@@ -26,6 +26,12 @@ class MockDayVisit(DayVisitInterface):
     return self.hash_key
 
 
+class MockCityVisit(CityVisitInterface):
+
+  def __init__(self, day_visits):
+    self.day_visits = day_visits
+
+
 class MockCityVisitCostCalculator(CityVisitCostCalculatorInterface):
 
   def __init__(self, name, day_visit_hash_keys, cost):
@@ -37,6 +43,9 @@ class MockCityVisitCostCalculator(CityVisitCostCalculatorInterface):
     self.day_visits = [MockDayVisit(day_visit_hash_key)
                        for day_visit_hash_key in day_visit_hash_keys]
     self.cost = cost
+
+  def CityVisit(self):
+    return MockCityVisit(self.day_visits)
   
   def Cost(self):
     return self.cost

@@ -12,12 +12,14 @@ TaskWorkerContext = namedtuple(
 
 
 class TaskWorkerInterface(object):
+  """Abstract class which executes a task.""" 
 
   def Start(self):
     raise NotImplemented()
 
 
 class TaskWorkerGeneratorInterface(object):
+  """Abstract class which generates tasks.""" 
 
   def Generate(self, worker_conn):
     raise NotImplemented()

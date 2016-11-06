@@ -1,13 +1,14 @@
 import time
 import unittest
-from Yusi.YuUtils.task_utils import TaskWorkerGeneratorInterface, TaskManager
+from Yusi.YuUtils.task_utils import TaskWorkerGeneratorInterface, TaskManager,\
+  TaskWorkerInterface
 
 
 def Sqr(num):
   return num*num
 
 
-class SqrTaskWorker(TaskWorkerGeneratorInterface):
+class SqrTaskWorker(TaskWorkerInterface):
   
   def __init__(self, worker_conn):
     self.worker_conn = worker_conn

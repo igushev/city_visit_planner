@@ -54,18 +54,17 @@ class CityVisitRouterTest(unittest.TestCase):
         day_visit_heap_size=day_visit_heap_size)
     city_visit_points_left_generator = CityVisitPointsLeftGenerator(
         cost_accumulator_generator=cost_accumulator_generator)
-    city_visit_accumulator_generator = CityVisitAccumulatorGenerator()
     points_queue_generator = OneByOnePointsQueueGenerator()
     self.city_visit_router = CityVisitRouter(
         day_visit_router=day_visit_router,
         city_visit_points_left_generator=city_visit_points_left_generator,
-        city_visit_accumulator_generator=city_visit_accumulator_generator,
         points_queue_generator=points_queue_generator,
         shard_num_days=shard_num_days,
         max_depth=max_depth,
         city_visit_heap_size=city_visit_heap_size,
         max_non_pushed_points=max_non_pushed_points,
         num_processes=None)
+    self.city_visit_accumulator_generator = CityVisitAccumulatorGenerator()
     super(CityVisitRouterTest, self).setUp()
 
   def testOneShortDay(self):
@@ -81,7 +80,8 @@ class CityVisitRouterTest(unittest.TestCase):
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Union Square']],
-        day_visit_parameterss)
+        day_visit_parameterss,
+        self.city_visit_accumulator_generator)
     day_visits = city_visit_best.day_visits
     self.assertEqual(1, len(day_visits))
     self.assertEqual([], day_visits[0].GetPoints())
@@ -111,7 +111,8 @@ Total price: 0.00""", str(city_visit_best))
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Union Square']],
-        day_visit_parameterss)
+        day_visit_parameterss,
+        self.city_visit_accumulator_generator)
     day_visits = city_visit_best.day_visits
     self.assertEqual(1, len(day_visits))
     self.assertEqual(
@@ -151,7 +152,8 @@ Total price: 0.00""", str(city_visit_best))
          self.points['Pier 39'],
          self.points['Golden Gate Bridge'],
          self.points['Union Square']],
-        day_visit_parameterss)
+        day_visit_parameterss,
+        self.city_visit_accumulator_generator)
 
     day_visits = city_visit_best.day_visits
     self.assertEqual(2, len(day_visits))
@@ -199,7 +201,8 @@ Total price: 0.00""", str(city_visit_best))
          self.points['Golden Gate Bridge'],
          self.points['Union Square'],
          self.points['Twin Peaks']],
-        day_visit_parameterss)
+        day_visit_parameterss,
+        self.city_visit_accumulator_generator)
     
     day_visits = city_visit_best.day_visits
     self.assertEqual(2, len(day_visits))
@@ -252,7 +255,8 @@ Total price: 0.00""", str(city_visit_best))
          self.points['Golden Gate Bridge'],
          self.points['Union Square'],
          self.points['Twin Peaks']],
-        day_visit_parameterss)
+        day_visit_parameterss,
+        self.city_visit_accumulator_generator)
 
     day_visits = city_visit_best.day_visits
     self.assertEqual(3, len(day_visits))
@@ -310,7 +314,8 @@ Total price: 0.00""", str(city_visit_best))
          self.points['Golden Gate Bridge'],
          self.points['Union Square'],
          self.points['Twin Peaks']],
-        day_visit_parameterss)
+        day_visit_parameterss,
+        self.city_visit_accumulator_generator)
 
     day_visits = city_visit_best.day_visits
     self.assertEqual(3, len(day_visits))

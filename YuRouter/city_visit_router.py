@@ -127,15 +127,12 @@ class CityVisitRouter(CityVisitRouterInterface):
   """Routes points during CityVisit using permutation and keeping track of
   best so far."""
 
-  def __init__(self, day_visit_router, city_visit_points_left_generator,
-               city_visit_accumulator_generator, points_queue_generator,
+  def __init__(self, day_visit_router, city_visit_points_left_generator, points_queue_generator,
                shard_num_days, max_depth,city_visit_heap_size,
                max_non_pushed_points, num_processes):
     assert isinstance(day_visit_router, DayVisitRouterInterface)
     assert isinstance(city_visit_points_left_generator,
                       CityVisitPointsLeftGenerator)
-    assert isinstance(city_visit_accumulator_generator,
-                      CityVisitAccumulatorGenerator)
     assert isinstance(points_queue_generator, PointsQueueGeneratorInterface)
     if shard_num_days is not None:
       assert isinstance(shard_num_days, int)
@@ -147,7 +144,6 @@ class CityVisitRouter(CityVisitRouterInterface):
 
     self.day_visit_router = day_visit_router
     self.city_visit_points_left_generator = city_visit_points_left_generator
-    self.city_visit_accumulator_generator = city_visit_accumulator_generator
     self.points_queue_generator = points_queue_generator
     self.shard_num_days = shard_num_days
     self.max_depth = max_depth  # Don't need, but still add as member.
@@ -211,14 +207,17 @@ class CityVisitRouter(CityVisitRouterInterface):
     return (city_visit_points_left_best.city_visit,
             city_visit_points_left_best.points_left)
 
-  def RouteCityVisit(self, points, day_visit_parameterss):
+  def RouteCityVisit(self, points, day_visit_parameterss,
+                     city_visit_accumulator_generator):
     for point in points:
       assert isinstance(point, PointInterface)
     for day_visit_parameters in day_visit_parameterss:
       assert isinstance(day_visit_parameters, DayVisitParametersInterface)
+    assert isinstance(city_visit_accumulator_generator,
+                      CityVisitAccumulatorGenerator)
 
     shard_num_days = self.shard_num_days or len(day_visit_parameterss)
-    city_visit_accumulator = self.city_visit_accumulator_generator.Generate()
+    city_visit_accumulator = city_visit_accumulator_generator.Generate()
     points_queue = self.points_queue_generator.Generate(points)
     points_left_consistent = set([])
     for shard_i, begin in (

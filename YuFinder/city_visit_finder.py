@@ -26,7 +26,8 @@ class CityVisitFinder(CityVisitFinderInterface):
     self.points_ranker = points_ranker
     self.city_visit_router = city_visit_router
 
-  def FindCityVisit(self, city_visit_parameters):
+  def FindCityVisit(self, city_visit_parameters,
+                    city_visit_accumulator_generator):
     assert isinstance(city_visit_parameters, CityVisitParametersInterface)
     
     points_input = (
@@ -41,7 +42,8 @@ class CityVisitFinder(CityVisitFinderInterface):
       assert isinstance(point_ranked, PointInterface)
     
     city_visit, points_left = self.city_visit_router.RouteCityVisit(
-        points_ranked, city_visit_parameters.day_visit_parameterss)
+        points_ranked, city_visit_parameters.day_visit_parameterss,
+        city_visit_accumulator_generator)
     assert isinstance(city_visit, CityVisitInterface)
     for point_left in points_left:
       assert isinstance(point_left, PointInterface)

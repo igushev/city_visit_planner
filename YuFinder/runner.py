@@ -1,23 +1,8 @@
 import datetime
 
 from Yusi.YuFinder.city_visit_finder import CityVisitFinder
-from Yusi.YuRanker.runner import PointsRankerRunner, GetPointsInput
+from Yusi.YuRanker.runner import PointsRankerRunner
 from Yusi.YuRouter.runner import CityVisitRouterRunner
-from Yusi.YuPoint.database_connection import DatabaseConnectionInterface
-
-
-class MockDatabaseConnection(DatabaseConnectionInterface):
-
-  def __init__(self):
-    self.points_dict_dict = {
-        'New York City': GetPointsInput('YuPoint', 'test_nyc_1.csv'),
-        'San Francisco': GetPointsInput('YuPoint', 'test_sf_1.csv')}
-
-  def GetPoints(self, visit_location):
-    return self.points_dict_dict[visit_location.city_name].values()
-
-  def GetPoint(self, visit_location, point_name):
-    return self.points_dict_dict[visit_location.city_name][point_name]
 
 
 class CityVisitFinderRunner(object):

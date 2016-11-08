@@ -1,7 +1,7 @@
 from Yusi.YuPoint.point import Coordinates
-from Yusi.YuRanker.runner import GetPointsKeys, FilterAndSortByKeys,\
-  GetPointsInput
 from Yusi.YuRouter.runner import GetDayVisitParameterss, CityVisitRouterRunner
+from Yusi.YuPoint.test_utils import GetPointsInput, GetPointsKeys,\
+  FilterAndSortByKeys
 
 
 def main():

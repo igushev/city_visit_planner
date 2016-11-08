@@ -1,6 +1,6 @@
-from Yusi.YuRanker.runner import PointsRankerRunner, GetPointsInput,\
-  GetCityVisitParameters
+from Yusi.YuRanker.runner import PointsRankerRunner, GetCityVisitParameters
 from Yusi.YuRanker.test_utils import MockDayVisitParameters, MockVisitLocation
+from Yusi.YuPoint.test_utils import GetPointsInput
 
 
 def main():

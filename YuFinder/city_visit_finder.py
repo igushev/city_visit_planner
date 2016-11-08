@@ -1,9 +1,9 @@
-from Yusi.YuFinder.database_connection import DatabaseConnectionInterface
 from Yusi.YuRanker.points_ranker import PointsRankerInterface
 from Yusi.YuRouter.city_visit_router import CityVisitRouterInterface
 from Yusi.YuPoint.city_visit import CityVisitParametersInterface,\
   CityVisitInterface
 from Yusi.YuPoint.point import PointInterface
+from Yusi.YuPoint.database_connection import DatabaseConnectionInterface
 
 
 class CityVisitFinderInterface(object):

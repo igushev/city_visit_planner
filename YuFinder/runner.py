@@ -1,9 +1,9 @@
 import datetime
 
 from Yusi.YuFinder.city_visit_finder import CityVisitFinder
-from Yusi.YuFinder.database_connection import DatabaseConnectionInterface
 from Yusi.YuRanker.runner import PointsRankerRunner, GetPointsInput
 from Yusi.YuRouter.runner import CityVisitRouterRunner
+from Yusi.YuPoint.database_connection import DatabaseConnectionInterface
 
 
 class MockDatabaseConnection(DatabaseConnectionInterface):

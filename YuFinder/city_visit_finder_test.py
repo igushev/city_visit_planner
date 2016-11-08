@@ -1,6 +1,5 @@
 import unittest
 from Yusi.YuFinder.city_visit_finder import CityVisitFinder
-from Yusi.YuFinder.database_connection import DatabaseConnectionInterface
 from Yusi.YuRanker.points_ranker import PointsRankerInterface
 from Yusi.YuRouter.city_visit_router import CityVisitRouterInterface
 from Yusi.YuPoint.city_visit import DayVisitParametersInterface,\
@@ -8,6 +7,7 @@ from Yusi.YuPoint.city_visit import DayVisitParametersInterface,\
 from Yusi.YuPoint.point import PointTypeInterface, AgeGroupInterface,\
   PointInterface
 from Yusi.YuRanker.test_utils import MockVisitLocation
+from Yusi.YuPoint.database_connection import DatabaseConnectionInterface
 
 
 class MockDayVisitParameters(DayVisitParametersInterface):

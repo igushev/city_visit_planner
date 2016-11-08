@@ -83,6 +83,21 @@ class DayVisitParameters(DayVisitParametersInterface):
     return self.__dict__ == other.__dict__
 
 
+class VisitLocationInterface(object):
+  """Set of users parameter for visit location interface."""
+  pass
+
+
+class VisitLocation(VisitLocationInterface):
+  """Set of users parameter for visit location implementation."""
+  
+  def __init__(self, city_name):
+    self.city_name = city_name
+
+  def __eq__(self, other):
+    return self.__dict__ == other.__dict__
+
+
 class CityVisitParametersInterface(object):
   """Set of users parameter for city visit interface."""
   pass
@@ -91,12 +106,15 @@ class CityVisitParametersInterface(object):
 class CityVisitParameters(CityVisitParametersInterface):
   """Set of users parameter for city visit implementation."""
 
-  def __init__(self, day_visit_parameterss, point_type, age_group):
+  def __init__(self, visit_location, day_visit_parameterss,
+               point_type, age_group):
+    assert isinstance(visit_location, VisitLocationInterface)
     for day_visit_parameters in day_visit_parameterss:
       assert isinstance(day_visit_parameters, DayVisitParametersInterface)
     assert isinstance(point_type, PointTypeInterface)  # Must not be None
     assert isinstance(age_group, AgeGroupInterface)  # Must not be None
 
+    self.visit_location = visit_location
     self.day_visit_parameterss = day_visit_parameterss
     self.point_type = point_type
     self.age_group = age_group

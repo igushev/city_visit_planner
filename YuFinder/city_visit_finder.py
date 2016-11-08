@@ -29,7 +29,9 @@ class CityVisitFinder(CityVisitFinderInterface):
   def FindCityVisit(self, city_visit_parameters):
     assert isinstance(city_visit_parameters, CityVisitParametersInterface)
     
-    points_input = self.database_connection.GetPoints(city_visit_parameters)
+    points_input = (
+        self.database_connection.GetPoints(
+            city_visit_parameters.visit_location))
     for point_input in  points_input:
       assert isinstance(point_input, PointInterface)
 

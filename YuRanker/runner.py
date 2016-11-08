@@ -30,7 +30,7 @@ def FilterAndSortByKeys(points_dict, keys):
   return [points_dict[key] for key in keys]
 
 
-def GetCityVisitParameters(day_visit_parameterss):
+def GetCityVisitParameters(visit_location, day_visit_parameterss):
   parameters_point_types = PointType(
       city_tours=90,
       landmarks=90,
@@ -47,6 +47,7 @@ def GetCityVisitParameters(day_visit_parameterss):
       toddlers=10)
 
   return CityVisitParameters(
+      visit_location=visit_location,
       day_visit_parameterss=day_visit_parameterss,
       point_type=parameters_point_types,
       age_group=parameters_age_groups)

@@ -2,7 +2,7 @@ import unittest
 
 from Yusi.YuRanker.runner import PointsRankerRunner, GetPointsInput,\
   GetCityVisitParameters
-from Yusi.YuRanker.test_utils import MockDayVisitParameters
+from Yusi.YuRanker.test_utils import MockDayVisitParameters, MockVisitLocation
 
 
 class PointsRankerRunnerTest(unittest.TestCase):
@@ -10,7 +10,8 @@ class PointsRankerRunnerTest(unittest.TestCase):
   def testGeneral(self):
     points_input = GetPointsInput('YuPoint', 'test_sf_1.csv').values()
     points_ranker_runner = PointsRankerRunner()
-    city_visit_parameters = GetCityVisitParameters([MockDayVisitParameters()])
+    city_visit_parameters = (
+        GetCityVisitParameters(MockVisitLocation(), [MockDayVisitParameters()]))
     points_ranker_runner.Run(points_input, city_visit_parameters)
 
 

@@ -8,7 +8,7 @@ from Yusi.YuPoint.read_csv import ReadCSVToDict
 from Yusi.YuRanker.point_type_rank_adjuster import PointTypeRankAdjuster
 from Yusi.YuRanker.rank_adjuster_interface import ScorePoint
 from Yusi.YuRanker.test_utils import RankAdjusterTestUtils,\
-  MockDayVisitParameters, MockAgeGroup
+  MockDayVisitParameters, MockAgeGroup, MockVisitLocation
 
 
 class PointTypeRankAdjusterTest(RankAdjusterTestUtils):
@@ -34,6 +34,7 @@ class PointTypeRankAdjusterTest(RankAdjusterTestUtils):
         dining=50)
 
     city_visit_parameters = CityVisitParameters(
+        MockVisitLocation(),
         day_visit_parameterss=[MockDayVisitParameters()],
         point_type=parameters_point_types,
         age_group=MockAgeGroup())

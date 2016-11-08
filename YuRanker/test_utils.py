@@ -1,7 +1,11 @@
 import unittest
 from Yusi.YuPoint.city_visit import DayVisitParametersInterface,\
-  CityVisitParametersInterface
+  CityVisitParametersInterface, VisitLocationInterface
 from Yusi.YuPoint.point import PointTypeInterface, AgeGroupInterface
+
+
+class MockVisitLocation(VisitLocationInterface):
+  pass 
 
 
 class MockDayVisitParameters(DayVisitParametersInterface):

@@ -5,10 +5,10 @@ import unittest
 import Yusi
 from Yusi.YuPoint.city_visit import DayVisitParameters
 from Yusi.YuPoint.read_csv import ReadCSVToDict
-from Yusi.YuPoint.test_utils import MockCoordinates
 from Yusi.YuRouter.day_visit_cost_calculator_interface import DayVisitCostCalculatorInterface
 from Yusi.YuRouter.points_queue import OneByOnePointsQueueGenerator,\
   AllPointsQueueGenerator
+from Yusi.YuRouter.test_utils import MockCoordinates
 
 
 class MockDayVisitCostCalculator(DayVisitCostCalculatorInterface):

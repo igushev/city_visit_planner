@@ -15,15 +15,15 @@ class DayVisitParametersTest(CityVisitTestExample):
         end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0),
         lunch_start_datetime=datetime.datetime(2014, 9, 1, 13, 0, 0),
         lunch_hours=1.,
-        start_coordinates=self.san_francisco_coordinates,
-        end_coordinates=self.san_francisco_coordinates)
+        start_coordinates=self.hotel_coordinates,
+        end_coordinates=self.hotel_coordinates)
     day_visit_parameters_9to23 = DayVisitParameters(
         start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
         end_datetime=datetime.datetime(2014, 9, 1, 23, 0, 0),
         lunch_start_datetime=datetime.datetime(2014, 9, 1, 13, 0, 0),
         lunch_hours=1.,
-        start_coordinates=self.san_francisco_coordinates,
-        end_coordinates=self.san_francisco_coordinates)
+        start_coordinates=self.hotel_coordinates,
+        end_coordinates=self.hotel_coordinates)
     # Stupid test.
     self.assertEqual(day_visit_parameters_9to21.DatelessHashKey(),
                      day_visit_parameters_9to21.DatelessHashKey())

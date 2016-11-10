@@ -14,6 +14,15 @@ class CityVisitAccumulatorInterface(object):
     raise NotImplemented()
 
 
+class CityVisitAccumulatorGeneratorInterface(object):
+  """Abstract class which returns every time new clean instance of
+  CityVisitAccumulatorInterface."""
+
+  def Generate(self):
+    """Generate new clean instance of CityVisitAccumulatorInterface."""
+    raise NotImplemented()
+
+
 class CityVisitAccumulator(CityVisitAccumulatorInterface):
   """Accumulates CityVisit and points left.""" 
 
@@ -36,15 +45,6 @@ class CityVisitAccumulator(CityVisitAccumulatorInterface):
             self.day_visits, self.day_visit_parameterss, self.points_left))
     return (city_visit_points_left.city_visit,
             city_visit_points_left.points_left)
-
-
-class CityVisitAccumulatorGeneratorInterface(object):
-  """Abstract class which returns every time new clean instance of
-  CityVisitAccumulatorInterface."""
-
-  def Generate(self):
-    """Generate new clean instance of CityVisitAccumulatorInterface."""
-    raise NotImplemented()
 
 
 class CityVisitAccumulatorGenerator(CityVisitAccumulatorGeneratorInterface):

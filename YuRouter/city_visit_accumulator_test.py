@@ -5,7 +5,7 @@ from Yusi.YuPoint.city_visit_test_utils import CityVisitTestExample
 from Yusi.YuRouter.cost_accumulator import FactorCostAccumulatorGenerator
 from Yusi.YuRouter.city_visit_points_left import CityVisitPointsLeftGenerator
 from Yusi.YuRouter.city_visit_accumulator import CityVisitAccumulatorGenerator
-from Yusi.YuPoint.city_visit import CityVisit
+from Yusi.YuPoint.city_visit import CityVisit, CityVisitSummary
 
 
 class CityVisitAccumulatorTest(CityVisitTestExample):
@@ -29,7 +29,7 @@ class CityVisitAccumulatorTest(CityVisitTestExample):
     city_visit, points_left = (
         city_visit_accumulator.Result(
             self.city_visit_points_left_generator))
-    self.assertEqual(CityVisit([], 0.), city_visit)
+    self.assertEqual(CityVisit([], CityVisitSummary(0., 0.)), city_visit)
     self.assertEqual([], points_left)
     
   def testTwoDayVisitsTwoPointsLeftSeparateCalls(self):
@@ -43,9 +43,10 @@ class CityVisitAccumulatorTest(CityVisitTestExample):
     city_visit, points_left = (
         city_visit_accumulator.Result(
             self.city_visit_points_left_generator))
-    self.assertEqual(CityVisit([self.day_visit_1, self.day_visit_2],
-                               17.7 + 2 * self.no_point_visit_const),
-                     city_visit)
+    self.assertEqual(
+        CityVisit([self.day_visit_1, self.day_visit_2],
+                  CityVisitSummary(17.7 + 2 * self.no_point_visit_const, 0.)),
+        city_visit)
     self.assertEqual([self.points['Union Square'],
                       self.points['Lombard Street']], points_left)
     
@@ -59,8 +60,9 @@ class CityVisitAccumulatorTest(CityVisitTestExample):
     city_visit, points_left = (
         city_visit_accumulator.Result(
             self.city_visit_points_left_generator))
-    self.assertEqual(CityVisit([self.day_visit_1, self.day_visit_2],
-                               17.7 + 2 * self.no_point_visit_const),
+    self.assertEqual(
+        CityVisit([self.day_visit_1, self.day_visit_2],
+                  CityVisitSummary(17.7 + 2 * self.no_point_visit_const, 0.)),
                      city_visit)
     self.assertEqual([self.points['Union Square'],
                       self.points['Lombard Street']], points_left)

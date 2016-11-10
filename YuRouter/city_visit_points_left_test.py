@@ -3,6 +3,7 @@ import unittest
 from Yusi.YuRouter.city_visit_points_left import CityVisitPointsLeftGenerator
 from Yusi.YuRouter.cost_accumulator import FactorCostAccumulatorGenerator
 from Yusi.YuPoint.city_visit_test_utils import CityVisitTestExample
+from Yusi.YuPoint.city_visit import CityVisitSummary
 
 
 class CityVisitPointsLeftTest(CityVisitTestExample):
@@ -25,7 +26,8 @@ class CityVisitPointsLeftTest(CityVisitTestExample):
         self.city_visit_points_left_generator.Generate(
             [self.day_visit_1, self.day_visit_2],
             [self.day_visit_parameters_1, self.day_visit_parameters_2], []))
-    self.assertEqual(17.7, city_visit_points_left.city_visit.cost)
+    self.assertEqual(CityVisitSummary(17.7, 0.),
+                     city_visit_points_left.city_visit.city_visit_summary)
 
   def testDayVisitsOnePointsLeft(self):
     city_visit_points_left = (
@@ -33,8 +35,8 @@ class CityVisitPointsLeftTest(CityVisitTestExample):
             [self.day_visit_1, self.day_visit_2],
             [self.day_visit_parameters_1, self.day_visit_parameters_2],
             [self.points['Union Square']]))
-    self.assertEqual(17.7 + self.no_point_visit_const,
-                     city_visit_points_left.city_visit.cost)
+    self.assertEqual(CityVisitSummary(17.7 + self.no_point_visit_const, 0.),
+                     city_visit_points_left.city_visit.city_visit_summary)
 
   def testDayVisitsTwoPointsLeft(self):
     city_visit_points_left = (
@@ -42,8 +44,8 @@ class CityVisitPointsLeftTest(CityVisitTestExample):
             [self.day_visit_1, self.day_visit_2],
             [self.day_visit_parameters_1, self.day_visit_parameters_2],
             [self.points['Union Square'], self.points['Lombard Street']]))
-    self.assertEqual(17.7 + 2 * self.no_point_visit_const,
-                     city_visit_points_left.city_visit.cost)
+    self.assertEqual(CityVisitSummary(17.7 + 2 * self.no_point_visit_const, 0.),
+                     city_visit_points_left.city_visit.city_visit_summary)
 
   def testDayVisitsFourPointsLeft(self):
     city_visit_points_left = (
@@ -52,29 +54,30 @@ class CityVisitPointsLeftTest(CityVisitTestExample):
             [self.day_visit_parameters_1, self.day_visit_parameters_2],
             [self.points['Union Square'], self.points['Lombard Street'],
              self.points['Coit Tower'], self.points['Att Park']]))
-    self.assertEqual(17.7 + 4 * self.no_point_visit_const,
-                     city_visit_points_left.city_visit.cost)
+    self.assertEqual(CityVisitSummary(17.7 + 4 * self.no_point_visit_const, 0.),
+                     city_visit_points_left.city_visit.city_visit_summary)
 
   def testNoDayVisitsNoPointsLeft(self):
     city_visit_points_left = (
         self.city_visit_points_left_generator.Generate([], [], []))
-    self.assertEqual(0., city_visit_points_left.city_visit.cost)
+    self.assertEqual(CityVisitSummary(0., 0.),
+                     city_visit_points_left.city_visit.city_visit_summary)
 
   def testNoDayVisitsOnePointsLeft(self):
     city_visit_points_left = (
         self.city_visit_points_left_generator.Generate(
             [], [],
             [self.points['Union Square']]))
-    self.assertEqual(self.no_point_visit_const,
-                     city_visit_points_left.city_visit.cost)
+    self.assertEqual(CityVisitSummary(self.no_point_visit_const, 0.),
+                     city_visit_points_left.city_visit.city_visit_summary)
 
   def testNoDayVisitsTwoPointsLeft(self):
     city_visit_points_left = (
         self.city_visit_points_left_generator.Generate(
             [], [],
             [self.points['Union Square'], self.points['Lombard Street']]))
-    self.assertEqual(2 * self.no_point_visit_const,
-                     city_visit_points_left.city_visit.cost)
+    self.assertEqual(CityVisitSummary(2 * self.no_point_visit_const, 0.),
+                     city_visit_points_left.city_visit.city_visit_summary)
 
   def testNoDayVisitsFourPointsLeft(self):
     city_visit_points_left = (
@@ -82,8 +85,8 @@ class CityVisitPointsLeftTest(CityVisitTestExample):
             [], [],
             [self.points['Union Square'], self.points['Lombard Street'],
              self.points['Coit Tower'], self.points['Att Park']]))
-    self.assertEqual(4 * self.no_point_visit_const,
-                     city_visit_points_left.city_visit.cost)
+    self.assertEqual(CityVisitSummary(4 * self.no_point_visit_const, 0.),
+                     city_visit_points_left.city_visit.city_visit_summary)
     
 
 if __name__ == '__main__':

@@ -297,7 +297,26 @@ class DayVisit(DayVisitInterface):
                       '\n'.join(['%s' % action for action in self.actions]),
                       'Cost: %.2f' % self.cost,
                       'Price: %.2f' % self.price])
-      
+
+
+class CityVisitSummaryInterface(object):
+  """Set of summary information about CityVisit."""
+  pass
+
+
+class CityVisitSummary(CityVisitSummaryInterface):
+  
+  def __init__(self, cost, price):
+    self.cost = cost
+    self.price = price
+
+  def __eq__(self, other):
+    return self.__dict__ == other.__dict__
+
+  def __str__(self):
+    return '\n'.join(['Total cost: %.2f' % self.cost,
+                      'Total price: %.2f' % self.price])
+
 
 class CityVisitInterface(object):
   """Set of day visiting interface."""
@@ -307,15 +326,12 @@ class CityVisitInterface(object):
 class CityVisit(CityVisitInterface):
   """Set of day visiting implementation."""
 
-  def __init__(self, day_visits, cost):
-    self.price = 0
+  def __init__(self, day_visits, city_visit_summary):
     for day_visit in day_visits:
-      isinstance(day_visit, DayVisit)
-      self.price += day_visit.price
-    assert isinstance(cost, float)
-
+      assert isinstance(day_visit, DayVisitInterface)
+    assert isinstance(city_visit_summary, CityVisitSummaryInterface)
     self.day_visits = day_visits
-    self.cost = cost
+    self.city_visit_summary = city_visit_summary
 
   def GetPoints(self):
     return list(itertools.chain.from_iterable(
@@ -326,6 +342,5 @@ class CityVisit(CityVisitInterface):
 
   def __str__(self):
     return '\n'.join(['%s' % day_visit for day_visit in self.day_visits] +
-                     ['Total cost: %.2f' % self.cost,
-                      'Total price: %.2f' % self.price])
+                     ['%s' % self.city_visit_summary])
     

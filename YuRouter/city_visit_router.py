@@ -118,7 +118,8 @@ def _PushPointsToDayVisitsWork(
 class CityVisitRouterInterface(object):
   """Abstract class which routes points during CityVisit."""
   
-  def RouteCityVisit(self, points, day_visit_parameterss):
+  def RouteCityVisit(self, points, day_visit_parameterss,
+                     city_visit_accumulator_generator):
     """Route maximum number of points with minimum cost for CityVisit."""
     raise NotImplemented()
 
@@ -127,9 +128,9 @@ class CityVisitRouter(CityVisitRouterInterface):
   """Routes points during CityVisit using permutation and keeping track of
   best so far."""
 
-  def __init__(self, day_visit_router, city_visit_points_left_generator, points_queue_generator,
-               shard_num_days, max_depth,city_visit_heap_size,
-               max_non_pushed_points, num_processes):
+  def __init__(self, day_visit_router, city_visit_points_left_generator,
+               points_queue_generator, shard_num_days, max_depth,
+               city_visit_heap_size, max_non_pushed_points, num_processes):
     assert isinstance(day_visit_router, DayVisitRouterInterface)
     assert isinstance(city_visit_points_left_generator,
                       CityVisitPointsLeftGenerator)

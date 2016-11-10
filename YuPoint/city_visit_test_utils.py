@@ -4,7 +4,7 @@ import unittest
 
 import Yusi
 from Yusi.YuPoint.city_visit import DayVisitParameters, MoveBetween, StartEndDatetime, PointVisit,\
-  MoveDescription, MoveType, DayVisit, CityVisit
+  MoveDescription, MoveType, DayVisit, CityVisit, CityVisitSummary
 from Yusi.YuPoint.read_csv import ReadCSVToDict
 from Yusi.YuPoint.point import Coordinates
 
@@ -100,6 +100,9 @@ class CityVisitTestExample(unittest.TestCase):
         self.golden_gate_bridge_point_visit,
         self.from_golden_gate_bridge_to_hotel_move], 10.)
     
-    self.city_visit = CityVisit([self.day_visit_1, self.day_visit_2], 20.)
+    self.city_visit_summary = CityVisitSummary(20., 0.)
+    self.city_visit = (
+        CityVisit([self.day_visit_1, self.day_visit_2],
+                  self.city_visit_summary))
     
     super(CityVisitTestExample, self).setUp()

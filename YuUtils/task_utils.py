@@ -19,7 +19,7 @@ class TaskWorkerInterface(object):
 
 
 class TaskWorkerGeneratorInterface(object):
-  """Abstract class which generates tasks.""" 
+  """Abstract class which generates TaskWorkerInterface objects.""" 
 
   def Generate(self, worker_conn):
     raise NotImplemented()
@@ -44,40 +44,40 @@ class TaskManager(object):
   def Start(self, *args, **kwargs):
     manager_conn, worker_conn = Pipe(duplex=False)
     task_worker = self.task_worker_generator.Generate(worker_conn)
-    worker_process_id = uuid.uuid1()
+    task_id = uuid.uuid1()
     worker_process = Process(target=task_worker.Start, args=args, kwargs=kwargs)
     worker_process.start()
-    self.worker_process_dict[worker_process_id] = (
+    self.worker_process_dict[task_id] = (
         TaskWorkerContext(worker_process, manager_conn, datetime.now()))
-    return worker_process_id
+    return task_id
 
   @Synchronized()
-  def Read(self, worker_process_id):
-    worker_context = self.worker_process_dict.get(worker_process_id)
+  def Read(self, task_id):
+    worker_context = self.worker_process_dict.get(task_id)
     if not worker_context:
       raise AssertionError(
           'No task with id %s. It might have been completed or expired.' %
-          worker_process_id)
+          task_id)
     while worker_context.manager_conn.poll():
       res, done = worker_context.manager_conn.recv()
       yield res
       if done:
         worker_context.process.join()
-        del self.worker_process_dict[worker_process_id]
+        del self.worker_process_dict[task_id]
         return
-    self.worker_process_dict[worker_process_id] = (
+    self.worker_process_dict[task_id] = (
         TaskWorkerContext(worker_context.process, worker_context.manager_conn,
                           datetime.now()))
 
   @Synchronized()
   def _CleanUp(self, start_over=True):
-    worker_process_id_list = list(self.worker_process_dict.iterkeys()) 
-    for worker_process_id in worker_process_id_list:
-      worker_context = self.worker_process_dict[worker_process_id]
+    task_id_list = list(self.worker_process_dict.iterkeys()) 
+    for task_id in task_id_list:
+      worker_context = self.worker_process_dict[task_id]
       if ((datetime.now() - worker_context.last_read).total_seconds() >
           self.idle_seconds_terminate):
         worker_context.process.terminate()
-        del self.worker_process_dict[worker_process_id]
+        del self.worker_process_dict[task_id]
     if start_over:
       self.timer = Timer(self.idle_seconds_terminate,
                          WeakBoundMethod(self, TaskManager._CleanUp))

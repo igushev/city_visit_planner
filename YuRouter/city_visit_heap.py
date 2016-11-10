@@ -25,8 +25,8 @@ class CityVisitHeap(object):
     if add_hash_key in self.cvpls:
       # If new one is more expensive than existing,
       # just return False and don't reset invariant.
-      if (add_city_visit_points_left.city_visit.cost >=
-          self.cvpls[add_hash_key].city_visit.cost):
+      if (add_city_visit_points_left.city_visit.city_visit_summary.cost >=
+          self.cvpls[add_hash_key].city_visit.city_visit_summary.cost):
         return False
       # Else remove information about old one.
       else:
@@ -40,7 +40,7 @@ class CityVisitHeap(object):
     # Sort by cost and take first max_count.
     self.cvpls_sorted = (
         sorted(self.cvpls.values(),
-               key=lambda cvpl: cvpl.city_visit.cost)
+               key=lambda cvpl: cvpl.city_visit.city_visit_summary.cost)
         [:self.max_count])
     # Recompute hashes and indices.
     self.cvpls = {

@@ -9,7 +9,8 @@ from Yusi.YuPoint.database_connection import DatabaseConnectionInterface
 class CityVisitFinderInterface(object):
   """Abstract class which finds CityVisit."""
 
-  def FindCityVisit(self, city_visit_parameters):
+  def FindCityVisit(self, city_visit_parameters,
+                    city_visit_accumulator_generator):
     """Find CityVisit with appropriate points by given city_visit_parameters."""
     raise NotImplemented()
 

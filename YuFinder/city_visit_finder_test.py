@@ -3,16 +3,19 @@ from Yusi.YuFinder.city_visit_finder import CityVisitFinder
 from Yusi.YuRanker.points_ranker import PointsRankerInterface
 from Yusi.YuRouter.city_visit_router import CityVisitRouterInterface
 from Yusi.YuPoint.city_visit import DayVisitParametersInterface,\
-  CityVisitParameters, CityVisitInterface
+  CityVisitParameters, CityVisitInterface, VisitLocationInterface
 from Yusi.YuPoint.point import PointTypeInterface, AgeGroupInterface,\
   PointInterface
-from Yusi.YuRanker.test_utils import MockVisitLocation
 from Yusi.YuPoint.database_connection import DatabaseConnectionInterface
 from Yusi.YuRouter.city_visit_accumulator import CityVisitAccumulatorGeneratorInterface
 
 
 class MockCityVisitAccumulatorGenerator(CityVisitAccumulatorGeneratorInterface):
   pass
+
+
+class MockVisitLocation(VisitLocationInterface):
+  pass 
 
 
 class MockDayVisitParameters(DayVisitParametersInterface):

@@ -20,7 +20,7 @@ class PrototypeParameters(object):
     driving_speed = 20.  # Speed of car in traffic jams in mph.
     # 10 minutes to find and than park a car and 10 minutes to find a parking
     # spot when arrived. 
-    pause_before_driving = 0.30
+    pause_before_driving = 0.3
     
     ptt_speed = 15.  # Speed of Public Transportation or Taxi in mph.
     # 15 minutes to buy a ticket and wait in case of public transportation or
@@ -93,9 +93,10 @@ class PrototypeParameters(object):
         point_fit=point_fit,
         cost_accumulator_generator=cost_accumulator_generator)
 
-#     day_visit_const_calculator_generator = MultiDayVisitCostCalculatorGenerator(
-#         [driving_day_visit_const_calculator_generator,
-#          ptt_day_visit_const_calculator_generator])
+#     day_visit_const_calculator_generator = (
+#         MultiDayVisitCostCalculatorGenerator(
+#             [driving_day_visit_const_calculator_generator,
+#              ptt_day_visit_const_calculator_generator])
 
     day_visit_heap_size = 1000
 

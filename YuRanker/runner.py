@@ -1,12 +1,10 @@
 import datetime
 import os
 
+import Yusi
 from Yusi.YuPoint.city_visit import CityVisitParameters
 from Yusi.YuPoint.point import PointType, AgeGroup
-from Yusi.YuRanker.age_group_rank_adjuster import AgeGroupRankAdjuster
-from Yusi.YuRanker.point_type_rank_adjuster import PointTypeRankAdjuster
-from Yusi.YuRanker.points_ranker import PointsRanker
-from Yusi.YuRanker.popularity_rank_adjuster import PopularityRankAdjuster
+from Yusi.YuConfig.config import GetConfig, GetPointsRanker
 
 
 def GetCityVisitParameters(visit_location, day_visit_parameterss):
@@ -35,11 +33,10 @@ def GetCityVisitParameters(visit_location, day_visit_parameterss):
 class PointsRankerRunner(object):
   
   def __init__(self):
-    rank_adjusters = [PopularityRankAdjuster(),
-                      PointTypeRankAdjuster(),
-                      AgeGroupRankAdjuster()]
-    
-    self.points_ranker = PointsRanker(rank_adjusters)
+    config = (
+        GetConfig(os.path.join(
+            Yusi.GetYusiDir(), 'YuConfig', 'prototype.config')))
+    self.points_ranker = GetPointsRanker(config)
     
   def Run(self, points_input, city_visit_parameters):
     start = datetime.datetime.now()

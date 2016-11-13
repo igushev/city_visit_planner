@@ -7,8 +7,7 @@ from Yusi.YuPoint.test_utils import MockDatabaseConnection
 
 
 def main():
-  database_connection = MockDatabaseConnection()
-  city_visit_finder_runner = CityVisitFinderRunner(database_connection)
+  city_visit_finder_runner = CityVisitFinderRunner()
 
   visit_location = VisitLocation('New York City')
   # 746 Ninth Ave, New York, NY 10019.

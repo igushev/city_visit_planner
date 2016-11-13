@@ -3,12 +3,10 @@ from Yusi.YuPoint.point import Coordinates
 from Yusi.YuRanker.runner import GetCityVisitParameters
 from Yusi.YuRouter.runner import GetDayVisitParameterss
 from Yusi.YuPoint.city_visit import VisitLocation
-from Yusi.YuPoint.test_utils import MockDatabaseConnection
 
 
 def main():
   city_visit_finder_runner = CityVisitFinderRunner()
-
   visit_location = VisitLocation('New York City')
   # 746 Ninth Ave, New York, NY 10019.
   start_end_coordinates = Coordinates(40.763582, -73.988470)

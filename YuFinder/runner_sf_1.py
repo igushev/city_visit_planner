@@ -2,7 +2,6 @@ from Yusi.YuFinder.runner import CityVisitFinderRunner
 from Yusi.YuRanker.runner import GetCityVisitParameters
 from Yusi.YuRouter.runner import GetDayVisitParameterss
 from Yusi.YuPoint.city_visit import VisitLocation
-from Yusi.YuPoint.test_utils import MockDatabaseConnection
 
 
 def main():

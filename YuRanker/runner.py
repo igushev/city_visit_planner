@@ -35,7 +35,7 @@ class PointsRankerRunner(object):
   def __init__(self):
     config = (
         GetConfig(os.path.join(
-            Yusi.GetYusiDir(), 'YuConfig', 'prototype.config')))
+            Yusi.GetYusiDir(), 'YuConfig', 'runner.config')))
     self.points_ranker = GetPointsRanker(config)
     
   def Run(self, points_input, city_visit_parameters):

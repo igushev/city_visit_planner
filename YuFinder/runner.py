@@ -3,7 +3,7 @@ import os
 
 import Yusi
 from Yusi.YuConfig.config import GetConfig, GetCityVisitFinder,\
-  GetCityVisitAccumulatorGenerator
+  GetCityVisitAccumulatorGenerator, GetDatabaseConnection
 
 
 class CityVisitFinderRunner(object):
@@ -11,8 +11,9 @@ class CityVisitFinderRunner(object):
   def __init__(self):
     config = (
         GetConfig(os.path.join(
-            Yusi.GetYusiDir(), 'YuConfig', 'prototype.config')))
-    self.city_visit_finder = GetCityVisitFinder(config)
+            Yusi.GetYusiDir(), 'YuConfig', 'runner.config')))
+    database_connection = GetDatabaseConnection(config)
+    self.city_visit_finder = GetCityVisitFinder(config, database_connection)
     self.city_visit_accumulator_generator = (
         GetCityVisitAccumulatorGenerator(config))
 

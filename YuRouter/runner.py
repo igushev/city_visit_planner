@@ -25,7 +25,7 @@ class CityVisitRouterRunner(object):
   def __init__(self):
     config = (
         GetConfig(os.path.join(
-            Yusi.GetYusiDir(), 'YuConfig', 'prototype.config')))
+            Yusi.GetYusiDir(), 'YuConfig', 'runner.config')))
     self.city_visit_router = GetCityVisitRouter(config)
     self.city_visit_accumulator_generator = (
         GetCityVisitAccumulatorGenerator(config))

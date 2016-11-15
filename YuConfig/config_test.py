@@ -151,11 +151,11 @@ class ConfigTest(unittest.TestCase):
     self.assertIsNotNone(self._SetAndGetCityVisitRouter())
 
   def _SetAndGetCityVisitFinder(self):
-    self._SetAndGetDatabaseConnection()
+    database_connection = self._SetAndGetDatabaseConnection()
     self._SetAndGetPointsRanker()
     self._SetAndGetCityVisitRouter()
     
-    city_visit_finder = GetCityVisitFinder(self.config)
+    city_visit_finder = GetCityVisitFinder(self.config, database_connection)
     return city_visit_finder
 
   def testGetCityVisitFinder(self):

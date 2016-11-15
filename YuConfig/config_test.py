@@ -2,7 +2,8 @@ import unittest
 from Yusi.YuConfig.config import GetDatabaseConnection, GetConfig,\
   GetPointsRanker, GetPointFit, GetCostAccumulatorGenerator,\
   GetDayVisitCostCalculatorGenerator, GetPointsQueueGenerator,\
-  GetCityVisitRouter, GetCityVisitFinder, GetCityVisitAccumulatorGenerator
+  GetCityVisitRouter, GetCityVisitFinder, GetCityVisitAccumulatorGenerator,\
+  GetCorsOrigin, GetServerPort
 from Yusi.YuRouter.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
 from Yusi.YuRouter.multi_day_visit_cost_calculator import MultiDayVisitCostCalculatorGenerator
 
@@ -169,6 +170,31 @@ class ConfigTest(unittest.TestCase):
   def testGetCityVisitAccumulatorGenerator(self):
     self.assertIsNotNone(self._SetAndGetCityVisitAccumulatorGenerator())
 
+  def _SetAndGetCorsOrigin(self):
+    cors_section = 'cors'
+    self.config.add_section(cors_section)
+    self.config.set(cors_section, 'origin', 'test_origin')
+
+    cors_origin = GetCorsOrigin(self.config)
+    return cors_origin
+
+  def testGetCorsOrigin(self):
+    cors_origin = self._SetAndGetCorsOrigin()
+    self.assertEqual('test_origin', cors_origin)
+
+  def _SetAndGetServerPort(self):
+    server_section = 'server'
+    self.config.add_section(server_section)
+    self.config.set(server_section, 'port', '2143')
+    self.config.set(server_section, 'host', '0.0.0.0')
+
+    server_port, server_host = GetServerPort(self.config)
+    return server_port, server_host
+
+  def testGetServerPort(self):
+    server_port, server_host = self._SetAndGetServerPort()
+    self.assertEqual(2143, server_port)
+    self.assertEqual('0.0.0.0', server_host)
 
 
 if __name__ == '__main__':

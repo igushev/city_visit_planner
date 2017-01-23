@@ -140,9 +140,9 @@ class CityVisitFinderTaskWorkerTest(unittest.TestCase):
             points_left,
             city_visit_points_left_generator))
 
-    city_visit_finder_task_worker_general = (
+    city_visit_finder_task_worker_generator = (
         CityVisitFinderTaskWorkerGenerator(city_visit_finder))
-    task_manager = TaskManager(city_visit_finder_task_worker_general, 1.0)
+    task_manager = TaskManager(city_visit_finder_task_worker_generator, 1.0)
     
     task_id = task_manager.Start(city_visit_parameters)
     

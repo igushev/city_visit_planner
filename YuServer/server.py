@@ -1,6 +1,7 @@
 from Yusi.base_util import json_util
+from Yusi.YuUtils import task_util
+
 from Yusi.YuServer.city_visit_finder_task import CityVisitFinderTaskWorkerGenerator
-from Yusi.YuUtils.task_utils import TaskManager
 from Yusi.YuPoint.city_visit import CityVisitParameters
 
 
@@ -25,7 +26,7 @@ class Server(object):
     city_visit_finder_task_worker_generator = (
         CityVisitFinderTaskWorkerGenerator(self.city_visit_finder))
     self.task_manager = (
-        TaskManager(city_visit_finder_task_worker_generator,
+        task_util.TaskManager(city_visit_finder_task_worker_generator,
                     idle_seconds_terminate))
 
   def Start(self, city_visit_parameters_simple):

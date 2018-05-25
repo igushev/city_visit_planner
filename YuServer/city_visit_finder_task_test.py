@@ -1,12 +1,13 @@
 import time
 import unittest
 
+from Yusi.YuUtils import task_util
+
 from Yusi.YuFinder.city_visit_finder import CityVisitFinderInterface
 from Yusi.YuRouter.city_visit_points_left import CityVisitPointsLeftGeneratorInterface,\
   CityVisitPointsLeft
 from Yusi.YuPoint.city_visit import CityVisit, DayVisitParametersInterface,\
   CityVisitParametersInterface, DayVisitInterface, CityVisitSummaryInterface
-from Yusi.YuUtils.task_utils import TaskManager
 from Yusi.YuServer.city_visit_finder_task import CityVisitFinderTaskWorkerGenerator
 from Yusi.YuPoint.point import PointInterface
 
@@ -142,7 +143,7 @@ class CityVisitFinderTaskWorkerTest(unittest.TestCase):
 
     city_visit_finder_task_worker_generator = (
         CityVisitFinderTaskWorkerGenerator(city_visit_finder))
-    task_manager = TaskManager(city_visit_finder_task_worker_generator, 1.0)
+    task_manager = task_util.TaskManager(city_visit_finder_task_worker_generator, 1.0)
     
     task_id = task_manager.Start(city_visit_parameters)
     

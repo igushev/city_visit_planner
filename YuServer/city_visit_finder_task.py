@@ -1,5 +1,5 @@
-from Yusi.YuUtils.task_utils import TaskWorkerGeneratorInterface,\
-  TaskWorkerInterface
+from Yusi.YuUtils import task_util
+
 from Yusi.YuRouter.city_visit_accumulator import CityVisitAccumulatorInterface,\
   CityVisitAccumulatorGeneratorInterface
 
@@ -42,7 +42,7 @@ class CityVisitAccumulatorConnGenerator(CityVisitAccumulatorGeneratorInterface):
     return CityVisitAccumulatorConn(self.worker_conn)
 
 
-class CityVisitFinderTaskWorker(TaskWorkerInterface):
+class CityVisitFinderTaskWorker(task_util.TaskWorkerInterface):
   """Class which executes a CityVisitFinder task.""" 
 
   def __init__(self, city_visit_finder, worker_conn):
@@ -56,7 +56,7 @@ class CityVisitFinderTaskWorker(TaskWorkerInterface):
         city_visit_parameters, city_visit_accumulator_generator)
 
 
-class CityVisitFinderTaskWorkerGenerator(TaskWorkerGeneratorInterface):
+class CityVisitFinderTaskWorkerGenerator(task_util.TaskWorkerGeneratorInterface):
   """Class which generates CityVisitFinderTaskWorker objects.""" 
 
   def __init__(self, city_visit_finder):

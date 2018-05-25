@@ -1,8 +1,8 @@
 import sys
 import unittest
-from threading import Lock
+import threading
 
-from Yusi.YuUtils.misc_utils import WeakBoundMethod, Synchronized
+from Yusi.YuUtils import misc_util
 
 
 class Spam(object):
@@ -34,7 +34,7 @@ class WeakBoundMethodUtilsTest(unittest.TestCase):
     self.assertEqual(3, sys.getrefcount(spam))
     self.assertEqual(5, spam_method(3, b=2))
     # Create a weak bound method.
-    spam_method_weak = WeakBoundMethod(spam, Spam.Method)
+    spam_method_weak = misc_util.WeakBoundMethod(spam, Spam.Method)
     self.assertEqual(1, Spam.spam_count)
     self.assertEqual(3, sys.getrefcount(spam))
     self.assertEqual(7, spam_method_weak(4, b=3))
@@ -51,10 +51,10 @@ class WeakBoundMethodUtilsTest(unittest.TestCase):
 class Ham(object):
   
   def __init__(self, test_case):
-    self.test_lock = Lock()
+    self.test_lock = threading.Lock()
     self.test_case = test_case
   
-  @Synchronized('test_lock')
+  @misc_util.Synchronized('test_lock')
   def Method1(self):
     self.test_case.assertTrue(self.test_lock.locked())
 

@@ -1,14 +1,14 @@
 import time
 import unittest
-from Yusi.YuUtils.task_utils import TaskWorkerGeneratorInterface, TaskManager,\
-  TaskWorkerInterface
+
+from Yusi.YuUtils import task_util
 
 
 def Sqr(num):
   return num*num
 
 
-class SqrTaskWorker(TaskWorkerInterface):
+class SqrTaskWorker(task_util.TaskWorkerInterface):
   
   def __init__(self, worker_conn):
     self.worker_conn = worker_conn
@@ -19,7 +19,7 @@ class SqrTaskWorker(TaskWorkerInterface):
       self.worker_conn.send((Sqr(num), i == len(num_list)-1))
 
     
-class SqrTaskWorkerGenerator(TaskWorkerGeneratorInterface):
+class SqrTaskWorkerGenerator(task_util.TaskWorkerGeneratorInterface):
 
   def Generate(self, worker_conn):
     return SqrTaskWorker(worker_conn)
@@ -29,7 +29,7 @@ class TaskUtilsTest(unittest.TestCase):
   
   def testGeneral(self):
     sqr_task_worker_general = SqrTaskWorkerGenerator() 
-    task_manager = TaskManager(sqr_task_worker_general, 1.0)
+    task_manager = task_util.TaskManager(sqr_task_worker_general, 1.0)
     
     input_1 = list(range(0, 11, 2))
     results_1 = [Sqr(num) for num in input_1]
@@ -77,7 +77,7 @@ class TaskUtilsTest(unittest.TestCase):
 
   def testCleanUp(self):
     sqr_task_worker_general = SqrTaskWorkerGenerator() 
-    task_manager = TaskManager(sqr_task_worker_general, 0.5)
+    task_manager = task_util.TaskManager(sqr_task_worker_general, 0.5)
     
     input_1 = list(range(0, 3, 2))
     input_2 = list(range(1, 4, 2))

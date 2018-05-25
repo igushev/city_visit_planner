@@ -1,10 +1,10 @@
 from collections import namedtuple
 from datetime import datetime 
-from multiprocessing import Process, Pipe
-from threading import Lock, Timer
+import multiprocessing
+import threading
 import uuid
 
-from Yusi.YuUtils.misc_utils import WeakBoundMethod, Synchronized
+from Yusi.YuUtils import misc_util
 
 
 TaskWorkerContext = namedtuple(
@@ -31,27 +31,26 @@ class TaskManager(object):
     self.task_worker_generator = task_worker_generator
     self.idle_seconds_terminate = idle_seconds_terminate
     self.worker_process_dict = {}
-    self.timer = Timer(self.idle_seconds_terminate,
-                       WeakBoundMethod(self, TaskManager._CleanUp))
+    self.timer = threading.Timer(self.idle_seconds_terminate, misc_util.WeakBoundMethod(self, TaskManager._CleanUp))
     self.timer.start()
-    self.lock = Lock()
+    self.lock = threading.Lock()
   
   def __del__(self):
     self.timer.cancel()
     self._CleanUp(start_over=False)
   
-  @Synchronized()
+  @misc_util.Synchronized()
   def Start(self, *args, **kwargs):
-    manager_conn, worker_conn = Pipe(duplex=False)
+    manager_conn, worker_conn = multiprocessing.Pipe(duplex=False)
     task_worker = self.task_worker_generator.Generate(worker_conn)
     task_id = uuid.uuid1()
-    worker_process = Process(target=task_worker.Start, args=args, kwargs=kwargs)
+    worker_process = multiprocessing.Process(target=task_worker.Start, args=args, kwargs=kwargs)
     worker_process.start()
     self.worker_process_dict[task_id] = (
         TaskWorkerContext(worker_process, manager_conn, datetime.now()))
     return task_id
 
-  @Synchronized()
+  @misc_util.Synchronized()
   def Read(self, task_id):
     worker_context = self.worker_process_dict.get(task_id)
     if not worker_context:
@@ -69,7 +68,7 @@ class TaskManager(object):
         TaskWorkerContext(worker_context.process, worker_context.manager_conn,
                           datetime.now()))
 
-  @Synchronized()
+  @misc_util.Synchronized()
   def _CleanUp(self, start_over=True):
     task_id_list = list(self.worker_process_dict.keys()) 
     for task_id in task_id_list:
@@ -79,6 +78,5 @@ class TaskManager(object):
         worker_context.process.terminate()
         del self.worker_process_dict[task_id]
     if start_over:
-      self.timer = Timer(self.idle_seconds_terminate,
-                         WeakBoundMethod(self, TaskManager._CleanUp))
+      self.timer = threading.Timer(self.idle_seconds_terminate, misc_util.WeakBoundMethod(self, TaskManager._CleanUp))
       self.timer.start()

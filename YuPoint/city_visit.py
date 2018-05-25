@@ -3,13 +3,13 @@ import hashlib
 import itertools
 
 import Yusi
+from Yusi.base_util import data_util
+from Yusi.base_util import json_util
 from Yusi.YuPoint.point import Point, CoordinatesInterface, PointTypeInterface,\
   AgeGroupInterface, PointType, AgeGroup, Coordinates
-from Yusi.YuUtils.hash_utils import HashKey
-from Yusi.YuUtils import json_utils
 
 
-class StartEndDatetimeInterface(object):
+class StartEndDatetimeInterface(data_util.AbstractObject):
   """Start and end time interface."""
 
   def Fit(self, time):
@@ -17,9 +17,9 @@ class StartEndDatetimeInterface(object):
     raise NotImplemented()
 
 
-@json_utils.JSONDecorator(
-    {'start': json_utils.JSONDateTime(),
-     'end': json_utils.JSONDateTime()})
+@json_util.JSONDecorator(
+    {'start': json_util.JSONDateTime(),
+     'end': json_util.JSONDateTime()})
 class StartEndDatetime(StartEndDatetimeInterface):
   """Start and end time implementation."""
 
@@ -36,28 +36,25 @@ class StartEndDatetime(StartEndDatetimeInterface):
 
   def DatelessHashKey(self):
     m = hashlib.md5()
-    m.update(HashKey(self.start.time()).encode('utf-8'))
-    m.update(HashKey(self.end.time()).encode('utf-8'))
+    m.update(data_util.HashKey(self.start.time()).encode('utf-8'))
+    m.update(data_util.HashKey(self.end.time()).encode('utf-8'))
     return m.hexdigest()    
-  
-  def __eq__(self, other):
-    return self.__dict__ == other.__dict__
 
   def __str__(self):
     return 'from %s to %s' % (self.start.time(), self.end.time())
 
 
-class DayVisitParametersInterface(object):
+class DayVisitParametersInterface(data_util.AbstractObject):
   """Set of users parameter for a particular day interface."""
   pass
 
 
-@json_utils.JSONDecorator(
-    {'start_datetime': json_utils.JSONDateTime(),
-     'end_datetime': json_utils.JSONDateTime(),
-     'lunch_start_datetime': json_utils.JSONDateTime(),
-     'start_coordinates': json_utils.JSONObject(Coordinates),
-     'end_coordinates': json_utils.JSONObject(Coordinates)})
+@json_util.JSONDecorator(
+    {'start_datetime': json_util.JSONDateTime(),
+     'end_datetime': json_util.JSONDateTime(),
+     'lunch_start_datetime': json_util.JSONDateTime(),
+     'start_coordinates': json_util.JSONObject(Coordinates),
+     'end_coordinates': json_util.JSONObject(Coordinates)})
 class DayVisitParameters(DayVisitParametersInterface):
   """Set of users parameter for a particular day implementation."""
 
@@ -81,45 +78,39 @@ class DayVisitParameters(DayVisitParametersInterface):
 
   def DatelessHashKey(self):
     m = hashlib.md5()
-    m.update(HashKey(self.start_datetime.time()).encode('utf-8'))
-    m.update(HashKey(self.end_datetime.time()).encode('utf-8'))
-    m.update(HashKey(self.lunch_start_datetime.time()).encode('utf-8'))
-    m.update(HashKey(self.lunch_hours).encode('utf-8'))
-    m.update(HashKey(self.start_coordinates).encode('utf-8'))
-    m.update(HashKey(self.end_coordinates).encode('utf-8'))
+    m.update(data_util.HashKey(self.start_datetime.time()).encode('utf-8'))
+    m.update(data_util.HashKey(self.end_datetime.time()).encode('utf-8'))
+    m.update(data_util.HashKey(self.lunch_start_datetime.time()).encode('utf-8'))
+    m.update(data_util.HashKey(self.lunch_hours).encode('utf-8'))
+    m.update(data_util.HashKey(self.start_coordinates).encode('utf-8'))
+    m.update(data_util.HashKey(self.end_coordinates).encode('utf-8'))
     return m.hexdigest()    
 
-  def __eq__(self, other):
-    return self.__dict__ == other.__dict__
 
-
-class VisitLocationInterface(object):
+class VisitLocationInterface(data_util.AbstractObject):
   """Set of users parameter for visit location interface."""
   pass
 
 
-@json_utils.JSONDecorator()
+@json_util.JSONDecorator()
 class VisitLocation(VisitLocationInterface):
   """Set of users parameter for visit location implementation."""
   
   def __init__(self, city_name):
     self.city_name = city_name
 
-  def __eq__(self, other):
-    return self.__dict__ == other.__dict__
 
-
-class CityVisitParametersInterface(object):
+class CityVisitParametersInterface(data_util.AbstractObject):
   """Set of users parameter for city visit interface."""
   pass
 
 
-@json_utils.JSONDecorator(
-    {'visit_location': json_utils.JSONObject(VisitLocation),
+@json_util.JSONDecorator(
+    {'visit_location': json_util.JSONObject(VisitLocation),
      'day_visit_parameterss':
-     json_utils.JSONList(json_utils.JSONObject(DayVisitParameters)),
-     'point_type': json_utils.JSONObject(PointType),
-     'age_group': json_utils.JSONObject(AgeGroup)})
+     json_util.JSONList(json_util.JSONObject(DayVisitParameters)),
+     'point_type': json_util.JSONObject(PointType),
+     'age_group': json_util.JSONObject(AgeGroup)})
 class CityVisitParameters(CityVisitParametersInterface):
   """Set of users parameter for city visit implementation."""
 
@@ -136,14 +127,11 @@ class CityVisitParameters(CityVisitParametersInterface):
     self.point_type = point_type
     self.age_group = age_group
 
-  def __eq__(self, other):
-    return self.__dict__ == other.__dict__
 
-
-@json_utils.JSONDecorator(
-    {'start_end_datetime': json_utils.JSONObject(StartEndDatetime)},
+@json_util.JSONDecorator(
+    {'start_end_datetime': json_util.JSONObject(StartEndDatetime)},
     inherited=True)
-class ActionInterface(object):
+class ActionInterface(data_util.AbstractObject):
   """Abstract interface for an action (visit a point, etc.) of a user."""
   
   def __init__(self, start_end_datetime):
@@ -155,15 +143,12 @@ class ActionInterface(object):
     m.update(self.start_end_datetime.DatelessHashKey().encode('utf-8'))
     return m.hexdigest()
 
-  def __eq__(self, other):
-    return self.__dict__ == other.__dict__
-
   def __str__(self):
     raise NotImplemented()
 
 
-@json_utils.JSONDecorator({
-    'point': json_utils.JSONObject(Point)})
+@json_util.JSONDecorator({
+    'point': json_util.JSONObject(Point)})
 class PointVisit(ActionInterface):
   """Visiting a point by a user."""
 
@@ -178,7 +163,7 @@ class PointVisit(ActionInterface):
   def DatelessHashKey(self):
     m = hashlib.md5()
     m.update(super(PointVisit, self).DatelessHashKey().encode('utf-8'))
-    m.update(HashKey(self.point).encode('utf-8'))
+    m.update(data_util.HashKey(self.point).encode('utf-8'))
     return m.hexdigest()    
 
   def __str__(self):
@@ -192,11 +177,11 @@ class MoveType(object):
   ptt = 3
   
 
-@json_utils.JSONDecorator(
-    {'from_coordinates': json_utils.JSONObject(Coordinates),
-     'to_coordinates': json_utils.JSONObject(Coordinates),
-     'move_type': json_utils.JSONInt()})
-class MoveDescription(object):
+@json_util.JSONDecorator(
+    {'from_coordinates': json_util.JSONObject(Coordinates),
+     'to_coordinates': json_util.JSONObject(Coordinates),
+     'move_type': json_util.JSONInt()})
+class MoveDescription(data_util.AbstractObject):
   """Moving description."""
   
   def __init__(self, from_coordinates, to_coordinates, move_hours, move_type):
@@ -211,8 +196,8 @@ class MoveDescription(object):
     self.move_type = move_type
 
 
-@json_utils.JSONDecorator({
-    'move_description': json_utils.JSONObject(MoveDescription)})
+@json_util.JSONDecorator({
+    'move_description': json_util.JSONObject(MoveDescription)})
 class MoveBetween(ActionInterface):
   """Moving between points by a user."""
 
@@ -227,7 +212,7 @@ class MoveBetween(ActionInterface):
   def DatelessHashKey(self):
     m = hashlib.md5()
     m.update(super(MoveBetween, self).DatelessHashKey().encode('utf-8'))
-    m.update(HashKey(self.move_description).encode('utf-8'))
+    m.update(data_util.HashKey(self.move_description).encode('utf-8'))
     return m.hexdigest()    
 
   def __str__(self):
@@ -245,7 +230,7 @@ class MoveBetween(ActionInterface):
         self.move_description.to_coordinates, self.start_end_datetime)
 
 
-@json_utils.JSONDecorator()
+@json_util.JSONDecorator()
 class Lunch(ActionInterface):
   """Having lunch during the day."""
 
@@ -260,14 +245,14 @@ class Lunch(ActionInterface):
   def DatelessHashKey(self):
     m = hashlib.md5()
     m.update(super(Lunch, self).DatelessHashKey().encode('utf-8'))
-    m.update(HashKey(self.lunch_hours).encode('utf-8'))
+    m.update(data_util.HashKey(self.lunch_hours).encode('utf-8'))
     return m.hexdigest()    
 
   def __str__(self):
     return 'Having lunch %s' % self.start_end_datetime
 
 
-class DayVisitInterface(object):
+class DayVisitInterface(data_util.AbstractObject):
   """Set of visiting points and moving between points in particular day
   interface."""
 
@@ -276,9 +261,9 @@ class DayVisitInterface(object):
     raise NotImplemented()
 
 
-@json_utils.JSONDecorator(
-    {'start_datetime': json_utils.JSONDateTime(),
-     'actions': json_utils.JSONList(json_utils.JSONObject(ActionInterface))})
+@json_util.JSONDecorator(
+    {'start_datetime': json_util.JSONDateTime(),
+     'actions': json_util.JSONList(json_util.JSONObject(ActionInterface))})
 class DayVisit(DayVisitInterface):
   """Set of visiting points and moving between points in particular day
   implementation."""
@@ -311,18 +296,15 @@ class DayVisit(DayVisitInterface):
 
   def DatelessHashKey(self):
     m = hashlib.md5()
-    m.update(HashKey(self.start_datetime.time()).encode('utf-8'))
+    m.update(data_util.HashKey(self.start_datetime.time()).encode('utf-8'))
     for action in self.actions:
       m.update(action.DatelessHashKey().encode('utf-8'))
-    m.update(HashKey(self.cost).encode('utf-8'))
+    m.update(data_util.HashKey(self.cost).encode('utf-8'))
     return m.hexdigest()
 
   def GetPoints(self):
     return [action.point for action in self.actions
             if isinstance(action, PointVisit)]
-
-  def __eq__(self, other):
-    return self.__dict__ == other.__dict__
 
   def __str__(self):
     return '\n'.join(['Date: %s' % self.start_datetime.date(),
@@ -331,34 +313,31 @@ class DayVisit(DayVisitInterface):
                       'Price: %.2f' % self.price])
 
 
-class CityVisitSummaryInterface(object):
+class CityVisitSummaryInterface(data_util.AbstractObject):
   """Set of summary information about CityVisit."""
   pass
 
 
-@json_utils.JSONDecorator()
+@json_util.JSONDecorator()
 class CityVisitSummary(CityVisitSummaryInterface):
   
   def __init__(self, cost, price):
     self.cost = cost
     self.price = price
 
-  def __eq__(self, other):
-    return self.__dict__ == other.__dict__
-
   def __str__(self):
     return '\n'.join(['Total cost: %.2f' % self.cost,
                       'Total price: %.2f' % self.price])
 
 
-class CityVisitInterface(object):
+class CityVisitInterface(data_util.AbstractObject):
   """Set of day visiting interface."""
   pass
 
 
-@json_utils.JSONDecorator(
-    {'day_visits': json_utils.JSONList(json_utils.JSONObject(DayVisit)),
-     'city_visit_summary': json_utils.JSONObject(CityVisitSummary)})
+@json_util.JSONDecorator(
+    {'day_visits': json_util.JSONList(json_util.JSONObject(DayVisit)),
+     'city_visit_summary': json_util.JSONObject(CityVisitSummary)})
 class CityVisit(CityVisitInterface):
   """Set of day visiting implementation."""
 
@@ -372,9 +351,6 @@ class CityVisit(CityVisitInterface):
   def GetPoints(self):
     return list(itertools.chain.from_iterable(
         day_visit.GetPoints() for day_visit in self.day_visits))
-
-  def __eq__(self, other):
-    return self.__dict__ == other.__dict__
 
   def __str__(self):
     return '\n'.join(['%s' % day_visit for day_visit in self.day_visits] +

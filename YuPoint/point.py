@@ -1,18 +1,18 @@
 import copy
 import datetime
 
-from Yusi.YuUtils import json_utils
-from Yusi.YuUtils import hash_utils
+from Yusi.base_util import data_util
+from Yusi.base_util import json_util
 
 
-class CoordinatesInterface(object):
+class CoordinatesInterface(data_util.AbstractObject):
   """Coordinates on Earth interface."""
 
   def Copy(self):
     return copy.deepcopy(self)
 
 
-@json_utils.JSONDecorator()
+@json_util.JSONDecorator()
 class Coordinates(CoordinatesInterface):
   """Coordinates on Earth using latitude and longitude."""  
 
@@ -22,21 +22,18 @@ class Coordinates(CoordinatesInterface):
     self.latitude = latitude
     self.longitude = longitude
 
-  def __eq__(self, other):
-    return self.__dict__ == other.__dict__
-
   def __str__(self):
     return '%.4f:%.4f' % (self.latitude, self.longitude)
 
 
-class OperatingHoursInterface(object):
+class OperatingHoursInterface(data_util.AbstractObject):
   """Operating hours of a Point interface."""
   pass
 
 
-@json_utils.JSONDecorator({
-    'opens': json_utils.JSONDateTime(),
-    'closes': json_utils.JSONDateTime()})
+@json_util.JSONDecorator({
+    'opens': json_util.JSONDateTime(),
+    'closes': json_util.JSONDateTime()})
 class OperatingHours(OperatingHoursInterface):
   """Operating hours of a Point straightforward implementation. Doesn't know
   about days of week, seasons, etc."""
@@ -47,27 +44,22 @@ class OperatingHours(OperatingHoursInterface):
     self.opens = opens
     self.closes = closes
 
-  def __eq__(self, other):
-    if other is None:
-      return False
-    return self.__dict__ == other.__dict__
-
   def __str__(self):
     return '%s - %s' % (self.opens, self.closes)
 
 
-class PointTypeInterface(object):
+class PointTypeInterface(data_util.AbstractObject):
   """Type of a point interface."""
   pass
 
 
-@json_utils.JSONDecorator({
-    'city_tours': json_utils.JSONInt(),
-    'landmarks': json_utils.JSONInt(),
-    'nature': json_utils.JSONInt(),
-    'museums': json_utils.JSONInt(),
-    'shopping': json_utils.JSONInt(),
-    'dining': json_utils.JSONInt()})
+@json_util.JSONDecorator({
+    'city_tours': json_util.JSONInt(),
+    'landmarks': json_util.JSONInt(),
+    'nature': json_util.JSONInt(),
+    'museums': json_util.JSONInt(),
+    'shopping': json_util.JSONInt(),
+    'dining': json_util.JSONInt()})
 class PointType(PointTypeInterface):
   """Type of a point implementation using assigned value to each type."""
 
@@ -100,11 +92,6 @@ class PointType(PointTypeInterface):
             'Shopping': self.shopping,
             'Dining': self.dining}
 
-  def __eq__(self, other):
-    if other is None:
-      return False
-    return self.__dict__ == other.__dict__
-
   def __str__(self):
     names_point_types = [
         (name, point_type)
@@ -121,17 +108,17 @@ class PointType(PointTypeInterface):
       return 'No point type'
 
 
-class AgeGroupInterface(object):
+class AgeGroupInterface(data_util.AbstractObject):
   """Age groups most suitable for a Point interface."""
   pass
 
 
-@json_utils.JSONDecorator({
-    'senior': json_utils.JSONInt(),
-    'adult': json_utils.JSONInt(),
-    'junior': json_utils.JSONInt(),
-    'child': json_utils.JSONInt(),
-    'toddlers': json_utils.JSONInt()})
+@json_util.JSONDecorator({
+    'senior': json_util.JSONInt(),
+    'adult': json_util.JSONInt(),
+    'junior': json_util.JSONInt(),
+    'child': json_util.JSONInt(),
+    'toddlers': json_util.JSONInt()})
 class AgeGroup(AgeGroupInterface):
   """Age groups most suitable for a Point implementation using assigned value to
   each age group."""
@@ -160,11 +147,6 @@ class AgeGroup(AgeGroupInterface):
             'Junior': self.junior,
             'Child': self.child,
             'Toddlers': self.toddlers}
-    
-  def __eq__(self, other):
-    if other is None:
-      return False
-    return self.__dict__ == other.__dict__
 
   def __str__(self):
     names_age_groups = [
@@ -182,20 +164,20 @@ class AgeGroup(AgeGroupInterface):
       return 'No age group'
 
 
-class PointInterface(object):
+class PointInterface(data_util.AbstractObject):
   """Sightseeing, Attraction or Point Of Interest interface."""
   pass
 
 
-@json_utils.JSONDecorator({
-    'coordinates_starts': json_utils.JSONObject(Coordinates),
-    'coordinates_ends': json_utils.JSONObject(Coordinates),
-    'operating_hours': json_utils.JSONObject(OperatingHours),
-    'popularity': json_utils.JSONInt(),
-    'point_type': json_utils.JSONObject(PointType),
-    'age_group': json_utils.JSONObject(AgeGroup),
-    'parking': json_utils.JSONInt(),
-    'eating': json_utils.JSONInt()})
+@json_util.JSONDecorator({
+    'coordinates_starts': json_util.JSONObject(Coordinates),
+    'coordinates_ends': json_util.JSONObject(Coordinates),
+    'operating_hours': json_util.JSONObject(OperatingHours),
+    'popularity': json_util.JSONInt(),
+    'point_type': json_util.JSONObject(PointType),
+    'age_group': json_util.JSONObject(AgeGroup),
+    'parking': json_util.JSONInt(),
+    'eating': json_util.JSONInt()})
 class Point(PointInterface):
   """Sightseeing, Attraction or Point Of Interest common implementation."""
 
@@ -232,12 +214,6 @@ class Point(PointInterface):
     self.price = price or 0.
     self.parking = parking or 0
     self.eating = eating or 0
-
-  def __hash__(self):
-    return int(hash_utils.HashKey(self.__dict__), 16)
-
-  def __eq__(self, other):
-    return self.__dict__ == other.__dict__
 
   def __str__(self):
     s = str()

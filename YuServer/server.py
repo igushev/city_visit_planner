@@ -1,4 +1,4 @@
-from Yusi.YuUtils import json_utils
+from Yusi.base_util import json_util
 from Yusi.YuServer.city_visit_finder_task import CityVisitFinderTaskWorkerGenerator
 from Yusi.YuUtils.task_utils import TaskManager
 from Yusi.YuPoint.city_visit import CityVisitParameters
@@ -9,7 +9,7 @@ STATUS_BAD_REQUEST = 400
 STATUS_ERROR = 500
 
 
-@json_utils.JSONDecorator()
+@json_util.JSONDecorator()
 class Status(object):
 
   def __init__(self, message):

@@ -1,6 +1,11 @@
 import hashlib
 
 
+def Repr(obj):
+  return '\n'.join(['%s: %s' % (key, value)
+                    for key, value in sorted(obj.__dict__.items())])
+
+
 def HashKey(obj):
   if hasattr(obj, 'HashKey'):
     return obj.HashKey()
@@ -26,3 +31,23 @@ def HashKey(obj):
     m = hashlib.md5()
     m.update(repr(obj).encode('utf-8'))
     return m.hexdigest()
+
+
+class AbstractObject(object):
+
+  def __str__(self):
+    return Repr(self)
+
+  def __repr__(self):
+    return Repr(self)
+
+  def __eq__(self, other):
+    if other is None:
+      return False
+    return self.__dict__ == other.__dict__
+
+  def __hash__(self):
+    return int(HashKey(self.__dict__), 16)
+
+  def HashKey(self):
+    return HashKey(self.__dict__)

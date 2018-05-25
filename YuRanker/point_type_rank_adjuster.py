@@ -13,7 +13,7 @@ class PointTypeRankAdjuster(RankAdjusterInterface):
     return (
         sum(max(point_type, 1) *
             max(point_names_point_types[name], 1)
-            for name, point_type in parameters_names_point_types.iteritems()) /
+            for name, point_type in parameters_names_point_types.items()) /
         float(100 * 100) /
         len(parameters_names_point_types))
 

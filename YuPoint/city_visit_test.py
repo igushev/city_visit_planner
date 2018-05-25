@@ -61,7 +61,7 @@ class DayVisitTest(CityVisitTestExample):
 
   def testInitValidation(self):
     # No final move.
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         AssertionError, 'Wrong number of actions.',
         DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
             self.from_hotel_to_ferry_building_move,
@@ -69,7 +69,7 @@ class DayVisitTest(CityVisitTestExample):
             self.from_ferry_building_to_pier_39_move,
             self.pier_39_point_visit], 10.)
     # No start move.
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         AssertionError, 'Wrong order of actions: no MoveBetween.',
         DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
             self.ferry_building_point_visit,
@@ -77,7 +77,7 @@ class DayVisitTest(CityVisitTestExample):
             self.pier_39_point_visit,
             self.from_pier_39_to_hotel], 10.)
     # No middle moves.
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         AssertionError, 'Wrong order of actions: no MoveBetween.',
         DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
             self.from_hotel_to_ferry_building_move,
@@ -85,7 +85,7 @@ class DayVisitTest(CityVisitTestExample):
             self.pier_39_point_visit,
             self.from_pier_39_to_hotel], 10.)
     # No first point.
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         AssertionError, 'Wrong order of actions: no PointVisit.',
         DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
             self.from_hotel_to_ferry_building_move,
@@ -93,7 +93,7 @@ class DayVisitTest(CityVisitTestExample):
             self.pier_39_point_visit,
             self.from_pier_39_to_hotel], 10.)
     # No second point.
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         AssertionError, 'Wrong order of actions: no PointVisit.',
         DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
             self.from_hotel_to_ferry_building_move,

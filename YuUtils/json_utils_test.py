@@ -14,7 +14,7 @@ class WithFields(object):
   def __init__(self, int_field, float_field, string_field, datetime_field):
     assert isinstance(int_field, int)
     assert isinstance(float_field, float)
-    assert isinstance(string_field, basestring)
+    assert isinstance(string_field, str)
     assert isinstance(datetime_field, datetime)
     self._int_field = int_field  # With underscore.
     self.float_field = float_field
@@ -162,7 +162,7 @@ class Level3B(Level2):
 
   def __init__(self, var1, var2, var3):
     super(Level3B, self).__init__(var1, var2)
-    assert isinstance(var3, basestring)
+    assert isinstance(var3, str)
     self.var3 = var3
 
   def HashKey(self):
@@ -213,12 +213,12 @@ class JSONUtilsTest(unittest.TestCase):
     datetime_2 = datetime(1986, 8, 21, 13, 0, 0)
     datetime_3 = datetime(2014, 1, 3, 9, 54, 0)
     obj = WithNestedFields(
-        WithFields(3, 5., u'seven', datetime_1),
+        WithFields(3, 5., 'seven', datetime_1),
         WithListAndDict(
-            [WithFields(2, 4., u'six', datetime_2),
-             WithFields(8, 10., u'twelve', datetime_2)],
-            {u'one': WithFields(15, 17., u'nineteen', datetime_3),
-             u'two': WithFields(21, 23., u'twenty five', datetime_3)}),
+            [WithFields(2, 4., 'six', datetime_2),
+             WithFields(8, 10., 'twelve', datetime_2)],
+            {'one': WithFields(15, 17., 'nineteen', datetime_3),
+             'two': WithFields(21, 23., 'twenty five', datetime_3)}),
         None, True)
     self.AssertToFrom(obj, WithNestedFields)
 
@@ -227,14 +227,14 @@ class JSONUtilsTest(unittest.TestCase):
     self.AssertToFrom(level3a, Level3A)
     # Can call using parent class.
     self.AssertToFrom(level3a, Level1)
-    level3b = Level3B(2., 4., u'six')
+    level3b = Level3B(2., 4., 'six')
     self.AssertToFrom(level3b, Level3B)
     # Can call using parent class.
     self.AssertToFrom(level3b, Level1)
 
     # List of mixed instances of derivative classes.    
     level3a_2 = Level3A(7., 9., 11.)
-    level3b_2 = Level3B(8., 10., u'twelve')
+    level3b_2 = Level3B(8., 10., 'twelve')
     obj = WithDifferentLevelList(
         [level3a, level3b, level3a_2, level3b_2])
     self.AssertToFrom(obj, WithDifferentLevelList)
@@ -245,13 +245,13 @@ class JSONUtilsTest(unittest.TestCase):
     datetime_3 = datetime(2014, 1, 3, 9, 54, 0)
     # Both fields are set.
     obj = WithNestedNoneObjectsFields(
-        WithFields(3, 5., u'seven', datetime_1),
-        WithFields(2, 4., u'six', datetime_2))
+        WithFields(3, 5., 'seven', datetime_1),
+        WithFields(2, 4., 'six', datetime_2))
     self.AssertToFrom(obj, WithNestedNoneObjectsFields)
 
     # Second field is None.
     obj = WithNestedNoneObjectsFields(
-        WithFields(15, 17., u'nineteen', datetime_3), None)
+        WithFields(15, 17., 'nineteen', datetime_3), None)
     self.AssertToFrom(obj, WithNestedNoneObjectsFields)
     
 

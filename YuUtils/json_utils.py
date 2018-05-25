@@ -45,7 +45,7 @@ class JSONDateTime(JSONObjectInterface):
     return obj.strftime(DATETIME_FORMAT)
   
   def FromSimple(self, simple):
-    assert isinstance(simple, basestring)
+    assert isinstance(simple, str)
     return datetime.strptime(simple, DATETIME_FORMAT)
 
 
@@ -88,20 +88,20 @@ class JSONDict(object):
     assert isinstance(obj, dict)
     return {self._key_json_obj.ToSimple(key):
             self._value_json_obj.ToSimple(value)
-            for key, value in obj.iteritems()}
+            for key, value in obj.items()}
   
   def FromSimple(self, simple):
     assert isinstance(simple, dict)
     return {self._key_json_obj.FromSimple(key):
             self._value_json_obj.FromSimple(value)
-            for key, value in simple.iteritems()}
+            for key, value in simple.items()}
 
 
 def ToSimple(self):
   obj_cls = self.__class__
   json_default = JSONSimple()
   simple = dict()
-  for key, value in self.__dict__.iteritems():
+  for key, value in self.__dict__.items():
     json_obj = obj_cls.desc_dict.get(key, json_default)
     simple[key] = json_obj.ToSimple(value) if value is not None else None
   if obj_cls.inherited:
@@ -123,7 +123,7 @@ def FromSimple(cls, simple):
 
   json_default = JSONSimple()
   obj_dict = dict()
-  for key, value in simple.iteritems():
+  for key, value in simple.items():
     if key in [MODULE_FIELD, CLASS_FIELD]:
       continue
     json_obj =  obj_cls.desc_dict.get(key, json_default)

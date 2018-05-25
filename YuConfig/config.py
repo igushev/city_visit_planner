@@ -1,4 +1,4 @@
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 
 from Yusi.YuRouter.point_fit import SimplePointFit
 from Yusi.YuRouter.cost_accumulator import FactorCostAccumulatorGenerator

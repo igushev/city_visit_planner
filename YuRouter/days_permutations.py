@@ -7,7 +7,7 @@ class DaysToPoints(collections.defaultdict):
     super(DaysToPoints, self).__init__(list, *args, **kwargs)
 
   def Copy(self):
-    return DaysToPoints(((i, points[:]) for i, points in self.iteritems()))
+    return DaysToPoints(((i, points[:]) for i, points in self.items()))
 
 
 def DaysPermutations(points, days_consider):

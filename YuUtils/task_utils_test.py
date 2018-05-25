@@ -31,9 +31,9 @@ class TaskUtilsTest(unittest.TestCase):
     sqr_task_worker_general = SqrTaskWorkerGenerator() 
     task_manager = TaskManager(sqr_task_worker_general, 1.0)
     
-    input_1 = range(0, 11, 2)
+    input_1 = list(range(0, 11, 2))
     results_1 = [Sqr(num) for num in input_1]
-    input_2 = range(1, 8, 2)
+    input_2 = list(range(1, 8, 2))
     results_2 = [Sqr(num) for num in input_2]
     task_id_1 = task_manager.Start(input_1, 0.2)
     task_id_2 = task_manager.Start(input_2, 0.2)
@@ -60,7 +60,7 @@ class TaskUtilsTest(unittest.TestCase):
 
     time.sleep(0.5)
     read_list_1_3 = list(task_manager.Read(task_id_1))
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         AssertionError, 'No task with id %s' % task_id_2,
         list, task_manager.Read(task_id_2))
     self.assertTrue(1 <= len(read_list_1_3) <= 3)
@@ -68,10 +68,10 @@ class TaskUtilsTest(unittest.TestCase):
     results_1 = []
     
     time.sleep(0.5)
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         AssertionError, 'No task with id %s' % task_id_1,
         list, task_manager.Read(task_id_1))
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         AssertionError, 'No task with id %s' % task_id_2,
         list, task_manager.Read(task_id_2))
 
@@ -79,16 +79,16 @@ class TaskUtilsTest(unittest.TestCase):
     sqr_task_worker_general = SqrTaskWorkerGenerator() 
     task_manager = TaskManager(sqr_task_worker_general, 0.5)
     
-    input_1 = range(0, 3, 2)
-    input_2 = range(1, 4, 2)
+    input_1 = list(range(0, 3, 2))
+    input_2 = list(range(1, 4, 2))
     task_id_1 = task_manager.Start(input_1, 0.2)
     task_id_2 = task_manager.Start(input_2, 0.2)
 
     time.sleep(1.5)
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         AssertionError, 'No task with id %s' % task_id_1,
         list, task_manager.Read(task_id_1))
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         AssertionError, 'No task with id %s' % task_id_2,
         list, task_manager.Read(task_id_2))
 

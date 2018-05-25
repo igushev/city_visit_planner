@@ -13,7 +13,7 @@ class AgeGroupRankAdjuster(RankAdjusterInterface):
     return (
         sum(max(age_group, 1) *
             max(point_names_age_groups[name], 1)
-            for name, age_group in parameters_names_age_groups.iteritems()) /
+            for name, age_group in parameters_names_age_groups.items()) /
         float(100 * 100) /
         len(parameters_names_age_groups))
 

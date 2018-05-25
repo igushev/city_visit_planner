@@ -8,7 +8,7 @@ from Yusi.YuPoint.test_utils import GetPointsInput
 class PointsRankerRunnerTest(unittest.TestCase):
   
   def testGeneral(self):
-    points_input = GetPointsInput('YuPoint', 'test_sf_1.csv').values()
+    points_input = list(GetPointsInput('YuPoint', 'test_sf_1.csv').values())
     points_ranker_runner = PointsRankerRunner()
     city_visit_parameters = (
         GetCityVisitParameters(MockVisitLocation(), [MockDayVisitParameters()]))

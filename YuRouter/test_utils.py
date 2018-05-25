@@ -22,7 +22,7 @@ class MockCoordinates(CoordinatesInterface):
 def MockPoints():
   points = ReadCSVToDict(
       os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
-  for point in points.values():
+  for point in list(points.values()):
     point.coordinates_starts = MockCoordinates(point.name)
     point.coordinates_ends = MockCoordinates(point.name)
   return points

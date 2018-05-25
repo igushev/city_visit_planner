@@ -32,7 +32,7 @@ class MockDatabaseConnection(DatabaseConnectionInterface):
         'San Francisco': GetPointsInput('YuPoint', 'test_sf_1.csv')}
 
   def GetPoints(self, visit_location):
-    return self.points_dict_dict[visit_location.city_name].values()
+    return list(self.points_dict_dict[visit_location.city_name].values())
 
   def GetPoint(self, visit_location, point_name):
     return self.points_dict_dict[visit_location.city_name][point_name]

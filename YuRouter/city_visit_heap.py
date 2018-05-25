@@ -67,8 +67,8 @@ class CityVisitHeap(object):
     for day_visit_parameters, day_visit in (
         zip(self.day_visit_parameterss, cvpl.city_visit.day_visits)):
       m_day = hashlib.md5()
-      m_day.update(day_visit_parameters.DatelessHashKey())
-      m_day.update(day_visit.DatelessHashKey())
+      m_day.update(day_visit_parameters.DatelessHashKey().encode('utf-8'))
+      m_day.update(day_visit.DatelessHashKey().encode('utf-8'))
       hash_keys.append(m_day.hexdigest())
 
     m = hashlib.md5()

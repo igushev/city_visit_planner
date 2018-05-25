@@ -15,11 +15,11 @@ class HashUtilsTest(unittest.TestCase):
 
   def testList(self):
     # A list.
-    self.assertIsNotNone(HashKey(['spam', 1, 3]))
+    self.assertIsNotNone(HashKey(['spam', 'egg', 'ham']))
 
   def testSet(self):
     # A set.
-    self.assertIsNotNone(HashKey({'spam', 1, 3}))
+    self.assertIsNotNone(HashKey({'spam', 'egg', 'ham'}))
     
   def testDict(self):
     # A dict.

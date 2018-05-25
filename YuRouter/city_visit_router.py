@@ -53,7 +53,7 @@ def _PushPointsToDayVisitsImpl(
     next_day_visits = day_visits[:]
     
     # Try to fit to each day its points.
-    for i, day_points_add in days_permutation.iteritems():
+    for i, day_points_add in days_permutation.items():
       day_points_all = day_visits[i].GetPoints()
       day_points_all.extend(day_points_add)
       day_visit_best, points_left_best = (

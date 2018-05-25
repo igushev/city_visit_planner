@@ -34,7 +34,7 @@ class MultiDayVisitCostCalculator(DayVisitCostCalculatorInterface):
   def _GetMinIndex(self):
     # Get index of calculator with minimum FinalizedCost().
     min_index, _ = min(enumerate(self.calculators),
-                       key=lambda (_, calculator): calculator.FinalizedCost())
+                       key=lambda index_calculator: index_calculator[1].FinalizedCost())
     return min_index
 
   def FinalizedDayVisit(self):

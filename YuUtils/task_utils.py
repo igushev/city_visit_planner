@@ -71,7 +71,7 @@ class TaskManager(object):
 
   @Synchronized()
   def _CleanUp(self, start_over=True):
-    task_id_list = list(self.worker_process_dict.iterkeys()) 
+    task_id_list = list(self.worker_process_dict.keys()) 
     for task_id in task_id_list:
       worker_context = self.worker_process_dict[task_id]
       if ((datetime.now() - worker_context.last_read).total_seconds() >

@@ -2,6 +2,7 @@ import copy
 import datetime
 
 from Yusi.YuUtils import json_utils
+from Yusi.YuUtils import hash_utils
 
 
 class CoordinatesInterface(object):
@@ -107,10 +108,10 @@ class PointType(PointTypeInterface):
   def __str__(self):
     names_point_types = [
         (name, point_type)
-        for name, point_type in sorted(self.GetNamesPointTypes().iteritems())
+        for name, point_type in sorted(self.GetNamesPointTypes().items())
         if point_type > 0]
     names_point_types = sorted(
-        names_point_types, key = lambda (name, point_type): point_type,
+        names_point_types, key = lambda name_point_type: name_point_type[1],
         reverse=True)
     if names_point_types:
       return ', '.join(
@@ -168,10 +169,10 @@ class AgeGroup(AgeGroupInterface):
   def __str__(self):
     names_age_groups = [
         (name, age_group)
-        for name, age_group in sorted(self.GetNamesAgeGroups().iteritems())
+        for name, age_group in sorted(self.GetNamesAgeGroups().items())
         if age_group > 0]
     names_age_groups = sorted(
-        names_age_groups, key = lambda (name, age_group): age_group,
+        names_age_groups, key = lambda name_age_group: name_age_group[1],
         reverse=True)
     if names_age_groups:
       return ', '.join(
@@ -231,6 +232,9 @@ class Point(PointInterface):
     self.price = price or 0.
     self.parking = parking or 0
     self.eating = eating or 0
+
+  def __hash__(self):
+    return int(hash_utils.HashKey(self.__dict__), 16)
 
   def __eq__(self, other):
     return self.__dict__ == other.__dict__

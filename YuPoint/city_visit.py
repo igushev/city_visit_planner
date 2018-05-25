@@ -36,8 +36,8 @@ class StartEndDatetime(StartEndDatetimeInterface):
 
   def DatelessHashKey(self):
     m = hashlib.md5()
-    m.update(HashKey(self.start.time()))
-    m.update(HashKey(self.end.time()))
+    m.update(HashKey(self.start.time()).encode('utf-8'))
+    m.update(HashKey(self.end.time()).encode('utf-8'))
     return m.hexdigest()    
   
   def __eq__(self, other):
@@ -81,12 +81,12 @@ class DayVisitParameters(DayVisitParametersInterface):
 
   def DatelessHashKey(self):
     m = hashlib.md5()
-    m.update(HashKey(self.start_datetime.time()))
-    m.update(HashKey(self.end_datetime.time()))
-    m.update(HashKey(self.lunch_start_datetime.time()))
-    m.update(HashKey(self.lunch_hours))
-    m.update(HashKey(self.start_coordinates))
-    m.update(HashKey(self.end_coordinates))
+    m.update(HashKey(self.start_datetime.time()).encode('utf-8'))
+    m.update(HashKey(self.end_datetime.time()).encode('utf-8'))
+    m.update(HashKey(self.lunch_start_datetime.time()).encode('utf-8'))
+    m.update(HashKey(self.lunch_hours).encode('utf-8'))
+    m.update(HashKey(self.start_coordinates).encode('utf-8'))
+    m.update(HashKey(self.end_coordinates).encode('utf-8'))
     return m.hexdigest()    
 
   def __eq__(self, other):
@@ -152,7 +152,7 @@ class ActionInterface(object):
 
   def DatelessHashKey(self):
     m = hashlib.md5()
-    m.update(self.start_end_datetime.DatelessHashKey())
+    m.update(self.start_end_datetime.DatelessHashKey().encode('utf-8'))
     return m.hexdigest()
 
   def __eq__(self, other):
@@ -177,8 +177,8 @@ class PointVisit(ActionInterface):
 
   def DatelessHashKey(self):
     m = hashlib.md5()
-    m.update(super(PointVisit, self).DatelessHashKey())
-    m.update(HashKey(self.point))
+    m.update(super(PointVisit, self).DatelessHashKey().encode('utf-8'))
+    m.update(HashKey(self.point).encode('utf-8'))
     return m.hexdigest()    
 
   def __str__(self):
@@ -226,8 +226,8 @@ class MoveBetween(ActionInterface):
 
   def DatelessHashKey(self):
     m = hashlib.md5()
-    m.update(super(MoveBetween, self).DatelessHashKey())
-    m.update(HashKey(self.move_description))
+    m.update(super(MoveBetween, self).DatelessHashKey().encode('utf-8'))
+    m.update(HashKey(self.move_description).encode('utf-8'))
     return m.hexdigest()    
 
   def __str__(self):
@@ -259,8 +259,8 @@ class Lunch(ActionInterface):
 
   def DatelessHashKey(self):
     m = hashlib.md5()
-    m.update(super(Lunch, self).DatelessHashKey())
-    m.update(HashKey(self.lunch_hours))
+    m.update(super(Lunch, self).DatelessHashKey().encode('utf-8'))
+    m.update(HashKey(self.lunch_hours).encode('utf-8'))
     return m.hexdigest()    
 
   def __str__(self):
@@ -311,10 +311,10 @@ class DayVisit(DayVisitInterface):
 
   def DatelessHashKey(self):
     m = hashlib.md5()
-    m.update(HashKey(self.start_datetime.time()))
+    m.update(HashKey(self.start_datetime.time()).encode('utf-8'))
     for action in self.actions:
-      m.update(action.DatelessHashKey())
-    m.update(HashKey(self.cost))
+      m.update(action.DatelessHashKey().encode('utf-8'))
+    m.update(HashKey(self.cost).encode('utf-8'))
     return m.hexdigest()
 
   def GetPoints(self):

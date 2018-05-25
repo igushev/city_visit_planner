@@ -3,7 +3,7 @@ from Yusi.YuConfig.config import GetDatabaseConnection, GetConfig,\
   GetPointsRanker, GetPointFit, GetCostAccumulatorGenerator,\
   GetDayVisitCostCalculatorGenerator, GetPointsQueueGenerator,\
   GetCityVisitRouter, GetCityVisitFinder, GetCityVisitAccumulatorGenerator,\
-  GetCorsOrigin, GetServerPort
+  GetCorsOrigin, GetServerParams, GetTaskWorkerParams
 from Yusi.YuRouter.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
 from Yusi.YuRouter.multi_day_visit_cost_calculator import MultiDayVisitCostCalculatorGenerator
 
@@ -182,19 +182,32 @@ class ConfigTest(unittest.TestCase):
     cors_origin = self._SetAndGetCorsOrigin()
     self.assertEqual('test_origin', cors_origin)
 
-  def _SetAndGetServerPort(self):
+  def _SetAndGetServerParams(self):
     server_section = 'server'
     self.config.add_section(server_section)
     self.config.set(server_section, 'port', '2143')
     self.config.set(server_section, 'host', '0.0.0.0')
 
-    server_port, server_host = GetServerPort(self.config)
+    server_port, server_host = GetServerParams(self.config)
     return server_port, server_host
 
-  def testGetServerPort(self):
-    server_port, server_host = self._SetAndGetServerPort()
+  def testGetServerParams(self):
+    server_port, server_host = self._SetAndGetServerParams()
     self.assertEqual(2143, server_port)
     self.assertEqual('0.0.0.0', server_host)
+
+  def _SetAndGetTaskWorkerParams(self):
+    tw_section = 'task_worker'
+    self.config.add_section(tw_section)
+    self.config.set(tw_section, 'idle_seconds_terminate', str(1.5))
+    
+    idle_seconds_terminate = GetTaskWorkerParams(self.config)
+    return idle_seconds_terminate
+
+  def testGetTaskWorkerParams(self):
+    idle_seconds_terminate = self._SetAndGetTaskWorkerParams()
+    self.assertEqual(1.5, idle_seconds_terminate)
+
 
 
 if __name__ == '__main__':

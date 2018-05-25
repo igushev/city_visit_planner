@@ -221,8 +221,15 @@ def GetCorsOrigin(config):
   return cors_origin
 
 
-def GetServerPort(config):
+def GetServerParams(config):
   server_section = 'server'
   server_port = config.getint(server_section, 'port')
   server_host = config.get(server_section, 'host')
   return server_port, server_host
+
+
+def GetTaskWorkerParams(config):
+  tw_section = 'task_worker'
+  tw_idle_seconds_terminate = (
+      config.getfloat(tw_section, 'idle_seconds_terminate'))
+  return tw_idle_seconds_terminate

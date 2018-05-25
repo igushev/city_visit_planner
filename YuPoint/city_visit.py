@@ -4,8 +4,9 @@ import itertools
 
 import Yusi
 from Yusi.YuPoint.point import Point, CoordinatesInterface, PointTypeInterface,\
-  AgeGroupInterface
+  AgeGroupInterface, PointType, AgeGroup, Coordinates
 from Yusi.YuUtils.hash_utils import HashKey
+from Yusi.YuUtils import json_utils
 
 
 class StartEndDatetimeInterface(object):
@@ -16,6 +17,9 @@ class StartEndDatetimeInterface(object):
     raise NotImplemented()
 
 
+@json_utils.JSONDecorator(
+    {'start': json_utils.JSONDateTime(),
+     'end': json_utils.JSONDateTime()})
 class StartEndDatetime(StartEndDatetimeInterface):
   """Start and end time implementation."""
 
@@ -48,6 +52,12 @@ class DayVisitParametersInterface(object):
   pass
 
 
+@json_utils.JSONDecorator(
+    {'start_datetime': json_utils.JSONDateTime(),
+     'end_datetime': json_utils.JSONDateTime(),
+     'lunch_start_datetime': json_utils.JSONDateTime(),
+     'start_coordinates': json_utils.JSONObject(Coordinates),
+     'end_coordinates': json_utils.JSONObject(Coordinates)})
 class DayVisitParameters(DayVisitParametersInterface):
   """Set of users parameter for a particular day implementation."""
 
@@ -88,6 +98,7 @@ class VisitLocationInterface(object):
   pass
 
 
+@json_utils.JSONDecorator()
 class VisitLocation(VisitLocationInterface):
   """Set of users parameter for visit location implementation."""
   
@@ -103,6 +114,12 @@ class CityVisitParametersInterface(object):
   pass
 
 
+@json_utils.JSONDecorator(
+    {'visit_location': json_utils.JSONObject(VisitLocation),
+     'day_visit_parameterss':
+     json_utils.JSONList(json_utils.JSONObject(DayVisitParameters)),
+     'point_type': json_utils.JSONObject(PointType),
+     'age_group': json_utils.JSONObject(AgeGroup)})
 class CityVisitParameters(CityVisitParametersInterface):
   """Set of users parameter for city visit implementation."""
 
@@ -123,6 +140,9 @@ class CityVisitParameters(CityVisitParametersInterface):
     return self.__dict__ == other.__dict__
 
 
+@json_utils.JSONDecorator(
+    {'start_end_datetime': json_utils.JSONObject(StartEndDatetime)},
+    inherited=True)
 class ActionInterface(object):
   """Abstract interface for an action (visit a point, etc.) of a user."""
   
@@ -142,6 +162,8 @@ class ActionInterface(object):
     raise NotImplemented()
 
 
+@json_utils.JSONDecorator({
+    'point': json_utils.JSONObject(Point)})
 class PointVisit(ActionInterface):
   """Visiting a point by a user."""
 
@@ -170,6 +192,10 @@ class MoveType(object):
   ptt = 3
   
 
+@json_utils.JSONDecorator(
+    {'from_coordinates': json_utils.JSONObject(Coordinates),
+     'to_coordinates': json_utils.JSONObject(Coordinates),
+     'move_type': json_utils.JSONInt()})
 class MoveDescription(object):
   """Moving description."""
   
@@ -185,6 +211,8 @@ class MoveDescription(object):
     self.move_type = move_type
 
 
+@json_utils.JSONDecorator({
+    'move_description': json_utils.JSONObject(MoveDescription)})
 class MoveBetween(ActionInterface):
   """Moving between points by a user."""
 
@@ -217,6 +245,7 @@ class MoveBetween(ActionInterface):
         self.move_description.to_coordinates, self.start_end_datetime)
 
 
+@json_utils.JSONDecorator()
 class Lunch(ActionInterface):
   """Having lunch during the day."""
 
@@ -247,6 +276,9 @@ class DayVisitInterface(object):
     raise NotImplemented()
 
 
+@json_utils.JSONDecorator(
+    {'start_datetime': json_utils.JSONDateTime(),
+     'actions': json_utils.JSONList(json_utils.JSONObject(ActionInterface))})
 class DayVisit(DayVisitInterface):
   """Set of visiting points and moving between points in particular day
   implementation."""
@@ -304,6 +336,7 @@ class CityVisitSummaryInterface(object):
   pass
 
 
+@json_utils.JSONDecorator()
 class CityVisitSummary(CityVisitSummaryInterface):
   
   def __init__(self, cost, price):
@@ -323,6 +356,9 @@ class CityVisitInterface(object):
   pass
 
 
+@json_utils.JSONDecorator(
+    {'day_visits': json_utils.JSONList(json_utils.JSONObject(DayVisit)),
+     'city_visit_summary': json_utils.JSONObject(CityVisitSummary)})
 class CityVisit(CityVisitInterface):
   """Set of day visiting implementation."""
 

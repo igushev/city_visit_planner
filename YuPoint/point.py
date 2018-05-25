@@ -1,6 +1,8 @@
 import copy
 import datetime
 
+from Yusi.YuUtils import json_utils
+
 
 class CoordinatesInterface(object):
   """Coordinates on Earth interface."""
@@ -9,6 +11,7 @@ class CoordinatesInterface(object):
     return copy.deepcopy(self)
 
 
+@json_utils.JSONDecorator()
 class Coordinates(CoordinatesInterface):
   """Coordinates on Earth using latitude and longitude."""  
 
@@ -30,6 +33,9 @@ class OperatingHoursInterface(object):
   pass
 
 
+@json_utils.JSONDecorator({
+    'opens': json_utils.JSONDateTime(),
+    'closes': json_utils.JSONDateTime()})
 class OperatingHours(OperatingHoursInterface):
   """Operating hours of a Point straightforward implementation. Doesn't know
   about days of week, seasons, etc."""
@@ -54,6 +60,13 @@ class PointTypeInterface(object):
   pass
 
 
+@json_utils.JSONDecorator({
+    'city_tours': json_utils.JSONInt(),
+    'landmarks': json_utils.JSONInt(),
+    'nature': json_utils.JSONInt(),
+    'museums': json_utils.JSONInt(),
+    'shopping': json_utils.JSONInt(),
+    'dining': json_utils.JSONInt()})
 class PointType(PointTypeInterface):
   """Type of a point implementation using assigned value to each type."""
 
@@ -112,6 +125,12 @@ class AgeGroupInterface(object):
   pass
 
 
+@json_utils.JSONDecorator({
+    'senior': json_utils.JSONInt(),
+    'adult': json_utils.JSONInt(),
+    'junior': json_utils.JSONInt(),
+    'child': json_utils.JSONInt(),
+    'toddlers': json_utils.JSONInt()})
 class AgeGroup(AgeGroupInterface):
   """Age groups most suitable for a Point implementation using assigned value to
   each age group."""
@@ -167,6 +186,15 @@ class PointInterface(object):
   pass
 
 
+@json_utils.JSONDecorator({
+    'coordinates_starts': json_utils.JSONObject(Coordinates),
+    'coordinates_ends': json_utils.JSONObject(Coordinates),
+    'operating_hours': json_utils.JSONObject(OperatingHours),
+    'popularity': json_utils.JSONInt(),
+    'point_type': json_utils.JSONObject(PointType),
+    'age_group': json_utils.JSONObject(AgeGroup),
+    'parking': json_utils.JSONInt(),
+    'eating': json_utils.JSONInt()})
 class Point(PointInterface):
   """Sightseeing, Attraction or Point Of Interest common implementation."""
 

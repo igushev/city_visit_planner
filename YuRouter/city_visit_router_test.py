@@ -2,32 +2,31 @@ import datetime
 import unittest
 
 import Yusi
-from Yusi.YuRouter.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
-from Yusi.YuRouter.city_visit_router import CityVisitRouter
-from Yusi.YuRouter.cost_accumulator import FactorCostAccumulatorGenerator
-from Yusi.YuRouter.point_fit import SimplePointFit
-from Yusi.YuRouter.day_visit_router import DayVisitRouter
-from Yusi.YuRouter.city_visit_points_left import CityVisitPointsLeftGenerator
-from Yusi.YuRouter.test_utils import MockMoveCalculator, MockCoordinates,\
-  MockPoints
-from Yusi.YuRouter.points_queue import OneByOnePointsQueueGenerator
-from Yusi.YuPoint.city_visit import DayVisitParameters
-from Yusi.YuRouter.city_visit_accumulator import CityVisitAccumulatorGenerator
+from Yusi.YuPoint import city_visit
+from Yusi.YuRouter import day_visit_cost_calculator
+from Yusi.YuRouter import city_visit_router
+from Yusi.YuRouter import cost_accumulator
+from Yusi.YuRouter import point_fit as point_fit_
+from Yusi.YuRouter import day_visit_router as day_visit_router_
+from Yusi.YuRouter import city_visit_points_left
+from Yusi.YuRouter import test_utils
+from Yusi.YuRouter import points_queue
+from Yusi.YuRouter import city_visit_accumulator
 
 
 class CityVisitRouterTest(unittest.TestCase):
 
   @staticmethod
   def GetDayVisitParameters(start_datetime, end_datetime):
-    return DayVisitParameters(
+    return city_visit.DayVisitParameters(
         start_datetime=start_datetime,
         end_datetime=end_datetime,
         lunch_start_datetime=datetime.datetime(
             start_datetime.year, start_datetime.month, start_datetime.day,
             13, 0, 0),
         lunch_hours=1.,
-        start_coordinates=MockCoordinates('Hotel'),
-        end_coordinates=MockCoordinates('Restaurant'))
+        start_coordinates=test_utils.MockCoordinates('Hotel'),
+        end_coordinates=test_utils.MockCoordinates('Restaurant'))
 
   def setUp(self):
     no_point_visit_factor = 0.
@@ -38,24 +37,24 @@ class CityVisitRouterTest(unittest.TestCase):
     max_depth = 1
     city_visit_heap_size = 10
     max_non_pushed_points = 3
-    self.points = MockPoints()
-    move_calculator = MockMoveCalculator()
-    point_fit = SimplePointFit()
-    cost_accumulator_generator=FactorCostAccumulatorGenerator(
+    self.points = test_utils.MockPoints()
+    move_calculator = test_utils.MockMoveCalculator()
+    point_fit = point_fit_.SimplePointFit()
+    cost_accumulator_generator=cost_accumulator.FactorCostAccumulatorGenerator(
         no_point_visit_factor=no_point_visit_factor,
         no_point_visit_const=no_point_visit_const,
         unused_time_factor=unused_time_factor)
-    day_visit_cost_calculator_generator = DayVisitCostCalculatorGenerator(
+    day_visit_cost_calculator_generator = day_visit_cost_calculator.DayVisitCostCalculatorGenerator(
         move_calculator=move_calculator,
         point_fit=point_fit,
         cost_accumulator_generator=cost_accumulator_generator)
-    day_visit_router = DayVisitRouter(
+    day_visit_router = day_visit_router_.DayVisitRouter(
         calculator_generator=day_visit_cost_calculator_generator,
         day_visit_heap_size=day_visit_heap_size)
-    city_visit_points_left_generator = CityVisitPointsLeftGenerator(
+    city_visit_points_left_generator = city_visit_points_left.CityVisitPointsLeftGenerator(
         cost_accumulator_generator=cost_accumulator_generator)
-    points_queue_generator = OneByOnePointsQueueGenerator()
-    self.city_visit_router = CityVisitRouter(
+    points_queue_generator = points_queue.OneByOnePointsQueueGenerator()
+    self.city_visit_router = city_visit_router.CityVisitRouter(
         day_visit_router=day_visit_router,
         city_visit_points_left_generator=city_visit_points_left_generator,
         points_queue_generator=points_queue_generator,
@@ -64,7 +63,7 @@ class CityVisitRouterTest(unittest.TestCase):
         city_visit_heap_size=city_visit_heap_size,
         max_non_pushed_points=max_non_pushed_points,
         num_processes=None)
-    self.city_visit_accumulator_generator = CityVisitAccumulatorGenerator()
+    self.city_visit_accumulator_generator = city_visit_accumulator.CityVisitAccumulatorGenerator()
     super(CityVisitRouterTest, self).setUp()
 
   def testOneShortDay(self):

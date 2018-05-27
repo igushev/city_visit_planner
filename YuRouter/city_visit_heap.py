@@ -1,6 +1,7 @@
 import hashlib
-from Yusi.YuPoint.city_visit import DayVisitParametersInterface
-from Yusi.YuRouter.city_visit_points_left import CityVisitPointsLeft
+
+from Yusi.YuPoint import city_visit
+from Yusi.YuRouter import city_visit_points_left
 
 
 class CityVisitHeap(object):
@@ -9,7 +10,7 @@ class CityVisitHeap(object):
   def __init__(self, max_count, day_visit_parameterss):
     assert isinstance(max_count, int)
     for day_visit_parameters in day_visit_parameterss:
-      assert isinstance(day_visit_parameters, DayVisitParametersInterface)
+      assert isinstance(day_visit_parameters, city_visit.DayVisitParametersInterface)
 
     self.max_count = max_count
     self.day_visit_parameterss = day_visit_parameterss
@@ -18,7 +19,7 @@ class CityVisitHeap(object):
     self.cvpls_sorted = []
   
   def PushCityVisit(self, add_city_visit_points_left):
-    assert isinstance(add_city_visit_points_left, CityVisitPointsLeft)
+    assert isinstance(add_city_visit_points_left, city_visit_points_left.CityVisitPointsLeft)
 
     add_hash_key = self._CityVisitDatelessHashKey(add_city_visit_points_left)
     # If we already has this city_visit_points_left in our list.

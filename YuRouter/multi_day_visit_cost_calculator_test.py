@@ -1,23 +1,22 @@
 import unittest
 
 import Yusi
-from Yusi.YuRouter.day_visit_cost_calculator_interface import DayVisitCostCalculatorInterface,\
-  DayVisitCostCalculatorGeneratorInterface
-from Yusi.YuRouter.multi_day_visit_cost_calculator import MultiDayVisitCostCalculatorGenerator
-from Yusi.YuPoint.city_visit import DayVisitParametersInterface
-from Yusi.YuPoint.point import PointInterface
+from Yusi.YuPoint import point as point_
+from Yusi.YuPoint import city_visit
+from Yusi.YuRouter import day_visit_cost_calculator_interface
+from Yusi.YuRouter import multi_day_visit_cost_calculator
 
 
-class MockPoint(PointInterface):
+class MockPoint(point_.PointInterface):
   pass
 
 
-class MockDayVisitParameters(DayVisitParametersInterface):
+class MockDayVisitParameters(city_visit.DayVisitParametersInterface):
   pass
 
 
 # NOTE(igushev): We imitate time constrains by cost constrains in this class.
-class MockDayVisitCostCalculator(DayVisitCostCalculatorInterface):
+class MockDayVisitCostCalculator(day_visit_cost_calculator_interface.DayVisitCostCalculatorInterface):
   
   def __init__(self, costs, finalization_cost, no_push_cost, max_cost):
     self.costs = costs
@@ -55,8 +54,7 @@ class MockDayVisitCostCalculator(DayVisitCostCalculatorInterface):
     return self.pos
 
 
-class MockDayVisitCostCalculatorGenerator(
-    DayVisitCostCalculatorGeneratorInterface):
+class MockDayVisitCostCalculatorGenerator(day_visit_cost_calculator_interface.DayVisitCostCalculatorGeneratorInterface):
   
   def __init__(self, costs, finalization_cost, no_push_cost, max_cost):
     self.costs = costs
@@ -78,7 +76,7 @@ class MultiDayVisitCostCalculatorTest(unittest.TestCase):
     calculator_generator_2 = (
         MockDayVisitCostCalculatorGenerator([1, 6], 2, 100, 10))
     calculator = (
-        MultiDayVisitCostCalculatorGenerator(
+        multi_day_visit_cost_calculator.MultiDayVisitCostCalculatorGenerator(
             [calculator_generator_1, calculator_generator_2]).
         Generate(MockDayVisitParameters()))
     calculator_1, calculator_2 = calculator.calculators
@@ -127,7 +125,7 @@ class MultiDayVisitCostCalculatorTest(unittest.TestCase):
     calculator_generator_2 = (
         MockDayVisitCostCalculatorGenerator([1, 6], 2, 100, 10))
     calculator = (
-        MultiDayVisitCostCalculatorGenerator(
+        multi_day_visit_cost_calculator.MultiDayVisitCostCalculatorGenerator(
             [calculator_generator_1, calculator_generator_2]).
         Generate(MockDayVisitParameters()))
     calculator_1, calculator_2 = calculator.calculators
@@ -160,7 +158,7 @@ class MultiDayVisitCostCalculatorTest(unittest.TestCase):
     calculator_generator_2 = (
         MockDayVisitCostCalculatorGenerator([1, 6], 2, 100, 8))
     calculator = (
-        MultiDayVisitCostCalculatorGenerator(
+        multi_day_visit_cost_calculator.MultiDayVisitCostCalculatorGenerator(
             [calculator_generator_1, calculator_generator_2]).
         Generate(MockDayVisitParameters()))
     calculator_1, calculator_2 = calculator.calculators

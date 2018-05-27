@@ -3,8 +3,8 @@
 import math
 
 import Yusi
-from Yusi.YuPoint.city_visit import MoveDescription
-from Yusi.YuPoint.point import CoordinatesInterface
+from Yusi.YuPoint import point
+from Yusi.YuPoint import city_visit
 
 
 R = 3959  # Earth radius in miles.
@@ -12,8 +12,8 @@ R = 3959  # Earth radius in miles.
 
 def CalculateDistance(coordinates_from, coordinates_to):
   """Calculates distance in km/miles."""
-  assert isinstance(coordinates_from, CoordinatesInterface)
-  assert isinstance(coordinates_to, CoordinatesInterface)
+  assert isinstance(coordinates_from, point.CoordinatesInterface)
+  assert isinstance(coordinates_to, point.CoordinatesInterface)
     
   lat_1 = math.radians(coordinates_from.latitude)
   lat_2 = math.radians(coordinates_to.latitude)
@@ -57,12 +57,12 @@ class SimpleMoveCalculator(MoveCalculatorInterface):
     self._pause = pause
 
   def CalculateMoveDescription(self, coordinates_from, coordinates_to):
-    assert isinstance(coordinates_from, CoordinatesInterface)
-    assert isinstance(coordinates_to, CoordinatesInterface)
+    assert isinstance(coordinates_from, point.CoordinatesInterface)
+    assert isinstance(coordinates_to, point.CoordinatesInterface)
     
     d = CalculateCityDistance(coordinates_from, coordinates_to)
-    return MoveDescription(coordinates_from, coordinates_to,
-                           (d / self._speed) + self._pause, self._move_type)
+    return city_visit.MoveDescription(coordinates_from, coordinates_to,
+                                      (d / self._speed) + self._pause, self._move_type)
 
 
 class MultiMoveCalculator(MoveCalculatorInterface):
@@ -83,8 +83,8 @@ class MultiMoveCalculator(MoveCalculatorInterface):
     self._move_calculators = move_calculators
 
   def CalculateMoveDescription(self, coordinates_from, coordinates_to):
-    assert isinstance(coordinates_from, CoordinatesInterface)
-    assert isinstance(coordinates_to, CoordinatesInterface)
+    assert isinstance(coordinates_from, point.CoordinatesInterface)
+    assert isinstance(coordinates_to, point.CoordinatesInterface)
 
     d = CalculateCityDistance(coordinates_from, coordinates_to)
     

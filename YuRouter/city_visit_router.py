@@ -1,15 +1,14 @@
 import multiprocessing
 
 import Yusi
-from Yusi.YuRouter.city_visit_points_left import CityVisitPointsLeftGenerator
-from Yusi.YuRouter.city_visit_heap import CityVisitHeap
-from Yusi.YuRouter.days_permutations import DaysPermutations
-from Yusi.YuRouter.day_visit_router import DayVisitRouterInterface
-from Yusi.YuRouter.points_queue import PointsQueueGeneratorInterface
-from Yusi.YuPoint.point import PointInterface
-from Yusi.YuPoint.city_visit import DayVisitParametersInterface,\
-  DayVisitInterface
-from Yusi.YuRouter.city_visit_accumulator import CityVisitAccumulatorGenerator
+from Yusi.YuPoint import point as point_
+from Yusi.YuPoint import city_visit
+from Yusi.YuRouter import city_visit_points_left as city_visit_points_left_
+from Yusi.YuRouter import city_visit_heap as city_visit_heap_
+from Yusi.YuRouter import days_permutations
+from Yusi.YuRouter import day_visit_router as day_visit_router_
+from Yusi.YuRouter import points_queue as points_queue_
+from Yusi.YuRouter import city_visit_accumulator as city_visit_accumulator_
 
 
 ################################################################################
@@ -46,7 +45,7 @@ def _PushPointsToDayVisitsImpl(
     could_push, city_visit_heap, day_visit_parameterss, points_left_consistent):
   assert len(days_consider) == len(day_visits)
   assert len(day_visits) == len(day_visit_parameterss)
-  for days_permutation in DaysPermutations(points, days_consider):
+  for days_permutation in days_permutations.DaysPermutations(points, days_consider):
     # Initialize structure for next iteration.
     next_points_left = []
     next_day_visits_consider = days_consider[:]
@@ -59,9 +58,9 @@ def _PushPointsToDayVisitsImpl(
       day_visit_best, points_left_best = (
           _day_visit_router.RouteDayVisit(
               day_points_all, day_visit_parameterss[i]))
-      assert isinstance(day_visit_best, DayVisitInterface)
+      assert isinstance(day_visit_best, city_visit.DayVisitInterface)
       for point_left_best in points_left_best:
-        assert isinstance(point_left_best, PointInterface)
+        assert isinstance(point_left_best, point_.PointInterface)
       next_points_left.extend(points_left_best)
       next_day_visits_consider[i] = False
       next_day_visits = (
@@ -104,7 +103,7 @@ def _PushPointsToDayVisitsWork(
     points_left_consistent):
   days_consider = [True] * len(day_visits)
   could_push = CouldPush()
-  city_visit_heap = CityVisitHeap(
+  city_visit_heap = city_visit_heap_.CityVisitHeap(
       _city_visit_heap_size, day_visit_parameterss)
   _PushPointsToDayVisitsImpl(
       1, points, days_consider, day_visits, points_left,
@@ -131,10 +130,10 @@ class CityVisitRouter(CityVisitRouterInterface):
   def __init__(self, day_visit_router, city_visit_points_left_generator,
                points_queue_generator, shard_num_days, max_depth,
                city_visit_heap_size, max_non_pushed_points, num_processes):
-    assert isinstance(day_visit_router, DayVisitRouterInterface)
+    assert isinstance(day_visit_router, day_visit_router_.DayVisitRouterInterface)
     assert isinstance(city_visit_points_left_generator,
-                      CityVisitPointsLeftGenerator)
-    assert isinstance(points_queue_generator, PointsQueueGeneratorInterface)
+                      city_visit_points_left_.CityVisitPointsLeftGenerator)
+    assert isinstance(points_queue_generator, points_queue_.PointsQueueGeneratorInterface)
     if shard_num_days is not None:
       assert isinstance(shard_num_days, int)
     assert isinstance(max_depth, int)
@@ -162,7 +161,7 @@ class CityVisitRouter(CityVisitRouterInterface):
     for day_visit_parameters in day_visit_parameterss:
         day_visit, points_left = (
             self.day_visit_router.RouteDayVisit([], day_visit_parameters))
-        assert isinstance(day_visit, DayVisitInterface)
+        assert isinstance(day_visit, city_visit.DayVisitInterface)
         assert not points_left
         initial_day_visits.append(day_visit) 
     city_visit_points_lefts = [
@@ -187,7 +186,7 @@ class CityVisitRouter(CityVisitRouterInterface):
       # NOTE(igushev): Process results and fill overall could_push and
       # city_visit_heap.
       could_push = CouldPush()
-      city_visit_heap = CityVisitHeap(
+      city_visit_heap = city_visit_heap_.CityVisitHeap(
           self.city_visit_heap_size, day_visit_parameterss)
       for push_points_to_day_visits_result in push_points_to_day_visits_results:
         could_push_one, city_visit_heap_one = (
@@ -211,11 +210,11 @@ class CityVisitRouter(CityVisitRouterInterface):
   def RouteCityVisit(self, points, day_visit_parameterss,
                      city_visit_accumulator_generator):
     for point in points:
-      assert isinstance(point, PointInterface)
+      assert isinstance(point, point_.PointInterface)
     for day_visit_parameters in day_visit_parameterss:
-      assert isinstance(day_visit_parameters, DayVisitParametersInterface)
+      assert isinstance(day_visit_parameters, city_visit.DayVisitParametersInterface)
     assert isinstance(city_visit_accumulator_generator,
-                      CityVisitAccumulatorGenerator)
+                      city_visit_accumulator_.CityVisitAccumulatorGenerator)
 
     shard_num_days = self.shard_num_days or len(day_visit_parameterss)
     city_visit_accumulator = city_visit_accumulator_generator.Generate()

@@ -2,14 +2,13 @@ import datetime
 import os
 
 import Yusi
-from Yusi.YuPoint.city_visit import DayVisitParameters
-from Yusi.YuConfig.config import GetConfig, GetCityVisitRouter,\
-  GetCityVisitAccumulatorGenerator
+from Yusi.YuPoint import city_visit
+from Yusi.YuConfig import config as config_
 
 
 def GetDayVisitParameterss(start_end_coordinates, first_day, last_day):
   def GetDayVisitParameters(day):
-    return DayVisitParameters(
+    return city_visit.DayVisitParameters(
         start_datetime=datetime.datetime(2015, 7, day, 10, 0, 0),
         end_datetime=datetime.datetime(2015, 7, day, 19, 0, 0),
         lunch_start_datetime=datetime.datetime(2015, 7, day, 14, 0, 0),
@@ -23,12 +22,9 @@ def GetDayVisitParameterss(start_end_coordinates, first_day, last_day):
 class CityVisitRouterRunner(object):
   
   def __init__(self):
-    config = (
-        GetConfig(os.path.join(
-            Yusi.GetYusiDir(), 'YuConfig', 'runner.config')))
-    self.city_visit_router = GetCityVisitRouter(config)
-    self.city_visit_accumulator_generator = (
-        GetCityVisitAccumulatorGenerator(config))
+    config = config_.GetConfig(os.path.join(Yusi.GetYusiDir(), 'YuConfig', 'runner.config'))
+    self.city_visit_router = config_.GetCityVisitRouter(config)
+    self.city_visit_accumulator_generator = config_.GetCityVisitAccumulatorGenerator(config)
 
 
   def Run(self, points_input, day_visit_parameterss):
@@ -36,8 +32,7 @@ class CityVisitRouterRunner(object):
   
     city_visit_best, points_left = (
         self.city_visit_router.RouteCityVisit(
-            points_input, day_visit_parameterss,
-            self.city_visit_accumulator_generator))
+            points_input, day_visit_parameterss, self.city_visit_accumulator_generator))
 
     print('Points to visit in priority: %s' %
           ', '.join(point.name for point in points_input))

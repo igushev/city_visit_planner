@@ -1,13 +1,13 @@
 import os
 
 import Yusi
-from Yusi.YuPoint.city_visit import MoveType, MoveDescription
-from Yusi.YuRouter.move_calculator import MoveCalculatorInterface
-from Yusi.YuPoint.point import CoordinatesInterface
-from Yusi.YuPoint.read_csv import ReadCSVToDict
+from Yusi.YuPoint import point as point_
+from Yusi.YuPoint import city_visit
+from Yusi.YuPoint import read_csv
+from Yusi.YuRouter import move_calculator
 
 
-class MockCoordinates(CoordinatesInterface):
+class MockCoordinates(point_.CoordinatesInterface):
   def __init__(self, name):
     assert isinstance(name, str)
     self.name = name
@@ -20,8 +20,7 @@ class MockCoordinates(CoordinatesInterface):
 
 
 def MockPoints():
-  points = ReadCSVToDict(
-      os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
+  points = read_csv.ReadCSVToDict(os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
   for point in list(points.values()):
     point.coordinates_starts = MockCoordinates(point.name)
     point.coordinates_ends = MockCoordinates(point.name)
@@ -55,7 +54,7 @@ MOVE_HOURS = {frozenset({'Hotel', 'Ferry Building'}): 1.,
               frozenset({'Union Square', 'Restaurant'}): 1.}
 
 
-class MockMoveCalculator(MoveCalculatorInterface):
+class MockMoveCalculator(move_calculator.MoveCalculatorInterface):
   def CalculateMoveDescription(self, coordinates_from, coordinates_to):
     coordinates_between = (
       frozenset({coordinates_from.name, coordinates_to.name}))
@@ -63,5 +62,5 @@ class MockMoveCalculator(MoveCalculatorInterface):
       raise AssertionError(
           'MOVE_HOURS is not defined between coordinates: %s and %s' % (
               coordinates_from, coordinates_to))
-    return MoveDescription(coordinates_from, coordinates_to,
-                           MOVE_HOURS[coordinates_between], MoveType.walking)
+    return city_visit.MoveDescription(coordinates_from, coordinates_to,
+                                      MOVE_HOURS[coordinates_between], city_visit.MoveType.walking)

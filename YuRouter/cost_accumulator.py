@@ -1,8 +1,8 @@
 import copy
 from datetime import timedelta
 
-from Yusi.YuPoint.point import PointInterface
-from Yusi.YuPoint.city_visit import MoveDescription, MoveType
+from Yusi.YuPoint import point as point_
+from Yusi.YuPoint import city_visit
 
 
 class CostAccumulatorInterface(object):
@@ -76,18 +76,18 @@ class FactorCostAccumulator(CostAccumulatorInterface):
     super(FactorCostAccumulator, self).__init__()
 
   def AddPointVisit(self, point):
-    assert isinstance(point, PointInterface)
+    assert isinstance(point, point_.PointInterface)
 
     self.cost += point.duration * self._point_visit_factor
 
   def AddMoveBetween(self, move_description):
-    assert isinstance(move_description, MoveDescription)
+    assert isinstance(move_description, city_visit.MoveDescription)
 
-    if move_description.move_type == MoveType.walking:
+    if move_description.move_type == city_visit.MoveType.walking:
       factor = self._move_walking_factor
-    elif move_description.move_type == MoveType.driving:
+    elif move_description.move_type == city_visit.MoveType.driving:
       factor = self._move_driving_factor
-    elif move_description.move_type == MoveType.ptt:
+    elif move_description.move_type == city_visit.MoveType.ptt:
       factor = self._move_ptt_factor
     else:
       raise NotImplemented('Unknown MoveType: %s' % move_description.move_type)
@@ -99,7 +99,7 @@ class FactorCostAccumulator(CostAccumulatorInterface):
     self.cost += lunch_hour * self._lunch_factor
 
   def AddPointLeft(self, point):
-    assert isinstance(point, PointInterface)
+    assert isinstance(point, point_.PointInterface)
 
     self.cost += (point.duration * self._no_point_visit_factor +
                   self._no_point_visit_const)

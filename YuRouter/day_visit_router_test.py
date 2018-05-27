@@ -2,46 +2,45 @@ import datetime
 import unittest
 
 import Yusi
-from Yusi.YuRouter.cost_accumulator import FactorCostAccumulatorGenerator
-from Yusi.YuRouter.day_visit_router import DayVisitRouter
-from Yusi.YuRouter.point_fit import SimplePointFit
-from Yusi.YuRouter.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
-from Yusi.YuRouter.test_utils import MockMoveCalculator, MockCoordinates,\
-  MockPoints
-from Yusi.YuPoint.city_visit import DayVisitParameters
+from Yusi.YuPoint import city_visit
+from Yusi.YuRouter import cost_accumulator
+from Yusi.YuRouter import day_visit_router
+from Yusi.YuRouter import point_fit as point_fit_
+from Yusi.YuRouter import day_visit_cost_calculator
+from Yusi.YuRouter import test_utils
 
 
 class DayVisitRouterTest(unittest.TestCase):
 
   @staticmethod
   def GetDayVisitParameters(start_datetime, end_datetime):
-    return DayVisitParameters(
+    return city_visit.DayVisitParameters(
         start_datetime=start_datetime,
         end_datetime=end_datetime,
         lunch_start_datetime=datetime.datetime(
             start_datetime.year, start_datetime.month, start_datetime.day,
             13, 0, 0),
         lunch_hours=1.,
-        start_coordinates=MockCoordinates('Hotel'),
-        end_coordinates=MockCoordinates('Restaurant'))
+        start_coordinates=test_utils.MockCoordinates('Hotel'),
+        end_coordinates=test_utils.MockCoordinates('Restaurant'))
 
   def setUp(self):
     no_point_visit_factor = 0.
     no_point_visit_const = 1000.
     unused_time_factor = 0.01
     day_visit_heap_size = 1000
-    self.points = MockPoints()
-    move_calculator = MockMoveCalculator()
-    point_fit = SimplePointFit()
-    cost_accumulator_generator=FactorCostAccumulatorGenerator(
+    self.points = test_utils.MockPoints()
+    move_calculator = test_utils.MockMoveCalculator()
+    point_fit = point_fit_.SimplePointFit()
+    cost_accumulator_generator=cost_accumulator.FactorCostAccumulatorGenerator(
         no_point_visit_factor=no_point_visit_factor,
         no_point_visit_const=no_point_visit_const,
         unused_time_factor=unused_time_factor)
-    day_visit_cost_calculator_generator = DayVisitCostCalculatorGenerator(
+    day_visit_cost_calculator_generator = day_visit_cost_calculator.DayVisitCostCalculatorGenerator(
         move_calculator=move_calculator,
         point_fit=point_fit,
         cost_accumulator_generator=cost_accumulator_generator)
-    self.day_visit_router = DayVisitRouter(
+    self.day_visit_router = day_visit_router.DayVisitRouter(
         calculator_generator=day_visit_cost_calculator_generator,
         day_visit_heap_size=day_visit_heap_size)
     super(DayVisitRouterTest, self).setUp()

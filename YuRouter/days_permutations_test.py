@@ -1,12 +1,11 @@
 import unittest
 
-
 import Yusi
-from Yusi.YuRouter.days_permutations import DaysPermutations
-from Yusi.YuPoint.point import PointInterface
+from Yusi.YuPoint import point
+from Yusi.YuRouter import days_permutations
 
 
-class MockPoint(PointInterface):
+class MockPoint(point.PointInterface):
   pass
 
 
@@ -14,7 +13,7 @@ class DaysPermutationsTest(unittest.TestCase):
   
   def testOnePoint(self):
     a = MockPoint()
-    actual = DaysPermutations([a], [True, True, True])
+    actual = days_permutations.DaysPermutations([a], [True, True, True])
     self.assertEqual(3, len(actual))
     self.assertEqual({0: [a]}, dict(actual[0]))
     self.assertEqual({1: [a]}, dict(actual[1]))
@@ -22,7 +21,7 @@ class DaysPermutationsTest(unittest.TestCase):
 
   def testTwoPoint(self):
     a, b = MockPoint(), MockPoint()
-    actual = DaysPermutations([a, b], [True, True, True])
+    actual = days_permutations.DaysPermutations([a, b], [True, True, True])
     self.assertEqual(9, len(actual))
     self.assertEqual({0: [a, b]}, dict(actual[0]))
     self.assertEqual({0: [a], 1: [b]}, dict(actual[1]))
@@ -36,7 +35,7 @@ class DaysPermutationsTest(unittest.TestCase):
 
   def testThreePoints(self):
     a, b, c = MockPoint(), MockPoint(), MockPoint()
-    actual = DaysPermutations([a, b, c], [True, False, True])
+    actual = days_permutations.DaysPermutations([a, b, c], [True, False, True])
     self.assertEqual(8, len(actual))
     self.assertEqual({0: [a, b, c]}, dict(actual[0]))
     self.assertEqual({0: [a, b], 2: [c]}, dict(actual[1]))
@@ -49,7 +48,7 @@ class DaysPermutationsTest(unittest.TestCase):
     
   def testOneDay(self):
     a, b, c = MockPoint(), MockPoint(), MockPoint()
-    actual = DaysPermutations([a, b, c], [True])
+    actual = days_permutations.DaysPermutations([a, b, c], [True])
     self.assertEqual(1, len(actual))
     self.assertEqual({0: [a, b, c]}, dict(actual[0]))
 

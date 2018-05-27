@@ -1,12 +1,11 @@
 import unittest
 
-from Yusi.YuRouter.city_visit_heap import CityVisitHeap
-from Yusi.YuPoint.city_visit import DayVisitParametersInterface,\
-  DayVisitInterface, CityVisitInterface, CityVisitSummary, CityVisit
-from Yusi.YuRouter.city_visit_points_left import CityVisitPointsLeft
+from Yusi.YuPoint import city_visit as city_visit_
+from Yusi.YuRouter import city_visit_heap as city_visit_heap_
+from Yusi.YuRouter import city_visit_points_left
 
 
-class MockDayVisitParameters(DayVisitParametersInterface):
+class MockDayVisitParameters(city_visit_.DayVisitParametersInterface):
   
   def __init__(self, hash_key):
     assert isinstance(hash_key, str)
@@ -16,7 +15,7 @@ class MockDayVisitParameters(DayVisitParametersInterface):
     return self.hash_key
 
 
-class MockDayVisit(DayVisitInterface):
+class MockDayVisit(city_visit_.DayVisitInterface):
   
   def __init__(self, hash_key):
     assert isinstance(hash_key, str)
@@ -30,17 +29,17 @@ def MockCityVisitPointsLeft(day_visit_hash_keys, cost):
   assert isinstance(day_visit_hash_keys, list)
   assert isinstance(cost, float)
 
-  city_visit = CityVisit(
+  city_visit = city_visit_.CityVisit(
       [MockDayVisit(day_visit_hash_key)
        for day_visit_hash_key in day_visit_hash_keys],
-      CityVisitSummary(cost, 0.))
-  return CityVisitPointsLeft(city_visit, [])
+      city_visit_.CityVisitSummary(cost, 0.))
+  return city_visit_points_left.CityVisitPointsLeft(city_visit, [])
   
 
 class CityVisitHeapTest(unittest.TestCase):
 
   def testGeneral(self):
-    city_visit_heap = CityVisitHeap(3, [MockDayVisitParameters('par')])
+    city_visit_heap = city_visit_heap_.CityVisitHeap(3, [MockDayVisitParameters('par')])
     self.assertEqual(0, city_visit_heap.Size())
     self.assertEqual([], city_visit_heap.GetCityVisitPointsLeftList())
 
@@ -89,7 +88,7 @@ class CityVisitHeapTest(unittest.TestCase):
     self.assertEqual([], city_visit_heap.GetCityVisitPointsLeftList())
 
   def testAddingSameOrderlessHashKeyShrink(self):
-    city_visit_heap = CityVisitHeap(3, [MockDayVisitParameters('par')])
+    city_visit_heap = city_visit_heap_.CityVisitHeap(3, [MockDayVisitParameters('par')])
     self.assertEqual(0, city_visit_heap.Size())
     self.assertEqual([], city_visit_heap.GetCityVisitPointsLeftList())
 
@@ -160,7 +159,7 @@ class CityVisitHeapTest(unittest.TestCase):
     self.assertEqual([], city_visit_heap.GetCityVisitPointsLeftList())
 
   def testAddingSameOrderlessHashKeyNoShrink(self):
-    city_visit_heap = CityVisitHeap(3, [MockDayVisitParameters('par')])
+    city_visit_heap = city_visit_heap_.CityVisitHeap(3, [MockDayVisitParameters('par')])
     self.assertEqual(0, city_visit_heap.Size())
     self.assertEqual([], city_visit_heap.GetCityVisitPointsLeftList())
 
@@ -217,9 +216,9 @@ class CityVisitHeapTest(unittest.TestCase):
 
 
   def testCityVisitOrderlessHashKey(self):
-    city_visit_heap_a = CityVisitHeap(3, [
+    city_visit_heap_a = city_visit_heap_.CityVisitHeap(3, [
         MockDayVisitParameters('parX'), MockDayVisitParameters('parY')])
-    city_visit_heap_b = CityVisitHeap(3, [
+    city_visit_heap_b = city_visit_heap_.CityVisitHeap(3, [
         MockDayVisitParameters('parY'), MockDayVisitParameters('parX')])
     visit_a = MockCityVisitPointsLeft(['dayX', 'dayY'], 10.)
     visit_b = MockCityVisitPointsLeft(['dayY', 'dayX'], 10.)

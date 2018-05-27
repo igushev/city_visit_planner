@@ -1,12 +1,11 @@
 from collections import namedtuple
 import copy
 
-
 import Yusi
-from Yusi.YuRouter.day_visit_heap import PointsCalculator, DayVisitHeap
-from Yusi.YuRouter.day_visit_cost_calculator_interface import DayVisitCostCalculatorGeneratorInterface
-from Yusi.YuPoint.point import PointInterface
-from Yusi.YuPoint.city_visit import DayVisitParametersInterface
+from Yusi.YuPoint import point as point_
+from Yusi.YuPoint import city_visit
+from Yusi.YuRouter import day_visit_heap
+from Yusi.YuRouter import day_visit_cost_calculator_interface
 
 
 class DayVisitRouterInterface(object):
@@ -23,7 +22,7 @@ class DayVisitRouter(DayVisitRouterInterface):
 
   def __init__(self, calculator_generator, day_visit_heap_size):
     assert isinstance(calculator_generator,
-                      DayVisitCostCalculatorGeneratorInterface)
+                      day_visit_cost_calculator_interface.DayVisitCostCalculatorGeneratorInterface)
     assert isinstance(day_visit_heap_size, int)
     
     self.calculator_generator = calculator_generator
@@ -32,17 +31,17 @@ class DayVisitRouter(DayVisitRouterInterface):
   # TODO(igushev): Use set instead of list for Points.
   def RouteDayVisit(self, all_points, day_visit_parameters):
     for point in all_points:
-      assert isinstance(point, PointInterface)
-    assert isinstance(day_visit_parameters, DayVisitParametersInterface)
+      assert isinstance(point, point_.PointInterface)
+    assert isinstance(day_visit_parameters, city_visit.DayVisitParametersInterface)
 
-    points_calculator_heap = DayVisitHeap(self.day_visit_heap_size)
+    points_calculator_heap = day_visit_heap.DayVisitHeap(self.day_visit_heap_size)
     points_calculator_heap.Append(
-        PointsCalculator(
+        day_visit_heap.PointsCalculator(
             all_points,
             self.calculator_generator.Generate(day_visit_parameters)))
     points_calculator_heap.Shrink()
     while True:
-      next_points_calculator_heap = DayVisitHeap(self.day_visit_heap_size)
+      next_points_calculator_heap = day_visit_heap.DayVisitHeap(self.day_visit_heap_size)
       pushed_to_next = []
       for points, calculator in (
           points_calculator_heap.GetPointsCalculatorList()):
@@ -51,7 +50,7 @@ class DayVisitRouter(DayVisitRouterInterface):
           pushed_to_next.append(next_calculator.PushPoint(point))
           next_points = points[:i] + points[i+1:]  # -= point
           next_points_calculator_heap.Append(
-              PointsCalculator(next_points, next_calculator))
+              day_visit_heap.PointsCalculator(next_points, next_calculator))
       next_points_calculator_heap.Shrink()
       prev_points_calculator_heap = points_calculator_heap
       points_calculator_heap = next_points_calculator_heap

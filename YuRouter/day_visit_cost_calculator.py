@@ -1,14 +1,12 @@
 import copy
 import datetime
 
-from Yusi.YuRouter.day_visit_cost_calculator_interface import DayVisitCostCalculatorInterface,\
-  DayVisitCostCalculatorGeneratorInterface
-from Yusi.YuPoint.city_visit import DayVisit, Lunch, StartEndDatetime,\
-  MoveBetween, PointVisit, DayVisitParametersInterface
-from Yusi.YuRouter.move_calculator import MoveCalculatorInterface
-from Yusi.YuRouter.point_fit import PointFitInterface
-from Yusi.YuRouter.cost_accumulator import CostAccumulatorGeneratorInterface
-from Yusi.YuPoint.point import PointInterface
+from Yusi.YuPoint import point as point_
+from Yusi.YuPoint import city_visit
+from Yusi.YuRouter import day_visit_cost_calculator_interface
+from Yusi.YuRouter import move_calculator as move_calculator_
+from Yusi.YuRouter import point_fit as point_fit_
+from Yusi.YuRouter import cost_accumulator as cost_accumulator_
 
 
 class DayVisitCostCalculatorState(object):
@@ -52,7 +50,7 @@ class PointVisitAdder(ActionAdderInterface):
   
   def StartEndDatetime(self, current_state):
     visit_timedelta = datetime.timedelta(hours=self.point.duration)
-    visit_start_end_datetime = StartEndDatetime(
+    visit_start_end_datetime = city_visit.StartEndDatetime(
         current_state.current_datetime,
         current_state.current_datetime + visit_timedelta)
     return visit_start_end_datetime
@@ -68,8 +66,7 @@ class PointVisitAdder(ActionAdderInterface):
     current_state.current_datetime = visit_start_end_datetime.end
     current_state.current_coordinates = self.point.coordinates_ends
     current_state.cost_accumulator.AddPointVisit(self.point)
-    current_state.actions.append(
-        PointVisit(visit_start_end_datetime, self.point))
+    current_state.actions.append(city_visit.PointVisit(visit_start_end_datetime, self.point))
     return True
 
 
@@ -84,7 +81,7 @@ class MoveBetweenAdder(ActionAdderInterface):
         self.calculator.move_calculator.CalculateMoveDescription(
             current_state.current_coordinates, self.to_coordinates))
     move_timedelta = datetime.timedelta(hours=move_description.move_hours)
-    move_start_end_datetime = StartEndDatetime(
+    move_start_end_datetime = city_visit.StartEndDatetime(
         current_state.current_datetime,
         current_state.current_datetime + move_timedelta)
     return move_start_end_datetime
@@ -94,7 +91,7 @@ class MoveBetweenAdder(ActionAdderInterface):
         self.calculator.move_calculator.CalculateMoveDescription(
             current_state.current_coordinates, self.to_coordinates))
     move_timedelta = datetime.timedelta(hours=move_description.move_hours)
-    move_start_end_datetime = StartEndDatetime(
+    move_start_end_datetime = city_visit.StartEndDatetime(
         current_state.current_datetime,
         current_state.current_datetime + move_timedelta)
     if (move_start_end_datetime.end >
@@ -103,8 +100,7 @@ class MoveBetweenAdder(ActionAdderInterface):
     current_state.current_datetime = move_start_end_datetime.end
     current_state.current_coordinates = move_description.to_coordinates
     current_state.cost_accumulator.AddMoveBetween(move_description)
-    current_state.actions.append(
-      MoveBetween(move_start_end_datetime, move_description))
+    current_state.actions.append(city_visit.MoveBetween(move_start_end_datetime, move_description))
     return True
 
 
@@ -116,7 +112,7 @@ class LunchAdder(ActionAdderInterface):
   def StartEndDatetime(self, current_state):
     lunch_timedelta = datetime.timedelta(
         hours=self.calculator.day_visit_parameters.lunch_hours)
-    lunch_start_end_datetime = StartEndDatetime(
+    lunch_start_end_datetime = city_visit.StartEndDatetime(
         current_state.current_datetime,
         current_state.current_datetime + lunch_timedelta)
     return lunch_start_end_datetime
@@ -129,10 +125,8 @@ class LunchAdder(ActionAdderInterface):
     current_state.current_datetime = lunch_start_end_datetime.end
     current_state.cost_accumulator.AddLunch(
         self.calculator.day_visit_parameters.lunch_hours)
-    current_state.actions.append(
-        Lunch(
-            lunch_start_end_datetime,
-            self.calculator.day_visit_parameters.lunch_hours))
+    current_state.actions.append(city_visit.Lunch(lunch_start_end_datetime,
+                                                  self.calculator.day_visit_parameters.lunch_hours))
     return True
 
 
@@ -140,7 +134,7 @@ class LunchAdder(ActionAdderInterface):
 # point and if day visit can be finalized. After first such point can't be
 # pushed, none of following will be pushed, since higher level modules should
 # be responsible for permutation.
-class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
+class DayVisitCostCalculator(day_visit_cost_calculator_interface.DayVisitCostCalculatorInterface):
   """Constructs DayVisit and calculates its cost."""
 
   def __init__(self, move_calculator, point_fit, day_visit_parameters,
@@ -215,7 +209,7 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
     return True
   
   def PushPoint(self, point):
-    assert isinstance(point, PointInterface)
+    assert isinstance(point, point_.PointInterface)
 
     # If self.points_left is empty, it means no point has not been pushed, so
     # we can proceed.
@@ -251,7 +245,7 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
 
   def FinalizedDayVisit(self):
     finalized_current_state = self._FinalizedCurrentState()
-    return DayVisit(
+    return city_visit.DayVisit(
         self.day_visit_parameters.start_datetime,
         finalized_current_state.actions,
         finalized_current_state.cost_accumulator.Cost())
@@ -270,21 +264,21 @@ class DayVisitCostCalculator(DayVisitCostCalculatorInterface):
     return self.current_state.cost_accumulator.Cost()
 
 
-class DayVisitCostCalculatorGenerator(DayVisitCostCalculatorGeneratorInterface):
+class DayVisitCostCalculatorGenerator(day_visit_cost_calculator_interface.DayVisitCostCalculatorGeneratorInterface):
   """Returns every time new clean instance of DayVisitCostCalculator."""
 
   def __init__(self, move_calculator, point_fit, cost_accumulator_generator):
-    assert isinstance(move_calculator, MoveCalculatorInterface)
-    assert isinstance(point_fit, PointFitInterface)
+    assert isinstance(move_calculator, move_calculator_.MoveCalculatorInterface)
+    assert isinstance(point_fit, point_fit_.PointFitInterface)
     assert isinstance(cost_accumulator_generator,
-                      CostAccumulatorGeneratorInterface)
+                      cost_accumulator_.CostAccumulatorGeneratorInterface)
 
     self.move_calculator = move_calculator
     self.point_fit = point_fit
     self.cost_accumulator_generator = cost_accumulator_generator
   
   def Generate(self, day_visit_parameters):
-    assert isinstance(day_visit_parameters, DayVisitParametersInterface)
+    assert isinstance(day_visit_parameters, city_visit.DayVisitParametersInterface)
 
     return DayVisitCostCalculator.Init(
         self.move_calculator, self.point_fit, day_visit_parameters,

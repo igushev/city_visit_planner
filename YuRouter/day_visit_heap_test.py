@@ -1,16 +1,16 @@
 import unittest
 
 import Yusi
-from Yusi.YuRouter.day_visit_heap import PointsCalculator, DayVisitHeap
-from Yusi.YuRouter.day_visit_cost_calculator_interface import DayVisitCostCalculatorInterface
-from Yusi.YuPoint.point import PointInterface
+from Yusi.YuPoint import point
+from Yusi.YuRouter import day_visit_heap as day_visit_heap_
+from Yusi.YuRouter import day_visit_cost_calculator_interface
 
 
-class MockPoint(PointInterface):
+class MockPoint(point.PointInterface):
   pass
 
 
-class MockDayVisitCostCalculator(DayVisitCostCalculatorInterface):
+class MockDayVisitCostCalculator(day_visit_cost_calculator_interface.DayVisitCostCalculatorInterface):
   def __init__(self, cost):
     self.cost = cost
   
@@ -21,25 +21,25 @@ class MockDayVisitCostCalculator(DayVisitCostCalculatorInterface):
 class DayVisitHeapTest(unittest.TestCase):
   
   def testGeneral(self):
-    day_visit_heap = DayVisitHeap(2)
+    day_visit_heap = day_visit_heap_.DayVisitHeap(2)
     self.assertEqual(0, day_visit_heap.Size())
     self.assertEqual([], day_visit_heap.GetPointsCalculatorList())
 
-    visit_a = PointsCalculator([MockPoint(), MockPoint()],
-                               MockDayVisitCostCalculator(1))    
+    visit_a = day_visit_heap_.PointsCalculator([MockPoint(), MockPoint()],
+                                               MockDayVisitCostCalculator(1))    
     day_visit_heap.Append(visit_a)
     self.assertEqual(1, day_visit_heap.Size())
     self.assertRaises(AssertionError, day_visit_heap.GetPointsCalculatorList)
 
-    visit_b = PointsCalculator([MockPoint(), MockPoint()],
-                               MockDayVisitCostCalculator(9))
+    visit_b = day_visit_heap_.PointsCalculator([MockPoint(), MockPoint()],
+                                               MockDayVisitCostCalculator(9))
     day_visit_heap.Append(visit_b)
     self.assertEqual(2, day_visit_heap.Size())
     self.assertRaises(AssertionError, day_visit_heap.GetPointsCalculatorList)
 
     # Should evict visit_b.
-    visit_c = PointsCalculator([MockPoint(), MockPoint()],
-                               MockDayVisitCostCalculator(5))
+    visit_c = day_visit_heap_.PointsCalculator([MockPoint(), MockPoint()],
+                                               MockDayVisitCostCalculator(5))
     day_visit_heap.Append(visit_c)
     self.assertEqual(3, day_visit_heap.Size())
     self.assertRaises(AssertionError, day_visit_heap.GetPointsCalculatorList)
@@ -50,14 +50,14 @@ class DayVisitHeapTest(unittest.TestCase):
                      day_visit_heap.GetPointsCalculatorList())
     
     # Should evict visit_c
-    visit_d = PointsCalculator([MockPoint(), MockPoint()],
-                               MockDayVisitCostCalculator(3))
+    visit_d = day_visit_heap_.PointsCalculator([MockPoint(), MockPoint()],
+                                               MockDayVisitCostCalculator(3))
     day_visit_heap.Append(visit_d)
     self.assertEqual(3, day_visit_heap.Size())
     self.assertRaises(AssertionError, day_visit_heap.GetPointsCalculatorList)
 
-    visit_e = PointsCalculator([MockPoint(), MockPoint()],
-                               MockDayVisitCostCalculator(7))
+    visit_e = day_visit_heap_.PointsCalculator([MockPoint(), MockPoint()],
+                                               MockDayVisitCostCalculator(7))
     day_visit_heap.Append(visit_e)
     self.assertEqual(4, day_visit_heap.Size())
     self.assertRaises(AssertionError, day_visit_heap.GetPointsCalculatorList)
@@ -68,8 +68,8 @@ class DayVisitHeapTest(unittest.TestCase):
                      day_visit_heap.GetPointsCalculatorList())
 
     # Number of points in inconsistent.
-    visit_f = PointsCalculator([MockPoint(), MockPoint(), MockPoint()],
-                               MockDayVisitCostCalculator(1))
+    visit_f = day_visit_heap_.PointsCalculator([MockPoint(), MockPoint(), MockPoint()],
+                                               MockDayVisitCostCalculator(1))
     self.assertRaises(AssertionError, day_visit_heap.Append, visit_f)
     self.assertEqual(2, day_visit_heap.Size())
     self.assertEqual([visit_a, visit_d],

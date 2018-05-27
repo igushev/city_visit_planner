@@ -1,5 +1,5 @@
-from Yusi.YuPoint.city_visit import StartEndDatetimeInterface
-from Yusi.YuPoint.point import OperatingHoursInterface
+from Yusi.YuPoint import point
+from Yusi.YuPoint import city_visit
 
 
 class PointFitInterface(object):
@@ -19,9 +19,9 @@ class SimplePointFit(PointFitInterface):
   about days of week, seasons, etc."""
 
   def IfPointFit(self, start_end_datetime, operating_hours):
-    assert isinstance(start_end_datetime, StartEndDatetimeInterface)
+    assert isinstance(start_end_datetime, city_visit.StartEndDatetimeInterface)
     if operating_hours is not None:
-      assert isinstance(operating_hours, OperatingHoursInterface)
+      assert isinstance(operating_hours, point.OperatingHoursInterface)
     
     # If it's 24/7, point can be visited regardless of start_end_datetime.
     if not operating_hours:

@@ -1,8 +1,6 @@
 from collections import namedtuple
 
-
-from Yusi.YuPoint.city_visit import PointVisit, MoveBetween, Lunch, CityVisit,\
-  CityVisitSummary
+from Yusi.YuPoint import city_visit as city_visit_
 
 
 CityVisitPointsLeft = namedtuple(
@@ -30,11 +28,11 @@ class CityVisitPointsLeftGenerator(CityVisitPointsLeftGeneratorInterface):
     for day_visit, day_visit_parameters in (
         zip(day_visits, day_visit_parameterss)):
       for action in day_visit.actions:
-        if isinstance(action, PointVisit):
+        if isinstance(action, city_visit_.PointVisit):
           cost_accumulator.AddPointVisit(action.point)
-        elif isinstance(action, MoveBetween):
+        elif isinstance(action, city_visit_.MoveBetween):
           cost_accumulator.AddMoveBetween(action.move_description)
-        elif isinstance(action, Lunch):
+        elif isinstance(action, city_visit_.Lunch):
           cost_accumulator.AddLunch(action.lunch_hours)
         else:
           raise NotImplemented('Unknown action type %s' % type(action))
@@ -44,6 +42,6 @@ class CityVisitPointsLeftGenerator(CityVisitPointsLeftGeneratorInterface):
       price += day_visit.price
     for point_left in points_left:
       cost_accumulator.AddPointLeft(point_left)
-    city_visit_summary = CityVisitSummary(cost_accumulator.Cost(), price)
-    city_visit = CityVisit(day_visits, city_visit_summary)
+    city_visit_summary = city_visit_.CityVisitSummary(cost_accumulator.Cost(), price)
+    city_visit = city_visit_.CityVisit(day_visits, city_visit_summary)
     return CityVisitPointsLeft(city_visit, points_left)

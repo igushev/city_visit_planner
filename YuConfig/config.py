@@ -1,23 +1,22 @@
 from configparser import ConfigParser
 
-from Yusi.YuRouter.point_fit import SimplePointFit
-from Yusi.YuRouter.cost_accumulator import FactorCostAccumulatorGenerator
-from Yusi.YuRouter.move_calculator import SimpleMoveCalculator,\
-  MultiMoveCalculator
-from Yusi.YuPoint.city_visit import MoveType
-from Yusi.YuRouter.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
-from Yusi.YuRouter.multi_day_visit_cost_calculator import MultiDayVisitCostCalculatorGenerator
-from Yusi.YuRouter.day_visit_router import DayVisitRouter
-from Yusi.YuRouter.city_visit_points_left import CityVisitPointsLeftGenerator
-from Yusi.YuRouter.points_queue import OneByOnePointsQueueGenerator
-from Yusi.YuRouter.city_visit_router import CityVisitRouter
-from Yusi.YuPoint.test_utils import MockDatabaseConnection
-from Yusi.YuRouter.city_visit_accumulator import CityVisitAccumulatorGenerator
-from Yusi.YuFinder.city_visit_finder import CityVisitFinder
-from Yusi.YuRanker.popularity_rank_adjuster import PopularityRankAdjuster
-from Yusi.YuRanker.point_type_rank_adjuster import PointTypeRankAdjuster
-from Yusi.YuRanker.age_group_rank_adjuster import AgeGroupRankAdjuster
-from Yusi.YuRanker.points_ranker import PointsRanker
+from Yusi.YuRouter import point_fit as point_fit_
+from Yusi.YuRouter import cost_accumulator
+from Yusi.YuRouter import move_calculator
+from Yusi.YuPoint import city_visit
+from Yusi.YuRouter import day_visit_cost_calculator
+from Yusi.YuRouter import multi_day_visit_cost_calculator
+from Yusi.YuRouter import day_visit_router as day_visit_router_
+from Yusi.YuRouter import city_visit_points_left
+from Yusi.YuRouter import points_queue
+from Yusi.YuRouter import city_visit_router as city_visit_router_
+from Yusi.YuPoint import test_utils
+from Yusi.YuRouter import city_visit_accumulator
+from Yusi.YuFinder import city_visit_finder as city_visit_finder_
+from Yusi.YuRanker import popularity_rank_adjuster
+from Yusi.YuRanker import point_type_rank_adjuster
+from Yusi.YuRanker import age_group_rank_adjuster
+from Yusi.YuRanker import points_ranker as points_ranker_
 
 
 def GetConfig(filepath=None):
@@ -28,21 +27,21 @@ def GetConfig(filepath=None):
 
 
 def GetDatabaseConnection(config):
-  database_connection = MockDatabaseConnection()
+  database_connection = test_utils.MockDatabaseConnection()
   return database_connection
 
 
 def GetPointsRanker(config):
-  rank_adjusters = [PopularityRankAdjuster(),
-                    PointTypeRankAdjuster(),
-                    AgeGroupRankAdjuster()]
+  rank_adjusters = [popularity_rank_adjuster.PopularityRankAdjuster(),
+                    point_type_rank_adjuster.PointTypeRankAdjuster(),
+                    age_group_rank_adjuster.AgeGroupRankAdjuster()]
   
-  points_ranker = PointsRanker(rank_adjusters)
+  points_ranker = points_ranker_.PointsRanker(rank_adjusters)
   return points_ranker
 
 
 def GetPointFit(config):
-  point_fit = SimplePointFit()
+  point_fit = point_fit_.SimplePointFit()
   return point_fit
 
 
@@ -58,7 +57,7 @@ def GetCostAccumulatorGenerator(config):
   no_point_visit_const = config.getfloat(cag_section, 'no_point_visit_const')
   unused_time_factor = config.getfloat(cag_section, 'unused_time_factor')
   
-  cost_accumulator_generator = FactorCostAccumulatorGenerator(
+  cost_accumulator_generator = cost_accumulator.FactorCostAccumulatorGenerator(
       point_visit_factor=point_visit_factor,
       move_walking_factor=move_walking_factor,
       move_driving_factor=move_driving_factor,
@@ -118,33 +117,33 @@ def GetDayVisitCostCalculatorGenerator(
     assert max_walking_distance <= max_max_walking_distance_before_ptt
 
   if driving:
-    driving_move_calculator = SimpleMoveCalculator(
-        driving_speed, MoveType.driving, pause=pause_before_driving)
+    driving_move_calculator = move_calculator.SimpleMoveCalculator(
+        driving_speed, city_visit.MoveType.driving, pause=pause_before_driving)
 
-  walking_move_calculator = SimpleMoveCalculator(
-      walking_speed, MoveType.walking, pause=pause_before_walking)
-  ptt_move_calculator = SimpleMoveCalculator(
-      ptt_speed, MoveType.ptt, pause=pause_before_ptt)
+  walking_move_calculator = move_calculator.SimpleMoveCalculator(
+      walking_speed, city_visit.MoveType.walking, pause=pause_before_walking)
+  ptt_move_calculator = move_calculator.SimpleMoveCalculator(
+      ptt_speed, city_visit.MoveType.ptt, pause=pause_before_ptt)
 
-  walking_ptt_move_calculator = MultiMoveCalculator(
+  walking_ptt_move_calculator = move_calculator.MultiMoveCalculator(
           [max_walking_distance],
           [walking_move_calculator, ptt_move_calculator])
 
   if driving:
     driving_day_visit_const_calculator_generator = (
-        DayVisitCostCalculatorGenerator(
+        day_visit_cost_calculator.DayVisitCostCalculatorGenerator(
             move_calculator=driving_move_calculator,
             point_fit=point_fit,
             cost_accumulator_generator=cost_accumulator_generator))
 
-  ptt_day_visit_const_calculator_generator = DayVisitCostCalculatorGenerator(
+  ptt_day_visit_const_calculator_generator = day_visit_cost_calculator.DayVisitCostCalculatorGenerator(
       move_calculator=walking_ptt_move_calculator,
       point_fit=point_fit,
       cost_accumulator_generator=cost_accumulator_generator)
 
   if driving:
     day_visit_const_calculator_generator = (
-        MultiDayVisitCostCalculatorGenerator(
+        multi_day_visit_cost_calculator.MultiDayVisitCostCalculatorGenerator(
             [driving_day_visit_const_calculator_generator,
              ptt_day_visit_const_calculator_generator]))
   else:
@@ -155,7 +154,7 @@ def GetDayVisitCostCalculatorGenerator(
 
 
 def GetPointsQueueGenerator(config):
-  points_queue_generator = OneByOnePointsQueueGenerator()
+  points_queue_generator = points_queue.OneByOnePointsQueueGenerator()
   return points_queue_generator
 
 
@@ -171,11 +170,11 @@ def GetCityVisitRouter(config):
           cost_accumulator_generator=cost_accumulator_generator))
 
   day_visit_heap_size = config.getint(cvr_section, 'day_visit_heap_size')
-  day_visit_router = DayVisitRouter(
+  day_visit_router = day_visit_router_.DayVisitRouter(
       calculator_generator=day_visit_const_calculator_generator,
       day_visit_heap_size=day_visit_heap_size)
 
-  city_visit_points_left_generator = CityVisitPointsLeftGenerator(
+  city_visit_points_left_generator = city_visit_points_left.CityVisitPointsLeftGenerator(
       cost_accumulator_generator=cost_accumulator_generator)
   points_queue_generator = GetPointsQueueGenerator(config)
   shard_num_days = config.getint(cvr_section, 'shard_num_days') 
@@ -187,7 +186,7 @@ def GetCityVisitRouter(config):
   else:
     num_processes = None
 
-  city_visit_router = CityVisitRouter(
+  city_visit_router = city_visit_router_.CityVisitRouter(
       day_visit_router=day_visit_router,
       city_visit_points_left_generator=city_visit_points_left_generator,
       points_queue_generator=points_queue_generator,
@@ -203,7 +202,7 @@ def GetCityVisitRouter(config):
 def GetCityVisitFinder(config, database_connection):
   points_ranker = GetPointsRanker(config)
   city_visit_router = GetCityVisitRouter(config)
-  city_visit_finder = CityVisitFinder(
+  city_visit_finder = city_visit_finder_.CityVisitFinder(
       database_connection=database_connection,
       points_ranker=points_ranker,
       city_visit_router=city_visit_router)
@@ -211,7 +210,7 @@ def GetCityVisitFinder(config, database_connection):
 
 
 def GetCityVisitAccumulatorGenerator(config):
-  city_visit_accumulator_generator = CityVisitAccumulatorGenerator()
+  city_visit_accumulator_generator = city_visit_accumulator.CityVisitAccumulatorGenerator()
   return city_visit_accumulator_generator
 
 

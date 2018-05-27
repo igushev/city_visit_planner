@@ -1,35 +1,32 @@
 import unittest
-from Yusi.YuConfig.config import GetDatabaseConnection, GetConfig,\
-  GetPointsRanker, GetPointFit, GetCostAccumulatorGenerator,\
-  GetDayVisitCostCalculatorGenerator, GetPointsQueueGenerator,\
-  GetCityVisitRouter, GetCityVisitFinder, GetCityVisitAccumulatorGenerator,\
-  GetCorsOrigin, GetServerParams, GetTaskWorkerParams
-from Yusi.YuRouter.day_visit_cost_calculator import DayVisitCostCalculatorGenerator
-from Yusi.YuRouter.multi_day_visit_cost_calculator import MultiDayVisitCostCalculatorGenerator
+
+from Yusi.YuConfig import config
+from Yusi.YuRouter import day_visit_cost_calculator
+from Yusi.YuRouter import multi_day_visit_cost_calculator
 
 
 class ConfigTest(unittest.TestCase):
 
   def setUp(self):
     super(ConfigTest, self).setUp()
-    self.config = GetConfig()
+    self.config = config.GetConfig()
 
   def _SetAndGetDatabaseConnection(self):
-    database_connection = GetDatabaseConnection(self.config)
+    database_connection = config.GetDatabaseConnection(self.config)
     return database_connection
   
   def testGetDatabaseConnection(self):
     self.assertIsNotNone(self._SetAndGetDatabaseConnection())
 
   def _SetAndGetPointsRanker(self):
-    points_ranker_runner = GetPointsRanker(self.config)
+    points_ranker_runner = config.GetPointsRanker(self.config)
     return points_ranker_runner
 
   def testGetPointsRanker(self):
     self.assertIsNotNone(self._SetAndGetPointsRanker())
 
   def _SetAndGetPointFit(self):
-    point_fit = GetPointFit(self.config)
+    point_fit = config.GetPointFit(self.config)
     return point_fit 
 
   def testGetPointFit(self):
@@ -48,7 +45,7 @@ class ConfigTest(unittest.TestCase):
                    'no_point_visit_const',
                    'unused_time_factor']:
       self.config.set(cag_section, option, str(1.))
-    cost_accumulator_generator = GetCostAccumulatorGenerator(self.config)
+    cost_accumulator_generator = config.GetCostAccumulatorGenerator(self.config)
     return cost_accumulator_generator 
 
   def testGetCostAccumulatorGenerator(self):
@@ -70,7 +67,7 @@ class ConfigTest(unittest.TestCase):
     self.config.set(dvccg_section, 'validate_max_walking_distance', str(True))
 
     day_visit_const_calculator_generator = (
-        GetDayVisitCostCalculatorGenerator(
+        config.GetDayVisitCostCalculatorGenerator(
             self.config,
             point_fit=point_fit,
             cost_accumulator_generator=cost_accumulator_generator))
@@ -83,17 +80,17 @@ class ConfigTest(unittest.TestCase):
     self.assertTrue(
         isinstance(
             day_visit_const_calculator_generator,
-            MultiDayVisitCostCalculatorGenerator))
+            multi_day_visit_cost_calculator.MultiDayVisitCostCalculatorGenerator))
     self.assertEqual(
         2, len(day_visit_const_calculator_generator.calculator_generators))
     self.assertTrue(
         isinstance(
             day_visit_const_calculator_generator.calculator_generators[0],
-            DayVisitCostCalculatorGenerator))
+            day_visit_cost_calculator.DayVisitCostCalculatorGenerator))
     self.assertTrue(
         isinstance(
             day_visit_const_calculator_generator.calculator_generators[1],
-            DayVisitCostCalculatorGenerator))
+            day_visit_cost_calculator.DayVisitCostCalculatorGenerator))
 
   def _SetAndGetDayVisitCostCalculatorGeneratorNoDriving(
       self, point_fit, cost_accumulator_generator):
@@ -108,7 +105,7 @@ class ConfigTest(unittest.TestCase):
     self.config.set(dvccg_section, 'validate_max_walking_distance', str(True))
 
     day_visit_const_calculator_generator = (
-        GetDayVisitCostCalculatorGenerator(
+        config.GetDayVisitCostCalculatorGenerator(
             self.config,
             point_fit=point_fit,
             cost_accumulator_generator=cost_accumulator_generator))
@@ -124,10 +121,10 @@ class ConfigTest(unittest.TestCase):
     self.assertTrue(
         isinstance(
             day_visit_const_calculator_generator,
-            DayVisitCostCalculatorGenerator))
+            day_visit_cost_calculator.DayVisitCostCalculatorGenerator))
 
   def _SetAndGetPointsQueueGenerator(self):
-    points_queue_generator = GetPointsQueueGenerator(self.config)
+    points_queue_generator = config.GetPointsQueueGenerator(self.config)
     return points_queue_generator
 
   def testGetPointsQueueGenerator(self):
@@ -145,7 +142,7 @@ class ConfigTest(unittest.TestCase):
                    'city_visit_heap_size', 'max_non_pushed_points']:
       self.config.set(cvr_section, option, str(1))
     
-    city_visit_router = GetCityVisitRouter(self.config)
+    city_visit_router = config.GetCityVisitRouter(self.config)
     return city_visit_router
   
   def testGetCityVisitRouter(self):
@@ -156,7 +153,7 @@ class ConfigTest(unittest.TestCase):
     self._SetAndGetPointsRanker()
     self._SetAndGetCityVisitRouter()
     
-    city_visit_finder = GetCityVisitFinder(self.config, database_connection)
+    city_visit_finder = config.GetCityVisitFinder(self.config, database_connection)
     return city_visit_finder
 
   def testGetCityVisitFinder(self):
@@ -164,7 +161,7 @@ class ConfigTest(unittest.TestCase):
 
   def _SetAndGetCityVisitAccumulatorGenerator(self):
     city_visit_accumulator_generator = (
-        GetCityVisitAccumulatorGenerator(self.config))
+        config.GetCityVisitAccumulatorGenerator(self.config))
     return city_visit_accumulator_generator
 
   def testGetCityVisitAccumulatorGenerator(self):
@@ -175,7 +172,7 @@ class ConfigTest(unittest.TestCase):
     self.config.add_section(cors_section)
     self.config.set(cors_section, 'origin', 'test_origin')
 
-    cors_origin = GetCorsOrigin(self.config)
+    cors_origin = config.GetCorsOrigin(self.config)
     return cors_origin
 
   def testGetCorsOrigin(self):
@@ -188,7 +185,7 @@ class ConfigTest(unittest.TestCase):
     self.config.set(server_section, 'port', '2143')
     self.config.set(server_section, 'host', '0.0.0.0')
 
-    server_port, server_host = GetServerParams(self.config)
+    server_port, server_host = config.GetServerParams(self.config)
     return server_port, server_host
 
   def testGetServerParams(self):
@@ -201,7 +198,7 @@ class ConfigTest(unittest.TestCase):
     self.config.add_section(tw_section)
     self.config.set(tw_section, 'idle_seconds_terminate', str(1.5))
     
-    idle_seconds_terminate = GetTaskWorkerParams(self.config)
+    idle_seconds_terminate = config.GetTaskWorkerParams(self.config)
     return idle_seconds_terminate
 
   def testGetTaskWorkerParams(self):

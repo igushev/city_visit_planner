@@ -70,8 +70,7 @@ def GetCostAccumulatorGenerator(config):
   return cost_accumulator_generator
 
   
-def GetDayVisitCostCalculatorGenerator(
-    config, point_fit, cost_accumulator_generator):
+def GetDayVisitCostCalculatorGenerator(config, point_fit, cost_accumulator_generator):
   dvccg_section = 'day_visit_const_calculator_generator'
   
   if (config.has_option(dvccg_section, 'driving_speed') or
@@ -105,13 +104,11 @@ def GetDayVisitCostCalculatorGenerator(
       ptt_speed * pause_before_ptt * walking_speed /
       ((ptt_speed / ptt_cost_mult) - walking_speed))
   if config.has_option(dvccg_section, 'max_walking_distance'):
-    max_walking_distance = (
-        config.getfloat(dvccg_section, 'max_walking_distance'))
+    max_walking_distance = config.getfloat(dvccg_section, 'max_walking_distance')
   else:
     max_walking_distance = min_max_walking_distance_before_ptt
 
-  validate_max_walking_distance = (
-      config.getboolean(dvccg_section, 'validate_max_walking_distance')) 
+  validate_max_walking_distance = config.getboolean(dvccg_section, 'validate_max_walking_distance')
   if validate_max_walking_distance:
     assert max_walking_distance >= min_max_walking_distance_before_ptt
     assert max_walking_distance <= max_max_walking_distance_before_ptt

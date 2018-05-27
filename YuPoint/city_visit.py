@@ -5,8 +5,7 @@ import itertools
 import Yusi
 from Yusi.base_util import data_util
 from Yusi.base_util import json_util
-from Yusi.YuPoint.point import Point, CoordinatesInterface, PointTypeInterface,\
-  AgeGroupInterface, PointType, AgeGroup, Coordinates
+from Yusi.YuPoint import point as point_
 
 
 class StartEndDatetimeInterface(data_util.AbstractObject):
@@ -53,8 +52,8 @@ class DayVisitParametersInterface(data_util.AbstractObject):
     {'start_datetime': json_util.JSONDateTime(),
      'end_datetime': json_util.JSONDateTime(),
      'lunch_start_datetime': json_util.JSONDateTime(),
-     'start_coordinates': json_util.JSONObject(Coordinates),
-     'end_coordinates': json_util.JSONObject(Coordinates)})
+     'start_coordinates': json_util.JSONObject(point_.Coordinates),
+     'end_coordinates': json_util.JSONObject(point_.Coordinates)})
 class DayVisitParameters(DayVisitParametersInterface):
   """Set of users parameter for a particular day implementation."""
 
@@ -65,9 +64,9 @@ class DayVisitParameters(DayVisitParametersInterface):
     assert isinstance(end_datetime, datetime.datetime)
     assert isinstance(lunch_start_datetime, datetime.datetime)
     assert isinstance(lunch_hours, float)
-    assert isinstance(start_coordinates, CoordinatesInterface)
+    assert isinstance(start_coordinates, point_.CoordinatesInterface)
     if end_coordinates is not None:
-      assert isinstance(end_coordinates, CoordinatesInterface)
+      assert isinstance(end_coordinates, point_.CoordinatesInterface)
 
     self.start_datetime = start_datetime
     self.end_datetime = end_datetime
@@ -109,8 +108,8 @@ class CityVisitParametersInterface(data_util.AbstractObject):
     {'visit_location': json_util.JSONObject(VisitLocation),
      'day_visit_parameterss':
      json_util.JSONList(json_util.JSONObject(DayVisitParameters)),
-     'point_type': json_util.JSONObject(PointType),
-     'age_group': json_util.JSONObject(AgeGroup)})
+     'point_type': json_util.JSONObject(point_.PointType),
+     'age_group': json_util.JSONObject(point_.AgeGroup)})
 class CityVisitParameters(CityVisitParametersInterface):
   """Set of users parameter for city visit implementation."""
 
@@ -119,8 +118,8 @@ class CityVisitParameters(CityVisitParametersInterface):
     assert isinstance(visit_location, VisitLocationInterface)
     for day_visit_parameters in day_visit_parameterss:
       assert isinstance(day_visit_parameters, DayVisitParametersInterface)
-    assert isinstance(point_type, PointTypeInterface)  # Must not be None
-    assert isinstance(age_group, AgeGroupInterface)  # Must not be None
+    assert isinstance(point_type, point_.PointTypeInterface)  # Must not be None
+    assert isinstance(age_group, point_.AgeGroupInterface)  # Must not be None
 
     self.visit_location = visit_location
     self.day_visit_parameterss = day_visit_parameterss
@@ -148,12 +147,12 @@ class ActionInterface(data_util.AbstractObject):
 
 
 @json_util.JSONDecorator({
-    'point': json_util.JSONObject(Point)})
+    'point': json_util.JSONObject(point_.Point)})
 class PointVisit(ActionInterface):
   """Visiting a point by a user."""
 
   def __init__(self, start_end_datetime, point):
-    assert isinstance(point, Point)
+    assert isinstance(point, point_.Point)
     assert ((start_end_datetime.end - start_end_datetime.start) ==
             datetime.timedelta(hours=point.duration))
 
@@ -178,15 +177,15 @@ class MoveType(object):
   
 
 @json_util.JSONDecorator(
-    {'from_coordinates': json_util.JSONObject(Coordinates),
-     'to_coordinates': json_util.JSONObject(Coordinates),
+    {'from_coordinates': json_util.JSONObject(point_.Coordinates),
+     'to_coordinates': json_util.JSONObject(point_.Coordinates),
      'move_type': json_util.JSONInt()})
 class MoveDescription(data_util.AbstractObject):
   """Moving description."""
   
   def __init__(self, from_coordinates, to_coordinates, move_hours, move_type):
-    assert isinstance(from_coordinates, CoordinatesInterface)
-    assert isinstance(to_coordinates, CoordinatesInterface)
+    assert isinstance(from_coordinates, point_.CoordinatesInterface)
+    assert isinstance(to_coordinates, point_.CoordinatesInterface)
     assert isinstance(move_hours, float)
     assert isinstance(move_type, int)
 

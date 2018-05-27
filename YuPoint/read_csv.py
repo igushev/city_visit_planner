@@ -5,8 +5,7 @@ import time
 import numpy as np
 import pandas as pd
 
-from Yusi.YuPoint.point import Coordinates, OperatingHours, Point, PointType,\
-  AgeGroup
+from Yusi.YuPoint import point as point_
 
 
 lat_long_delimeter = ','
@@ -62,7 +61,7 @@ def ExtractCoordinates(coordinates_str):
     return None
   latitude = __CoordinateStrToFloat(latitude_str, 'N', 'S')
   longitude = __CoordinateStrToFloat(longitude_str, 'E', 'W')
-  return Coordinates(latitude, longitude)
+  return point_.Coordinates(latitude, longitude)
   
 
 def __HoursStrToTime(input_str):
@@ -79,7 +78,7 @@ def ExtractOperatingHours(opens_str, closes_str):
     return None
   opens = __HoursStrToTime(opens_str)
   closes = __HoursStrToTime(closes_str)
-  return OperatingHours(opens, closes)
+  return point_.OperatingHours(opens, closes)
 
 
 def ReadCSV(csv_filepath):
@@ -87,7 +86,7 @@ def ReadCSV(csv_filepath):
   points_df = pd.read_csv(csv_filepath)
   points = []
   for _, point_series in points_df.iterrows():
-    points.append(Point(
+    points.append(point_.Point(
       name=ExtractString(point_series['Name']),
       coordinates_starts=ExtractCoordinates(point_series['CoordinatesStarts']),
       coordinates_ends=ExtractCoordinates(point_series['CoordinatesEnds']),
@@ -96,14 +95,14 @@ def ReadCSV(csv_filepath):
           point_series['OperatingHoursCloses']),
       duration=ExtractFloat(point_series['Duration']),
       popularity=ExtractInt(point_series['Popularity']),
-      point_type=PointType(
+      point_type=point_.PointType(
           city_tours=ExtractInt(point_series['City Tours']),          
           landmarks=ExtractInt(point_series['Landmarks']),
           nature=ExtractInt(point_series['Nature']),
           museums=ExtractInt(point_series['Museums']),
           shopping=ExtractInt(point_series['Shopping']),
           dining=ExtractInt(point_series['Dining'])),
-      age_group=AgeGroup(
+      age_group=point_.AgeGroup(
           senior=ExtractInt(point_series['Senior']),
           adult=ExtractInt(point_series['Adult']),
           junior=ExtractInt(point_series['Junior']),

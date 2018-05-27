@@ -2,14 +2,14 @@ import os
 import unittest
 
 import Yusi
-from Yusi.YuPoint.read_csv import ReadCSVToDict
-from Yusi.YuPoint.point import PointType, AgeGroup
+from Yusi.YuPoint import read_csv
+from Yusi.YuPoint import point
 
 
 class PointTypeTest(unittest.TestCase):
   
   def testStr(self):
-    point_type = PointType(
+    point_type = point.PointType(
         city_tours=None,
         landmarks=None,
         nature=None,
@@ -18,7 +18,7 @@ class PointTypeTest(unittest.TestCase):
         dining=None)
     self.assertEqual('No point type', '%s' % point_type)
 
-    point_type = PointType(
+    point_type = point.PointType(
         city_tours=None,
         landmarks=30,
         nature=None,
@@ -31,7 +31,7 @@ class PointTypeTest(unittest.TestCase):
 class AgeGroupTest(unittest.TestCase):
 
   def testStr(self):
-    age_group = AgeGroup(
+    age_group = point.AgeGroup(
         senior=None,
         adult=None,
         junior=None,
@@ -39,7 +39,7 @@ class AgeGroupTest(unittest.TestCase):
         toddlers=None)
     self.assertEqual('No age group', '%s' % age_group)
 
-    age_group = AgeGroup(
+    age_group = point.AgeGroup(
         senior=50,
         adult=50,
         junior=30,
@@ -52,8 +52,7 @@ class AgeGroupTest(unittest.TestCase):
 class PointTest(unittest.TestCase):
 
   def testStr(self):
-    points = ReadCSVToDict(
-        os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
+    points = read_csv.ReadCSVToDict(os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
 
     ferry_building_str_actual = '%s' % points['Ferry Building']
     ferry_building_str_expected = """Name: "Ferry Building"

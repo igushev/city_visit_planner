@@ -2,22 +2,21 @@ import datetime
 import unittest
 
 import Yusi
-from Yusi.YuPoint.city_visit import DayVisitParameters, MoveBetween,\
-  StartEndDatetime, MoveDescription, DayVisit, MoveType
-from Yusi.YuPoint.city_visit_test_utils import CityVisitTestExample
+from Yusi.YuPoint import city_visit
+from Yusi.YuPoint import city_visit_test_utils
 
 
-class DayVisitParametersTest(CityVisitTestExample):
+class DayVisitParametersTest(city_visit_test_utils.CityVisitTestExample):
   
   def testDatelessHashKey(self):
-    day_visit_parameters_9to21 = DayVisitParameters(
+    day_visit_parameters_9to21 = city_visit.DayVisitParameters(
         start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
         end_datetime=datetime.datetime(2014, 9, 1, 21, 0, 0),
         lunch_start_datetime=datetime.datetime(2014, 9, 1, 13, 0, 0),
         lunch_hours=1.,
         start_coordinates=self.hotel_coordinates,
         end_coordinates=self.hotel_coordinates)
-    day_visit_parameters_9to23 = DayVisitParameters(
+    day_visit_parameters_9to23 = city_visit.DayVisitParameters(
         start_datetime=datetime.datetime(2014, 9, 1, 9, 0, 0),
         end_datetime=datetime.datetime(2014, 9, 1, 23, 0, 0),
         lunch_start_datetime=datetime.datetime(2014, 9, 1, 13, 0, 0),
@@ -31,21 +30,21 @@ class DayVisitParametersTest(CityVisitTestExample):
                         day_visit_parameters_9to23.DatelessHashKey())
 
 
-class MoveBetweenTest(CityVisitTestExample):
+class MoveBetweenTest(city_visit_test_utils.CityVisitTestExample):
 
   def testInitValidation(self):
     # move_hours in move_description are not consistent with
     # start_end_datetime.
     self.assertRaises(
-        AssertionError, MoveBetween,
-        StartEndDatetime(datetime.datetime(2014, 9, 1, 11, 15, 0),
-                         datetime.datetime(2014, 9, 1, 11, 45, 0)),
-        MoveDescription(self.points['Ferry Building'].coordinates_ends,
-                        self.points['Pier 39'].coordinates_starts,
-                        1.0, MoveType.walking))
+        AssertionError, city_visit.MoveBetween,
+        city_visit.StartEndDatetime(datetime.datetime(2014, 9, 1, 11, 15, 0),
+                                    datetime.datetime(2014, 9, 1, 11, 45, 0)),
+        city_visit.MoveDescription(self.points['Ferry Building'].coordinates_ends,
+                                   self.points['Pier 39'].coordinates_starts,
+                                   1.0, city_visit.MoveType.walking))
 
 
-class DayVisitTest(CityVisitTestExample):
+class DayVisitTest(city_visit_test_utils.CityVisitTestExample):
 
   def testDatelessHashKey(self):
     self.assertEqual(self.day_visit_1.DatelessHashKey(),
@@ -63,7 +62,7 @@ class DayVisitTest(CityVisitTestExample):
     # No final move.
     self.assertRaisesRegex(
         AssertionError, 'Wrong number of actions.',
-        DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
+        city_visit.DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
             self.from_hotel_to_ferry_building_move,
             self.ferry_building_point_visit,
             self.from_ferry_building_to_pier_39_move,
@@ -71,7 +70,7 @@ class DayVisitTest(CityVisitTestExample):
     # No start move.
     self.assertRaisesRegex(
         AssertionError, 'Wrong order of actions: no MoveBetween.',
-        DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
+        city_visit.DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
             self.ferry_building_point_visit,
             self.from_ferry_building_to_pier_39_move,
             self.pier_39_point_visit,
@@ -79,7 +78,7 @@ class DayVisitTest(CityVisitTestExample):
     # No middle moves.
     self.assertRaisesRegex(
         AssertionError, 'Wrong order of actions: no MoveBetween.',
-        DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
+        city_visit.DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
             self.from_hotel_to_ferry_building_move,
             self.ferry_building_point_visit,
             self.pier_39_point_visit,
@@ -87,7 +86,7 @@ class DayVisitTest(CityVisitTestExample):
     # No first point.
     self.assertRaisesRegex(
         AssertionError, 'Wrong order of actions: no PointVisit.',
-        DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
+        city_visit.DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
             self.from_hotel_to_ferry_building_move,
             self.from_ferry_building_to_pier_39_move,
             self.pier_39_point_visit,
@@ -95,14 +94,14 @@ class DayVisitTest(CityVisitTestExample):
     # No second point.
     self.assertRaisesRegex(
         AssertionError, 'Wrong order of actions: no PointVisit.',
-        DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
+        city_visit.DayVisit, datetime.datetime(2014, 9, 1, 9, 0, 0), [
             self.from_hotel_to_ferry_building_move,
             self.ferry_building_point_visit,
             self.from_ferry_building_to_pier_39_move,
             self.from_pier_39_to_hotel], 10.)
 
 
-class CityVisitTest(CityVisitTestExample):
+class CityVisitTest(city_visit_test_utils.CityVisitTestExample):
 
   def testGetPoints(self):
     self.assertEqual([self.points['Ferry Building'], self.points['Pier 39'],

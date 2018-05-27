@@ -1,13 +1,12 @@
 import os
 
 import Yusi
-from Yusi.YuPoint.read_csv import ReadCSVToDict
-from Yusi.YuPoint.database_connection import DatabaseConnectionInterface
+from Yusi.YuPoint import database_connection
+from Yusi.YuPoint import read_csv
 
 
 def GetPointsInput(csv_dirpath, csv_filename):
-  points_dict = ReadCSVToDict(
-      os.path.join(Yusi.GetYusiDir(), csv_dirpath, csv_filename))
+  points_dict = read_csv.ReadCSVToDict(os.path.join(Yusi.GetYusiDir(), csv_dirpath, csv_filename))
   return points_dict
 
 
@@ -24,7 +23,7 @@ def FilterAndSortByKeys(points_dict, keys):
   return [points_dict[key] for key in keys]
 
 
-class MockDatabaseConnection(DatabaseConnectionInterface):
+class MockDatabaseConnection(database_connection.DatabaseConnectionInterface):
 
   def __init__(self):
     self.points_dict_dict = {

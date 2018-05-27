@@ -1,8 +1,8 @@
 from Yusi.base_util import json_util
 from Yusi.YuUtils import task_util
 
-from Yusi.YuServer.city_visit_finder_task import CityVisitFinderTaskWorkerGenerator
-from Yusi.YuPoint.city_visit import CityVisitParameters
+from Yusi.YuPoint import city_visit
+from Yusi.YuServer import city_visit_finder_task
 
 
 STATUS_OK = 200
@@ -24,14 +24,11 @@ class Server(object):
     self.database_connection = database_connection
     self.city_visit_finder = city_visit_finder
     city_visit_finder_task_worker_generator = (
-        CityVisitFinderTaskWorkerGenerator(self.city_visit_finder))
-    self.task_manager = (
-        task_util.TaskManager(city_visit_finder_task_worker_generator,
-                    idle_seconds_terminate))
+        city_visit_finder_task.CityVisitFinderTaskWorkerGenerator(self.city_visit_finder))
+    self.task_manager = task_util.TaskManager(city_visit_finder_task_worker_generator, idle_seconds_terminate)
 
   def Start(self, city_visit_parameters_simple):
-    city_visit_parameters = (
-        CityVisitParameters.FromSimple(city_visit_parameters_simple))
+    city_visit_parameters = city_visit.CityVisitParameters.FromSimple(city_visit_parameters_simple)
 
 
   def Ping(self):

@@ -3,16 +3,14 @@ import unittest
 
 from Yusi.YuUtils import task_util
 
-from Yusi.YuFinder.city_visit_finder import CityVisitFinderInterface
-from Yusi.YuRouter.city_visit_points_left import CityVisitPointsLeftGeneratorInterface,\
-  CityVisitPointsLeft
-from Yusi.YuPoint.city_visit import CityVisit, DayVisitParametersInterface,\
-  CityVisitParametersInterface, DayVisitInterface, CityVisitSummaryInterface
-from Yusi.YuServer.city_visit_finder_task import CityVisitFinderTaskWorkerGenerator
-from Yusi.YuPoint.point import PointInterface
+from Yusi.YuPoint import point
+from Yusi.YuPoint import city_visit as city_visit_
+from Yusi.YuRouter import city_visit_points_left
+from Yusi.YuFinder import city_visit_finder as city_visit_finder_
+from Yusi.YuServer import city_visit_finder_task
 
 
-class MockPoint(PointInterface):
+class MockPoint(point.PointInterface):
   
   def __init__(self, name):
     self.name = name
@@ -21,7 +19,7 @@ class MockPoint(PointInterface):
     return self.__dict__ == other.__dict__
 
 
-class MockDayVisitParameters(DayVisitParametersInterface):
+class MockDayVisitParameters(city_visit_.DayVisitParametersInterface):
   
   def __init__(self, name):
     self.name = name
@@ -30,7 +28,7 @@ class MockDayVisitParameters(DayVisitParametersInterface):
     return self.__dict__ == other.__dict__
 
 
-class MockCityVisitParameters(CityVisitParametersInterface):
+class MockCityVisitParameters(city_visit_.CityVisitParametersInterface):
   
   def __init__(self, name):
     self.name = name
@@ -39,7 +37,7 @@ class MockCityVisitParameters(CityVisitParametersInterface):
     return self.__dict__ == other.__dict__
 
 
-class MockDayVisit(DayVisitInterface):
+class MockDayVisit(city_visit_.DayVisitInterface):
   
   def __init__(self, name):
     self.name = name
@@ -48,7 +46,7 @@ class MockDayVisit(DayVisitInterface):
     return self.__dict__ == other.__dict__
 
 
-class MockCityVisitSummary(CityVisitSummaryInterface):
+class MockCityVisitSummary(city_visit_.CityVisitSummaryInterface):
   
   def __init__(self, name):
     self.name = name
@@ -57,7 +55,7 @@ class MockCityVisitSummary(CityVisitSummaryInterface):
     return self.__dict__ == other.__dict__
 
 
-class MockCityVisitPointsLeftGenerator(CityVisitPointsLeftGeneratorInterface):
+class MockCityVisitPointsLeftGenerator(city_visit_points_left.CityVisitPointsLeftGeneratorInterface):
 
   def __init__(self, test_obj, day_visits_expected,
                day_visit_parameterss_expected, points_left_expected,
@@ -73,11 +71,11 @@ class MockCityVisitPointsLeftGenerator(CityVisitPointsLeftGeneratorInterface):
     self.test_obj.assertEqual(self.day_visit_parameterss_expected,
                               day_visit_parameterss)
     self.test_obj.assertEqual(self.points_left_expected, points_left)
-    city_visit = CityVisit(day_visits, self.city_visit_summary)
-    return CityVisitPointsLeft(city_visit, self.points_left_expected)    
+    city_visit = city_visit_.CityVisit(day_visits, self.city_visit_summary)
+    return city_visit_points_left.CityVisitPointsLeft(city_visit, self.points_left_expected)    
 
 
-class MockCityVisitFinder(CityVisitFinderInterface):
+class MockCityVisitFinder(city_visit_finder_.CityVisitFinderInterface):
 
   def __init__(self, test_obj, city_visit_parameters_expected,
                day_visits_day_visit_parameterss_list, points_left,
@@ -142,7 +140,7 @@ class CityVisitFinderTaskWorkerTest(unittest.TestCase):
             city_visit_points_left_generator))
 
     city_visit_finder_task_worker_generator = (
-        CityVisitFinderTaskWorkerGenerator(city_visit_finder))
+        city_visit_finder_task.CityVisitFinderTaskWorkerGenerator(city_visit_finder))
     task_manager = task_util.TaskManager(city_visit_finder_task_worker_generator, 1.0)
     
     task_id = task_manager.Start(city_visit_parameters)

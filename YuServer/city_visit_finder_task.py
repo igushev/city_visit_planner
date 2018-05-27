@@ -1,10 +1,9 @@
 from Yusi.YuUtils import task_util
 
-from Yusi.YuRouter.city_visit_accumulator import CityVisitAccumulatorInterface,\
-  CityVisitAccumulatorGeneratorInterface
+from Yusi.YuRouter import city_visit_accumulator
 
 
-class CityVisitAccumulatorConn(CityVisitAccumulatorInterface):
+class CityVisitAccumulatorConn(city_visit_accumulator.CityVisitAccumulatorInterface):
   """Accumulates and sends CityVisit and points left.""" 
 
   def __init__(self, worker_conn):
@@ -32,7 +31,7 @@ class CityVisitAccumulatorConn(CityVisitAccumulatorInterface):
             city_visit_points_left.points_left)
 
 
-class CityVisitAccumulatorConnGenerator(CityVisitAccumulatorGeneratorInterface):
+class CityVisitAccumulatorConnGenerator(city_visit_accumulator.CityVisitAccumulatorGeneratorInterface):
   """Returns every time new clean instance of CityVisitAccumulatorConn."""
 
   def __init__(self, worker_conn):

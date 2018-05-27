@@ -2,29 +2,28 @@ import os
 
 from flask import Flask, jsonify
 
-from Yusi.YuConfig.config import GetConfig, GetDatabaseConnection,\
-  GetCityVisitFinder, GetCorsOrigin, GetServerParams, GetTaskWorkerParams
-from Yusi.YuServer.server import Server
-from Yusi.YuServer.cors import crossdomain
+from Yusi.YuConfig import config as config_
+from Yusi.YuServer import server as server_
+from Yusi.YuServer import cors
 
 
 config_filepath = os.environ['YUSI_CONFIG_FILE']
-config = GetConfig(config_filepath)
+config = config_.GetConfig(config_filepath)
 
-database_connection = GetDatabaseConnection(config)
-city_visit_finder = GetCityVisitFinder(config, database_connection)
-cors_origin = GetCorsOrigin(config)
-server_port, server_host = GetServerParams(config)
-idle_seconds_terminate = GetTaskWorkerParams(config)
+database_connection = config_.GetDatabaseConnection(config)
+city_visit_finder = config_.GetCityVisitFinder(config, database_connection)
+cors_origin = config_.GetCorsOrigin(config)
+server_port, server_host = config_.GetServerParams(config)
+idle_seconds_terminate = config_.GetTaskWorkerParams(config)
 
-server = Server(database_connection, city_visit_finder, idle_seconds_terminate)
+server = server_.Server(database_connection, city_visit_finder, idle_seconds_terminate)
 
 application = Flask(__name__)
 application.secret_key = 'yusi_flask_secret_key'
 
 
 @application.route('/ping', methods=['GET'])
-@crossdomain(origin=cors_origin, methods=['GET'])
+@cors.crossdomain(origin=cors_origin, methods=['GET'])
 def ping():
   response_simple, code = server.Ping()
   return jsonify(**response_simple), code

@@ -1,9 +1,8 @@
-from Yusi.YuRanker.points_ranker import PointsRankerInterface
-from Yusi.YuRouter.city_visit_router import CityVisitRouterInterface
-from Yusi.YuPoint.city_visit import CityVisitParametersInterface,\
-  CityVisitInterface
-from Yusi.YuPoint.point import PointInterface
-from Yusi.YuPoint.database_connection import DatabaseConnectionInterface
+from Yusi.YuRanker import points_ranker as points_ranker_
+from Yusi.YuRouter import city_visit_router as city_visit_router_
+from Yusi.YuPoint import city_visit as city_visit_
+from Yusi.YuPoint import point
+from Yusi.YuPoint import database_connection as database_connection_
 
 
 class CityVisitFinderInterface(object):
@@ -19,9 +18,9 @@ class CityVisitFinder(CityVisitFinderInterface):
   """Finds CityVisit by getting points, ranking them and routing."""
   
   def __init__(self, database_connection, points_ranker, city_visit_router):
-    assert isinstance(database_connection, DatabaseConnectionInterface)
-    assert isinstance(points_ranker, PointsRankerInterface)
-    assert isinstance(city_visit_router, CityVisitRouterInterface)
+    assert isinstance(database_connection, database_connection_.DatabaseConnectionInterface)
+    assert isinstance(points_ranker, points_ranker_.PointsRankerInterface)
+    assert isinstance(city_visit_router, city_visit_router_.CityVisitRouterInterface)
 
     self.database_connection = database_connection
     self.points_ranker = points_ranker
@@ -29,24 +28,24 @@ class CityVisitFinder(CityVisitFinderInterface):
 
   def FindCityVisit(self, city_visit_parameters,
                     city_visit_accumulator_generator):
-    assert isinstance(city_visit_parameters, CityVisitParametersInterface)
+    assert isinstance(city_visit_parameters, city_visit_.CityVisitParametersInterface)
     
     points_input = (
         self.database_connection.GetPoints(
             city_visit_parameters.visit_location))
     for point_input in  points_input:
-      assert isinstance(point_input, PointInterface)
+      assert isinstance(point_input, point.PointInterface)
 
     points_ranked = self.points_ranker.RankPoints(
         points_input, city_visit_parameters)
     for point_ranked in points_ranked:
-      assert isinstance(point_ranked, PointInterface)
+      assert isinstance(point_ranked, point.PointInterface)
     
     city_visit, points_left = self.city_visit_router.RouteCityVisit(
         points_ranked, city_visit_parameters.day_visit_parameterss,
         city_visit_accumulator_generator)
-    assert isinstance(city_visit, CityVisitInterface)
+    assert isinstance(city_visit, city_visit_.CityVisitInterface)
     for point_left in points_left:
-      assert isinstance(point_left, PointInterface)
+      assert isinstance(point_left, point.PointInterface)
 
     return city_visit

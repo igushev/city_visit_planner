@@ -1,44 +1,43 @@
 import unittest
-from Yusi.YuFinder.city_visit_finder import CityVisitFinder
-from Yusi.YuRanker.points_ranker import PointsRankerInterface
-from Yusi.YuRouter.city_visit_router import CityVisitRouterInterface
-from Yusi.YuPoint.city_visit import DayVisitParametersInterface,\
-  CityVisitParameters, CityVisitInterface, VisitLocationInterface
-from Yusi.YuPoint.point import PointTypeInterface, AgeGroupInterface,\
-  PointInterface
-from Yusi.YuPoint.database_connection import DatabaseConnectionInterface
-from Yusi.YuRouter.city_visit_accumulator import CityVisitAccumulatorGeneratorInterface
+
+from Yusi.YuFinder import city_visit_finder as city_visit_finder_
+from Yusi.YuRanker import points_ranker as points_ranker_
+from Yusi.YuRouter import city_visit_router as city_visit_router_
+from Yusi.YuPoint import city_visit as city_visit_
+from Yusi.YuPoint import point
+from Yusi.YuPoint import database_connection as database_connection_
+from Yusi.YuRouter import city_visit_accumulator
 
 
-class MockCityVisitAccumulatorGenerator(CityVisitAccumulatorGeneratorInterface):
+class MockCityVisitAccumulatorGenerator(city_visit_accumulator.CityVisitAccumulatorGeneratorInterface):
   pass
 
 
-class MockVisitLocation(VisitLocationInterface):
+class MockVisitLocation(city_visit_.VisitLocationInterface):
   pass 
 
 
-class MockDayVisitParameters(DayVisitParametersInterface):
+class MockDayVisitParameters(city_visit_.DayVisitParametersInterface):
   pass
 
 
-class MockPointType(PointTypeInterface):
+class MockPointType(point.PointTypeInterface):
   pass
 
 
-class MockAgeGroup(AgeGroupInterface):
+class MockAgeGroup(point.AgeGroupInterface):
   pass
 
 
-class MockPoint(PointInterface):
+class MockPoint(point.PointInterface):
   pass
 
 
-class MockCityVisit(CityVisitInterface):
+class MockCityVisit(city_visit_.CityVisitInterface):
   pass
 
 
-class MockDatabaseConnection(DatabaseConnectionInterface):
+class MockDatabaseConnection(database_connection_.DatabaseConnectionInterface):
 
   def __init__(self, test_obj, visit_location_expected, points_input):
     self.test_obj = test_obj
@@ -50,7 +49,7 @@ class MockDatabaseConnection(DatabaseConnectionInterface):
     return self.points_input
 
 
-class MockPointsRanker(PointsRankerInterface):
+class MockPointsRanker(points_ranker_.PointsRankerInterface):
 
   def __init__(self, test_obj, points_input_expected,
                city_visit_parameters_expected, points_ranked):
@@ -66,7 +65,7 @@ class MockPointsRanker(PointsRankerInterface):
     return self.points_ranked
 
 
-class MockCityVisitRouter(CityVisitRouterInterface):
+class MockCityVisitRouter(city_visit_router_.CityVisitRouterInterface):
   
   def __init__(self, test_obj, points_ranked_expected,
                day_visit_parameterss_expected,
@@ -96,7 +95,7 @@ class CityVisitFinderTest(unittest.TestCase):
     visit_location = MockVisitLocation()
     day_visit_parameterss=[MockDayVisitParameters()]
     
-    city_visit_parameters = CityVisitParameters(
+    city_visit_parameters = city_visit_.CityVisitParameters(
         visit_location=visit_location,
         day_visit_parameterss=day_visit_parameterss,
         point_type=MockPointType(),
@@ -117,7 +116,7 @@ class CityVisitFinderTest(unittest.TestCase):
         self, points_ranked, day_visit_parameterss,
         city_visit_accumulator_generator, city_visit, points_left)
 
-    city_visit_finder = CityVisitFinder(
+    city_visit_finder = city_visit_finder_.CityVisitFinder(
         database_connection=database_connection,
         points_ranker=points_ranker,
         city_visit_router=city_visit_router)

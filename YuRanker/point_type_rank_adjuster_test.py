@@ -2,30 +2,28 @@ import os
 import unittest
 
 import Yusi
-from Yusi.YuPoint.city_visit import CityVisitParameters
-from Yusi.YuPoint.point import PointType
-from Yusi.YuPoint.read_csv import ReadCSVToDict
-from Yusi.YuRanker.point_type_rank_adjuster import PointTypeRankAdjuster
-from Yusi.YuRanker.rank_adjuster_interface import ScorePoint
-from Yusi.YuRanker.test_utils import RankAdjusterTestUtils,\
-  MockDayVisitParameters, MockAgeGroup, MockVisitLocation
+from Yusi.YuPoint import city_visit
+from Yusi.YuPoint import point
+from Yusi.YuPoint import read_csv
+from Yusi.YuRanker import point_type_rank_adjuster
+from Yusi.YuRanker import rank_adjuster_interface
+from Yusi.YuRanker import test_utils
 
 
-class PointTypeRankAdjusterTest(RankAdjusterTestUtils):
+class PointTypeRankAdjusterTest(test_utils.RankAdjusterTestUtils):
   
   def setUp(self):
-    self.points = ReadCSVToDict(
-        os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
-    self.point_type_rank_adjuster = PointTypeRankAdjuster()
+    self.points = read_csv.ReadCSVToDict(os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
+    self.point_type_rank_adjuster = point_type_rank_adjuster.PointTypeRankAdjuster()
     super(PointTypeRankAdjusterTest, self).setUp()
   
   def testGeneral(self):
     score_points_input = [
-        ScorePoint(100., self.points['Pier 39']),
-        ScorePoint(100., self.points['Golden Gate Bridge']),
-        ScorePoint(100., self.points['Sutro Baths'])]
+        rank_adjuster_interface.ScorePoint(100., self.points['Pier 39']),
+        rank_adjuster_interface.ScorePoint(100., self.points['Golden Gate Bridge']),
+        rank_adjuster_interface.ScorePoint(100., self.points['Sutro Baths'])]
 
-    parameters_point_types = PointType(
+    parameters_point_types = point.PointType(
         city_tours=90,
         landmarks=90,
         nature=10,
@@ -33,20 +31,20 @@ class PointTypeRankAdjusterTest(RankAdjusterTestUtils):
         shopping=50,
         dining=50)
 
-    city_visit_parameters = CityVisitParameters(
-        MockVisitLocation(),
-        day_visit_parameterss=[MockDayVisitParameters()],
+    city_visit_parameters = city_visit.CityVisitParameters(
+        test_utils.MockVisitLocation(),
+        day_visit_parameterss=[test_utils.MockDayVisitParameters()],
         point_type=parameters_point_types,
-        age_group=MockAgeGroup())
+        age_group=test_utils.MockAgeGroup())
 
     score_points_actual = (
         self.point_type_rank_adjuster.AdjustRank(
             score_points_input, city_visit_parameters))
 
     score_points_expected = [
-        ScorePoint(22.683, self.points['Pier 39']),
-        ScorePoint(22.7, self.points['Golden Gate Bridge']),
-        ScorePoint(9.15, self.points['Sutro Baths'])]
+        rank_adjuster_interface.ScorePoint(22.683, self.points['Pier 39']),
+        rank_adjuster_interface.ScorePoint(22.7, self.points['Golden Gate Bridge']),
+        rank_adjuster_interface.ScorePoint(9.15, self.points['Sutro Baths'])]
 
     self.assertScorePointsEqual(
         score_points_expected, score_points_actual, places=3)

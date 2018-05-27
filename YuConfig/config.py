@@ -10,7 +10,7 @@ from Yusi.YuRouter import day_visit_router as day_visit_router_
 from Yusi.YuRouter import city_visit_points_left
 from Yusi.YuRouter import points_queue
 from Yusi.YuRouter import city_visit_router as city_visit_router_
-from Yusi.YuPoint import test_utils
+from Yusi.YuPoint import test_utils as point_test_utils
 from Yusi.YuRouter import city_visit_accumulator
 from Yusi.YuFinder import city_visit_finder as city_visit_finder_
 from Yusi.YuRanker import popularity_rank_adjuster
@@ -27,7 +27,7 @@ def GetConfig(filepath=None):
 
 
 def GetDatabaseConnection(config):
-  database_connection = test_utils.MockDatabaseConnection()
+  database_connection = point_test_utils.MockDatabaseConnection()
   return database_connection
 
 

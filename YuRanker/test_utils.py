@@ -1,26 +1,25 @@
 import unittest
-from Yusi.YuPoint.city_visit import DayVisitParametersInterface,\
-  CityVisitParametersInterface, VisitLocationInterface
-from Yusi.YuPoint.point import PointTypeInterface, AgeGroupInterface
+from Yusi.YuPoint import city_visit
+from Yusi.YuPoint import point
 
 
-class MockVisitLocation(VisitLocationInterface):
+class MockVisitLocation(city_visit.VisitLocationInterface):
   pass 
 
 
-class MockDayVisitParameters(DayVisitParametersInterface):
+class MockDayVisitParameters(city_visit.DayVisitParametersInterface):
   pass
 
 
-class MockPointType(PointTypeInterface):
+class MockPointType(point.PointTypeInterface):
   pass
 
 
-class MockAgeGroup(AgeGroupInterface):
+class MockAgeGroup(point.AgeGroupInterface):
   pass
 
 
-class MockCityVisitParameters(CityVisitParametersInterface):
+class MockCityVisitParameters(city_visit.CityVisitParametersInterface):
   pass
 
 

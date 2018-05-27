@@ -1,17 +1,16 @@
 import unittest
 
-from Yusi.YuRanker.points_ranker import PointsRanker
-from Yusi.YuRanker.rank_adjuster_interface import RankAdjusterInterface,\
-  ScorePoint
-from Yusi.YuRanker.test_utils import MockCityVisitParameters
-from Yusi.YuPoint.point import PointInterface
+from Yusi.YuPoint import point as point_
+from Yusi.YuRanker import points_ranker as points_ranker_
+from Yusi.YuRanker import rank_adjuster_interface
+from Yusi.YuRanker import test_utils
 
 
-class MockPoint(PointInterface):
+class MockPoint(point_.PointInterface):
   pass
 
 
-class MockRankAdjuster(RankAdjusterInterface):
+class MockRankAdjuster(rank_adjuster_interface.RankAdjusterInterface):
   
   def __init__(self, test_obj, point_score_mults, score_points_expected,
                city_visit_parameters_expected, places=None):
@@ -30,7 +29,7 @@ class MockRankAdjuster(RankAdjusterInterface):
     self.test_obj.assertTrue(
         city_visit_parameters is self.city_visit_parameters_expected)
     assert len(self.point_score_mults) == len(score_points)
-    return [ScorePoint(point_score_mult * score, point)
+    return [rank_adjuster_interface.ScorePoint(point_score_mult * score, point)
             for point_score_mult, (score, point)
             in zip(self.point_score_mults, score_points)]
     
@@ -42,31 +41,36 @@ class PointsRankerTest(unittest.TestCase):
     b = MockPoint()
     c = MockPoint()
     points_input = [a, b, c]
-    city_visit_parameters = MockCityVisitParameters()
-    points_ranker = PointsRanker([
+    city_visit_parameters = test_utils.MockCityVisitParameters()
+    points_ranker = points_ranker_.PointsRanker([
         MockRankAdjuster(
             self, [1.0, 0.9, 0.9],
-            [ScorePoint(100., a), ScorePoint(100., b), ScorePoint(100., c)],
+            [rank_adjuster_interface.ScorePoint(100., a),
+             rank_adjuster_interface.ScorePoint(100., b),
+             rank_adjuster_interface.ScorePoint(100., c)],
             city_visit_parameters),
         MockRankAdjuster(
             self, [0.7, 0.9, 0.8],
-            [ScorePoint(100., a), ScorePoint(90., b), ScorePoint(90., c)],
+            [rank_adjuster_interface.ScorePoint(100., a),
+             rank_adjuster_interface.ScorePoint(90., b),
+             rank_adjuster_interface.ScorePoint(90., c)],
             city_visit_parameters),
         MockRankAdjuster(
             self, [0.9, 0.9, 0.9],
-            [ScorePoint(70., a), ScorePoint(81., b), ScorePoint(72., c)],
+            [rank_adjuster_interface.ScorePoint(70., a),
+             rank_adjuster_interface.ScorePoint(81., b),
+             rank_adjuster_interface.ScorePoint(72., c)],
             city_visit_parameters)])
     
-    points_actual = points_ranker.RankPoints(
-        points_input, city_visit_parameters)
+    points_actual = points_ranker.RankPoints(points_input, city_visit_parameters)
 
     points_expected = [b, c, a]
     self.assertEqual(points_expected, points_actual)    
 
   def testNoPoints(self):
     points_input = []
-    city_visit_parameters = MockCityVisitParameters()
-    points_ranker = PointsRanker([
+    city_visit_parameters = test_utils.MockCityVisitParameters()
+    points_ranker = points_ranker_.PointsRanker([
         MockRankAdjuster(self, [], [], city_visit_parameters),
         MockRankAdjuster(self, [], [], city_visit_parameters),
         MockRankAdjuster(self, [], [], city_visit_parameters)])
@@ -82,11 +86,10 @@ class PointsRankerTest(unittest.TestCase):
     b = MockPoint()
     c = MockPoint()
     points_input = [a, b, c]
-    city_visit_parameters = MockCityVisitParameters()
-    points_ranker = PointsRanker([])
+    city_visit_parameters = test_utils.MockCityVisitParameters()
+    points_ranker = points_ranker_.PointsRanker([])
     
-    points_actual = points_ranker.RankPoints(
-        points_input, city_visit_parameters)
+    points_actual = points_ranker.RankPoints(points_input, city_visit_parameters)
 
     points_expected = points_input
     self.assertEqual(points_expected, points_actual)    

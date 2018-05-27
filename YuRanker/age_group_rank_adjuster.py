@@ -1,11 +1,10 @@
-from Yusi.YuRanker.rank_adjuster_interface import RankAdjusterInterface,\
-  ScorePoint
-from Yusi.YuPoint.city_visit import CityVisitParametersInterface
+from Yusi.YuPoint import city_visit
+from Yusi.YuRanker import rank_adjuster_interface
 
 
 # NOTE(igushev): This class works only with AgeGroup implementation of
 # AgeGroupInterface.
-class AgeGroupRankAdjuster(RankAdjusterInterface):
+class AgeGroupRankAdjuster(rank_adjuster_interface.RankAdjusterInterface):
   """Adjusts rank of points by age group."""
 
   @staticmethod
@@ -19,8 +18,8 @@ class AgeGroupRankAdjuster(RankAdjusterInterface):
 
   def AdjustRank(self, score_points, city_visit_parameters):
     for score_point in score_points:
-      assert isinstance(score_point, ScorePoint)
-    assert isinstance(city_visit_parameters, CityVisitParametersInterface)
+      assert isinstance(score_point, rank_adjuster_interface.ScorePoint)
+    assert isinstance(city_visit_parameters, city_visit.CityVisitParametersInterface)
     
     parameters_names_age_groups = (
         city_visit_parameters.age_group.GetNamesAgeGroups())
@@ -29,5 +28,5 @@ class AgeGroupRankAdjuster(RankAdjusterInterface):
       point_names_age_groups = point.age_group.GetNamesAgeGroups()
       point_score_mult = AgeGroupRankAdjuster._PointScoreMult(
           point_names_age_groups, parameters_names_age_groups)
-      result_score_points.append(ScorePoint(score * point_score_mult, point))
+      result_score_points.append(rank_adjuster_interface.ScorePoint(score * point_score_mult, point))
     return result_score_points

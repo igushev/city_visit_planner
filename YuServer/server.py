@@ -1,8 +1,8 @@
-from Yusi.base_util import json_util
-from Yusi.YuUtils import task_util
+from base_util import json_util
+from YuUtils import task_util
 
-from Yusi.YuPoint import city_visit
-from Yusi.YuServer import city_visit_finder_task
+from YuPoint import city_visit
+from YuServer import city_visit_finder_task
 
 
 STATUS_OK = 200

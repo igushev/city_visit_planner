@@ -1,8 +1,7 @@
 import unittest
 
-import Yusi
-from Yusi.YuPoint import point
-from Yusi.YuRouter import days_permutations
+from YuPoint import point
+from YuRouter import days_permutations
 
 
 class MockPoint(point.PointInterface):

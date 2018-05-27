@@ -1,13 +1,13 @@
 import time
 import unittest
 
-from Yusi.YuUtils import task_util
+from YuUtils import task_util
 
-from Yusi.YuPoint import point
-from Yusi.YuPoint import city_visit as city_visit_
-from Yusi.YuRouter import city_visit_points_left
-from Yusi.YuFinder import city_visit_finder as city_visit_finder_
-from Yusi.YuServer import city_visit_finder_task
+from YuPoint import point
+from YuPoint import city_visit as city_visit_
+from YuRouter import city_visit_points_left
+from YuFinder import city_visit_finder as city_visit_finder_
+from YuServer import city_visit_finder_task
 
 
 class MockPoint(point.PointInterface):

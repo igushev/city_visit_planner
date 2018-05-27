@@ -1,9 +1,8 @@
 import unittest
 
-import Yusi
-from Yusi.YuPoint import point
-from Yusi.YuRouter import day_visit_heap as day_visit_heap_
-from Yusi.YuRouter import day_visit_cost_calculator_interface
+from YuPoint import point
+from YuRouter import day_visit_heap as day_visit_heap_
+from YuRouter import day_visit_cost_calculator_interface
 
 
 class MockPoint(point.PointInterface):

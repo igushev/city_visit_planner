@@ -1,10 +1,9 @@
 import unittest
 
-import Yusi
-from Yusi.YuPoint import point as point_
-from Yusi.YuPoint import city_visit
-from Yusi.YuRouter import day_visit_cost_calculator_interface
-from Yusi.YuRouter import multi_day_visit_cost_calculator
+from YuPoint import point as point_
+from YuPoint import city_visit
+from YuRouter import day_visit_cost_calculator_interface
+from YuRouter import multi_day_visit_cost_calculator
 
 
 class MockPoint(point_.PointInterface):

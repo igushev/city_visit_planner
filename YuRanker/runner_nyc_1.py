@@ -1,6 +1,6 @@
-from Yusi.YuPoint import test_utils as point_test_utils
-from Yusi.YuRanker import runner as ranker_runner
-from Yusi.YuRanker import test_utils as ranker_test_utils
+from YuPoint import test_utils as point_test_utils
+from YuRanker import runner as ranker_runner
+from YuRanker import test_utils as ranker_test_utils
 
 
 def main():

@@ -1,17 +1,16 @@
 import datetime
 import unittest
 
-import Yusi
-from Yusi.YuPoint import city_visit
-from Yusi.YuRouter import day_visit_cost_calculator
-from Yusi.YuRouter import city_visit_router
-from Yusi.YuRouter import cost_accumulator
-from Yusi.YuRouter import point_fit as point_fit_
-from Yusi.YuRouter import day_visit_router as day_visit_router_
-from Yusi.YuRouter import city_visit_points_left
-from Yusi.YuRouter import test_utils
-from Yusi.YuRouter import points_queue
-from Yusi.YuRouter import city_visit_accumulator
+from YuPoint import city_visit
+from YuRouter import day_visit_cost_calculator
+from YuRouter import city_visit_router
+from YuRouter import cost_accumulator
+from YuRouter import point_fit as point_fit_
+from YuRouter import day_visit_router as day_visit_router_
+from YuRouter import city_visit_points_left
+from YuRouter import test_utils
+from YuRouter import points_queue
+from YuRouter import city_visit_accumulator
 
 
 class CityVisitRouterTest(unittest.TestCase):

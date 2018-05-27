@@ -2,18 +2,17 @@ from datetime import timedelta
 import os
 import unittest
 
-import Yusi
-from Yusi.YuPoint import read_csv
-from Yusi.YuPoint import point
-from Yusi.YuPoint import city_visit
-from Yusi.YuRouter import cost_accumulator as cost_accumulator_
+from YuPoint import read_csv
+from YuPoint import point
+from YuPoint import city_visit
+from YuRouter import cost_accumulator as cost_accumulator_
 
 
 class FactorCostAccumulatorTest(unittest.TestCase):
 
   def setUp(self):
     self.san_francisco_coordinates = point.Coordinates(37.7833, -122.4167)
-    self.points = read_csv.ReadCSVToDict(os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
+    self.points = read_csv.ReadCSVToDict(os.path.join('YuPoint', 'test_sf_1.csv'))
     super(FactorCostAccumulatorTest, self).setUp()
     
   

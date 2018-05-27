@@ -1,6 +1,6 @@
-from Yusi.YuPoint import point as point_
-from Yusi.YuPoint import city_visit
-from Yusi.YuRanker import rank_adjuster_interface
+from YuPoint import point as point_
+from YuPoint import city_visit
+from YuRanker import rank_adjuster_interface
 
 
 class PointsRankerInterface(object):

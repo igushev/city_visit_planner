@@ -1,10 +1,10 @@
 import unittest
 
-from Yusi.YuPoint import city_visit as city_visit_
-from Yusi.YuPoint import city_visit_test_utils
-from Yusi.YuRouter import cost_accumulator
-from Yusi.YuRouter import city_visit_points_left
-from Yusi.YuRouter import city_visit_accumulator as city_visit_accumulator_
+from YuPoint import city_visit as city_visit_
+from YuPoint import city_visit_test_utils
+from YuRouter import cost_accumulator
+from YuRouter import city_visit_points_left
+from YuRouter import city_visit_accumulator as city_visit_accumulator_
 
 
 class CityVisitAccumulatorTest(city_visit_test_utils.CityVisitTestExample):

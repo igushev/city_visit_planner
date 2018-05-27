@@ -1,12 +1,12 @@
 import copy
 import datetime
 
-from Yusi.YuPoint import point as point_
-from Yusi.YuPoint import city_visit
-from Yusi.YuRouter import day_visit_cost_calculator_interface
-from Yusi.YuRouter import move_calculator as move_calculator_
-from Yusi.YuRouter import point_fit as point_fit_
-from Yusi.YuRouter import cost_accumulator as cost_accumulator_
+from YuPoint import point as point_
+from YuPoint import city_visit
+from YuRouter import day_visit_cost_calculator_interface
+from YuRouter import move_calculator as move_calculator_
+from YuRouter import point_fit as point_fit_
+from YuRouter import cost_accumulator as cost_accumulator_
 
 
 class DayVisitCostCalculatorState(object):

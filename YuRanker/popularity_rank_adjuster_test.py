@@ -1,17 +1,16 @@
 import os
 import unittest
 
-import Yusi
-from Yusi.YuPoint import read_csv
-from Yusi.YuRanker import popularity_rank_adjuster
-from Yusi.YuRanker import rank_adjuster_interface
-from Yusi.YuRanker import test_utils
+from YuPoint import read_csv
+from YuRanker import popularity_rank_adjuster
+from YuRanker import rank_adjuster_interface
+from YuRanker import test_utils
 
 
 class PopularityRankAdjusterTest(test_utils.RankAdjusterTestUtils):
   
   def setUp(self):
-    self.points = read_csv.ReadCSVToDict(os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
+    self.points = read_csv.ReadCSVToDict(os.path.join('YuPoint', 'test_sf_1.csv'))
     self.popularity_rank_adjuster = popularity_rank_adjuster.PopularityRankAdjuster()
     super(PopularityRankAdjusterTest, self).setUp()
   

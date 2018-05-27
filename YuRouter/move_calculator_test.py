@@ -1,9 +1,8 @@
 import unittest
 
-import Yusi
-from Yusi.YuPoint import point
-from Yusi.YuPoint import city_visit
-from Yusi.YuRouter import move_calculator as move_calculator_
+from YuPoint import point
+from YuPoint import city_visit
+from YuRouter import move_calculator as move_calculator_
 
 
 class MoveCalculatorTest(unittest.TestCase):

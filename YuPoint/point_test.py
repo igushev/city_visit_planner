@@ -1,9 +1,8 @@
 import os
 import unittest
 
-import Yusi
-from Yusi.YuPoint import read_csv
-from Yusi.YuPoint import point
+from YuPoint import read_csv
+from YuPoint import point
 
 
 class PointTypeTest(unittest.TestCase):
@@ -52,7 +51,7 @@ class AgeGroupTest(unittest.TestCase):
 class PointTest(unittest.TestCase):
 
   def testStr(self):
-    points = read_csv.ReadCSVToDict(os.path.join(Yusi.GetYusiDir(), 'YuPoint', 'test_sf_1.csv'))
+    points = read_csv.ReadCSVToDict(os.path.join('YuPoint', 'test_sf_1.csv'))
 
     ferry_building_str_actual = '%s' % points['Ferry Building']
     ferry_building_str_expected = """Name: "Ferry Building"

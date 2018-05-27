@@ -1,7 +1,7 @@
 import unittest
 
-from Yusi.YuRouter import runner as router_runner
-from Yusi.YuPoint import test_utils
+from YuRouter import runner as router_runner
+from YuPoint import test_utils
 
 
 class CityVisitRouterRunnerTest(unittest.TestCase):

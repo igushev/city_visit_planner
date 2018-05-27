@@ -1,9 +1,9 @@
 import unittest
 
-from Yusi.YuPoint import point as point_
-from Yusi.YuRanker import points_ranker as points_ranker_
-from Yusi.YuRanker import rank_adjuster_interface
-from Yusi.YuRanker import test_utils
+from YuPoint import point as point_
+from YuRanker import points_ranker as points_ranker_
+from YuRanker import rank_adjuster_interface
+from YuRanker import test_utils
 
 
 class MockPoint(point_.PointInterface):

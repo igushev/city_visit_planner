@@ -1,6 +1,6 @@
-from Yusi.YuUtils import task_util
+from YuUtils import task_util
 
-from Yusi.YuRouter import city_visit_accumulator
+from YuRouter import city_visit_accumulator
 
 
 class CityVisitAccumulatorConn(city_visit_accumulator.CityVisitAccumulatorInterface):

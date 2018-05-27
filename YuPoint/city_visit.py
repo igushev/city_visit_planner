@@ -2,10 +2,9 @@ import datetime
 import hashlib
 import itertools
 
-import Yusi
-from Yusi.base_util import data_util
-from Yusi.base_util import json_util
-from Yusi.YuPoint import point as point_
+from base_util import data_util
+from base_util import json_util
+from YuPoint import point as point_
 
 
 class StartEndDatetimeInterface(data_util.AbstractObject):

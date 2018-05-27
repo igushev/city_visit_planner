@@ -1,9 +1,8 @@
 import datetime
 import os
 
-import Yusi
-from Yusi.YuPoint import city_visit
-from Yusi.YuConfig import config as config_
+from YuPoint import city_visit
+from YuConfig import config as config_
 
 
 def GetDayVisitParameterss(start_end_coordinates, first_day, last_day):
@@ -22,7 +21,7 @@ def GetDayVisitParameterss(start_end_coordinates, first_day, last_day):
 class CityVisitRouterRunner(object):
   
   def __init__(self):
-    config = config_.GetConfig(os.path.join(Yusi.GetYusiDir(), 'YuConfig', 'runner.config'))
+    config = config_.GetConfig(os.path.join('YuConfig', 'runner.config'))
     self.city_visit_router = config_.GetCityVisitRouter(config)
     self.city_visit_accumulator_generator = config_.GetCityVisitAccumulatorGenerator(config)
 

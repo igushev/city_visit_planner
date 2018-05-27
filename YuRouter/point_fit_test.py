@@ -1,9 +1,9 @@
 import datetime
 import unittest
 
-from Yusi.YuPoint import point
-from Yusi.YuPoint import city_visit
-from Yusi.YuRouter import point_fit as point_fit_
+from YuPoint import point
+from YuPoint import city_visit
+from YuRouter import point_fit as point_fit_
 
 
 class PointFitTest(unittest.TestCase):

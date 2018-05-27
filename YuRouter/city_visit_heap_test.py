@@ -1,8 +1,8 @@
 import unittest
 
-from Yusi.YuPoint import city_visit as city_visit_
-from Yusi.YuRouter import city_visit_heap as city_visit_heap_
-from Yusi.YuRouter import city_visit_points_left
+from YuPoint import city_visit as city_visit_
+from YuRouter import city_visit_heap as city_visit_heap_
+from YuRouter import city_visit_points_left
 
 
 class MockDayVisitParameters(city_visit_.DayVisitParametersInterface):

@@ -1,5 +1,5 @@
-from Yusi.YuPoint import city_visit
-from Yusi.YuRanker import rank_adjuster_interface
+from YuPoint import city_visit
+from YuRanker import rank_adjuster_interface
 
 
 # NOTE(igushev): This class works only with PointType implementation of

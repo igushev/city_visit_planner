@@ -2,9 +2,9 @@ import os
 
 from flask import Flask, jsonify
 
-from Yusi.YuConfig import config as config_
-from Yusi.YuServer import server as server_
-from Yusi.YuServer import cors
+from YuConfig import config as config_
+from YuServer import server as server_
+from YuServer import cors
 
 
 config_filepath = os.environ['YUSI_CONFIG_FILE']

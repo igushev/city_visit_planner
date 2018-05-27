@@ -1,22 +1,22 @@
 from configparser import ConfigParser
 
-from Yusi.YuRouter import point_fit as point_fit_
-from Yusi.YuRouter import cost_accumulator
-from Yusi.YuRouter import move_calculator
-from Yusi.YuPoint import city_visit
-from Yusi.YuRouter import day_visit_cost_calculator
-from Yusi.YuRouter import multi_day_visit_cost_calculator
-from Yusi.YuRouter import day_visit_router as day_visit_router_
-from Yusi.YuRouter import city_visit_points_left
-from Yusi.YuRouter import points_queue
-from Yusi.YuRouter import city_visit_router as city_visit_router_
-from Yusi.YuPoint import test_utils as point_test_utils
-from Yusi.YuRouter import city_visit_accumulator
-from Yusi.YuFinder import city_visit_finder as city_visit_finder_
-from Yusi.YuRanker import popularity_rank_adjuster
-from Yusi.YuRanker import point_type_rank_adjuster
-from Yusi.YuRanker import age_group_rank_adjuster
-from Yusi.YuRanker import points_ranker as points_ranker_
+from YuRouter import point_fit as point_fit_
+from YuRouter import cost_accumulator
+from YuRouter import move_calculator
+from YuPoint import city_visit
+from YuRouter import day_visit_cost_calculator
+from YuRouter import multi_day_visit_cost_calculator
+from YuRouter import day_visit_router as day_visit_router_
+from YuRouter import city_visit_points_left
+from YuRouter import points_queue
+from YuRouter import city_visit_router as city_visit_router_
+from YuPoint import test_utils as point_test_utils
+from YuRouter import city_visit_accumulator
+from YuFinder import city_visit_finder as city_visit_finder_
+from YuRanker import popularity_rank_adjuster
+from YuRanker import point_type_rank_adjuster
+from YuRanker import age_group_rank_adjuster
+from YuRanker import points_ranker as points_ranker_
 
 
 def GetConfig(filepath=None):

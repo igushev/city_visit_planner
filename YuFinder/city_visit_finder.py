@@ -1,8 +1,8 @@
-from Yusi.YuRanker import points_ranker as points_ranker_
-from Yusi.YuRouter import city_visit_router as city_visit_router_
-from Yusi.YuPoint import city_visit as city_visit_
-from Yusi.YuPoint import point
-from Yusi.YuPoint import database_connection as database_connection_
+from YuRanker import points_ranker as points_ranker_
+from YuRouter import city_visit_router as city_visit_router_
+from YuPoint import city_visit as city_visit_
+from YuPoint import point
+from YuPoint import database_connection as database_connection_
 
 
 class CityVisitFinderInterface(object):

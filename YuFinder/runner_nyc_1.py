@@ -1,8 +1,8 @@
-from Yusi.YuPoint import point
-from Yusi.YuPoint import city_visit
-from Yusi.YuFinder import runner as finder_runner
-from Yusi.YuRanker import runner as ranker_runner
-from Yusi.YuRouter import runner as router_runner
+from YuPoint import point
+from YuPoint import city_visit
+from YuFinder import runner as finder_runner
+from YuRanker import runner as ranker_runner
+from YuRouter import runner as router_runner
 
 
 def main():

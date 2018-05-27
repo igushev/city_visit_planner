@@ -4,7 +4,7 @@ import multiprocessing
 import threading
 import uuid
 
-from Yusi.YuUtils import misc_util
+from YuUtils import misc_util
 
 
 TaskWorkerContext = namedtuple(

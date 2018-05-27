@@ -1,7 +1,7 @@
 import time
 import unittest
 
-from Yusi.YuUtils import task_util
+from YuUtils import task_util
 
 
 def Sqr(num):

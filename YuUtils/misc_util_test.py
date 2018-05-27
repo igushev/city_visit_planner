@@ -2,7 +2,7 @@ import sys
 import unittest
 import threading
 
-from Yusi.YuUtils import misc_util
+from YuUtils import misc_util
 
 
 class Spam(object):

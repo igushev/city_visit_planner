@@ -1,5 +1,5 @@
-from Yusi.YuPoint import point
-from Yusi.YuPoint import city_visit
+from YuPoint import point
+from YuPoint import city_visit
 
 
 class PointFitInterface(object):

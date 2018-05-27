@@ -1,7 +1,7 @@
 import hashlib
 
-from Yusi.YuPoint import city_visit
-from Yusi.YuRouter import city_visit_points_left
+from YuPoint import city_visit
+from YuRouter import city_visit_points_left
 
 
 class CityVisitHeap(object):

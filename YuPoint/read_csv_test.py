@@ -2,8 +2,8 @@ import datetime
 import tempfile
 import unittest
 
-from Yusi.YuPoint import read_csv
-from Yusi.YuPoint import point
+from YuPoint import read_csv
+from YuPoint import point
 
 
 class ReadCSVTest(unittest.TestCase):

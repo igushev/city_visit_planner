@@ -1,10 +1,9 @@
 import datetime
 import os
 
-import Yusi
-from Yusi.YuPoint import city_visit
-from Yusi.YuPoint import point as point_
-from Yusi.YuConfig import config as config_
+from YuPoint import city_visit
+from YuPoint import point as point_
+from YuConfig import config as config_
 
 
 def GetCityVisitParameters(visit_location, day_visit_parameterss):
@@ -35,7 +34,7 @@ class PointsRankerRunner(object):
   def __init__(self):
     config = (
         config_.GetConfig(os.path.join(
-            Yusi.GetYusiDir(), 'YuConfig', 'runner.config')))
+            'YuConfig', 'runner.config')))
     self.points_ranker = config_.GetPointsRanker(config)
     
   def Run(self, points_input, city_visit_parameters):

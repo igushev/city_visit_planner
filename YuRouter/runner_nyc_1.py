@@ -1,6 +1,6 @@
-from Yusi.YuPoint import point
-from Yusi.YuPoint import test_utils
-from Yusi.YuRouter import runner as router_runner
+from YuPoint import point
+from YuPoint import test_utils
+from YuRouter import runner as router_runner
 
 
 def main():

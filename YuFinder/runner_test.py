@@ -2,7 +2,7 @@ import unittest
 
 from data import city_visit
 from YuFinder import runner as finder_runner
-from YuRanker import runner as ranker_runner
+from ranker import runner as ranker_runner
 from router import runner as router_runner
 
 

@@ -1,6 +1,6 @@
 from data import point as point_
 from data import city_visit
-from YuRanker import rank_adjuster_interface
+from ranker import rank_adjuster_interface
 
 
 class PointsRankerInterface(object):

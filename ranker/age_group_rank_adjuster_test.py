@@ -4,9 +4,9 @@ import unittest
 from data import city_visit
 from data import point
 from data import read_csv
-from YuRanker import age_group_rank_adjuster
-from YuRanker import rank_adjuster_interface
-from YuRanker import test_util
+from ranker import age_group_rank_adjuster
+from ranker import rank_adjuster_interface
+from ranker import test_util
 
 
 class AgeGroupRankAdjusterTest(test_util.RankAdjusterTestUtils):

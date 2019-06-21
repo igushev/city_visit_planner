@@ -1,8 +1,8 @@
 import unittest
 
 from data import test_util as point_test_util
-from YuRanker import runner as ranker_runner
-from YuRanker import test_util as ranker_test_util
+from ranker import runner as ranker_runner
+from ranker import test_util as ranker_test_util
 
 
 class PointsRankerRunnerTest(unittest.TestCase):

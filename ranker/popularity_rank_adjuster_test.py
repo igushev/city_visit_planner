@@ -2,9 +2,9 @@ import os
 import unittest
 
 from data import read_csv
-from YuRanker import popularity_rank_adjuster
-from YuRanker import rank_adjuster_interface
-from YuRanker import test_util
+from ranker import popularity_rank_adjuster
+from ranker import rank_adjuster_interface
+from ranker import test_util
 
 
 class PopularityRankAdjusterTest(test_util.RankAdjusterTestUtils):

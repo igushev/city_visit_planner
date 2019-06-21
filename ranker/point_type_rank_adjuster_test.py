@@ -4,9 +4,9 @@ import unittest
 from data import city_visit
 from data import point
 from data import read_csv
-from YuRanker import point_type_rank_adjuster
-from YuRanker import rank_adjuster_interface
-from YuRanker import test_util
+from ranker import point_type_rank_adjuster
+from ranker import rank_adjuster_interface
+from ranker import test_util
 
 
 class PointTypeRankAdjusterTest(test_util.RankAdjusterTestUtils):

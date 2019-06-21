@@ -1,4 +1,4 @@
-from YuRanker import points_ranker as points_ranker_
+from ranker import points_ranker as points_ranker_
 from router import city_visit_router as city_visit_router_
 from data import city_visit as city_visit_
 from data import point

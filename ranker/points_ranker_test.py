@@ -1,9 +1,9 @@
 import unittest
 
 from data import point as point_
-from YuRanker import points_ranker as points_ranker_
-from YuRanker import rank_adjuster_interface
-from YuRanker import test_util
+from ranker import points_ranker as points_ranker_
+from ranker import rank_adjuster_interface
+from ranker import test_util
 
 
 class MockPoint(point_.PointInterface):

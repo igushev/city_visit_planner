@@ -1,18 +1,18 @@
 import unittest
 
-from YuPoint import test_utils as point_test_utils
+from YuPoint import test_util as point_test_util
 from YuRanker import runner as ranker_runner
-from YuRanker import test_utils as ranker_test_utils
+from YuRanker import test_util as ranker_test_util
 
 
 class PointsRankerRunnerTest(unittest.TestCase):
   
   def testGeneral(self):
-    points_input = list(point_test_utils.GetPointsInput('YuPoint', 'test_sf_1.csv').values())
+    points_input = list(point_test_util.GetPointsInput('YuPoint', 'test_sf_1.csv').values())
     points_ranker_runner = ranker_runner.PointsRankerRunner()
     city_visit_parameters = (
-        ranker_runner.GetCityVisitParameters(ranker_test_utils.MockVisitLocation(),
-                                             [ranker_test_utils.MockDayVisitParameters()]))
+        ranker_runner.GetCityVisitParameters(ranker_test_util.MockVisitLocation(),
+                                             [ranker_test_util.MockDayVisitParameters()]))
     points_ranker_runner.Run(points_input, city_visit_parameters)
 
 

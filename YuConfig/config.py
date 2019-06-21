@@ -10,7 +10,7 @@ from YuRouter import day_visit_router as day_visit_router_
 from YuRouter import city_visit_points_left
 from YuRouter import points_queue
 from YuRouter import city_visit_router as city_visit_router_
-from YuPoint import test_utils as point_test_utils
+from YuPoint import test_util as point_test_util
 from YuRouter import city_visit_accumulator
 from YuFinder import city_visit_finder as city_visit_finder_
 from YuRanker import popularity_rank_adjuster
@@ -27,7 +27,7 @@ def GetConfig(filepath=None):
 
 
 def GetDatabaseConnection(config):
-  database_connection = point_test_utils.MockDatabaseConnection()
+  database_connection = point_test_util.MockDatabaseConnection()
   return database_connection
 
 

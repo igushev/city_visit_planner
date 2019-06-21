@@ -1,15 +1,15 @@
 import unittest
 
 from YuRouter import runner as router_runner
-from YuPoint import test_utils
+from YuPoint import test_util
 
 
 class CityVisitRouterRunnerTest(unittest.TestCase):
   
   def testGeneral(self):
-    points_dict = test_utils.GetPointsInput('YuPoint', 'test_sf_1.csv')
-    points_keys = test_utils.GetPointsKeys('YuRouter', 'test_points_sf.txt')
-    points_input = test_utils.FilterAndSortByKeys(points_dict, points_keys)
+    points_dict = test_util.GetPointsInput('YuPoint', 'test_sf_1.csv')
+    points_keys = test_util.GetPointsKeys('YuRouter', 'test_points_sf.txt')
+    points_input = test_util.FilterAndSortByKeys(points_dict, points_keys)
   
     start_end_coordinates = points_dict['Union Square'].coordinates_starts
     first_day, last_day = 1, 2

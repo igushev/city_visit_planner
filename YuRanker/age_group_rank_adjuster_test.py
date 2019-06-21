@@ -6,10 +6,10 @@ from YuPoint import point
 from YuPoint import read_csv
 from YuRanker import age_group_rank_adjuster
 from YuRanker import rank_adjuster_interface
-from YuRanker import test_utils
+from YuRanker import test_util
 
 
-class AgeGroupRankAdjusterTest(test_utils.RankAdjusterTestUtils):
+class AgeGroupRankAdjusterTest(test_util.RankAdjusterTestUtils):
   
   def setUp(self):
     self.points = read_csv.ReadCSVToDict(os.path.join('YuPoint', 'test_sf_1.csv'))
@@ -30,9 +30,9 @@ class AgeGroupRankAdjusterTest(test_utils.RankAdjusterTestUtils):
         toddlers=10)
 
     city_visit_parameters = city_visit.CityVisitParameters(
-        test_utils.MockVisitLocation(),
-        day_visit_parameterss=[test_utils.MockDayVisitParameters()],
-        point_type=test_utils.MockPointType(),
+        test_util.MockVisitLocation(),
+        day_visit_parameterss=[test_util.MockDayVisitParameters()],
+        point_type=test_util.MockPointType(),
         age_group=parameters_age_groups)
 
     score_points_actual = (

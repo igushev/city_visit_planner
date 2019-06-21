@@ -6,10 +6,10 @@ from YuPoint import point
 from YuPoint import read_csv
 from YuRanker import point_type_rank_adjuster
 from YuRanker import rank_adjuster_interface
-from YuRanker import test_utils
+from YuRanker import test_util
 
 
-class PointTypeRankAdjusterTest(test_utils.RankAdjusterTestUtils):
+class PointTypeRankAdjusterTest(test_util.RankAdjusterTestUtils):
   
   def setUp(self):
     self.points = read_csv.ReadCSVToDict(os.path.join('YuPoint', 'test_sf_1.csv'))
@@ -31,10 +31,10 @@ class PointTypeRankAdjusterTest(test_utils.RankAdjusterTestUtils):
         dining=50)
 
     city_visit_parameters = city_visit.CityVisitParameters(
-        test_utils.MockVisitLocation(),
-        day_visit_parameterss=[test_utils.MockDayVisitParameters()],
+        test_util.MockVisitLocation(),
+        day_visit_parameterss=[test_util.MockDayVisitParameters()],
         point_type=parameters_point_types,
-        age_group=test_utils.MockAgeGroup())
+        age_group=test_util.MockAgeGroup())
 
     score_points_actual = (
         self.point_type_rank_adjuster.AdjustRank(

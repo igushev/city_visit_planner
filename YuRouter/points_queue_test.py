@@ -6,7 +6,7 @@ from YuPoint import city_visit
 from YuPoint import read_csv
 from YuRouter import day_visit_cost_calculator_interface
 from YuRouter import points_queue as points_queue_
-from YuRouter import test_utils
+from YuRouter import test_util
 
 
 class MockDayVisitCostCalculator(day_visit_cost_calculator_interface.DayVisitCostCalculatorInterface):
@@ -21,8 +21,8 @@ def GetDayVisitParameterss(first_day, last_day):
         end_datetime=datetime.datetime(2015, 7, day, 15, 0, 0),
         lunch_start_datetime=datetime.datetime(2015, 7, day, 14, 0, 0),
         lunch_hours=1.,
-        start_coordinates=test_utils.MockCoordinates('Hotel'),
-        end_coordinates=test_utils.MockCoordinates('Hotel'))
+        start_coordinates=test_util.MockCoordinates('Hotel'),
+        end_coordinates=test_util.MockCoordinates('Hotel'))
   return [GetDayVisitParameters(day) for day in range(first_day, last_day)]
 
 

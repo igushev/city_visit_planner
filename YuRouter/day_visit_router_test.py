@@ -6,7 +6,7 @@ from YuRouter import cost_accumulator
 from YuRouter import day_visit_router
 from YuRouter import point_fit as point_fit_
 from YuRouter import day_visit_cost_calculator
-from YuRouter import test_utils
+from YuRouter import test_util
 
 
 class DayVisitRouterTest(unittest.TestCase):
@@ -20,16 +20,16 @@ class DayVisitRouterTest(unittest.TestCase):
             start_datetime.year, start_datetime.month, start_datetime.day,
             13, 0, 0),
         lunch_hours=1.,
-        start_coordinates=test_utils.MockCoordinates('Hotel'),
-        end_coordinates=test_utils.MockCoordinates('Restaurant'))
+        start_coordinates=test_util.MockCoordinates('Hotel'),
+        end_coordinates=test_util.MockCoordinates('Restaurant'))
 
   def setUp(self):
     no_point_visit_factor = 0.
     no_point_visit_const = 1000.
     unused_time_factor = 0.01
     day_visit_heap_size = 1000
-    self.points = test_utils.MockPoints()
-    move_calculator = test_utils.MockMoveCalculator()
+    self.points = test_util.MockPoints()
+    move_calculator = test_util.MockMoveCalculator()
     point_fit = point_fit_.SimplePointFit()
     cost_accumulator_generator=cost_accumulator.FactorCostAccumulatorGenerator(
         no_point_visit_factor=no_point_visit_factor,

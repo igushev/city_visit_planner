@@ -5,7 +5,7 @@ from YuPoint import city_visit
 from YuRouter import cost_accumulator
 from YuRouter import point_fit as point_fit_
 from YuRouter import day_visit_cost_calculator as day_visit_cost_calculator_
-from YuRouter import test_utils
+from YuRouter import test_util
 
 
 class DayVisitCostCalculatorTest(unittest.TestCase):
@@ -17,15 +17,15 @@ class DayVisitCostCalculatorTest(unittest.TestCase):
         end_datetime=end_datetime,
         lunch_start_datetime=lunch_start_datetime,
         lunch_hours=1.,
-        start_coordinates=test_utils.MockCoordinates('Hotel'),
-        end_coordinates=test_utils.MockCoordinates('Restaurant'))
+        start_coordinates=test_util.MockCoordinates('Hotel'),
+        end_coordinates=test_util.MockCoordinates('Restaurant'))
 
   def setUp(self):
     self.no_point_visit_factor = 0.
     self.no_point_visit_const = 1000.
     self.unused_time_factor = 0.01
-    self.points = test_utils.MockPoints()
-    move_calculator = test_utils.MockMoveCalculator()
+    self.points = test_util.MockPoints()
+    move_calculator = test_util.MockMoveCalculator()
     point_fit = point_fit_.SimplePointFit()
     cost_accumulator_generator=cost_accumulator.FactorCostAccumulatorGenerator(
         no_point_visit_factor=self.no_point_visit_factor,
@@ -53,7 +53,7 @@ class DayVisitCostCalculatorTest(unittest.TestCase):
         day_visit_cost_calculator.PushPoint(self.points['Ferry Building']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 11, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Ferry Building'),
+    self.assertEqual(test_util.MockCoordinates('Ferry Building'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(2, day_visit_cost_calculator.CurrentCost())
     self.assertEqual(8.95, day_visit_cost_calculator.FinalizedCost())
@@ -66,7 +66,7 @@ class DayVisitCostCalculatorTest(unittest.TestCase):
     self.assertTrue(day_visit_cost_calculator.PushPoint(self.points['Pier 39']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Pier 39'),
+    self.assertEqual(test_util.MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(7, day_visit_cost_calculator.CurrentCost())
     self.assertEqual(11.75, day_visit_cost_calculator.FinalizedCost())
@@ -92,7 +92,7 @@ Price: 0.00"""
         day_visit_cost_calculator.PushPoint(self.points['Twin Peaks']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Pier 39'),
+    self.assertEqual(test_util.MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(7 + self.no_point_visit_const,
                      day_visit_cost_calculator.CurrentCost())
@@ -117,7 +117,7 @@ Price: 0.00"""
         day_visit_cost_calculator.PushPoint(self.points['Ferry Building']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 11, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Ferry Building'),
+    self.assertEqual(test_util.MockCoordinates('Ferry Building'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(2, day_visit_cost_calculator.CurrentCost())
     self.assertEqual(8.6, day_visit_cost_calculator.FinalizedCost())  # Lunch.
@@ -130,7 +130,7 @@ Price: 0.00"""
     self.assertTrue(day_visit_cost_calculator.PushPoint(self.points['Pier 39']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Pier 39'),
+    self.assertEqual(test_util.MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(7, day_visit_cost_calculator.CurrentCost())
     self.assertEqual(11, day_visit_cost_calculator.FinalizedCost())
@@ -155,7 +155,7 @@ Price: 0.00"""
         day_visit_cost_calculator.PushPoint(self.points['Twin Peaks']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Pier 39'),
+    self.assertEqual(test_util.MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(7 + self.no_point_visit_const,
                      day_visit_cost_calculator.CurrentCost())
@@ -179,7 +179,7 @@ Price: 0.00"""
     self.assertTrue(day_visit_cost_calculator.PushPoint(self.points['Pier 39']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 30, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Pier 39'),
+    self.assertEqual(test_util.MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(6, day_visit_cost_calculator.CurrentCost())
     self.assertEqual(11.2, day_visit_cost_calculator.FinalizedCost())
@@ -202,7 +202,7 @@ Price: 0.00"""
         day_visit_cost_calculator.PushPoint(self.points['Ferry Building']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 30, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Pier 39'),
+    self.assertEqual(test_util.MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(6 + self.no_point_visit_const,
                      day_visit_cost_calculator.CurrentCost())
@@ -227,7 +227,7 @@ Price: 0.00"""
         day_visit_cost_calculator.PushPoint(self.points['Ferry Building']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 11, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Ferry Building'),
+    self.assertEqual(test_util.MockCoordinates('Ferry Building'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(2, day_visit_cost_calculator.CurrentCost())
     self.assertEqual(7.4, day_visit_cost_calculator.FinalizedCost())  # Lunch.
@@ -253,7 +253,7 @@ Price: 0.00"""
         day_visit_cost_calculator.PushPoint(self.points['Pier 39']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 11, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Ferry Building'),
+    self.assertEqual(test_util.MockCoordinates('Ferry Building'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(2 + self.no_point_visit_const,
                      day_visit_cost_calculator.CurrentCost())
@@ -278,7 +278,7 @@ Price: 0.00"""
     self.assertTrue(day_visit_cost_calculator.PushPoint(self.points['Pier 39']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Pier 39'),
+    self.assertEqual(test_util.MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(7, day_visit_cost_calculator.CurrentCost())
     self.assertEqual(11.6, day_visit_cost_calculator.FinalizedCost())
@@ -310,7 +310,7 @@ Price: 0.00"""
     self.assertTrue(day_visit_cost_calculator.PushPoint(self.points['Pier 39']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Pier 39'),
+    self.assertEqual(test_util.MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(7, day_visit_cost_calculator.CurrentCost())
     self.assertEqual(11.6, day_visit_cost_calculator.FinalizedCost())
@@ -342,7 +342,7 @@ Price: 0.00"""
     self.assertTrue(day_visit_cost_calculator.PushPoint(self.points['Pier 39']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Pier 39'),
+    self.assertEqual(test_util.MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(7, day_visit_cost_calculator.CurrentCost())
     self.assertEqual(11.6, day_visit_cost_calculator.FinalizedCost())
@@ -374,7 +374,7 @@ Price: 0.00"""
     self.assertTrue(day_visit_cost_calculator.PushPoint(self.points['Pier 39']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Pier 39'),
+    self.assertEqual(test_util.MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(7, day_visit_cost_calculator.CurrentCost())
     self.assertEqual(11.6, day_visit_cost_calculator.FinalizedCost())
@@ -405,7 +405,7 @@ Price: 0.00"""
     self.assertTrue(day_visit_cost_calculator.PushPoint(self.points['Pier 39']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 15, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Pier 39'),
+    self.assertEqual(test_util.MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(6, day_visit_cost_calculator.CurrentCost())
     self.assertEqual(11.6, day_visit_cost_calculator.FinalizedCost())
@@ -436,7 +436,7 @@ Price: 0.00"""
     self.assertTrue(day_visit_cost_calculator.PushPoint(self.points['Pier 39']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 15, 0, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Pier 39'),
+    self.assertEqual(test_util.MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(6, day_visit_cost_calculator.CurrentCost())
     self.assertEqual(11.6, day_visit_cost_calculator.FinalizedCost())
@@ -470,7 +470,7 @@ Price: 0.00"""
     self.assertTrue(day_visit_cost_calculator.PushPoint(self.points['Pier 39']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 30, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Pier 39'),
+    self.assertEqual(test_util.MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(6, day_visit_cost_calculator.CurrentCost())
     self.assertEqual(11.2, day_visit_cost_calculator.FinalizedCost())
@@ -483,7 +483,7 @@ Price: 0.00"""
         day_visit_cost_calculator.PushPoint(self.points['Union Square']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 19, 30, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Union Square'),
+    self.assertEqual(test_util.MockCoordinates('Union Square'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(9, day_visit_cost_calculator.CurrentCost())
     self.assertEqual(11.2, day_visit_cost_calculator.FinalizedCost())
@@ -501,7 +501,7 @@ Price: 0.00"""
     self.assertTrue(day_visit_cost_calculator.PushPoint(self.points['Pier 39']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 30, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Pier 39'),
+    self.assertEqual(test_util.MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(6, day_visit_cost_calculator.CurrentCost())
     self.assertEqual(11.2, day_visit_cost_calculator.FinalizedCost())
@@ -515,7 +515,7 @@ Price: 0.00"""
         day_visit_cost_calculator.PushPoint(self.points['Ferry Building']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 30, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Pier 39'),
+    self.assertEqual(test_util.MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(6 + self.no_point_visit_const,
                      day_visit_cost_calculator.CurrentCost())
@@ -532,7 +532,7 @@ Price: 0.00"""
         day_visit_cost_calculator.PushPoint(self.points['Union Square']))
     self.assertEqual(datetime.datetime(2014, 9, 1, 16, 30, 0),
                      day_visit_cost_calculator.CurrentTime())
-    self.assertEqual(test_utils.MockCoordinates('Pier 39'),
+    self.assertEqual(test_util.MockCoordinates('Pier 39'),
                      day_visit_cost_calculator.CurrentCoordinates())
     self.assertEqual(6 + self.no_point_visit_const * 2,
                      day_visit_cost_calculator.CurrentCost())

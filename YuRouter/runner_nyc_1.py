@@ -1,12 +1,12 @@
 from YuPoint import point
-from YuPoint import test_utils
+from YuPoint import test_util
 from YuRouter import runner as router_runner
 
 
 def main():
-  points_dict = test_utils.GetPointsInput('YuPoint', 'test_nyc_1.csv')
-  points_keys = test_utils.GetPointsKeys('YuRouter', 'test_points_nyc.txt')
-  points_input = test_utils.FilterAndSortByKeys(points_dict, points_keys)
+  points_dict = test_util.GetPointsInput('YuPoint', 'test_nyc_1.csv')
+  points_keys = test_util.GetPointsKeys('YuRouter', 'test_points_nyc.txt')
+  points_input = test_util.FilterAndSortByKeys(points_dict, points_keys)
 
   # 746 Ninth Ave, New York, NY 10019.
   start_end_coordinates = point.Coordinates(40.763582, -73.988470)

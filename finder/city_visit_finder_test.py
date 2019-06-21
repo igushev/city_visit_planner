@@ -1,6 +1,6 @@
 import unittest
 
-from YuFinder import city_visit_finder as city_visit_finder_
+from finder import city_visit_finder as city_visit_finder_
 from ranker import points_ranker as points_ranker_
 from router import city_visit_router as city_visit_router_
 from data import city_visit as city_visit_

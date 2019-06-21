@@ -1,6 +1,6 @@
 from data import point
 from data import city_visit
-from YuFinder import runner as finder_runner
+from finder import runner as finder_runner
 from ranker import runner as ranker_runner
 from router import runner as router_runner
 

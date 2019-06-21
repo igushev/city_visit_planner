@@ -12,7 +12,7 @@ from router import points_queue
 from router import city_visit_router as city_visit_router_
 from data import test_util as point_test_util
 from router import city_visit_accumulator
-from YuFinder import city_visit_finder as city_visit_finder_
+from finder import city_visit_finder as city_visit_finder_
 from ranker import popularity_rank_adjuster
 from ranker import point_type_rank_adjuster
 from ranker import age_group_rank_adjuster

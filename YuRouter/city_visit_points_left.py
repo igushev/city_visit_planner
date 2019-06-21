@@ -1,6 +1,6 @@
 from collections import namedtuple
 
-from YuPoint import city_visit as city_visit_
+from data import city_visit as city_visit_
 
 
 CityVisitPointsLeft = namedtuple(

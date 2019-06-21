@@ -2,8 +2,8 @@ import datetime
 import os
 import unittest
 
-from YuPoint import city_visit
-from YuPoint import read_csv
+from data import city_visit
+from data import read_csv
 from YuRouter import day_visit_cost_calculator_interface
 from YuRouter import points_queue as points_queue_
 from YuRouter import test_util
@@ -29,7 +29,7 @@ def GetDayVisitParameterss(first_day, last_day):
 class OneByOnePointsQueueTest(unittest.TestCase):
   
   def setUp(self):
-    self.points = read_csv.ReadCSVToDict(os.path.join('YuPoint', 'test_sf_1.csv'))
+    self.points = read_csv.ReadCSVToDict(os.path.join('data', 'test_sf_1.csv'))
 
   def testGeneral(self):
     points = [self.points['Golden Gate Bridge'],
@@ -95,7 +95,7 @@ class OneByOnePointsQueueTest(unittest.TestCase):
 class AllPointsQueueTest(unittest.TestCase):
   
   def setUp(self):
-    self.points = read_csv.ReadCSVToDict(os.path.join('YuPoint', 'test_sf_1.csv'))
+    self.points = read_csv.ReadCSVToDict(os.path.join('data', 'test_sf_1.csv'))
 
   def testGeneral(self):
     day_visit_parameterss = GetDayVisitParameterss(1, 3)

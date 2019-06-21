@@ -1,8 +1,8 @@
 from collections import namedtuple
 import copy
 
-from YuPoint import point as point_
-from YuPoint import city_visit
+from data import point as point_
+from data import city_visit
 from YuRouter import day_visit_heap
 from YuRouter import day_visit_cost_calculator_interface
 

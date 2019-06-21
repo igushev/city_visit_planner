@@ -1,8 +1,8 @@
 import copy
 from datetime import timedelta
 
-from YuPoint import point as point_
-from YuPoint import city_visit
+from data import point as point_
+from data import city_visit
 
 
 class CostAccumulatorInterface(object):

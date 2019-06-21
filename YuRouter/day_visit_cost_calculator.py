@@ -1,8 +1,8 @@
 import copy
 import datetime
 
-from YuPoint import point as point_
-from YuPoint import city_visit
+from data import point as point_
+from data import city_visit
 from YuRouter import day_visit_cost_calculator_interface
 from YuRouter import move_calculator as move_calculator_
 from YuRouter import point_fit as point_fit_

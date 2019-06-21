@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from YuPoint import read_csv
+from data import read_csv
 from YuRanker import popularity_rank_adjuster
 from YuRanker import rank_adjuster_interface
 from YuRanker import test_util
@@ -10,7 +10,7 @@ from YuRanker import test_util
 class PopularityRankAdjusterTest(test_util.RankAdjusterTestUtils):
   
   def setUp(self):
-    self.points = read_csv.ReadCSVToDict(os.path.join('YuPoint', 'test_sf_1.csv'))
+    self.points = read_csv.ReadCSVToDict(os.path.join('data', 'test_sf_1.csv'))
     self.popularity_rank_adjuster = popularity_rank_adjuster.PopularityRankAdjuster()
     super(PopularityRankAdjusterTest, self).setUp()
   

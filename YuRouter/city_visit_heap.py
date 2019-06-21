@@ -1,6 +1,6 @@
 import hashlib
 
-from YuPoint import city_visit
+from data import city_visit
 from YuRouter import city_visit_points_left
 
 

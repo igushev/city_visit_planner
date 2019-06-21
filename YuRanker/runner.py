@@ -1,8 +1,8 @@
 import datetime
 import os
 
-from YuPoint import city_visit
-from YuPoint import point as point_
+from data import city_visit
+from data import point as point_
 from YuConfig import config as config_
 
 

@@ -1,13 +1,13 @@
 import unittest
 
 from YuRouter import runner as router_runner
-from YuPoint import test_util
+from data import test_util
 
 
 class CityVisitRouterRunnerTest(unittest.TestCase):
   
   def testGeneral(self):
-    points_dict = test_util.GetPointsInput('YuPoint', 'test_sf_1.csv')
+    points_dict = test_util.GetPointsInput('data', 'test_sf_1.csv')
     points_keys = test_util.GetPointsKeys('YuRouter', 'test_points_sf.txt')
     points_input = test_util.FilterAndSortByKeys(points_dict, points_keys)
   

@@ -1,7 +1,7 @@
 import multiprocessing
 
-from YuPoint import point as point_
-from YuPoint import city_visit
+from data import point as point_
+from data import city_visit
 from YuRouter import city_visit_points_left as city_visit_points_left_
 from YuRouter import city_visit_heap as city_visit_heap_
 from YuRouter import days_permutations

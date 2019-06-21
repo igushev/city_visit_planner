@@ -2,9 +2,9 @@ import os
 import datetime
 import unittest
 
-from YuPoint import city_visit
-from YuPoint import read_csv
-from YuPoint import point
+from data import city_visit
+from data import read_csv
+from data import point
 
 
 class CityVisitTestExample(unittest.TestCase):
@@ -36,7 +36,7 @@ class CityVisitTestExample(unittest.TestCase):
         end_datetime=datetime.datetime(2014, 9, 2, 21, 0, 0),
         lunch_start_datetime=datetime.datetime(2014, 9, 2, 22, 0, 0))
 
-    self.points = read_csv.ReadCSVToDict(os.path.join('YuPoint', 'test_sf_1.csv'))
+    self.points = read_csv.ReadCSVToDict(os.path.join('data', 'test_sf_1.csv'))
     
     self.hotel_coordinates = (
        CityVisitTestExample.GetHotelCoordinates())

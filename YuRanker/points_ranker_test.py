@@ -1,6 +1,6 @@
 import unittest
 
-from YuPoint import point as point_
+from data import point as point_
 from YuRanker import points_ranker as points_ranker_
 from YuRanker import rank_adjuster_interface
 from YuRanker import test_util

@@ -1,6 +1,6 @@
 import unittest
-from YuPoint import city_visit
-from YuPoint import point
+from data import city_visit
+from data import point
 
 
 class MockVisitLocation(city_visit.VisitLocationInterface):

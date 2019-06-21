@@ -1,8 +1,8 @@
 import datetime
 import unittest
 
-from YuPoint import city_visit
-from YuPoint import city_visit_test_utils
+from data import city_visit
+from data import city_visit_test_utils
 
 
 class DayVisitParametersTest(city_visit_test_utils.CityVisitTestExample):

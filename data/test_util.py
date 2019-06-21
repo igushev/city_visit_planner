@@ -1,7 +1,7 @@
 import os
 
-from YuPoint import database_connection
-from YuPoint import read_csv
+from data import database_connection
+from data import read_csv
 
 
 def GetPointsInput(csv_dirpath, csv_filename):
@@ -25,8 +25,8 @@ class MockDatabaseConnection(database_connection.DatabaseConnectionInterface):
 
   def __init__(self):
     self.points_dict_dict = {
-        'New York City': GetPointsInput('YuPoint', 'test_nyc_1.csv'),
-        'San Francisco': GetPointsInput('YuPoint', 'test_sf_1.csv')}
+        'New York City': GetPointsInput('data', 'test_nyc_1.csv'),
+        'San Francisco': GetPointsInput('data', 'test_sf_1.csv')}
 
   def GetPoints(self, visit_location):
     return list(self.points_dict_dict[visit_location.city_name].values())

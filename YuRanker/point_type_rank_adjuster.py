@@ -1,4 +1,4 @@
-from YuPoint import city_visit
+from data import city_visit
 from YuRanker import rank_adjuster_interface
 
 

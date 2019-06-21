@@ -1,7 +1,7 @@
 import unittest
 
-from YuPoint import point
-from YuPoint import city_visit
+from data import point
+from data import city_visit
 from YuRouter import move_calculator as move_calculator_
 
 

@@ -1,6 +1,6 @@
 import unittest
 
-from YuPoint import point
+from data import point
 from YuRouter import days_permutations
 
 

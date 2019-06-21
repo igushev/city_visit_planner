@@ -1,7 +1,7 @@
 import datetime
 import unittest
 
-from YuPoint import city_visit
+from data import city_visit
 from YuRouter import day_visit_cost_calculator
 from YuRouter import city_visit_router
 from YuRouter import cost_accumulator

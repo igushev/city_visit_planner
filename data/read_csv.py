@@ -5,7 +5,7 @@ import time
 import numpy as np
 import pandas as pd
 
-from YuPoint import point as point_
+from data import point as point_
 
 
 lat_long_delimeter = ','

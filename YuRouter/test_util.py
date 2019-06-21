@@ -1,8 +1,8 @@
 import os
 
-from YuPoint import point as point_
-from YuPoint import city_visit
-from YuPoint import read_csv
+from data import point as point_
+from data import city_visit
+from data import read_csv
 from YuRouter import move_calculator
 
 
@@ -19,7 +19,7 @@ class MockCoordinates(point_.CoordinatesInterface):
 
 
 def MockPoints():
-  points = read_csv.ReadCSVToDict(os.path.join('YuPoint', 'test_sf_1.csv'))
+  points = read_csv.ReadCSVToDict(os.path.join('data', 'test_sf_1.csv'))
   for point in list(points.values()):
     point.coordinates_starts = MockCoordinates(point.name)
     point.coordinates_ends = MockCoordinates(point.name)

@@ -1,9 +1,9 @@
 import os
 import unittest
 
-from YuPoint import city_visit
-from YuPoint import point
-from YuPoint import read_csv
+from data import city_visit
+from data import point
+from data import read_csv
 from YuRanker import age_group_rank_adjuster
 from YuRanker import rank_adjuster_interface
 from YuRanker import test_util
@@ -12,7 +12,7 @@ from YuRanker import test_util
 class AgeGroupRankAdjusterTest(test_util.RankAdjusterTestUtils):
   
   def setUp(self):
-    self.points = read_csv.ReadCSVToDict(os.path.join('YuPoint', 'test_sf_1.csv'))
+    self.points = read_csv.ReadCSVToDict(os.path.join('data', 'test_sf_1.csv'))
     self.age_group_rank_adjuster = age_group_rank_adjuster.AgeGroupRankAdjuster()
     super(AgeGroupRankAdjusterTest, self).setUp()
   

@@ -1,7 +1,7 @@
 import unittest
 
-from YuPoint import city_visit
-from YuPoint import city_visit_test_utils
+from data import city_visit
+from data import city_visit_test_utils
 from YuRouter import city_visit_points_left as city_visit_points_left_
 from YuRouter import cost_accumulator
 

@@ -1,8 +1,8 @@
 import datetime
 import unittest
 
-from YuPoint import point
-from YuPoint import city_visit
+from data import point
+from data import city_visit
 from YuRouter import point_fit as point_fit_
 
 

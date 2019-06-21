@@ -2,8 +2,8 @@
 # (Bearing)
 import math
 
-from YuPoint import point
-from YuPoint import city_visit
+from data import point
+from data import city_visit
 
 
 R = 3959  # Earth radius in miles.

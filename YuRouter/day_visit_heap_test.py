@@ -1,6 +1,6 @@
 import unittest
 
-from YuPoint import point
+from data import point
 from YuRouter import day_visit_heap as day_visit_heap_
 from YuRouter import day_visit_cost_calculator_interface
 

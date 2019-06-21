@@ -1,7 +1,7 @@
 import datetime
 import os
 
-from YuPoint import city_visit
+from data import city_visit
 from YuConfig import config as config_
 
 

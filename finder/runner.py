@@ -1,13 +1,13 @@
 import datetime
 import os
 
-from YuConfig import config as config_
+from config import config as config_
 
 
 class CityVisitFinderRunner(object):
   
   def __init__(self):
-    config = config_.GetConfig(os.path.join('YuConfig', 'runner.config'))
+    config = config_.GetConfig(os.path.join('config', 'runner.config'))
     database_connection = config_.GetDatabaseConnection(config)
     self.city_visit_finder = config_.GetCityVisitFinder(config, database_connection)
     self.city_visit_accumulator_generator = config_.GetCityVisitAccumulatorGenerator(config)

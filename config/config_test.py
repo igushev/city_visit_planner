@@ -1,6 +1,6 @@
 import unittest
 
-from YuConfig import config
+import config
 from router import day_visit_cost_calculator
 from router import multi_day_visit_cost_calculator
 

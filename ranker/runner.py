@@ -3,7 +3,7 @@ import os
 
 from data import city_visit
 from data import point as point_
-from YuConfig import config as config_
+from config import config as config_
 
 
 def GetCityVisitParameters(visit_location, day_visit_parameterss):
@@ -34,7 +34,7 @@ class PointsRankerRunner(object):
   def __init__(self):
     config = (
         config_.GetConfig(os.path.join(
-            'YuConfig', 'runner.config')))
+            'config', 'runner.config')))
     self.points_ranker = config_.GetPointsRanker(config)
     
   def Run(self, points_input, city_visit_parameters):

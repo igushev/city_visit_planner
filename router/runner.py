@@ -2,7 +2,7 @@ import datetime
 import os
 
 from data import city_visit
-from YuConfig import config as config_
+from config import config as config_
 
 
 def GetDayVisitParameterss(start_end_coordinates, first_day, last_day):
@@ -21,7 +21,7 @@ def GetDayVisitParameterss(start_end_coordinates, first_day, last_day):
 class CityVisitRouterRunner(object):
   
   def __init__(self):
-    config = config_.GetConfig(os.path.join('YuConfig', 'runner.config'))
+    config = config_.GetConfig(os.path.join('config', 'runner.config'))
     self.city_visit_router = config_.GetCityVisitRouter(config)
     self.city_visit_accumulator_generator = config_.GetCityVisitAccumulatorGenerator(config)
 

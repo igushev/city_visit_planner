@@ -209,23 +209,3 @@ def GetCityVisitFinder(config, database_connection):
 def GetCityVisitAccumulatorGenerator(config):
   city_visit_accumulator_generator = city_visit_accumulator.CityVisitAccumulatorGenerator()
   return city_visit_accumulator_generator
-
-
-def GetCorsOrigin(config):
-  cors_section = 'cors'
-  cors_origin = config.get(cors_section, 'origin')
-  return cors_origin
-
-
-def GetServerParams(config):
-  server_section = 'server'
-  server_port = config.getint(server_section, 'port')
-  server_host = config.get(server_section, 'host')
-  return server_port, server_host
-
-
-def GetTaskWorkerParams(config):
-  tw_section = 'task_worker'
-  tw_idle_seconds_terminate = (
-      config.getfloat(tw_section, 'idle_seconds_terminate'))
-  return tw_idle_seconds_terminate

@@ -2,10 +2,10 @@ import datetime
 import unittest
 
 from data import city_visit
-from YuRouter import cost_accumulator
-from YuRouter import point_fit as point_fit_
-from YuRouter import day_visit_cost_calculator as day_visit_cost_calculator_
-from YuRouter import test_util
+from router import cost_accumulator
+from router import point_fit as point_fit_
+from router import day_visit_cost_calculator as day_visit_cost_calculator_
+from router import test_util
 
 
 class DayVisitCostCalculatorTest(unittest.TestCase):

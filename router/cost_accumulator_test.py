@@ -5,7 +5,7 @@ import unittest
 from data import read_csv
 from data import point
 from data import city_visit
-from YuRouter import cost_accumulator as cost_accumulator_
+from router import cost_accumulator as cost_accumulator_
 
 
 class FactorCostAccumulatorTest(unittest.TestCase):

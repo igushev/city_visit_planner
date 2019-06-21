@@ -2,9 +2,9 @@ import unittest
 
 from data import city_visit as city_visit_
 from data import city_visit_test_utils
-from YuRouter import cost_accumulator
-from YuRouter import city_visit_points_left
-from YuRouter import city_visit_accumulator as city_visit_accumulator_
+from router import cost_accumulator
+from router import city_visit_points_left
+from router import city_visit_accumulator as city_visit_accumulator_
 
 
 class CityVisitAccumulatorTest(city_visit_test_utils.CityVisitTestExample):

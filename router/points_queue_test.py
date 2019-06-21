@@ -4,9 +4,9 @@ import unittest
 
 from data import city_visit
 from data import read_csv
-from YuRouter import day_visit_cost_calculator_interface
-from YuRouter import points_queue as points_queue_
-from YuRouter import test_util
+from router import day_visit_cost_calculator_interface
+from router import points_queue as points_queue_
+from router import test_util
 
 
 class MockDayVisitCostCalculator(day_visit_cost_calculator_interface.DayVisitCostCalculatorInterface):

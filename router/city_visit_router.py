@@ -2,12 +2,12 @@ import multiprocessing
 
 from data import point as point_
 from data import city_visit
-from YuRouter import city_visit_points_left as city_visit_points_left_
-from YuRouter import city_visit_heap as city_visit_heap_
-from YuRouter import days_permutations
-from YuRouter import day_visit_router as day_visit_router_
-from YuRouter import points_queue as points_queue_
-from YuRouter import city_visit_accumulator as city_visit_accumulator_
+from router import city_visit_points_left as city_visit_points_left_
+from router import city_visit_heap as city_visit_heap_
+from router import days_permutations
+from router import day_visit_router as day_visit_router_
+from router import points_queue as points_queue_
+from router import city_visit_accumulator as city_visit_accumulator_
 
 
 ################################################################################

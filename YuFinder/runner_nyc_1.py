@@ -2,7 +2,7 @@ from data import point
 from data import city_visit
 from YuFinder import runner as finder_runner
 from YuRanker import runner as ranker_runner
-from YuRouter import runner as router_runner
+from router import runner as router_runner
 
 
 def main():

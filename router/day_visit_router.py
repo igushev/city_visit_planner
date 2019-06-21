@@ -3,8 +3,8 @@ import copy
 
 from data import point as point_
 from data import city_visit
-from YuRouter import day_visit_heap
-from YuRouter import day_visit_cost_calculator_interface
+from router import day_visit_heap
+from router import day_visit_cost_calculator_interface
 
 
 class DayVisitRouterInterface(object):

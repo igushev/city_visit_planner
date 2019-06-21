@@ -1,7 +1,7 @@
 import unittest
 
 from data import point
-from YuRouter import days_permutations
+from router import days_permutations
 
 
 class MockPoint(point.PointInterface):

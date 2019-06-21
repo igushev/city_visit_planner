@@ -1,17 +1,17 @@
 from configparser import ConfigParser
 
-from YuRouter import point_fit as point_fit_
-from YuRouter import cost_accumulator
-from YuRouter import move_calculator
+from router import point_fit as point_fit_
+from router import cost_accumulator
+from router import move_calculator
 from data import city_visit
-from YuRouter import day_visit_cost_calculator
-from YuRouter import multi_day_visit_cost_calculator
-from YuRouter import day_visit_router as day_visit_router_
-from YuRouter import city_visit_points_left
-from YuRouter import points_queue
-from YuRouter import city_visit_router as city_visit_router_
+from router import day_visit_cost_calculator
+from router import multi_day_visit_cost_calculator
+from router import day_visit_router as day_visit_router_
+from router import city_visit_points_left
+from router import points_queue
+from router import city_visit_router as city_visit_router_
 from data import test_util as point_test_util
-from YuRouter import city_visit_accumulator
+from router import city_visit_accumulator
 from YuFinder import city_visit_finder as city_visit_finder_
 from YuRanker import popularity_rank_adjuster
 from YuRanker import point_type_rank_adjuster

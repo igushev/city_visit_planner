@@ -2,15 +2,15 @@ import datetime
 import unittest
 
 from data import city_visit
-from YuRouter import day_visit_cost_calculator
-from YuRouter import city_visit_router
-from YuRouter import cost_accumulator
-from YuRouter import point_fit as point_fit_
-from YuRouter import day_visit_router as day_visit_router_
-from YuRouter import city_visit_points_left
-from YuRouter import test_util
-from YuRouter import points_queue
-from YuRouter import city_visit_accumulator
+from router import day_visit_cost_calculator
+from router import city_visit_router
+from router import cost_accumulator
+from router import point_fit as point_fit_
+from router import day_visit_router as day_visit_router_
+from router import city_visit_points_left
+from router import test_util
+from router import points_queue
+from router import city_visit_accumulator
 
 
 class CityVisitRouterTest(unittest.TestCase):

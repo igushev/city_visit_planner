@@ -3,7 +3,7 @@ import os
 from data import point as point_
 from data import city_visit
 from data import read_csv
-from YuRouter import move_calculator
+from router import move_calculator
 
 
 class MockCoordinates(point_.CoordinatesInterface):

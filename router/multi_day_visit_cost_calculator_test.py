@@ -2,8 +2,8 @@ import unittest
 
 from data import point as point_
 from data import city_visit
-from YuRouter import day_visit_cost_calculator_interface
-from YuRouter import multi_day_visit_cost_calculator
+from router import day_visit_cost_calculator_interface
+from router import multi_day_visit_cost_calculator
 
 
 class MockPoint(point_.PointInterface):

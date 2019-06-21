@@ -1,8 +1,8 @@
 import unittest
 
 from YuConfig import config
-from YuRouter import day_visit_cost_calculator
-from YuRouter import multi_day_visit_cost_calculator
+from router import day_visit_cost_calculator
+from router import multi_day_visit_cost_calculator
 
 
 class ConfigTest(unittest.TestCase):

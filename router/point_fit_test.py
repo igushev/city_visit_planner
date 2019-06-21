@@ -3,7 +3,7 @@ import unittest
 
 from data import point
 from data import city_visit
-from YuRouter import point_fit as point_fit_
+from router import point_fit as point_fit_
 
 
 class PointFitTest(unittest.TestCase):

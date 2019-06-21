@@ -1,7 +1,7 @@
 import hashlib
 
 from data import city_visit
-from YuRouter import city_visit_points_left
+from router import city_visit_points_left
 
 
 class CityVisitHeap(object):

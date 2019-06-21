@@ -1,11 +1,11 @@
 from data import point
 from data import test_util
-from YuRouter import runner as router_runner
+from router import runner as router_runner
 
 
 def main():
   points_dict = test_util.GetPointsInput('data', 'test_nyc_1.csv')
-  points_keys = test_util.GetPointsKeys('YuRouter', 'test_points_nyc.txt')
+  points_keys = test_util.GetPointsKeys('router', 'test_points_nyc.txt')
   points_input = test_util.FilterAndSortByKeys(points_dict, points_keys)
 
   # 746 Ninth Ave, New York, NY 10019.

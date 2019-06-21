@@ -1,6 +1,6 @@
 from data import point as point_
 from data import city_visit
-from YuRouter import day_visit_cost_calculator_interface
+from router import day_visit_cost_calculator_interface
 
 
 class MultiDayVisitCostCalculator(day_visit_cost_calculator_interface.DayVisitCostCalculatorInterface):

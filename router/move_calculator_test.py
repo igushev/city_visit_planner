@@ -2,7 +2,7 @@ import unittest
 
 from data import point
 from data import city_visit
-from YuRouter import move_calculator as move_calculator_
+from router import move_calculator as move_calculator_
 
 
 class MoveCalculatorTest(unittest.TestCase):

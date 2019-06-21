@@ -2,11 +2,11 @@ import unittest
 
 from YuFinder import city_visit_finder as city_visit_finder_
 from YuRanker import points_ranker as points_ranker_
-from YuRouter import city_visit_router as city_visit_router_
+from router import city_visit_router as city_visit_router_
 from data import city_visit as city_visit_
 from data import point
 from data import database_connection as database_connection_
-from YuRouter import city_visit_accumulator
+from router import city_visit_accumulator
 
 
 class MockCityVisitAccumulatorGenerator(city_visit_accumulator.CityVisitAccumulatorGeneratorInterface):

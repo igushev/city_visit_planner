@@ -51,6 +51,7 @@ class DayVisitParametersInterface(data_util.AbstractObject):
     {'start_datetime': json_util.JSONDateTime(),
      'end_datetime': json_util.JSONDateTime(),
      'lunch_start_datetime': json_util.JSONDateTime(),
+     'lunch_hours': json_util.JSONFloat(),
      'start_coordinates': json_util.JSONObject(point_.Coordinates),
      'end_coordinates': json_util.JSONObject(point_.Coordinates)})
 class DayVisitParameters(DayVisitParametersInterface):

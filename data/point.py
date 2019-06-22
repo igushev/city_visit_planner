@@ -64,6 +64,10 @@ class PointType(PointTypeInterface):
   """Type of a point implementation using assigned value to each type."""
 
   def __init__(self, city_tours, landmarks, nature, museums, shopping, dining):
+    """For each type of a point (city_tours, landmarks, nature, museums,
+    shopping, dining) specifies a number from 0 to 100 how important this type
+    to the user."""
+
     if city_tours is not None:
       assert isinstance(city_tours, int)
     if landmarks is not None:
@@ -124,6 +128,8 @@ class AgeGroup(AgeGroupInterface):
   each age group."""
 
   def __init__(self, senior, adult, junior, child, toddlers):
+    """For each age group (senior, adult, junior, child, toddlers) specifies a
+    number from 0 to 100 how tailored trip should be to given age group."""
     if senior is not None:
       assert isinstance(senior, int)
     if adult is not None:

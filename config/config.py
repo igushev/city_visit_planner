@@ -1,22 +1,22 @@
 from configparser import ConfigParser
 
+from data import city_visit
+from data import test_util as point_test_util
+from finder import city_visit_finder as city_visit_finder_
+from ranker import age_group_rank_adjuster
+from ranker import point_type_rank_adjuster
+from ranker import points_ranker as points_ranker_
+from ranker import popularity_rank_adjuster
 from router import point_fit as point_fit_
 from router import cost_accumulator
 from router import move_calculator
-from data import city_visit
 from router import day_visit_cost_calculator
 from router import multi_day_visit_cost_calculator
 from router import day_visit_router as day_visit_router_
 from router import city_visit_points_left
 from router import points_queue
 from router import city_visit_router as city_visit_router_
-from data import test_util as point_test_util
 from router import city_visit_accumulator
-from finder import city_visit_finder as city_visit_finder_
-from ranker import popularity_rank_adjuster
-from ranker import point_type_rank_adjuster
-from ranker import age_group_rank_adjuster
-from ranker import points_ranker as points_ranker_
 
 
 def GetConfig(filepath=None):

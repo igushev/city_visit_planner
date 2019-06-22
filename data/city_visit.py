@@ -60,6 +60,17 @@ class DayVisitParameters(DayVisitParametersInterface):
   def __init__(self, start_datetime, end_datetime,
                lunch_start_datetime, lunch_hours,
                start_coordinates, end_coordinates=None):
+    """DayVisitParameters constructor.
+
+    Args:
+      start_datetime: (datetime.datetime) Beginning of the day.
+      end_datetime: (datetime.datetime) End of the day.
+      lunch_start_datetime: (datetime.datetime) Beginning of lunch.
+      lunch_hours: (float) Duration of lunch in hours.
+      start_coordinates: (Coordinates) Where day starts (hotel, office).
+      end_coordinates: (Coordinates) Where day ends (hotel, specific location).
+
+    """
     assert isinstance(start_datetime, datetime.datetime)
     assert isinstance(end_datetime, datetime.datetime)
     assert isinstance(lunch_start_datetime, datetime.datetime)
@@ -115,6 +126,14 @@ class CityVisitParameters(CityVisitParametersInterface):
 
   def __init__(self, visit_location, day_visit_parameterss,
                point_type, age_group):
+    """CityVisitParameters constructor.
+
+    Args:
+      visit_location: (VisitLocation).
+      day_visit_parameterss: (list(DayVisitParameters))
+      point_type: (PointType).
+      age_group: (AgeGroup).
+    """
     assert isinstance(visit_location, VisitLocationInterface)
     for day_visit_parameters in day_visit_parameterss:
       assert isinstance(day_visit_parameters, DayVisitParametersInterface)

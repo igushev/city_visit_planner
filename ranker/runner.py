@@ -1,32 +1,7 @@
 import datetime
 import os
 
-from data import city_visit
-from data import point as point_
 from config import config as config_
-
-
-def GetCityVisitParameters(visit_location, day_visit_parameterss):
-  parameters_point_types = point_.PointType(
-      city_tours=90,
-      landmarks=90,
-      nature=10,
-      museums=10,
-      shopping=50,
-      dining=50)
-
-  parameters_age_groups = point_.AgeGroup(
-      senior=None,
-      adult=90,
-      junior=None,
-      child=None,
-      toddlers=10)
-
-  return city_visit.CityVisitParameters(
-      visit_location=visit_location,
-      day_visit_parameterss=day_visit_parameterss,
-      point_type=parameters_point_types,
-      age_group=parameters_age_groups)
 
 
 class PointsRankerRunner(object):

@@ -1,3 +1,4 @@
+from data import runner_util
 from data import test_util
 from router import runner as router_runner
 
@@ -9,7 +10,7 @@ def main():
 
   start_end_coordinates = points_dict['Union Square'].coordinates_starts
   first_day, last_day = 1, 4
-  day_visit_parameterss = router_runner.GetDayVisitParameterss(start_end_coordinates, first_day, last_day)
+  day_visit_parameterss = runner_util.GetDayVisitParameterss(start_end_coordinates, first_day, last_day)
   
   city_visit_router_runner = router_runner.CityVisitRouterRunner()
   city_visit_router_runner.Run(points_input, day_visit_parameterss)

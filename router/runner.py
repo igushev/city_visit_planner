@@ -1,21 +1,7 @@
 import datetime
 import os
 
-from data import city_visit
 from config import config as config_
-
-
-def GetDayVisitParameterss(start_end_coordinates, first_day, last_day):
-  def GetDayVisitParameters(day):
-    return city_visit.DayVisitParameters(
-        start_datetime=datetime.datetime(2015, 7, day, 10, 0, 0),
-        end_datetime=datetime.datetime(2015, 7, day, 19, 0, 0),
-        lunch_start_datetime=datetime.datetime(2015, 7, day, 14, 0, 0),
-        lunch_hours=1.,
-        start_coordinates=start_end_coordinates,
-        end_coordinates=start_end_coordinates)
-
-  return [GetDayVisitParameters(day) for day in range(first_day, last_day)]
 
 
 class CityVisitRouterRunner(object):

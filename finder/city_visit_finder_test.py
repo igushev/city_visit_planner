@@ -108,8 +108,6 @@ class CityVisitFinderTest(unittest.TestCase):
     points_left = [MockPoint(), MockPoint()]
     city_visit = MockCityVisit()
 
-    database_connection = MockDatabaseConnection(
-        self, visit_location, points_input)
     points_ranker = MockPointsRanker(
         self, points_input, city_visit_parameters, points_ranked)
     city_visit_router = MockCityVisitRouter(
@@ -117,13 +115,12 @@ class CityVisitFinderTest(unittest.TestCase):
         city_visit_accumulator_generator, city_visit, points_left)
 
     city_visit_finder = city_visit_finder_.CityVisitFinder(
-        database_connection=database_connection,
         points_ranker=points_ranker,
         city_visit_router=city_visit_router)
     
     city_visit_actual = (
         city_visit_finder.FindCityVisit(
-            city_visit_parameters, city_visit_accumulator_generator))
+            points_input, city_visit_parameters, city_visit_accumulator_generator))
     
     self.assertTrue(city_visit_actual is city_visit)
                      

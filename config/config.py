@@ -196,11 +196,10 @@ def GetCityVisitRouter(config):
   return city_visit_router
 
 
-def GetCityVisitFinder(config, database_connection):
+def GetCityVisitFinder(config):
   points_ranker = GetPointsRanker(config)
   city_visit_router = GetCityVisitRouter(config)
   city_visit_finder = city_visit_finder_.CityVisitFinder(
-      database_connection=database_connection,
       points_ranker=points_ranker,
       city_visit_router=city_visit_router)
   return city_visit_finder

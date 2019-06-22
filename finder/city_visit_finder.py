@@ -17,24 +17,17 @@ class CityVisitFinderInterface(object):
 class CityVisitFinder(CityVisitFinderInterface):
   """Finds CityVisit by getting points, ranking them and routing."""
   
-  def __init__(self, database_connection, points_ranker, city_visit_router):
-    assert isinstance(database_connection, database_connection_.DatabaseConnectionInterface)
+  def __init__(self, points_ranker, city_visit_router):
     assert isinstance(points_ranker, points_ranker_.PointsRankerInterface)
     assert isinstance(city_visit_router, city_visit_router_.CityVisitRouterInterface)
 
-    self.database_connection = database_connection
     self.points_ranker = points_ranker
     self.city_visit_router = city_visit_router
 
-  def FindCityVisit(self, city_visit_parameters,
-                    city_visit_accumulator_generator):
-    assert isinstance(city_visit_parameters, city_visit_.CityVisitParametersInterface)
-    
-    points_input = (
-        self.database_connection.GetPoints(
-            city_visit_parameters.visit_location))
+  def FindCityVisit(self, points_input, city_visit_parameters, city_visit_accumulator_generator):
     for point_input in  points_input:
       assert isinstance(point_input, point.PointInterface)
+    assert isinstance(city_visit_parameters, city_visit_.CityVisitParametersInterface)
 
     points_ranked = self.points_ranker.RankPoints(
         points_input, city_visit_parameters)

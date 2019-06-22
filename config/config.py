@@ -26,11 +26,6 @@ def GetConfig(filepath=None):
   return config
 
 
-def GetDatabaseConnection(config):
-  database_connection = point_test_util.MockDatabaseConnection()
-  return database_connection
-
-
 def GetPointsRanker(config):
   rank_adjusters = [popularity_rank_adjuster.PopularityRankAdjuster(),
                     point_type_rank_adjuster.PointTypeRankAdjuster(),

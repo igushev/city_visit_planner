@@ -11,13 +11,6 @@ class ConfigTest(unittest.TestCase):
     super(ConfigTest, self).setUp()
     self.config = config.GetConfig()
 
-  def _SetAndGetDatabaseConnection(self):
-    database_connection = config.GetDatabaseConnection(self.config)
-    return database_connection
-  
-  def testGetDatabaseConnection(self):
-    self.assertIsNotNone(self._SetAndGetDatabaseConnection())
-
   def _SetAndGetPointsRanker(self):
     points_ranker_runner = config.GetPointsRanker(self.config)
     return points_ranker_runner

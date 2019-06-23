@@ -1,11 +1,11 @@
 import datetime
 
 from data import city_visit
-from data import point as point_
+from data import point
 
 
 def GetCityVisitParameters(visit_location, day_visit_parameterss):
-  parameters_point_types = point_.PointType(
+  parameters_point_types = point.PointType(
       city_tours=90,
       landmarks=90,
       nature=10,
@@ -13,7 +13,7 @@ def GetCityVisitParameters(visit_location, day_visit_parameterss):
       shopping=50,
       dining=50)
 
-  parameters_age_groups = point_.AgeGroup(
+  parameters_age_groups = point.AgeGroup(
       senior=None,
       adult=90,
       junior=None,

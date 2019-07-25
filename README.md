@@ -192,6 +192,8 @@ Total cost: 91016.10
 Total price: 20.00
 ```
 
+`PTT` means "Public Transportation or Taxi".
+
 The two day trip has been found. First day is mostly focused on must-see points of
 interest in Midtown area, while second day is lower Manhattan.
 

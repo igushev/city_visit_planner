@@ -21,7 +21,12 @@ given days, constraints and various parameters chooses points of interests and
 activities and optimizes time spent in given city. For example, family vacation
 with kids for three full days in San Francisco, or, business trip with free
 evening during one week in New York City. Service would create an optimal and
-most efficient itinerary.  
+most efficient itinerary.
+
+This library can be deployed to a cloud and an iOS/Android/Web application can
+send requests to it to provide service to its users.
+
+Output and efficiently of trips were tested in New York City and San Francisco.
 
 Library approximates solution for [Travelling salesman problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem).
 

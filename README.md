@@ -34,7 +34,7 @@ household name.
 
 ## Business model
 * Reselling tickets for points of interests and activities;
-* Advertising of businesses near user's schedule (like restaurants);
+* Advertising of businesses near user's trip (like restaurants);
 
 ## Library
 

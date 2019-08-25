@@ -2,6 +2,11 @@ Table of Contents
 =================
 
    * [Description](#description)
+      * [Travel Service](#travel-service)
+      * [Business model](#business-model)
+      * [Library](#library)
+      * [Testing](#testing)
+      * [Further development](#further-development)
    * [Configuration](#configuration)
       * [Config](#config)
       * [Daily Parameters](#daily-parameters)
@@ -16,19 +21,39 @@ Table of Contents
 
 # Description
 
-The library was created for a travel service. Idea of travel service is that by
-given days, constraints and various parameters chooses points of interests and
-activities and optimizes time spent in given city. For example, family vacation
-with kids for three full days in San Francisco, or, business trip with free
-evening during one week in New York City. Service would create an optimal and
-most efficient itinerary.
+## Travel Service
 
-This library can be deployed to a cloud and an iOS/Android/Web application can
-send requests to it to provide service to its users.
+A travel service that by given dates, constraints and various parameters
+chooses points of interests and activities and creates a schedule optimizing
+time spent in given city. For example, family vacation with kids for three full
+days in San Francisco, or, business trip with free evenings during one week in
+New York City. Service would create an optimal and most efficient itinerary.
+
+Interesting, that as of 2019, no such service still exists, which would be a
+household name.
+
+## Business model
+* Reselling tickets for points of interests and activities;
+* Advertising of businesses near user's schedule (like restaurants);
+
+## Library
+
+This library was created as backend for the service. It can be deployed to the
+cloud and an iOS/Android/Web application can send requests to it to provide
+the service to its users.
+
+Library approximates solution for [Travelling salesman problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem).
+
+## Testing
 
 Output and efficiently of trips were tested in New York City and San Francisco.
 
-Library approximates solution for [Travelling salesman problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem).
+## Further development
+The service is supposed to be interactive, for example, track user if they
+follow the schedule and, if needed, adjust correspondently, for example, user
+cannot make it to a museum, move the visit to next day and substitute with
+something else. The service also should learn from user things, like speed of
+walk, duration of lunch, etc.
 
 # Configuration
 

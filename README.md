@@ -7,6 +7,7 @@ Table of Contents
       * [Library](#library)
       * [Testing](#testing)
       * [Further development](#further-development)
+      * [Example](#example)
    * [Configuration](#configuration)
       * [Config](#config)
       * [Daily Parameters](#daily-parameters)
@@ -16,8 +17,8 @@ Table of Contents
       * [Running](#running-1)
       * [Result](#result)
    * [Examples](#examples)
-      * [New York City - 3 day](#new-york-city---3-day)
-      * [San Francisco - 3 day](#san-francisco---3-day)
+      * [New York City - 3 day trip](#new-york-city---3-day-trip)
+      * [San Francisco - 3 day trip](#san-francisco---3-day-trip)
 
 # Description
 
@@ -54,6 +55,48 @@ follow the schedule and, if needed, adjust correspondently, for example, user
 cannot make it to a museum, move the visit to next day and substitute with
 something else. The service also should learn from user things, like speed of
 walk, duration of lunch, etc.
+
+## Example
+
+Full 2 day trip to New York City for city tours, landmarks and a bit of
+shopping would look like:
+```
+Your schedule:
+Date: 2019-07-01
+Walking from 40.7636:-73.9885 to 40.7587:-73.9787 from 10:00:00 to 10:25:58.080801
+Visiting point "Rockefeller Center" from 10:25:58.080801 to 11:55:58.080801
+Walking from 40.7587:-73.9787 to 40.7527:-73.9772 from 11:55:58.080801 to 12:13:50.395826
+Visiting point "Grand Central Terminal" from 12:13:50.395826 to 13:43:50.395826
+Walking from 40.7527:-73.9772 to 40.7517:-73.9753 from 13:43:50.395826 to 13:49:06.950449
+Visiting point "Chrysler Building" from 13:49:06.950449 to 14:01:06.950449
+Having lunch from 14:01:06.950449 to 15:01:06.950449
+Walking from 40.7517:-73.9753 to 40.7503:-73.9883 from 15:01:06.950449 to 15:30:21.503593
+Visiting point "Macy's Herald Square" from 15:30:21.503593 to 17:30:21.503593
+Walking from 40.7503:-73.9883 to 40.7577:-73.9857 from 17:30:21.503593 to 17:52:58.126602
+Visiting point "Times Square" from 17:52:58.126602 to 18:34:58.126602
+Walking from 40.7577:-73.9857 to 40.7636:-73.9885 from 18:34:58.126602 to 18:53:11.255089
+Cost: 2.05
+Price: 20.00
+Date: 2019-07-02
+Using PTT from 40.7636:-73.9885 to 40.7358:-74.0036 from 10:00:00 to 10:26:45.062003
+Visiting point "West Village" from 10:26:45.062003 to 12:26:45.062003
+Walking from 40.7358:-74.0036 to 40.7339:-74.0011 from 12:26:45.062003 to 12:34:32.015399
+Visiting point "Greenwich Village" from 12:34:32.015399 to 14:34:32.015399
+Using PTT from 40.7339:-74.0011 to 40.7056:-74.0134 from 14:34:32.015399 to 15:01:11.148649
+Visiting point "Charging Bull" from 15:01:11.148649 to 15:07:11.148649
+Using PTT from 40.7056:-74.0134 to 40.7411:-73.9897 from 15:07:11.148649 to 15:37:44.058580
+Visiting point "Flatiron Building" from 15:37:44.058580 to 15:49:44.058580
+Using PTT from 40.7411:-73.9897 to 40.7636:-73.9885 from 15:49:44.058580 to 16:13:32.684885
+Cost: 14.05
+Price: 0.00
+Total cost: 91016.10
+Total price: 20.00
+```
+
+`PTT` means "Public Transportation or Taxi".
+
+First day is mostly focused on must-see points of interest in Midtown area,
+while second day is lower Manhattan.
 
 # Configuration
 
@@ -174,8 +217,9 @@ city_visit = city_visit_finder.FindCityVisit(points_input, city_visit_parameters
 
 ## Result
 
-Result of runnig the algorithm is `CityVisit` which represents entire trip and
-has list of `DayVisit` objects which represents individual days.
+The two day trip has been found. Result of runnig the algorithm is `CityVisit`
+which represents entire trip and has list of `DayVisit` objects which
+represents individual days.
 
 `CityVisit` object can be printed to console:
 ```python
@@ -219,14 +263,14 @@ Total price: 20.00
 
 `PTT` means "Public Transportation or Taxi".
 
-The two day trip has been found. First day is mostly focused on must-see points of
-interest in Midtown area, while second day is lower Manhattan.
+First day is mostly focused on must-see points of interest in Midtown area,
+while second day is lower Manhattan.
 
 Script with all snippets above can be found file `finder/runner_doc.py`
 
 # Examples
 
-## New York City - 3 day
+## New York City - 3 day trip
 
 Script to create a 3 day trip to New York City can be found in `finder/runner_nyc_1.py`.
 
@@ -278,7 +322,7 @@ Total cost: 87027.96
 Total price: 76.00
 ```
 
-## San Francisco - 3 day
+## San Francisco - 3 day trip
 
 Script to create a 3 day trip to New York City can be found in `finder/runner_sf_1.py`.
 
